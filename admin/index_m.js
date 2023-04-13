@@ -7328,7 +7328,7 @@ async function load(settings, onChange) {
 		readDir(path, socketCallback);
 	}
 
-		//Add Images to Selectbox for SelectedDir
+	//Add Images to Selectbox for SelectedDir
 	function imagesSelectedDirFillSelectbox(){
 		var imagesDirsSorted = [];
 		imagesDirs.forEach(function(element){ imagesDirsSorted.push(element.dirname); });

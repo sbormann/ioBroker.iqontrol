@@ -7262,6 +7262,8 @@ function renderView(viewId, triggeredByReconnection){
 					viewShuffleFilterHideDeviceIfInactive();
 					viewShuffleApplyShuffleResizeObserver();
 				}
+				//ApplyMarqueeObserver
+				applyViewAdaptHeightOrMarqueeObserver();
 				//scroll to device or heading if anchor present in viewId
 				if(viewScrollToDeviceTimeout1) clearTimeout(viewScrollToDeviceTimeout1);
 				if(viewScrollToDeviceTimeout2) clearTimeout(viewScrollToDeviceTimeout2);
@@ -7450,7 +7452,6 @@ function renderView(viewId, triggeredByReconnection){
 			}
 		});	
 		//DeviceCollection ready - go on with some afterwork
-		setTimeout(applyViewAdaptHeightOrMarqueeObserver, 1000); //##### zwei Dinge: a) timeout wieder weg machen, muss aufgerufen werden, wenn alle uiElements gesetzt wurden - b) es müssen alle uiElements-Klassen gesammelt werden, für die der Observer gelten soll
 		applyViewDeviceContextMenu();
 		dynamicIframeZoom();
 		//Show ViewSwipeGoals
@@ -7907,41 +7908,44 @@ function applyViewAdaptHeightOrMarqueeObserver(){
 		viewAdaptHeightOrMarqueeObserver.disconnect();
 	} else {
 		viewAdaptHeightOrMarqueeObserver = new MutationObserver(function(mutationList){
+			console.debug('Mutation Observer!!!');
 			if(typeof mutationList[0] == udef || typeof mutationList[0].addedNodes[0] == udef || typeof mutationList[0].addedNodes[0].className == udef || mutationList[0].addedNodes[0].className != "js-marquee"){ //check if the mutation is fired by marquee itself
 				if(!($(mutationList[0].target).data('marquee-disabled') == "true")) adaptHeightOrStartMarqueeOnOverflow($(mutationList[0].target));
 			}
 		});
 	}
-	$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText, .iQontrolDeviceBadge').each(function(){
+	$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText, .iQontrolDeviceBadge').each(function(){ //######
+		console.log("Observe: " + this.className + JSON.stringify(this.dataset));
 		viewAdaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
 		adaptHeightOrStartMarqueeOnOverflow($(this));
 	});
 	if(!options.LayoutViewMarqueeDisabled && options.LayoutViewMarqueeNamesEnabled){
-		$('.iQontrolDeviceName').each(function(){
+		$('.iQontrolDeviceName').each(function(){ //######
 			viewAdaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
 			adaptHeightOrStartMarqueeOnOverflow($(this));
 		});
 	}
 }
 
-function adaptHeightOrStartMarqueeOnOverflow(element){
-	if(!element || !element[0]) return;
-	var $element = $(element);
+function adaptHeightOrStartMarqueeOnOverflow($element){
+	if(!$element) return;
+	var element = $element.get(0);
+	console.log("adaptHeightOrStartMarqueeOnOverflow: " + element.className + JSON.stringify(element.dataset));
 	if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
-	if($element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfEnlarged')){ //adapt height
-		console.log("adaptHeight");
+	if($element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfInactive') || $element.hasClass('adaptsHeightIfActive')){ //adapt height
+		console.log("adaptHeight: " + element.className + JSON.stringify(element.dataset));
 		//Shuffle two times
 		viewShuffleReshuffle([100, 1250]);
-	} else if(!options.LayoutViewMarqueeDisabled && (element[0].scrollHeight > element.innerHeight() || element[0].scrollWidth > element.innerWidth())) { //element has overflowing content
-		console.log("Starting marquee");
+	} else if(!options.LayoutViewMarqueeDisabled && (element.scrollHeight > $element.innerHeight() || element.scrollWidth > $element.innerWidth())) { //element has overflowing content
+		console.log("Starting marquee: " + element.className + JSON.stringify(element.dataset));
 		var direction = 'left';
 		var speed = (Number(options.LayoutViewMarqueeSpeed) || 40);
 		if($element.innerHeight() > 2 * (parseInt($element.css('line-height'), 10) || 25)){
 			direction = 'up';
 			speed /= 2;
 		}
-		element.marquee('destroy');
-		element.marquee({
+		$element.marquee('destroy');
+		$element.marquee({
 			speed: speed,
 			gap: 40,
 			delayBeforeStart: 2000,
@@ -16083,6 +16087,3 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 
 	});
 }
-
-
-
