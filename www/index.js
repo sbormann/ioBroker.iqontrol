@@ -2039,381 +2039,6 @@ function createTempLinkedState(stateId, type, role, tempValuesStoredInObjectId, 
 	}
 }
 
-function getState(stateId){ //Returns state value as object extended by, type, readonly-attribute, plain text (that is the text from a state that is a value-list) and so on
-	if(!stateId || stateId == "") return;
-	var result = {};
-	if(typeof fetchedStates[stateId] !== udef && fetchedStates[stateId] !== null) {
-		result = Object.assign(result, fetchedStates[stateId]);
-	}
-	result.valRaw = result.val;
-	//Processing variables
-	var stateIdParts = stateId.split(':');
-	var stateIdRole = stateIdParts.length > 1 && stateIdParts[0] || null; // 'CONST', 'ARRAY', 'CALC', 'VIRTUAL' or null
-	if((stateIdRole == 'CONST' || stateIdRole == 'CALC') && typeof result.val == "string"){
-		result.val = result.val.replace(/{([^}]+)}/g, function(match, p1){ 
-			var parts = processVariable(p1);
-			var state = getState(parts.stateId);
-			var replacement = null;
-			if(state && typeof state.val !== udef) {
-				if(typeof state.plainText == 'number' && !parts.noUnit){	//STATE = number
-					replacement = state.val + state.unit;
-				} else {													//STATE = bool or text
-					replacement = state.plainText;
-				}
-			} else if(parts.placeholder) {									//Replace by placeholder
-				replacement = parts.placeholder;
-			}
-			if(replacement != null) return replacement; else return p1;
-		});
-		function processVariable(variable){
-			var result = {};
-			var variableParts = variable.split('|');
-			var _stateId = variableParts[0];
-			var noUnit = false;
-			if(_stateId.substr(0, 1) == "[" && _stateId.substr(-1) == "]"){
-				_stateId = _stateId.substring(1, _stateId.length - 1);
-				noUnit = true;
-			}
-			result.stateId = _stateId;
-			result.noUnit = noUnit;
-			result.placeholder = variableParts[1] || null;
-			return result;		
-		}
-		//--Calculation
-		if(stateIdRole == 'CALC'){
-			var calcResult = calculate(result.val);
-			if(calcResult != null){
-				result.val = calcResult;
-				if(typeof calcResult == "number") result.type = "number"; 
-				else if(typeof calcResult == "boolean") result.type = "boolean"; 
-				else result.type = "string";
-			}
-		}
-	}
-	if(typeof fetchedObjects[stateId] !== udef && fetchedObjects[stateId] !== null) {
-		//--Declare plainText
-		result.plainText = null;
-		//--Add custom
-		result.custom = typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] || {};
-		//--Add unit
-		result.unit = getUnit(stateId);
-		//--Add readonly
-		if(typeof result.custom.targetValues !== udef && result.custom.targetValues !== "") result.readonly = false;
-		else if(typeof result.custom.targetValueId !== udef && result.custom.targetValueId !== "") result.readonly = false;
-		else if(typeof result.custom.readonly !== udef) result.readonly = result.custom.readonly;
-		else if(typeof fetchedObjects[stateId].native !== udef && typeof fetchedObjects[stateId].native.write !== udef) result.readonly = !fetchedObjects[stateId].native.write;
-		else if(typeof fetchedObjects[stateId].common.write !== udef) result.readonly = !fetchedObjects[stateId].common.write;
-		else result.readonly = false;
-		//--Add min and max
-		if(typeof result.custom.min !== udef && result.custom.min !== "") result.min = result.custom.min;
-		else if(typeof fetchedObjects[stateId].common.min !== udef) result.min = fetchedObjects[stateId].common.min;
-		if(typeof result.custom.max !== udef && result.custom.max !== "") result.max = result.custom.max;
-		else if(typeof fetchedObjects[stateId].common.max !== udef) result.max = fetchedObjects[stateId].common.max;
-		//--Modify min and max for HomematicIP (for temperature sensors it reports min = -3276.8 and max = 3276.7)
-		if(result.min == -3276.8 && result.max == 3276.7){
-			result.min = -34;
-			result.max = 65;
-		}
-		//--Add step
-		if(typeof result.custom.step !== udef && result.custom.step !== "") result.step = result.custom.step;
-		else if(typeof fetchedObjects[stateId].common.step !== udef) result.step = fetchedObjects[stateId].common.step;
-		if(!result.step && typeof result.min !== udef && !isNaN(result.min) && typeof result.max !== udef && !isNaN(result.max)) {
-			var diff = result.max - result.min;
-			if(diff < 1) result.step = 0.001;
-			else if(diff < 10) result.step = 0.01;
-			else if(diff < 100) result.step = 0.1;
-			else result.step = 1;
-		}
-		//--Add type
-		result.type = result.type || fetchedObjects[stateId].common.type || "string";
-		if(typeof result.custom.type !== udef && result.custom.type !== "") result.type = result.custom.type;
-		//--Add role
-		result.role = result.role || fetchedObjects[stateId].common.role || "state";
-		if(typeof result.custom.role !== udef && result.custom.role !== "") result.role = result.custom.role;
-		var linkedParentId = stateId.substring(0, stateId.lastIndexOf("."));
-		if(result.role == "state" && fetchedObjects[linkedParentId] && typeof fetchedObjects[linkedParentId].common.role != udef && fetchedObjects[linkedParentId].common.role){ //For role 'state' look if there are more informations about the role in the parentObject
-			switch(parentRole = fetchedObjects[linkedParentId].common.role){
-				case "switch": case "sensor.alarm": case "sensor.alarm.fire":
-				result.role = parentRole;
-				break;
-			}
-		}
-		//--Add name and desc
-		result.name = fetchedObjects[stateId].common.name;
-		result.desc = fetchedObjects[stateId].common.desc;
-		//--If val is not present (state is not set yet), set it - depending from the type - to 0/""
-		if(typeof result.val == udef || result.val == null){
-			if(result.type && result.type == "string") result.val = ""; else result.val = 0;
-		}
-		//--Modify typeof val to match to common.type
-		switch(result.type){
-			case "string":
-			if(typeof result.val !== 'string') {
-				result.val = result.val.toString();
-				result.plainText = result.val;
-			}
-			break;
-
-			case "number":
-			if(typeof result.val !== 'number' && !isNaN(result.val)) result.val = parseFloat(result.val);
-			//----Scale % to 0-100 if min-max=0-1
- 			if(typeof result.unit !== udef && result.unit == "%" && typeof result.min !== udef && result.min == 0 && typeof result.max !== udef && result.max ==1) {
-				result.val = result.val * 100;
-				result.max = 100;
-			}
-			result.type = "level";
- 			break;
-
-			case "boolean":
-			if(typeof result.val !== 'boolean'){
-				if(result.val.toString().toLowerCase() == "false" || result.val == 0 || result.val == "0" || result.val == -1 || result.val == "-1" || result.val == "" || result.val == "off") result.val = false; else result.val = true;
-			}
-			break;
-		}
-		//--Modify informations depending on the role
-		if(result.role) {
-			switch(result.role){
-				case "indicator.state":
-				result.plainText = result.val;
-				result.type = "string";
-				result.readonly = true;
-				break;
-
-				case "value.window": case "sensor.window": case "sensor.door": case "sensor.lock":
-				if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
-				if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
-					result.valueList = {"true": _("opened"), "false": _("closed")};
-					result.type = "valueList";
-				} else { //If not bool set type to string
-					result.type = "string";
-				}
-				result.readonly = true;
-				break;
-
-				case "sensor.alarm":
-				if(result.val) result.plainText = _("OK"); else result.plainText = _("Alarm");
-				if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
-					result.valueList = {"true": _("OK"), "false": _("Alarm")};
-					result.type = "valueList";
-				} else { //If not bool and there is no value list, set type to string
-					result.type = "string";
-				}
-				result.readonly = true;
-				break;
-
-				case "sensor.alarm.fire": case "sensor.fire": case "sensor.alarm.flood": case "sensor.flood": case "sensor.alarm.water": case "sensor.water": case "indicator.alarm.fire": case "indicator.fire": case "indicator.alarm.flood": case "indicator.flood": case "indicator.alarm.water": case "indicator.water": case "indicator.leakage":
-				if(result.val) result.plainText = _("triggered"); else result.plainText = " ";
-				if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
-					result.valueList = {"true": _("triggered"), "false": _("OK")};
-					result.type = "valueList";
-				} else { //If not bool and there is no value list, set type to string
-					result.type = "string";
-				}
-				result.readonly = true;
-				break;
-
-				case "switch": case "Switch": case "switch.light": case "switch.power": case "switch.boost": case "switch.enable": case "switch.active": case "scene.state":
-				if(typeof result.val == 'string') if(result.val.toLowerCase() == "false" || result.val.toLowerCase() == "off" || result.val.toLowerCase() == "0" || result.val == "") result.val = false; else result.val = true;
-				if(result.val) result.plainText = _("on"); else result.plainText = _("off");
-				result.type = "switch";
-				result.min = 0;
-				result.max = 1;
-				result.valueList = ["off", "on"];
-				break;
-
-				case "button": case "action.execute":
-				if(typeof result.val == 'string') if(result.val.toLowerCase() == "false" || result.val.toLowerCase() == "off" || result.val.toLowerCase() == "0" || result.val == "") result.val = false; else result.val = true;
-				if(result.val) result.plainText = _("on"); else result.plainText = _("off");
-				result.type = "button";
-				result.min = 0;
-				result.max = 1;
-				result.valueList = ["off", "on"];
-				break;
-
-				case "level": case "level.dimmer": case "level.blind":
-				result.type = "level";
-				break;
-
-				case "state":
-				result.type = "string";
-				if(fetchedObjects[stateId] && typeof fetchedObjects[stateId].native != udef && fetchedObjects[stateId].native.CONTROL) { //if role is not set correctly it can try to determine role from native.CONTROL
-					switch(fetchedObjects[stateId].native.CONTROL) {
-						case "DOOR_SENSOR.STATE":
-						if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
-						if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
-							result.valueList = {"true": _("opened"), "false": _("closed")};
-							result.type = "valueList";
-						} else { //If not bool set type to string
-							result.type = "string";
-						}
-						result.readonly = true;
-						break;
-
-						case "DANGER.STATE":
-						if(result.val) result.plainText = _("triggered"); else result.plainText = " ";
-						if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
-							result.valueList = {"true": _("triggered"), "false": _("OK")};
-							result.type = "valueList";
-						} else { //If not bool set type to string
-							result.type = "string";
-						}
-						result.readonly = true;
-						break;
-
-						case "SWITCH.STATE":
-						if(result.val) result.plainText = _("on"); else result.plainText = _("off");
-						if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
-							result.valueList = {"true": _("on"), "false": _("off")};
-							result.type = "valueList";
-						} else { //If not bool set type to string
-							result.type = "string";
-						}
-						break;
-
-						//Weitere mögliche - aber noch nicht implementierte - Werte:
-						//RHS.STATE (Rotary Handle Transceiver)
-						//CLIMATECONTROL_FLOOR_TRANSCEIVER.STATE
-						//GENERIC_INPUT_TRANSMITTER.STATE
-						//SWITCH_TRANSMITTER.STATE
-					}
-				}
-				break;
-
-				case "value.time": case "value.date": case "value.datetime": case "level.timer": case "level.timer.sleep": 
-				result.type = "time";
-				var timeFormat = getTimeFormat(typeof result.custom.timeFormat !== udef && result.custom.timeFormat !== "" && result.custom.timeFormat || "x");
-				var timeDisplayFormat = getTimeFormat(typeof result.custom.timeDisplayFormat !== udef && result.custom.timeDisplayFormat !== "" && result.custom.timeDisplayFormat || "dddd, DD.MM.YYYY HH:mm:ss");
-				var nowMoment = moment(new Date());
-				if(timeFormat.type == "period"){
-					var timeMoment = moment.duration(result.val, timeFormat.string);
-				} else {
-					var timeMoment = moment(result.val, timeFormat.string);
-				}
-				if(result.val == "" || !timeMoment.isValid()){
-					result.plainText = "";
-				} else {
-					if(timeFormat.type == "time" && timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")){
-						timeMoment.year(1970).month(0).date(1);
-					}									
-					if(timeMoment.isValid()){
-						if(timeMoment._isAMomentObject) result.Date = timeMoment.toDate();
-						if(timeFormat.type != "period"){
-							result.plainText = timeMoment.locale(systemLang).format((timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")) ? replaceTokens(timeDisplayFormat.string, momentRemoveDateTokens) : timeDisplayFormat.string);
-						} else {
-							result.plainText = timeMoment.locale(systemLang).format(timeDisplayFormat.string);
-						}
-					}
-				}
-				break;
-			}
-		}
-		//--Add valueList
-		var statesSet = false;
-		var valueListString;
-		if(typeof result.custom.states && result.custom.states){
-				valueListString = result.custom.states;
-				statesSet = true;
-		} else if(fetchedObjects[stateId] && typeof fetchedObjects[stateId].native != udef && fetchedObjects[stateId].native.states){
-				valueListString = fetchedObjects[stateId].native.states;
-				statesSet = true;
-		} else if(fetchedObjects[stateId] && fetchedObjects[stateId].common.states){
-				valueListString = fetchedObjects[stateId].common.states;
-				statesSet = true;
-		}
-		if(statesSet){
-			//----Check format of valueList
-			if(typeof valueListString !== "object"){
-				if(tryParseJSON(valueListString) == false){
-					valueListString = '{"' + valueListString.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
-					if(tryParseJSON(valueListString) == false) {
-						statesSet = false;
-					} else {
-						valueListString = tryParseJSON(valueListString);
-					}
-				} else {
-					valueListString = tryParseJSON(valueListString);
-				}
-			}
-		}
-		if(statesSet){
-			if(Array && Array.isArray(valueListString)) { //Since Admin 5 states can be delivered as array - convert back to object
-				valueListString = valueListString.reduce(function(acc, val){ acc[val] = val; return acc; }, {});
-			}
-			result.valueList = Object.assign({}, valueListString);
-			//----Further modifications of valueList
-			var val = result.val;
-			if(typeof val !== udef && val !== null && (typeof val == 'boolean' || val.toString().toLowerCase() == "true" || val.toString().toLowerCase() == "false")){ //Convert valueList-Keys to boolean, if they are numbers
-				for (var key in result.valueList){
-					var newKey = null;
-					if(key == -1 || key == 0 || key == false) newKey = "false";
-					if(key == 1 || key == true) newKey = "true";
-					if(newKey != null) {
-						var dummy = {};
-						dummy[newKey] = result.valueList[key];
-						delete Object.assign(result.valueList, dummy)[key]; //This renames key to newKey
-					}
-				};
-			}
-			if(typeof val !== udef && val !== null && typeof result.valueList[val.toString()] !== udef) result.plainText = _(result.valueList[val]); //Modify plainText if val matchs a valueList-Entry
-			if(((result.max != udef && result.min != udef && Object.keys(result.valueList).length == result.max - result.min + 1)
-			|| (typeof fetchedObjects[stateId].common.type != udef && fetchedObjects[stateId].common.type == "boolean")) && result.type != "switch"
-			|| result.type == 'string') { //If the valueList contains as many entrys as steps between min and max the type is a valueList
-					result.type = "valueList";
-			}
-		}
-		//--Add TargetValues
-		if(typeof result.custom.targetValues != udef && result.custom.targetValues) {
-			var targetValuesSet = true;
-			var targetValues = result.custom.targetValues;
-			//Check format of targetValues
-			if(typeof targetValues !== "object"){
-				if(tryParseJSON(targetValues) == false){
-					targetValues = '{"' + targetValues.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
-					if(tryParseJSON(targetValues) == false) {
-						targetValuesSet = false;
-					} else {
-						targetValues = tryParseJSON(targetValues);
-					}
-				} else {
-					targetValues = tryParseJSON(targetValues);
-				}
-			}
-			if(targetValuesSet){
-				result.targetValues = Object.assign({}, targetValues);
-			}
-		}
-		//--Try to set a plainText, if it has not been set before
-		if(result.plainText == null) {
-			if(typeof result.val == 'string') {
-				var number = result.val * 1;
-				if(number.toString() == result.val) result.val = number;
-			}
-			if(typeof result.val == 'number'){
-				result.type = "level";
-				result.valFull = result.val;
-				var n = (typeof result.custom.roundDigits != udef && result.custom.roundDigits !== "" ? result.custom.roundDigits : 2);
-				result.val =  Math.round(result.val * Math.pow(10, n)) / Math.pow(10, n);
-			} else {
-				result.type = "string";
-			}
-			result.plainText = result.val;
-		}
-		if(result.type == "string" && typeof result.custom.statesAddInput && result.custom.statesAddInput){
-			result.type = "valueList";
-		}
-	}
-	//--Set valFull if not set before
-	if(typeof result.valFull == udef) result.valFull = result.val;
-	//--Prevent injecting of <script> tags
-	if(typeof result.val == "string") {
-		result.val = result.val.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
-	}
-	if(typeof result.plainText == "string") {
-		result.plainText = result.plainText.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
-	}
-	return result;
-}
-
 function getUnit(linkedStateId){
 	var unit = "";
 	if(fetchedObjects[linkedStateId]){
@@ -5507,28 +5132,39 @@ function renderView(viewId, triggeredByReconnection){
 						//---------- TEST UI ELEMENTS ----------
 						uiElements.addHtml(deviceContent)
 						.addIconTextCombination(device, {
-							stackId: "testStack",
+							stackId: "INFO_A",
 							
 							iconClasses: "iQontrolDeviceInfoAIcon",
-							iconDeviceStateId: "INFO_A.state",
+							iconDeviceStateId: "INFO_A.icon.0",
 							iconActiveDeviceStateId: "UNREACH",
 
 							textClasses: "iQontrolDeviceInfoAText",
-							textDeviceStateId: "INFO_A.icon",
+							textDeviceStateId: "INFO_A.state.0",
 							textActiveDeviceStateId: "UNREACH"
 						})
 						.addIconTextCombination(device, {
-							stackId: "testStack",
+							stackId: "INFO_A",
+							
+							iconClasses: "iQontrolDeviceInfoAIcon",
+							iconDeviceStateId: "INFO_A.icon.1",
+							iconActiveDeviceStateId: "UNREACH",
+
+							textClasses: "iQontrolDeviceInfoAText",
+							textDeviceStateId: "INFO_A.state.1",
+							textActiveDeviceStateId: "UNREACH"
+						})
+						.addIconTextCombination(device, {
+							stackId: "INFO_B",
 							
 							iconClasses: "iQontrolDeviceInfoBIcon",
-							iconDeviceStateId: "INFO_B.state",
+							iconDeviceStateId: "",
 							iconActiveDeviceStateId: "UNREACH",
 
 							textClasses: "iQontrolDeviceInfoBText",
-							textDeviceStateId: "STATE",
+							textDeviceStateId: "INFO_B.state",
 							textActiveDeviceStateId: "UNREACH"
 						});
-						deviceContent = ""; //#####  #### bei INFO_B wurde als Test bei stateId STATE statt INFO_B.state angegeben!!
+						deviceContent = ""; //##### 
 
 
 
@@ -7814,7 +7450,7 @@ function renderView(viewId, triggeredByReconnection){
 			}
 		});	
 		//DeviceCollection ready - go on with some afterwork
-		applyViewAdaptHeightOrMarqueeObserver();
+		setTimeout(applyViewAdaptHeightOrMarqueeObserver, 1000); //##### zwei Dinge: a) timeout wieder weg machen, muss aufgerufen werden, wenn alle uiElements gesetzt wurden - b) es müssen alle uiElements-Klassen gesammelt werden, für die der Observer gelten soll
 		applyViewDeviceContextMenu();
 		dynamicIframeZoom();
 		//Show ViewSwipeGoals
@@ -14510,7 +14146,14 @@ function getStateFromDeviceState(device, state){
  * @returns {string|null} stateId or null, if state is not found
 */
 function getStateIdFromDeviceState(device, state){
-	if(device.deviceStates && device.deviceStates[state] && typeof device.deviceStates[state].stateId != udef) return device.deviceStates[state].stateId; //Was already extended
+	if(!state) return null;
+	var stateParts = state.split('.');
+	var arrayPathParts = [];
+	for(var i = stateParts.length; i > 0; i--){
+		state = stateParts.join('.');
+		if(device.deviceStates && device.deviceStates[state] && typeof device.deviceStates[state].stateId != udef) return device.deviceStates[state].stateId + [''].concat(arrayPathParts).join('.'); //Was already extended
+		arrayPathParts.unshift(stateParts.splice(i - 1, 1)[0]); //removes last part of stateParts and puts it to beginning of arrayPathParts
+	}
 	var deviceStateId = device.deviceId + ".deviceStates." + state;
 	var deviceStateIndex = device.states.findIndex(function(element){ return (element.state == state);})
 	var deviceStateObject = device.states[deviceStateIndex] || {state: state};
@@ -14519,8 +14162,8 @@ function getStateIdFromDeviceState(device, state){
 	deviceStateObject.commonRole = (typeof deviceStateObject.commonRole != udef ? deviceStateObject.commonRole : '');
 	var stateId = null;
 	var statesToFetchAndSubscribe = [];
+	//Arrays
 	if(deviceStateObject.commonType == 'array'){ //deviceState is array
-		//###### nehmen wir erst mal an, es gäbe nur die role 'const' - es könnte aber durchaus auch linkedState sein! d.h. hier müsste dann der Wert zuerst ermittelt werden! Geht das? Vermutlich nur async??
 		stateId = "ARRAY:" + deviceStateId;
 		var givenArray = tryParseJSON(deviceStateObject.value);
 		if(typeof givenArray == "object" && givenArray.cols && Array.isArray(givenArray.cols)){
@@ -14530,26 +14173,33 @@ function getStateIdFromDeviceState(device, state){
 			givenArray.cols.forEach(function(givenArrayCol){ //Cols
 				if(processedCols.indexOf(givenArrayCol.col) == -1){
 					processedCols.push(givenArrayCol.col);
-					if(givenArrayCol.commonRoleFrom && givenArrayCol.commonRoleFrom != '' && givenArray.cols.find(function(col){ return col.col == givenArrayCol.commonRoleFrom; })){ //combination of commonRole (const, calc or linkedState) and state (string, color, icon)
+					if(givenArrayCol.commonRoleFrom && givenArrayCol.commonRoleFrom != '' && givenArray.cols.find(function(col){ return col.col == givenArrayCol.commonRoleFrom; })){ //combination of a call wih the commonRole (const, calc or linkedState) and a col with the state (string, color, icon)
 						processedCols.push(givenArrayCol.commonRoleFrom);
 						resultArray[givenArrayCol.col] = [];
 						givenArray.values.forEach(function(givenArrayValue, givenArrayValueIndex){ //Rows
-							var value = givenArrayValue[givenArrayCol.col];
+							var value = givenArrayValue[givenArrayCol.col]; //value is a linkedStateId or a string representing a const or calc
 							var commonRole = givenArrayValue[givenArrayCol.commonRoleFrom];
-							if(commonRole == 'linkedState'){//linkedState
-								value = "{" + value + "}"; //
+							if(commonRole == 'linkedState'){//ARRAY-Element of combination - linkedState								
+								if(value && !fetchedStates[value] && !statesToFetchAndSubscribe[value]) statesToFetchAndSubscribe.push(value);
+								createStateVariableUpdateFunction(value, stateId + '.' + givenArrayCol.col + '.' + givenArrayValueIndex);
+								resultArray[givenArrayCol.col].push(value);
+							} else { //ARRAY-Element of combination - const or calc
+								var elementStateId = commonRole.toUpperCase() + ":" + deviceStateId + '.' + givenArrayCol.col + '.' + givenArrayValueIndex; //CONST: or CALC: + arrayStateId inc. arrayPath
+								processVariables(value, stateId + '.' + givenArrayCol.col + '.' + givenArrayValueIndex);
+								createTemporaryState(elementStateId, 'string', 'state', false, value);
+								resultArray[givenArrayCol.col].push(elementStateId);
 							}
-							processVariables(value, stateId + '.' + givenArrayCol.col + '.' + givenArrayValueIndex); //###### geht das? ich denke die update-funktion muss geändert werden...
-							resultArray[givenArrayCol.col].push(value);
 						});
 					} else if (givenArrayCol.for && givenArrayCol.for != '') { //other col of combination
 						//do nothing
 					} else { //option, checkbox - assume commonRole is const
 						resultArray[givenArrayCol.col] = [];
-						givenArray.values.forEach(function(givenArrayValue, givenArrayValueIndex){ //Rows
+						givenArray.values.forEach(function(givenArrayValue, givenArrayValueIndex){ //Rows = ARRAY-Element of option = const
 							var value = givenArrayValue[givenArrayCol.col];
-							processVariables(value, stateId + '.' + givenArrayCol.col + '.' + givenArrayValueIndex); //###### geht das? ich denke die update-funktion muss geändert werden...
-							resultArray[givenArrayCol.col].push(value);
+							var elementStateId = "CONST:" + deviceStateId + '.' + givenArrayCol.col + '.' + givenArrayValueIndex; //CONST: + arrayStateId inc. arrayPath
+							processVariables(value, stateId + '.' + givenArrayCol.col + '.' + givenArrayValueIndex);
+							createTemporaryState(elementStateId, 'string', 'state', false, value);
+							resultArray[givenArrayCol.col].push(elementStateId);
 						})
 					}
 				}
@@ -14559,6 +14209,7 @@ function getStateIdFromDeviceState(device, state){
 		if(statesToFetchAndSubscribe.length) fetchAndSubscribeStates(statesToFetchAndSubscribe);
 		return stateId;
 	}
+	//Other than array
 	if(deviceStateObject.commonRole == 'const' || deviceStateObject.commonRole == 'calc'){ //deviceState is const or calc
 		stateId = deviceStateObject.commonRole.toUpperCase() + ":" + deviceStateId; //CONST: or CALC: + deviceStateId
 		processVariables(deviceStateObject.value, stateId);
@@ -14578,6 +14229,7 @@ function getStateIdFromDeviceState(device, state){
 	}
 	if(statesToFetchAndSubscribe.length) fetchAndSubscribeStates(statesToFetchAndSubscribe);
 	return stateId;
+	//Help functions
 	function processVariables(string, stateId){
 		if(typeof string != "string") return;
 		var variables = (string.match(/{([^}]+)}/g) || []).map(function(match){ return match.slice(1, -1); }); //check for {variables}
@@ -14586,17 +14238,19 @@ function getStateIdFromDeviceState(device, state){
 			var variableLinkedStateId = variableParts[0];
 			if(variableLinkedStateId){
 				if(variableLinkedStateId.substr(0, 1) == "[" && variableLinkedStateId.substr(-1) == "]") variableLinkedStateId = variableLinkedStateId.substring(1, variableLinkedStateId.length - 1);
-				var updateFunction = new Function("updateState('" + stateId + "');");
-				//var _stateId = (function(){ return stateId.toString(); })(); #### für was war das? _stateId wird gar nicht mehr verwendet. Sieht wie der Versuch einer closure aus, mal aufheben, falls später hier eine closure gebraucht wird
 				if(!fetchedStates[variableLinkedStateId] && !statesToFetchAndSubscribe[variableLinkedStateId]) statesToFetchAndSubscribe.push(variableLinkedStateId);
-				if(!deviceCollections.updateFunctions["stateVariables"]) deviceCollections.updateFunctions["stateVariables"] = [];
-				if(!deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId]) deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId] = [];
-				if(!deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId].filter(function(f){ return f.toString() == updateFunction.toString(); }).length){
-					console.log("Create stateVariable updateFunction for " + variableLinkedStateId + " to update " + stateId)
-					deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId].push(updateFunction);
-				}
+				createStateVariableUpdateFunction(variableLinkedStateId, stateId);
 			}
 		});
+	}
+	function createStateVariableUpdateFunction(variableLinkedStateId, stateId){
+		var updateFunction = new Function("updateState('" + stateId + "');");
+		if(!deviceCollections.updateFunctions["stateVariables"]) deviceCollections.updateFunctions["stateVariables"] = [];
+		if(!deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId]) deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId] = [];
+		if(!deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId].filter(function(f){ return f.toString() == updateFunction.toString(); }).length){
+			console.log("Create stateVariable updateFunction for " + variableLinkedStateId + " to update " + stateId)
+			deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId].push(updateFunction);
+		}
 	}
 }
 
@@ -14690,6 +14344,404 @@ function fetchAndSubscribeStates(stateIds, ignorePreventUpdate, callback){
 	} else {
 		if(typeof callback == "function") callback();
 	}
+}
+
+/** Returns value of stateId as object extended by type, unit, plain text and attributes that respect the custom settings of the state.
+ *  It also returns processed values of CONST:, CALC:, VIRTUAL: and ARRAY:-States.
+ * @param {string} stateId 
+ * @returns {object} - stateValueObject
+ */
+function getState(stateId){ //
+	if(!stateId || stateId == "") return;
+	var stateIdParts = stateId.split(':');
+	var stateIdRole = stateIdParts.length > 1 && stateIdParts[0] || null; // 'CONST', 'ARRAY', 'CALC', 'VIRTUAL' or null
+	var result = {};
+	//check for arrayPath in stateId and create initial result
+	stateIdParts = stateId.split('.');
+	var arrayPath;
+	var arrayPathParts = [];
+	for(var i = stateIdParts.length; i > 0; i--){
+		stateId = stateIdParts.join('.');
+		if(typeof fetchedStates[stateId] !== udef && fetchedStates[stateId] !== null){
+			result = Object.assign(result, fetchedStates[stateId]);
+			arrayPath = arrayPathParts.join('.');
+			var arrayVal;
+			if(typeof fetchedStates[stateId] == "object" && fetchedStates[stateId].val && arrayPath){
+				result.val = getObjectValue(fetchedStates[stateId].val, arrayPath);
+			}
+			break;
+		} 
+		arrayPathParts.unshift(stateIdParts.splice(i - 1, 1)[0]); //removes last part of stateIdParts and puts it to beginning of arrayPathParts
+	}
+	result.valRaw = result.val;
+	//Processing arrays
+	if(stateIdRole == 'ARRAY' && typeof result.val == "string"){
+		return getState(result.val);
+	}
+	//Processing variables
+	if((stateIdRole == 'CONST' || stateIdRole == 'CALC') && typeof result.val == "string"){
+		result.val = result.val.replace(/{([^}]+)}/g, function(match, p1){ 
+			var parts = processVariable(p1);
+			var state = getState(parts.stateId);
+			var replacement = null;
+			if(state && typeof state.val !== udef) {
+				if(typeof state.plainText == 'number' && !parts.noUnit){	//STATE = number
+					replacement = state.val + state.unit;
+				} else {													//STATE = bool or text
+					replacement = state.plainText;
+				}
+			} else if(parts.placeholder) {									//Replace by placeholder
+				replacement = parts.placeholder;
+			}
+			if(replacement != null) return replacement; else return p1;
+		});
+		function processVariable(variable){
+			var result = {};
+			var variableParts = variable.split('|');
+			var _stateId = variableParts[0];
+			var noUnit = false;
+			if(_stateId.substr(0, 1) == "[" && _stateId.substr(-1) == "]"){
+				_stateId = _stateId.substring(1, _stateId.length - 1);
+				noUnit = true;
+			}
+			result.stateId = _stateId;
+			result.noUnit = noUnit;
+			result.placeholder = variableParts[1] || null;
+			return result;		
+		}
+		//--Calculation
+		if(stateIdRole == 'CALC'){
+			var calcResult = calculate(result.val);
+			if(calcResult != null){
+				result.val = calcResult;
+				if(typeof calcResult == "number") result.type = "number"; 
+				else if(typeof calcResult == "boolean") result.type = "boolean"; 
+				else result.type = "string";
+			}
+		}
+	}
+	if(typeof fetchedObjects[stateId] !== udef && fetchedObjects[stateId] !== null) {
+		//--Declare plainText
+		result.plainText = null;
+		//--Add custom
+		result.custom = typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] || {};
+		//--Add unit
+		result.unit = getUnit(stateId);
+		//--Add readonly
+		if(typeof result.custom.targetValues !== udef && result.custom.targetValues !== "") result.readonly = false;
+		else if(typeof result.custom.targetValueId !== udef && result.custom.targetValueId !== "") result.readonly = false;
+		else if(typeof result.custom.readonly !== udef) result.readonly = result.custom.readonly;
+		else if(typeof fetchedObjects[stateId].native !== udef && typeof fetchedObjects[stateId].native.write !== udef) result.readonly = !fetchedObjects[stateId].native.write;
+		else if(typeof fetchedObjects[stateId].common.write !== udef) result.readonly = !fetchedObjects[stateId].common.write;
+		else result.readonly = false;
+		//--Add min and max
+		if(typeof result.custom.min !== udef && result.custom.min !== "") result.min = result.custom.min;
+		else if(typeof fetchedObjects[stateId].common.min !== udef) result.min = fetchedObjects[stateId].common.min;
+		if(typeof result.custom.max !== udef && result.custom.max !== "") result.max = result.custom.max;
+		else if(typeof fetchedObjects[stateId].common.max !== udef) result.max = fetchedObjects[stateId].common.max;
+		//--Modify min and max for HomematicIP (for temperature sensors it reports min = -3276.8 and max = 3276.7)
+		if(result.min == -3276.8 && result.max == 3276.7){
+			result.min = -34;
+			result.max = 65;
+		}
+		//--Add step
+		if(typeof result.custom.step !== udef && result.custom.step !== "") result.step = result.custom.step;
+		else if(typeof fetchedObjects[stateId].common.step !== udef) result.step = fetchedObjects[stateId].common.step;
+		if(!result.step && typeof result.min !== udef && !isNaN(result.min) && typeof result.max !== udef && !isNaN(result.max)) {
+			var diff = result.max - result.min;
+			if(diff < 1) result.step = 0.001;
+			else if(diff < 10) result.step = 0.01;
+			else if(diff < 100) result.step = 0.1;
+			else result.step = 1;
+		}
+		//--Add type
+		result.type = result.type || fetchedObjects[stateId].common.type || "string";
+		if(typeof result.custom.type !== udef && result.custom.type !== "") result.type = result.custom.type;
+		//--Add role
+		result.role = result.role || fetchedObjects[stateId].common.role || "state";
+		if(typeof result.custom.role !== udef && result.custom.role !== "") result.role = result.custom.role;
+		var linkedParentId = stateId.substring(0, stateId.lastIndexOf("."));
+		if(result.role == "state" && fetchedObjects[linkedParentId] && typeof fetchedObjects[linkedParentId].common.role != udef && fetchedObjects[linkedParentId].common.role){ //For role 'state' look if there are more informations about the role in the parentObject
+			switch(parentRole = fetchedObjects[linkedParentId].common.role){
+				case "switch": case "sensor.alarm": case "sensor.alarm.fire":
+				result.role = parentRole;
+				break;
+			}
+		}
+		//--Add name and desc
+		result.name = fetchedObjects[stateId].common.name;
+		result.desc = fetchedObjects[stateId].common.desc;
+		//--If val is not present (state is not set yet), set it - depending from the type - to 0/""
+		if(typeof result.val == udef || result.val == null){
+			if(result.type && result.type == "string") result.val = ""; else result.val = 0;
+		}
+		//--Modify typeof val to match to common.type
+		switch(result.type){
+			case "string":
+			if(typeof result.val !== 'string') {
+				result.val = result.val.toString();
+				result.plainText = result.val;
+			}
+			break;
+
+			case "number":
+			if(typeof result.val !== 'number' && !isNaN(result.val)) result.val = parseFloat(result.val);
+			//----Scale % to 0-100 if min-max=0-1
+ 			if(typeof result.unit !== udef && result.unit == "%" && typeof result.min !== udef && result.min == 0 && typeof result.max !== udef && result.max ==1) {
+				result.val = result.val * 100;
+				result.max = 100;
+			}
+			result.type = "level";
+ 			break;
+
+			case "boolean":
+			if(typeof result.val !== 'boolean'){
+				if(result.val.toString().toLowerCase() == "false" || result.val == 0 || result.val == "0" || result.val == -1 || result.val == "-1" || result.val == "" || result.val == "off") result.val = false; else result.val = true;
+			}
+			break;
+		}
+		//--Modify informations depending on the role
+		if(result.role) {
+			switch(result.role){
+				case "indicator.state":
+				result.plainText = result.val;
+				result.type = "string";
+				result.readonly = true;
+				break;
+
+				case "value.window": case "sensor.window": case "sensor.door": case "sensor.lock":
+				if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
+				if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
+					result.valueList = {"true": _("opened"), "false": _("closed")};
+					result.type = "valueList";
+				} else { //If not bool set type to string
+					result.type = "string";
+				}
+				result.readonly = true;
+				break;
+
+				case "sensor.alarm":
+				if(result.val) result.plainText = _("OK"); else result.plainText = _("Alarm");
+				if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
+					result.valueList = {"true": _("OK"), "false": _("Alarm")};
+					result.type = "valueList";
+				} else { //If not bool and there is no value list, set type to string
+					result.type = "string";
+				}
+				result.readonly = true;
+				break;
+
+				case "sensor.alarm.fire": case "sensor.fire": case "sensor.alarm.flood": case "sensor.flood": case "sensor.alarm.water": case "sensor.water": case "indicator.alarm.fire": case "indicator.fire": case "indicator.alarm.flood": case "indicator.flood": case "indicator.alarm.water": case "indicator.water": case "indicator.leakage":
+				if(result.val) result.plainText = _("triggered"); else result.plainText = " ";
+				if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
+					result.valueList = {"true": _("triggered"), "false": _("OK")};
+					result.type = "valueList";
+				} else { //If not bool and there is no value list, set type to string
+					result.type = "string";
+				}
+				result.readonly = true;
+				break;
+
+				case "switch": case "Switch": case "switch.light": case "switch.power": case "switch.boost": case "switch.enable": case "switch.active": case "scene.state":
+				if(typeof result.val == 'string') if(result.val.toLowerCase() == "false" || result.val.toLowerCase() == "off" || result.val.toLowerCase() == "0" || result.val == "") result.val = false; else result.val = true;
+				if(result.val) result.plainText = _("on"); else result.plainText = _("off");
+				result.type = "switch";
+				result.min = 0;
+				result.max = 1;
+				result.valueList = ["off", "on"];
+				break;
+
+				case "button": case "action.execute":
+				if(typeof result.val == 'string') if(result.val.toLowerCase() == "false" || result.val.toLowerCase() == "off" || result.val.toLowerCase() == "0" || result.val == "") result.val = false; else result.val = true;
+				if(result.val) result.plainText = _("on"); else result.plainText = _("off");
+				result.type = "button";
+				result.min = 0;
+				result.max = 1;
+				result.valueList = ["off", "on"];
+				break;
+
+				case "level": case "level.dimmer": case "level.blind":
+				result.type = "level";
+				break;
+
+				case "state":
+				result.type = "string";
+				if(fetchedObjects[stateId] && typeof fetchedObjects[stateId].native != udef && fetchedObjects[stateId].native.CONTROL) { //if role is not set correctly it can try to determine role from native.CONTROL
+					switch(fetchedObjects[stateId].native.CONTROL) {
+						case "DOOR_SENSOR.STATE":
+						if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
+						if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
+							result.valueList = {"true": _("opened"), "false": _("closed")};
+							result.type = "valueList";
+						} else { //If not bool set type to string
+							result.type = "string";
+						}
+						result.readonly = true;
+						break;
+
+						case "DANGER.STATE":
+						if(result.val) result.plainText = _("triggered"); else result.plainText = " ";
+						if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
+							result.valueList = {"true": _("triggered"), "false": _("OK")};
+							result.type = "valueList";
+						} else { //If not bool set type to string
+							result.type = "string";
+						}
+						result.readonly = true;
+						break;
+
+						case "SWITCH.STATE":
+						if(result.val) result.plainText = _("on"); else result.plainText = _("off");
+						if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
+							result.valueList = {"true": _("on"), "false": _("off")};
+							result.type = "valueList";
+						} else { //If not bool set type to string
+							result.type = "string";
+						}
+						break;
+
+						//Weitere mögliche - aber noch nicht implementierte - Werte:
+						//RHS.STATE (Rotary Handle Transceiver)
+						//CLIMATECONTROL_FLOOR_TRANSCEIVER.STATE
+						//GENERIC_INPUT_TRANSMITTER.STATE
+						//SWITCH_TRANSMITTER.STATE
+					}
+				}
+				break;
+
+				case "value.time": case "value.date": case "value.datetime": case "level.timer": case "level.timer.sleep": 
+				result.type = "time";
+				var timeFormat = getTimeFormat(typeof result.custom.timeFormat !== udef && result.custom.timeFormat !== "" && result.custom.timeFormat || "x");
+				var timeDisplayFormat = getTimeFormat(typeof result.custom.timeDisplayFormat !== udef && result.custom.timeDisplayFormat !== "" && result.custom.timeDisplayFormat || "dddd, DD.MM.YYYY HH:mm:ss");
+				var nowMoment = moment(new Date());
+				if(timeFormat.type == "period"){
+					var timeMoment = moment.duration(result.val, timeFormat.string);
+				} else {
+					var timeMoment = moment(result.val, timeFormat.string);
+				}
+				if(result.val == "" || !timeMoment.isValid()){
+					result.plainText = "";
+				} else {
+					if(timeFormat.type == "time" && timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")){
+						timeMoment.year(1970).month(0).date(1);
+					}									
+					if(timeMoment.isValid()){
+						if(timeMoment._isAMomentObject) result.Date = timeMoment.toDate();
+						if(timeFormat.type != "period"){
+							result.plainText = timeMoment.locale(systemLang).format((timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")) ? replaceTokens(timeDisplayFormat.string, momentRemoveDateTokens) : timeDisplayFormat.string);
+						} else {
+							result.plainText = timeMoment.locale(systemLang).format(timeDisplayFormat.string);
+						}
+					}
+				}
+				break;
+			}
+		}
+		//--Add valueList
+		var statesSet = false;
+		var valueListString;
+		if(typeof result.custom.states && result.custom.states){
+				valueListString = result.custom.states;
+				statesSet = true;
+		} else if(fetchedObjects[stateId] && typeof fetchedObjects[stateId].native != udef && fetchedObjects[stateId].native.states){
+				valueListString = fetchedObjects[stateId].native.states;
+				statesSet = true;
+		} else if(fetchedObjects[stateId] && fetchedObjects[stateId].common.states){
+				valueListString = fetchedObjects[stateId].common.states;
+				statesSet = true;
+		}
+		if(statesSet){
+			//----Check format of valueList
+			if(typeof valueListString !== "object"){
+				if(tryParseJSON(valueListString) == false){
+					valueListString = '{"' + valueListString.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
+					if(tryParseJSON(valueListString) == false) {
+						statesSet = false;
+					} else {
+						valueListString = tryParseJSON(valueListString);
+					}
+				} else {
+					valueListString = tryParseJSON(valueListString);
+				}
+			}
+		}
+		if(statesSet){
+			if(Array && Array.isArray(valueListString)) { //Since Admin 5 states can be delivered as array - convert back to object
+				valueListString = valueListString.reduce(function(acc, val){ acc[val] = val; return acc; }, {});
+			}
+			result.valueList = Object.assign({}, valueListString);
+			//----Further modifications of valueList
+			var val = result.val;
+			if(typeof val !== udef && val !== null && (typeof val == 'boolean' || val.toString().toLowerCase() == "true" || val.toString().toLowerCase() == "false")){ //Convert valueList-Keys to boolean, if they are numbers
+				for (var key in result.valueList){
+					var newKey = null;
+					if(key == -1 || key == 0 || key == false) newKey = "false";
+					if(key == 1 || key == true) newKey = "true";
+					if(newKey != null) {
+						var dummy = {};
+						dummy[newKey] = result.valueList[key];
+						delete Object.assign(result.valueList, dummy)[key]; //This renames key to newKey
+					}
+				};
+			}
+			if(typeof val !== udef && val !== null && typeof result.valueList[val.toString()] !== udef) result.plainText = _(result.valueList[val]); //Modify plainText if val matchs a valueList-Entry
+			if(((result.max != udef && result.min != udef && Object.keys(result.valueList).length == result.max - result.min + 1)
+			|| (typeof fetchedObjects[stateId].common.type != udef && fetchedObjects[stateId].common.type == "boolean")) && result.type != "switch"
+			|| result.type == 'string') { //If the valueList contains as many entrys as steps between min and max the type is a valueList
+					result.type = "valueList";
+			}
+		}
+		//--Add TargetValues
+		if(typeof result.custom.targetValues != udef && result.custom.targetValues) {
+			var targetValuesSet = true;
+			var targetValues = result.custom.targetValues;
+			//Check format of targetValues
+			if(typeof targetValues !== "object"){
+				if(tryParseJSON(targetValues) == false){
+					targetValues = '{"' + targetValues.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
+					if(tryParseJSON(targetValues) == false) {
+						targetValuesSet = false;
+					} else {
+						targetValues = tryParseJSON(targetValues);
+					}
+				} else {
+					targetValues = tryParseJSON(targetValues);
+				}
+			}
+			if(targetValuesSet){
+				result.targetValues = Object.assign({}, targetValues);
+			}
+		}
+		//--Try to set a plainText, if it has not been set before
+		if(result.plainText == null) {
+			if(typeof result.val == 'string') {
+				var number = result.val * 1;
+				if(number.toString() == result.val) result.val = number;
+			}
+			if(typeof result.val == 'number'){
+				result.type = "level";
+				result.valFull = result.val;
+				var n = (typeof result.custom.roundDigits != udef && result.custom.roundDigits !== "" ? result.custom.roundDigits : 2);
+				result.val =  Math.round(result.val * Math.pow(10, n)) / Math.pow(10, n);
+			} else {
+				result.type = "string";
+			}
+			result.plainText = result.val;
+		}
+		if(result.type == "string" && typeof result.custom.statesAddInput && result.custom.statesAddInput){
+			result.type = "valueList";
+		}
+	}
+	//--Set valFull if not set before
+	if(typeof result.valFull == udef) result.valFull = result.val;
+	//--Prevent injecting of <script> tags
+	if(typeof result.val == "string") {
+		result.val = result.val.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
+	}
+	if(typeof result.plainText == "string") {
+		result.plainText = result.plainText.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
+	}
+	return result;
 }
 
 //---------- UIElements ----------
@@ -14906,10 +14958,10 @@ function UIElements(initialUiElements) {
 				var src = iconState && iconState.val || "";
 				if(forceReloadOfImage) src = src.replace(/(?<=\?|&)forcedReload=([^&]+)/, "forcedReload=irgendwasAnderes" + Math.floor(new Date().getTime() / 100));
 				if(src != $iconElement.attr('src')){
-					if(($iconElement.attr('src') || "").substring(0, 5).toLowerCase() !== "data:") $iconElement.fadeTo(0,0);
+					if(($iconElement.attr('src') || "").substring(0, 5).toLowerCase() !== "data:") $iconElement.fadeTo(0, 0, function(){ $(this).css('opacity', '')});
 					setTimeout(function(){
 						$iconElement.off('load').on('load', function(){
-							if($iconElement.hasClass('active')) $iconElement.fadeTo(0,1); else $iconElement.css('opacity', '');
+							if($iconElement.hasClass('active')) $iconElement.fadeTo(0, 1, function(){ $(this).css('opacity', '')}); else $iconElement.css('opacity', '');
 						}).attr('src', src);
 					}, 250);					
 				}

@@ -4992,7 +4992,11 @@ async function load(settings, onChange) {
 			if (name === 'commonType') {
 				var stateIndex = $(this).data('index');
 				$(this).on('input change', function(){
-					$(this).parents('tr').find('select[data-name="commonRole"]').trigger('change');
+					if($(this).val() == 'array'){
+						$(this).parents('tr').find('select[data-name="commonRole"]').val('const').prop('disabled', true).trigger('change').select();
+					} else {
+						$(this).parents('tr').find('select[data-name="commonRole"]').prop('disabled', false).trigger('change').select();
+					}
 				});
 			}
 		});
@@ -5092,7 +5096,7 @@ async function load(settings, onChange) {
 							}
 							$targetInput.css('border-right', '0px solid black');
 						}
-						if (dialogDeviceEditStatesTable[stateIndex].commonType == 'array') $targetInput.prop('readonly', true); else $targetInput.prop('readonly', false);
+						if (dialogDeviceEditStatesTable[stateIndex].commonType == 'array') $targetInput.addClass('array').prop('readonly', true); else $targetInput.removeClass('array').prop('readonly', false);
 					})(); //<--End Closure
 				}).trigger('change');
 			}
@@ -5137,7 +5141,7 @@ async function load(settings, onChange) {
 						if ($targetInput.data('materialize-color-picker-initialized')){
 							$targetInput.colorpicker('show');
 						}
-					} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const' && dialogDeviceEditStatesTable[stateIndex].commonType == 'array') { //const + array - open editArray dialog
+					} else if (dialogDeviceEditStatesTable[stateIndex].commonType == 'array') { //const + array - open editArray dialog
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
 							var stateIndex = $('#dialogDeviceEditStateArrayIndex').val();
 							var newVal = {cols: $('#tableDialogDeviceEditStateArray').data('cols'), values: dialogDeviceEditStateArrayTable};
