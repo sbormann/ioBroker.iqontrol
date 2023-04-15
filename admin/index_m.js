@@ -2266,7 +2266,7 @@ var iQontrolRolesStandardDeviceStates = {
 			{col: "caption", colheader: "Caption (only for Buttons)", description: "", commonType: "option"},
 			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
 			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
-			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "icon", colheader: "Icon " + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
 			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
 			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
@@ -2282,7 +2282,7 @@ var iQontrolRolesStandardDeviceStates = {
 			{col: "caption", colheader: "Caption (only for Buttons)", description: "", commonType: "option"},
 			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
 			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
-			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "icon", colheader: "Icon " + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
 			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
 			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
@@ -2329,7 +2329,7 @@ var iQontrolRolesStandardDeviceStates = {
 		commonRole: "const",
 		defaultArrayCols: [
 			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
-			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "icon", colheader: "Icon " + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
 			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
 			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
@@ -2369,7 +2369,7 @@ var iQontrolRolesStandardDeviceStates = {
 		commonRole: "const",
 		defaultArrayCols: [
 			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
-			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "icon", colheader: "Icon " + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
 			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
 			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
@@ -2381,7 +2381,7 @@ var iQontrolRolesStandardDeviceStates = {
 		commonRole: "const",
 		defaultArrayCols: [
 			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
-			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "icon", colheader: "Icon " + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
 			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
 			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
@@ -2488,7 +2488,7 @@ var iQontrolRolesStandardDeviceStates = {
 			{col: "caption", colheader: "Caption (only for Buttons)", description: "", commonType: "option"},
 			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
 			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
-			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "icon", colheader: "Icon " + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
 			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
 			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
@@ -2503,7 +2503,7 @@ var iQontrolRolesStandardDeviceStates = {
 			{col: "hideName", colheader: "Hide Name", description: "", commonType: "checkbox"},
 			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
 			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
-			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "icon", colheader: "Icon " + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
 			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
 			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
@@ -2828,6 +2828,10 @@ function md5(inputString) {
         b=ii(b,c,d,a,x[i+ 9],21, -343485551);a=ad(a,olda);b=ad(b,oldb);c=ad(c,oldc);d=ad(d,oldd);
     }
     return rh(a)+rh(b)+rh(c)+rh(d);
+}
+
+function capitalize(string){
+	return string.substring(0, 1).toUpperCase() + string.substring(1);
 }
 
 function scrollTo(target, speed, delay){
@@ -10089,6 +10093,374 @@ async function load(settings, onChange) {
 				alert(_("Error: Invalid data."));
 			}
 		});
+	});
+
+	//TileEditor
+	var tileEditor = {};
+	var dialogTileEditorSelectedPosition = -1;
+	var colors = [
+		"rgba(255, 0, 0, 0.5)",
+		"rgba(255, 127, 0, 0.5)",
+		"rgba(255, 255, 0, 0.5)",
+		"rgba(127, 255, 0, 0.5)",
+		"rgba(0, 255, 0, 0.5)",
+		"rgba(0, 255, 127, 0.5)",
+		"rgba(0, 255, 255, 0.5)",
+		"rgba(0, 127, 255, 0.5)",
+		"rgba(0, 0, 255, 0.5)",
+		"rgba(127, 0, 255, 0.5)",
+		"rgba(255, 0, 255, 0.5)",
+		"rgba(255, 0, 127, 0.5)",
+		"rgba(255, 51, 51, 0.5)"
+	];
+	//Open tileEditor
+	$('#optionsTileEditor').on('click', function(){
+		initDialog('dialogTileEditor', function(){ //save dialog 
+			//var cssArray = dialogTileEditorCreateCssArrayFromOptions(options);
+		 //xxxxxxx
+		}, function(){ //init dialog function 
+			tileEditor.tile = {'border-top-left-radius': 15, 'border-top-right-radius': 15, 'border-bottom-left-radius': 15, 'border-bottom-right-radius': 15};
+			tileEditor.positions = [{name: "Icon"}]; //xxxxxxx
+			dialogTileEditorInit();
+		});
+	});
+	//Init
+	function dialogTileEditorInit(){
+		$('#dialogTileEditorDemoTile').html('');
+		$('#dialogTileEditorPositionsList').html('');
+		$('#tabDialogTileEditorPositionEditContainer').hide();
+		$('.tabDialogTileEditorTileBorderRadius').each(function(){
+			var selector = 'border-';
+			if($(this).hasClass('top')) selector += "top-"; else selector += "bottom-";
+			if($(this).hasClass('left')) selector += "left-"; else selector += "right-";
+			selector += 'radius';
+			$(this).val(tileEditor.tile[selector] || 15).trigger('change');
+		});
+		tileEditor.positions.forEach(function(position, positionIndex){
+			dialogTileEditorAddPosition(positionIndex, position);
+		});
+	}
+	//Tile
+	$('.tabDialogTileEditorTileSize').on('input change', function(){
+		$('#dialogTileEditorDemoTile').css($(this).data('mode'), 110 * $(this).val());
+	});
+	$('#tabDialogTileEditorTileScale').on('input change', function(){
+		$('#dialogTileEditorDemoTile').data('scale', $(this).val()).css('transform', `scale(${$(this).val()})`);
+	});
+	$('.tabDialogTileEditorTileBorderRadius').on('input change', function(){ //xxxxx daten übernehmen
+		var selector = 'border-';
+		if($(this).hasClass('top')) selector += "top-"; else selector += "bottom-";
+		if($(this).hasClass('left')) selector += "left-"; else selector += "right-";
+		selector += 'radius';
+		$('#dialogTileEditorDemoTile').css(selector, $(this).val() + 'px');
+	});
+	$('#dialogTileEditorDemoTile').on('click touchstart', function(){
+		dialogTileEditorSelectPosition(-1);
+	});
+	//Position
+	$('#tabDialogTileEditorAddPosition').on('click', dialogTileEditorAddPosition);
+	function dialogTileEditorAddPosition(index, options){
+		index = typeof index == "number" ? index : tileEditor.positions.length;
+		var defaultOptions = {
+			name: "Position " + index,
+			horizontalMode: 'left',
+			horizontalValue: index * 10,
+			horizontalUnit: 'px',
+			widthMode: 'normal',
+			widthValue: 65,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: index * 10,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 20,
+			heightUnit: 'px'
+		};
+		options = Object.assign({}, defaultOptions || {}, options);
+		tileEditor.positions[index] = options;
+		//Demo
+		var $newPosition = $(`<div id="dialogTileEditorDemoPosition_${index}" data-index="${index}" class="dialogTileEditorDemoPosition">${index}<span class="name small"></span><img src="corner_resize.png" class="resizeHandle"></div>`);
+		$newPosition.css('background', colors[index%colors.length]);
+		$('#dialogTileEditorDemoTile').append($newPosition);
+		dialogTileEditorEnableDraggable($newPosition);
+		//PositionList
+		var $li = $(`<li data-index="${index}"><b>${index}:&nbsp;</b><input style="width:80%;" value="${options.name}"></li>`)
+		.on('focusin', function(event){
+			if($(this).find('input').data('no-focus-callback')){
+				$(this).find('input').data('no-focus-callback', false);
+				return;
+			}
+			let index = $(this).data('index');
+			dialogTileEditorSelectPosition(index, 'li');
+		})
+		.on('change', function(){
+			let index = $(this).data('index');
+			dialogTileEditorStylePosition(index, {name: $(this).find('input').val()});
+			dialogTileEditorSelectPosition(-1);
+		});
+		$button = $(`<button title="Delete" data-index="${index}" class="tabDialogTileEditorRemovePosition btn-floating waves-effect waves-light btn-small"><i class="material-icons">delete</i></button>`)
+		.on('click', function(){
+			dialogTileEditorRemovePosition($(this).data('index'));
+		});
+		$li.append($button);
+		$('#dialogTileEditorPositionsList').append($li);
+		dialogTileEditorStylePosition(index, options);
+	}
+	function dialogTileEditorRemovePosition(index){
+		if(!confirm(_("Are you shure?"))) return;
+		tileEditor.positions.splice(index, 1);
+		dialogTileEditorInit();
+	}
+	function dialogTileEditorSelectPosition(index){ //this updates all inputs
+		dialogTileEditorSelectedPosition = index;
+		//Demo
+		$(`.dialogTileEditorDemoPosition`).removeClass('selected');
+		$(`.dialogTileEditorDemoPosition[data-index="${index}"]`).addClass('selected');
+		//List
+		$('#dialogTileEditorPositionsList li').removeClass('selected');
+		$(`#dialogTileEditorPositionsList li[data-index="${index}"]`).addClass('selected');
+		$(`#dialogTileEditorPositionsList li[data-index="${index}"] input`).data('no-focus-callback', true).focus();
+		//Edit
+		if(index > -1){
+			$('.tabDialogTileEditorSelectedPositionName').html(`<b>${index}${tileEditor.positions[index].name ? ':</b> ' + tileEditor.positions[index].name : '</b>'}`);
+			$('.tabDialogTileEditor.positionValue').each(function(){
+				var $this = $(this);
+				if($this.hasClass('position') || $this.hasClass('size')){
+					$this.val(tileEditor.positions[index][$this.data('direction') + capitalize($this.data('type'))] || 0);
+				}
+			});
+			$('select.tabDialogTileEditor.positionValue').select();
+			$('#tabDialogTileEditorPositionEditContainer').show();
+		} else {
+			$('#tabDialogTileEditorPositionEditContainer').hide();			
+		}
+	}
+	function dialogTileEditorStylePosition(index, options){
+		var options = Object.assign({}, tileEditor.positions[index] || {}, options || {});
+		$element = $(`.dialogTileEditorDemoPosition[data-index="${index}"]`);
+		$element.find('span.name').html(options.name ? '&nbsp;' + options.name : '');
+		var cssArray = dialogTileEditorCreateCssArrayFromOptions(options);
+		$element.data('css-array', cssArray);
+		$element.removeClass('anchorLeft anchorRight anchorTop anchorBottom');
+		(cssArray || []).forEach(function(css){
+			$element.css(css.attribute, css.value);
+			if(css.value && css.value != ""){
+				if(css.attribute == 'left') $element.addClass('anchorLeft');
+				else if(css.attribute == 'right') $element.addClass('anchorRight');
+				else if(css.attribute == 'top') $element.addClass('anchorTop');
+				else if(css.attribute == 'bottom') $element.addClass('anchorBottom');
+				if(css.attribute == 'left' && css.value.indexOf('calc') == 0) $element.addClass('anchorRight');
+				if(css.attribute == 'top' && css.value.indexOf('calc') == 0) $element.addClass('anchorBottom');
+			}
+		});
+		tileEditor.positions[index] = options;
+	}
+	function dialogTileEditorCreateCssArrayFromOptions(options){
+		options = options || {};
+		var cssArray = [];
+		var translateX = 0, translateY = 0;
+		//horizontal
+		if(options.horizontalMode == 'left'){
+			cssArray.push({
+				attribute: 'left', 
+				value: (options.horizontalValue || '0') + (options.horizontalUnit || 'px')
+			}, {
+				attribute: 'right',
+				value: ''
+			});
+			translateX = '0';
+		} else if(options.horizontalMode == 'right'){
+			cssArray.push({
+				attribute: 'right', 
+				value: (options.horizontalValue || '0') + (options.horizontalUnit || 'px')
+			}, {
+				attribute: 'left',
+				value: ''
+			});
+			translateX = '0'
+		} else if(options.horizontalMode == 'center'){
+			cssArray.push({
+				attribute: 'left', 
+				value: `calc(50% + ${(options.horizontalValue || '0')}${(options.horizontalUnit || 'px')})`
+			}, {
+				attribute: 'right',
+				value: ''
+			});	
+			translateX = '-50%';
+		}
+		//width
+		if(options.widthMode == 'normal'){
+			cssArray.push({
+				attribute: 'width', 
+				value: (options.widthValue || '0') + (options.widthUnit || 'px')
+			});	
+		} else if(options.widthMode == 'tileMinus'){
+			cssArray.push({
+				attribute: 'width', 
+				value: `calc(100% - ${(options.widthValue || '0')}${(options.widthUnit || 'px')})`
+			});	
+		}
+		//vertical
+		if(options.verticalMode == 'top'){
+			cssArray.push({
+				attribute: 'top', 
+				value: (options.verticalValue || '0') + (options.verticalUnit || 'px')
+			}, {
+				attribute: 'bottom',
+				value: ''
+			});
+			translateY = '0';
+		} else if(options.verticalMode == 'bottom'){
+			cssArray.push({
+				attribute: 'bottom', 
+				value: (options.verticalValue || '0') + (options.verticalUnit || 'px')
+			}, {
+				attribute: 'top',
+				value: ''
+			});
+			translateY = '0';
+		} else if(options.verticalMode == 'middle'){
+			cssArray.push({
+				attribute: 'top', 
+				value: `calc(50% + ${(options.verticalValue || '0')}${(options.verticalUnit || 'px')})`
+			}, {
+				attribute: 'bottom',
+				value: ''
+			});	
+			translateY = '-50%';
+		}
+		//height
+		if(options.heightMode == 'normal'){
+			cssArray.push({
+				attribute: 'height', 
+				value: (options.heightValue || '0') + (options.heightUnit || 'px')
+			});	
+		} else if(options.heightMode == 'tileMinus'){
+			cssArray.push({
+				attribute: 'height', 
+				value: `calc(100% - ${(options.heightValue || '0')}${(options.heightUnit || 'px')})`
+			});	
+		}
+		cssArray.push({
+			attribute: 'transform', 
+			value: `translate(${translateX}, ${translateY})`
+		});			
+		return cssArray;
+	}
+	function dialogTileEditorEnableDraggable($element) {
+		let offsetX, offsetY, initX, initY, initWidth, initHeight, resize, $active;
+		const $tile = $('#dialogTileEditorDemoTile');
+		function start(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			if(!$(this).hasClass('selected')){
+				dialogTileEditorSelectPosition($(this).data('index'));
+				return;
+			}
+			const tileScale = parseFloat($tile.data('scale')) || 1;
+			const target = e.target.className || '';
+			resize = target.indexOf('resizeHandle') > -1;
+			const event = e.type === "touchstart" ? e.originalEvent.touches[0] : e;
+			initX = event.pageX;
+			initY = event.pageY;
+			const pos = $(this).position();
+			offsetX = initX - pos.left;
+			offsetY = initY - pos.top;
+			initWidth = $(this).width();
+			initHeight = $(this).height();
+			$(this).addClass('dragActive');
+			$active = $(this);
+			const posX = pos.left / tileScale;
+			const posY = pos.top / tileScale;
+			$active.css({ left: posX, top: posY, transform: ''});
+		}
+		function move(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			if(!$active) return;
+			const tileScale = parseFloat($tile.data('scale')) || 1;
+			const event = e.type === "touchmove" ? e.originalEvent.touches[0] : e;
+			if(resize) {//resize
+				const deltaX = (event.pageX - initX) / tileScale;
+				const deltaY = (event.pageY - initY) / tileScale;
+				const newWidth = initWidth + deltaX;
+				const newHeight = initHeight + deltaY;
+				$active.css({ width: newWidth, height: newHeight });
+			} else {//move
+				const posX = (event.pageX - offsetX) / tileScale;
+				const posY = (event.pageY - offsetY) / tileScale;
+				$active.css({ left: posX, top: posY });
+			}
+		}
+		function end(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			$(this).removeClass('dragActive');
+			const tileScale = parseFloat($tile.data('scale')) || 1;
+			const tileWidth = $('#dialogTileEditorDemoTile').innerWidth();
+			const tileHeight = $('#dialogTileEditorDemoTile').innerHeight();
+			if($active){
+				let index = $active.data('index');
+				const position = $(this).position();
+				const dimensions = { width: $active.width(), height: $active.height() };
+				let directions = ['width', 'height'];
+				for(let i = 0; i < directions.length; i++){
+					let direction = directions[i];
+					let mode = tileEditor.positions[index][direction + 'Mode'];
+					let unit = tileEditor.positions[index][direction + 'Unit'];
+					let value = (direction == 'width' ? dimensions.width : dimensions.height);
+					let tileReference = (direction == 'width' ? tileWidth : tileHeight);
+					if(mode == 'normal'){
+						if(unit == '%') value = value * 100 / tileReference;
+					} else if(mode == 'tileMinus') {
+						if(unit == 'px') value = tileReference - value; 
+						else if(unit == '%') value = 100 * (tileReference - value) / tileReference; 
+					}
+					tileEditor.positions[index][direction + 'Value'] = Math.round(value);
+				}
+				directions = ['horizontal', 'vertical'];
+				for(let i = 0; i < directions.length; i++){
+					let direction = directions[i];
+					let mode = tileEditor.positions[index][direction + 'Mode'];
+					let unit = tileEditor.positions[index][direction + 'Unit'];
+					let value = (direction == 'horizontal' ? position.left / tileScale : position.top / tileScale);
+					if(mode == 'left' || mode == 'top'){
+						let tileReference = (mode == 'left' ? tileWidth : tileHeight);
+						if(unit == '%') value = value * 100 / tileReference;
+					} else if (mode == 'right' || mode == 'bottom') { 
+						let tileReference = (mode == 'right' ? tileWidth : tileHeight);
+						let elementReference = (mode == 'right' ? dimensions.width : dimensions.height);
+						if(unit == 'px') value = tileReference - (value + elementReference);
+						else if(unit == '%') value = 100 * (tileReference - (value + elementReference)) / tileReference;
+					} else if (mode == 'center' || mode == 'middle'){
+						let tileReference = (mode == 'center' ? tileWidth : tileHeight);
+						let elementReference = (mode == 'center' ? dimensions.width : dimensions.height);
+						if(unit == 'px') value = value + (elementReference/2) - (tileReference/2);
+						else if(unit == '%') value = 100 * (value + (elementReference/2) - (tileReference/2)) / tileReference;
+					}
+					tileEditor.positions[index][direction + 'Value'] = Math.round(value);
+				}
+				dialogTileEditorSelectPosition(index);
+				dialogTileEditorStylePosition(index);
+			}
+			$active = false;
+		}
+		$element.on("mousedown touchstart", start);
+		$element.on("mousemove touchmove", move);
+		$tile.on("mousemove touchmove", move);
+		$element.on("mouseup click touchend", end);
+		$tile.on("mouseup mouseleave click touchend", end);
+	}
+	$('.tabDialogTileEditor.positionValue').on('change', function(){
+		var options = {};
+		var index = dialogTileEditorSelectedPosition;
+		var $this = $(this);
+		if($this.hasClass('position')){
+			options[$this.data('direction') + capitalize($this.data('type'))] = $this.val();
+		} else if($this.hasClass('size')){
+			options[$this.data('direction') + capitalize($this.data('type'))] = $this.val();
+		}
+		dialogTileEditorStylePosition(index, options)
 	});
 }
 

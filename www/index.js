@@ -7908,14 +7908,12 @@ function applyViewAdaptHeightOrMarqueeObserver(){
 		viewAdaptHeightOrMarqueeObserver.disconnect();
 	} else {
 		viewAdaptHeightOrMarqueeObserver = new MutationObserver(function(mutationList){
-			console.debug('Mutation Observer!!!');
 			if(typeof mutationList[0] == udef || typeof mutationList[0].addedNodes[0] == udef || typeof mutationList[0].addedNodes[0].className == udef || mutationList[0].addedNodes[0].className != "js-marquee"){ //check if the mutation is fired by marquee itself
 				if(!($(mutationList[0].target).data('marquee-disabled') == "true")) adaptHeightOrStartMarqueeOnOverflow($(mutationList[0].target));
 			}
 		});
 	}
 	$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText, .iQontrolDeviceBadge').each(function(){ //######
-		console.log("Observe: " + this.className + JSON.stringify(this.dataset));
 		viewAdaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
 		adaptHeightOrStartMarqueeOnOverflow($(this));
 	});
@@ -7930,14 +7928,12 @@ function applyViewAdaptHeightOrMarqueeObserver(){
 function adaptHeightOrStartMarqueeOnOverflow($element){
 	if(!$element) return;
 	var element = $element.get(0);
-	console.log("adaptHeightOrStartMarqueeOnOverflow: " + element.className + JSON.stringify(element.dataset));
 	if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
 	if($element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfInactive') || $element.hasClass('adaptsHeightIfActive')){ //adapt height
 		console.log("adaptHeight: " + element.className + JSON.stringify(element.dataset));
 		//Shuffle two times
 		viewShuffleReshuffle([100, 1250]);
 	} else if(!options.LayoutViewMarqueeDisabled && (element.scrollHeight > $element.innerHeight() || element.scrollWidth > $element.innerWidth())) { //element has overflowing content
-		console.log("Starting marquee: " + element.className + JSON.stringify(element.dataset));
 		var direction = 'left';
 		var speed = (Number(options.LayoutViewMarqueeSpeed) || 40);
 		if($element.innerHeight() > 2 * (parseInt($element.css('line-height'), 10) || 25)){
@@ -14817,7 +14813,7 @@ function UIElements(initialUiElements) {
 		return this;
 	}
 
-	//---------- ElementStack ----------
+	//---------- ElementStackContainer ----------
 	this.newElementStackContainer = function(device, uiElementOptions){
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
 		if(!this.uiElementStacks.stacks) this.uiElementStacks.stacks = {};
@@ -15103,10 +15099,10 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 	fetchConfig(getNamespace(deviceId), function(){
 		var device = getDevice(deviceId);
 		actualDialogId = deviceId;
-//		dialogUpdateFunctions = {};
-//		dialogStateIdsToFetch = [];
-//		dialogLinkedStateIdsToUpdate = [];
-//		var dialogBindingFunctions = [];
+		//		dialogUpdateFunctions = {};
+		//		dialogStateIdsToFetch = [];
+		//		dialogLinkedStateIdsToUpdate = [];
+		//		var dialogBindingFunctions = [];
 		var dialogReadonly = getDeviceOptionValue(device, "readonly") == "true";
 		var dialogContentCountAfterHR = 0;
 		addDeviceCollection('dialog', '#DialogContent', deviceId, device, {
@@ -16087,3 +16083,4 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 
 	});
 }
+

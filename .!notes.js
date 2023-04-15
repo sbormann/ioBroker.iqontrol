@@ -44,27 +44,15 @@ const { endianness } = require("os");
 
 * Makro??? Elements mit Array??: Add INFO_A, Add INFO_B??? StateAdaptsHeight: Text ist im iconText des DeviceIcons
 
-* <Role>.states -> <Role>.deviceStateDefinitions
-
-* <Role>.deviceStateDefinitions.states => <device>.deviceStates: [{
-		commonName: "", 
-		commonType: "string|color|url|view", 
-		commonRole: "linkedState|calc|const", 
-		defaultValue: "", 
-		description: "", 
-		groupName: "",
-		editable: false
-	}, ...]
-
-* <Role>.deviceStateDefinitions.tileUiElementStacks => <device>.tileUiElementStacks
- & <Role>.deviceStateDefinitions.aboveTileUiElementStacks => <device>.aboveTileUiElementStacks
- & <Role>.deviceStateDefinitions.behindTileUiElementStacks => <device>.behindTileUiElementStacks: [{
+* <Role>.tile.tileUiElementStacks => <device>.tileUiElementStacks
+ & <Role>.tile.aboveTileUiElementStacks => <device>.aboveTileUiElementStacks
+ & <Role>.tile.behindTileUiElementStacks => <device>.behindTileUiElementStacks: [{
 	name: "INFO_A",
 	positionClass:  "Default Tile Definition.INFO_A",
 	uiElements: [{uiElement: "iconText", uiElementOptions: {}}, ...]
 }]
 
-* <Role>.deviceStateDefinitions.dialogUiElementStacks: 
+* <Role>.dialog.dialogUiElementStacks: 
 
 * tilePositionClasses = [{
 		groupname: "Default Tile Definition",
