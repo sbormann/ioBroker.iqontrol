@@ -874,6 +874,10 @@ var channelDetectorMatchTable = {
 						}
 }
 
+var uiElementOptions = {
+	icon: {},
+}
+
 var iQontrolRoles = {
 	"iQontrolView": {
 		name: "Link to other view",
@@ -10098,7 +10102,7 @@ async function load(settings, onChange) {
 	//TileEditor
 	var tileEditor = {};
 	var dialogTileEditorSelectedPosition = -1;
-	var colors = [
+	var dialogTileEditorColors = [
 		"rgba(255, 0, 0, 0.5)",
 		"rgba(255, 127, 0, 0.5)",
 		"rgba(255, 255, 0, 0.5)",
@@ -10113,14 +10117,169 @@ async function load(settings, onChange) {
 		"rgba(255, 0, 127, 0.5)",
 		"rgba(255, 51, 51, 0.5)"
 	];
+	var standardTile = {
+		tile: {'border-top-left-radius': 15, 'border-top-right-radius': 15, 'border-bottom-left-radius': 15, 'border-bottom-right-radius': 15},
+		positions: [
+			{	
+				name: "FullSizeState",
+				horizontalMode: 'left',
+				horizontalValue: 0,
+				horizontalUnit: 'px',
+				widthMode: 'normal',
+				widthValue: 100,
+				widthUnit: '%',
+				verticalMode: 'top',
+				verticalValue: 0,
+				verticalUnit: 'px',
+				heightMode: 'normal',
+				heightValue: 100,
+				heightUnit: '%',
+				elements: []
+			}, {	
+				name: "Icon",
+				horizontalMode: 'left',
+				horizontalValue: 8,
+				horizontalUnit: 'px',
+				widthMode: 'normal',
+				widthValue: 38,
+				widthUnit: 'px',
+				verticalMode: 'top',
+				verticalValue: 8,
+				verticalUnit: 'px',
+				heightMode: 'normal',
+				heightValue: 38,
+				heightUnit: 'px',
+				elements: []
+			}, {	
+				name: "Loading",
+				horizontalMode: 'left',
+				horizontalValue: 15,
+				horizontalUnit: 'px',
+				widthMode: 'normal',
+				widthValue: 24,
+				widthUnit: 'px',
+				verticalMode: 'top',
+				verticalValue: 15,
+				verticalUnit: 'px',
+				heightMode: 'normal',
+				heightValue: 24,
+				heightUnit: 'px',
+				elements: []
+			}, {	
+				name: "Error",
+				horizontalMode: 'left',
+				horizontalValue: 52,
+				horizontalUnit: 'px',
+				widthMode: 'normal',
+				widthValue: 16,
+				widthUnit: 'px',
+				verticalMode: 'top',
+				verticalValue: 2,
+				verticalUnit: 'px',
+				heightMode: 'normal',
+				heightValue: 16,
+				heightUnit: 'px',
+				elements: []
+			}, {	
+				name: "Unreach",
+				horizontalMode: 'left',
+				horizontalValue: 68,
+				horizontalUnit: 'px',
+				widthMode: 'normal',
+				widthValue: 16,
+				widthUnit: 'px',
+				verticalMode: 'top',
+				verticalValue: 2,
+				verticalUnit: 'px',
+				heightMode: 'normal',
+				heightValue: 16,
+				heightUnit: 'px',
+				elements: []
+			}, {	
+				name: "Battery",
+				horizontalMode: 'left',
+				horizontalValue: 84,
+				horizontalUnit: 'px',
+				widthMode: 'normal',
+				widthValue: 16,
+				widthUnit: 'px',
+				verticalMode: 'top',
+				verticalValue: 2,
+				verticalUnit: 'px',
+				heightMode: 'normal',
+				heightValue: 16,
+				heightUnit: 'px',
+				elements: []
+			}, {	
+				name: "INFO_A",
+				horizontalMode: 'left',
+				horizontalValue: 52,
+				horizontalUnit: 'px',
+				widthMode: 'tileMinus',
+				widthValue: 52,
+				widthUnit: 'px',
+				verticalMode: 'top',
+				verticalValue: 20,
+				verticalUnit: 'px',
+				heightMode: 'normal',
+				heightValue: 12,
+				heightUnit: 'px',
+				elements: []
+			}, {	
+				name: "INFO_B",
+				horizontalMode: 'left',
+				horizontalValue: 52,
+				horizontalUnit: 'px',
+				widthMode: 'tileMinus',
+				widthValue: 52,
+				widthUnit: 'px',
+				verticalMode: 'top',
+				verticalValue: 38,
+				verticalUnit: 'px',
+				heightMode: 'normal',
+				heightValue: 12,
+				heightUnit: 'px',
+				elements: []
+			}, {	
+				name: "Name",
+				horizontalMode: 'left',
+				horizontalValue: 8,
+				horizontalUnit: 'px',
+				widthMode: 'tileMinus',
+				widthValue: 8,
+				widthUnit: 'px',
+				verticalMode: 'top',
+				verticalValue: 58,
+				verticalUnit: 'px',
+				heightMode: 'normal',
+				heightValue: 30,
+				heightUnit: 'px',
+				elements: []
+			}, {	
+				name: "State",
+				horizontalMode: 'left',
+				horizontalValue: 8,
+				horizontalUnit: 'px',
+				widthMode: 'tileMinus',
+				widthValue: 8,
+				widthUnit: 'px',
+				verticalMode: 'top',
+				verticalValue: 90,
+				verticalUnit: 'px',
+				heightMode: 'tileMinus',
+				heightValue: 90,
+				heightUnit: 'px',
+				elements: []
+			}
+		]
+	}
 	//Open tileEditor
 	$('#optionsTileEditor').on('click', function(){
 		initDialog('dialogTileEditor', function(){ //save dialog 
 			//var cssArray = dialogTileEditorCreateCssArrayFromOptions(options);
 		 //xxxxxxx
 		}, function(){ //init dialog function 
-			tileEditor.tile = {'border-top-left-radius': 15, 'border-top-right-radius': 15, 'border-bottom-left-radius': 15, 'border-bottom-right-radius': 15};
-			tileEditor.positions = [{name: "Icon"}]; //xxxxxxx
+			tileEditor = JSON.parse(JSON.stringify(standardTile)); //xxxxxxx
 			dialogTileEditorInit();
 		});
 	});
@@ -10128,7 +10287,7 @@ async function load(settings, onChange) {
 	function dialogTileEditorInit(){
 		$('#dialogTileEditorDemoTile').html('');
 		$('#dialogTileEditorPositionsList').html('');
-		$('#tabDialogTileEditorPositionEditContainer').hide();
+		$('.tabDialogTileEditorEditContainer').hide();
 		$('.tabDialogTileEditorTileBorderRadius').each(function(){
 			var selector = 'border-';
 			if($(this).hasClass('top')) selector += "top-"; else selector += "bottom-";
@@ -10154,7 +10313,7 @@ async function load(settings, onChange) {
 		selector += 'radius';
 		$('#dialogTileEditorDemoTile').css(selector, $(this).val() + 'px');
 	});
-	$('#dialogTileEditorDemoTile').on('click touchstart', function(){
+	$('#dialogTileEditorDemoTile, #dialogTileEditorDemoBackground').on('click touchstart', function(){
 		dialogTileEditorSelectPosition(-1);
 	});
 	//Position
@@ -10180,29 +10339,37 @@ async function load(settings, onChange) {
 		tileEditor.positions[index] = options;
 		//Demo
 		var $newPosition = $(`<div id="dialogTileEditorDemoPosition_${index}" data-index="${index}" class="dialogTileEditorDemoPosition">${index}<span class="name small"></span><img src="corner_resize.png" class="resizeHandle"></div>`);
-		$newPosition.css('background', colors[index%colors.length]);
+		$newPosition.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
 		$('#dialogTileEditorDemoTile').append($newPosition);
 		dialogTileEditorEnableDraggable($newPosition);
 		//PositionList
-		var $li = $(`<li data-index="${index}"><b>${index}:&nbsp;</b><input style="width:80%;" value="${options.name}"></li>`)
-		.on('focusin', function(event){
-			if($(this).find('input').data('no-focus-callback')){
-				$(this).find('input').data('no-focus-callback', false);
-				return;
-			}
-			let index = $(this).data('index');
-			dialogTileEditorSelectPosition(index, 'li');
-		})
-		.on('change', function(){
-			let index = $(this).data('index');
-			dialogTileEditorStylePosition(index, {name: $(this).find('input').val()});
-			dialogTileEditorSelectPosition(-1);
-		});
-		$button = $(`<button title="Delete" data-index="${index}" class="tabDialogTileEditorRemovePosition btn-floating waves-effect waves-light btn-small"><i class="material-icons">delete</i></button>`)
-		.on('click', function(){
-			dialogTileEditorRemovePosition($(this).data('index'));
-		});
-		$li.append($button);
+		var $li = $(`<li class="collection-item avatar valign-wrapper" data-index="${index}"></li>`)
+			.on('click', function(){
+				if($(this).hasClass('selected')) dialogTileEditorSelectPosition(-1); else dialogTileEditorSelectPosition($(this).data('index'));
+			});
+		var $avatar = $(`<div class="circle" style="font-size: 18px; font-weight: bold; line-height: 42px; text-align: center; color: white; text-shadow: 0px 0px 2px black;">${index}</div>`)
+			.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length])
+			.appendTo($li);
+		var $input = $(`<input data-index="${index}" value="${options.name}" style="width: calc(100% - 60px);">`)
+			.on('change', function(){
+				dialogTileEditorStylePosition($(this).data('index'), {name: $(this).val()});
+				dialogTileEditorSelectPosition(-1);
+			})
+			.appendTo($li);
+		var $secondaryContent = $('<div class="secondary-content"></div>');
+		var $visiblility = $(`<a title="Visibility" data-index="${index}" data-value="0" class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">visibility</i></a>`)
+			.on('click', function(){
+				visibility = ($(this).data('value') + 1) % 3;
+				$(this).data('value', visibility).find('i').css('opacity', visibility == 1 ? '0.4' : '1').html(visibility == 2 ? 'visibility_off' : 'visibility');
+				$(`.dialogTileEditorDemoPosition[data-index="${$(this).data('index')}"]`).css('opacity', visibility == 1 ? '0.3' : '1').css('display', visibility == 2 ? 'none' : 'block');
+			})
+			.appendTo($secondaryContent);
+		var $delete = $(`<a title="Delete" data-index="${index}" class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">delete</i></a>`)
+			.on('click', function(){
+				dialogTileEditorRemovePosition($(this).data('index'));
+			})
+			.appendTo($secondaryContent);
+		$secondaryContent.appendTo($li);
 		$('#dialogTileEditorPositionsList').append($li);
 		dialogTileEditorStylePosition(index, options);
 	}
@@ -10219,7 +10386,7 @@ async function load(settings, onChange) {
 		//List
 		$('#dialogTileEditorPositionsList li').removeClass('selected');
 		$(`#dialogTileEditorPositionsList li[data-index="${index}"]`).addClass('selected');
-		$(`#dialogTileEditorPositionsList li[data-index="${index}"] input`).data('no-focus-callback', true).focus();
+		$(`#dialogTileEditorPositionsList li[data-index="${index}"] input`).focus();
 		//Edit
 		if(index > -1){
 			$('.tabDialogTileEditorSelectedPositionName').html(`<b>${index}${tileEditor.positions[index].name ? ':</b> ' + tileEditor.positions[index].name : '</b>'}`);
@@ -10230,9 +10397,9 @@ async function load(settings, onChange) {
 				}
 			});
 			$('select.tabDialogTileEditor.positionValue').select();
-			$('#tabDialogTileEditorPositionEditContainer').show();
+			$('.tabDialogTileEditorEditContainer').show();
 		} else {
-			$('#tabDialogTileEditorPositionEditContainer').hide();			
+			$('.tabDialogTileEditorEditContainer').hide();			
 		}
 	}
 	function dialogTileEditorStylePosition(index, options){

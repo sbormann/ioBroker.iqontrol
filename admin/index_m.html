@@ -3004,6 +3004,10 @@
 									<thead>
 										<tr>
 											<th data-name="state" class="translate">State</th>
+											<th data-name="description" class="hideCol" style="display:none;" data-tdstyle="display:none;">Description</th>
+											<th data-name="groupName" class="hideCol" style="display:none;" data-tdstyle="display:none;">Group Name</th>
+											<th data-name="arrayKeys" class="hideCol" style="display:none;" data-tdstyle="display:none;">Default Array Keys</th>
+											<th data-name="userDefined" data-type="checkbox" class="hideCol" style="display:none;" data-tdstyle="display:none;">userDefined</th>
 											<th data-name="commonType" data-type="select" data-options="string/String;icon/Icon;color/Color;url/URL;view/View;array/Array" class="translate">Type</th>
 											<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant;calc/Calculation" class="translate">Role</th>
 											<th data-name="value" class="translate">Value</th>
@@ -3368,6 +3372,7 @@
 							<li class="tab"><a href="#tabDialogTileEditorTile" class="translate active">Tile</a></li>
 							<li class="tab"><a href="#tabDialogTileEditorPositions" class="translate">Positions</a></li>
 							<li class="tab"><a href="#tabDialogTileEditorPositionEdit" class="translate">Edit Position</a></li>
+							<li class="tab"><a href="#tabDialogTileEditorElementEdit" class="translate">Edit Elements</a></li>
 						</ul>
 						<div id="tabDialogTileEditorTile" class="col s12">
 							<div class="row">
@@ -3402,10 +3407,10 @@
 						</div>
 						<div id="tabDialogTileEditorPositions" class="col s12">
 							<button id="tabDialogTileEditorAddPosition" title="Add" class="btn-floating waves-effect waves-light btn-small grey lighten-2"><i class="material-icons">add</i></button>
-							<ul id="dialogTileEditorPositionsList"></ul>
+							<ul id="dialogTileEditorPositionsList" class="collection"></ul>
 						</div>
 						<div id="tabDialogTileEditorPositionEdit" class="col s12">
-							<div id="tabDialogTileEditorPositionEditContainer">
+							<div class="tabDialogTileEditorEditContainer">
 								<div class="row">
 									<div class="col s12">
 										<h6 class="title"><span class="tabDialogTileEditorSelectedPositionName"></span></h6>
@@ -3513,6 +3518,20 @@
 										</div>
 									</div>
 								</div>									
+							</div>
+						</div>
+						<div id="tabDialogTileEditorElementEdit" class="col s12">
+							<div class="tabDialogTileEditorEditContainer">
+								<div class="row">
+									<div class="col s12">
+										<h6 class="title"><span class="tabDialogTileEditorSelectedPositionName"></span></h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col s12 m12 l6">
+										<p class="translate">xxx:</p>
+									</div>
+								</div>																
 							</div>
 						</div>
 					</div>
