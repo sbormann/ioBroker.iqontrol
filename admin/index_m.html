@@ -3370,7 +3370,7 @@
 					<div class="col s12 m6 l8 tabcontainer" style="height: 80%; overflow-y: auto;">
 						<ul class="tabs">
 							<li class="tab"><a href="#tabDialogTileEditorTile" class="translate active">Tile</a></li>
-							<li class="tab"><a href="#tabDialogTileEditorPositions" class="translate">Positions</a></li>
+							<li class="tab"><a href="#tabDialogTileEditorStacks" class="translate">Stacks</a></li>
 							<li class="tab"><a href="#tabDialogTileEditorPositionEdit" class="translate">Edit Position</a></li>
 							<li class="tab"><a href="#tabDialogTileEditorElementEdit" class="translate">Edit Elements</a></li>
 						</ul>
@@ -3378,42 +3378,70 @@
 							<div class="row">
 								<div class="input-field col s12 m6 l6">
 									<p class="translate">Horizontal Size:</p>
-									<input type="range" id="tabDialogTileEditorTileHorizontalSize" class="tabDialogTileEditorTileSize" data-mode="width" min="0.5" max="3" step="0.5" list="tabDialogTileEditorTileHorizontalSizeAllowed" value="1">
-									<datalist id="tabDialogTileEditorTileHorizontalSizeAllowed"><option value="0.5"><option value="1"><option value="2"><option value="3"></datalist>
+									<p class="range-field"><input type="range" id="tabDialogTileEditorTileHorizontalSize" class="tabDialogTileEditorTileSize" data-mode="width" min="0.5" max="3" step="0.5" value="1"></p>
 								</div>
 								<div class="input-field col s12 m6 l6">
 									<p class="translate">Vertical Size:</p>
-									<input type="range" id="tabDialogTileEditorTileVerticalSize" class="tabDialogTileEditorTileSize" data-mode="height" min="0.5" max="3" step="0.5" list="tabDialogTileEditorTileVerticalSizeAllowed" value="1">
-									<datalist id="tabDialogTileEditorTileVerticalSizeAllowed"><option value="0.5"><option value="1"><option value="2"><option value="3"></datalist>
+									<p class="range-field"><input type="range" id="tabDialogTileEditorTileVerticalSize" class="tabDialogTileEditorTileSize" data-mode="height" min="0.5" max="3" step="0.5" value="1"></p>
 								</div>
-							</div>
-							<div class="row">
 								<div class="input-field col s12 m6 l6">
 									<p class="translate">Zoom:</p>
 									<input type="range" id="tabDialogTileEditorTileScale" class="tabDialogTileEditorTileScale" data-mode="width" min="0.5" max="5" step="0.1" value="3">
 								</div>
 							</div>
 							<div class="row">
-								<div class="input-field col s12 m6 l6">
-									<p class="translate">Border Radius:</p>
-									<p class="range-field">
-										<input type="range" id="tabDialogTileEditorTileBorder-Top-Left-Radius" class="tabDialogTileEditorTileBorderRadius top left" min="0" max="100" />
-										<input type="range" id="tabDialogTileEditorTileBorder-Top-Right-Radius" class="tabDialogTileEditorTileBorderRadius top right" min="0" max="100" />
-										<input type="range" id="tabDialogTileEditorTileBorder-Bottom-Left-Radius" class="tabDialogTileEditorTileBorderRadius bottom left" min="0" max="100" />
-										<input type="range" id="tabDialogTileEditorTileBorder-Bottom-Right-Radius" class="tabDialogTileEditorTileBorderRadius bottom right" min="0" max="100" />
-									</p>
+								<div class="col s12">
+									<p class="translate sub-title">Border Radius:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<p class="range-field"><input type="range" class="tabDialogTileEditorTileBorderRadius" data-direction="top-left" data-type="value" min="0" max="100" /></p>
+								</div>
+								<div class="input-field col s12 m6 l2">
+									<select class="tabDialogTileEditorTileBorderRadius" data-direction="top-left" data-type="unit">
+										<option value="px" class="Translate">px</option>
+										<option value="%" class="Translate">%</option>
+									</select>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<p class="range-field"><input type="range" class="tabDialogTileEditorTileBorderRadius" data-direction="top-right" data-type="value" min="0" max="100" /></p>
+								</div>
+								<div class="input-field col s12 m6 l2">
+									<select class="tabDialogTileEditorTileBorderRadius" data-direction="top-right" data-type="unit">
+										<option value="px" class="Translate">px</option>
+										<option value="%" class="Translate">%</option>
+									</select>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<p class="range-field"><input type="range" class="tabDialogTileEditorTileBorderRadius" data-direction="bottom-left" data-type="value" min="0" max="100" /></p>
+								</div>
+								<div class="input-field col s12 m6 l2">
+									<select class="tabDialogTileEditorTileBorderRadius" data-direction="bottom-left" data-type="unit">
+										<option value="px" class="Translate">px</option>
+										<option value="%" class="Translate">%</option>
+									</select>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<p class="range-field"><input type="range" class="tabDialogTileEditorTileBorderRadius" data-direction="bottom-right" data-type="value" min="0" max="100" /></p>
+								</div>
+								<div class="input-field col s12 m6 l2">
+									<select class="tabDialogTileEditorTileBorderRadius" data-direction="bottom-right" data-type="unit">
+										<option value="px" class="Translate">px</option>
+										<option value="%" class="Translate">%</option>
+									</select>
 								</div>
 							</div>
 						</div>
-						<div id="tabDialogTileEditorPositions" class="col s12">
-							<button id="tabDialogTileEditorAddPosition" title="Add" class="btn-floating waves-effect waves-light btn-small grey lighten-2"><i class="material-icons">add</i></button>
-							<ul id="dialogTileEditorPositionsList" class="collection"></ul>
+						<div id="tabDialogTileEditorStacks" class="col s12">
+							<button id="tabDialogTileEditorAddStack" title="Add" class="btn-floating waves-effect waves-light btn-small grey lighten-2"><i class="material-icons">add</i></button>
+							<ul id="dialogTileEditorStackList" class="collection"></ul>
 						</div>
 						<div id="tabDialogTileEditorPositionEdit" class="col s12">
 							<div class="tabDialogTileEditorEditContainer">
 								<div class="row">
 									<div class="col s12">
-										<h6 class="title"><span class="tabDialogTileEditorSelectedPositionName"></span></h6>
+										<h6 class="title"><span class="tabDialogTileEditorSelectedStackName"></span></h6>
 									</div>
 								</div>
 								<div class="row">
@@ -3524,14 +3552,30 @@
 							<div class="tabDialogTileEditorEditContainer">
 								<div class="row">
 									<div class="col s12">
-										<h6 class="title"><span class="tabDialogTileEditorSelectedPositionName"></span></h6>
+										<h6 class="title"><span class="tabDialogTileEditorSelectedStackName"></span></h6>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col s12 m12 l6">
-										<p class="translate">xxx:</p>
+								<div class="col s12 scrollableTable" id="tableDialogTileEditorElements">
+									<div class="row">
+										<div class="col s2 m1 l1">
+											<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+												<i class="material-icons">add</i>
+											</button>
+										</div>
 									</div>
-								</div>																
+									<div class="col s12 m12 l12">
+										<table class="table-values highlight" style="width: 90%;">
+											<thead>
+												<tr>
+													<th data-name="commonType" data-type="select" data-options="icon/Icon;test/Text;iconTextCombination/Icon + Text" class="translate">Type</th>
+													<th data-name="commonName" class="translate">Name</th>
+													<th data-name="options" class="hideCol" style="display:none;" data-tdstyle="display:none;">Options</th>
+													<th data-buttons="edit delete drag_handle" style="width:135px;"></th>
+												</tr>
+											</thead>
+										</table>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -3539,6 +3583,36 @@
 			</div>
             <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">OK</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- ---------- DIALOG: TileEditorEditElementOptions ---------- -->
+        <div id="dialogTileEditorEditElementOptions" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogTileEditorEditElementIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit Elements Options:</span> <span id="dialogTileEditorEditElementOptionsName"></span></h6>
+                    </div>
+                </div>
+				<div class="col s12 scrollableTable wide" id="tableDialogTileEditorEditElementOptions">
+					<div class="col s12 m12 l12">
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="option" class="translate">Option</th>
+									<th data-name="value" class="translate">Value</th>
+									<th data-name="description" class="translate">Description</th>
+								</tr>
+							</thead>
+							<tbody></tbody>		
+						</table>
+					</div>
+				</div>
+			</div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
         </div>

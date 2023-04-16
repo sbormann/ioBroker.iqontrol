@@ -874,8 +874,19 @@ var channelDetectorMatchTable = {
 						}
 }
 
+//types: string, textarea, checkbox, select with selectOptions, deviceState, position
+//{option: "", description: "", type: "select", selectOptions: "", value: ""}
 var uiElementOptions = {
-	icon: {},
+	test: [
+		{option: "stackId", description: "asdf", type: "checkbox"},
+		{option: "stringX", description: "asdf", type: "string", value: "testString"},
+		{option: "textareaX", description: "asdf", type: "textarea", value: "function(test){ console.log(test); }"},
+		{option: "iconClasses", description: "jklö", type: "select", selectOptions: "a/A;b/B", value: "b"},
+	],
+	icon: [
+		{option: "stackId", description: "If multiple Elements share the same stackId they will be displayed one after another.", type: "checkbox"},
+		{option: "iconClasses", description: "jklö", type: "select", selectOptions: "a/A;b/B", value: "b"},
+	],
 }
 
 var iQontrolRoles = {
@@ -3787,6 +3798,9 @@ async function load(settings, onChange) {
 	//Init Colorpickers
 	initColorpickers(onChange);
 
+	//Init Materialize Ranges
+	M.Range.init(document.querySelectorAll("input[type=range]"));
+
 	//Enable insert variable in dialogDeviceEditStateConstant
 	$('#dialogDeviceEditStateConstantSelectId').on('click', function(){
 		$('#dialogSelectId').data('selectidfor', 'dialogDeviceEditStateConstantVariable');
@@ -5153,7 +5167,6 @@ async function load(settings, onChange) {
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
 							var stateIndex = $('#dialogDeviceEditStateArrayIndex').val();
 							var newVal = {cols: $('#tableDialogDeviceEditStateArray').data('cols'), values: dialogDeviceEditStateArrayTable};
-							//dialogDeviceEditStatesTable[stateIndex].value = newVal;
 							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(JSON.stringify(newVal)).trigger('change');
 						}, function(){ //init dialog function 
 							$('#dialogDeviceEditStateArrayName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
@@ -10099,9 +10112,10 @@ async function load(settings, onChange) {
 		});
 	});
 
-	//TileEditor
+
+	//---------- Tile Editor ----------
 	var tileEditor = {};
-	var dialogTileEditorSelectedPosition = -1;
+	var dialogTileEditorSelectedStack = -1;
 	var dialogTileEditorColors = [
 		"rgba(255, 0, 0, 0.5)",
 		"rgba(255, 127, 0, 0.5)",
@@ -10118,23 +10132,33 @@ async function load(settings, onChange) {
 		"rgba(255, 51, 51, 0.5)"
 	];
 	var standardTile = {
-		tile: {'border-top-left-radius': 15, 'border-top-right-radius': 15, 'border-bottom-left-radius': 15, 'border-bottom-right-radius': 15},
-		positions: [
+		tile: {
+			'border-top-left-radius': 15, 
+			'border-top-left-radius-unit': "px", 
+			'border-top-right-radius': 15, 
+			'border-top-right-radius-unit': "px", 
+			'border-bottom-left-radius': 15, 
+			'border-bottom-left-radius-unit': "px", 
+			'border-bottom-right-radius': 15,
+			'border-bottom-right-radius-unit': "px"
+		},
+		stacks: [
 			{	
 				name: "FullSizeState",
 				horizontalMode: 'left',
-				horizontalValue: 0,
+				horizontalValue: 6,
 				horizontalUnit: 'px',
-				widthMode: 'normal',
-				widthValue: 100,
-				widthUnit: '%',
+				widthMode: 'tileMinus',
+				widthValue: 6,
+				widthUnit: 'px',
 				verticalMode: 'top',
-				verticalValue: 0,
+				verticalValue: 6,
 				verticalUnit: 'px',
-				heightMode: 'normal',
-				heightValue: 100,
-				heightUnit: '%',
-				elements: []
+				heightMode: 'tileMinus',
+				heightValue: 6,
+				heightUnit: 'px',
+				elements: [{commonType:'iconTextCombination', commonName:'FullSizeState', options:[]}],
+				default: true
 			}, {	
 				name: "Icon",
 				horizontalMode: 'left',
@@ -10149,9 +10173,10 @@ async function load(settings, onChange) {
 				heightMode: 'normal',
 				heightValue: 38,
 				heightUnit: 'px',
-				elements: []
+				elements: [],
+				default: true
 			}, {	
-				name: "Loading",
+				name: "Busy",
 				horizontalMode: 'left',
 				horizontalValue: 15,
 				horizontalUnit: 'px',
@@ -10164,7 +10189,8 @@ async function load(settings, onChange) {
 				heightMode: 'normal',
 				heightValue: 24,
 				heightUnit: 'px',
-				elements: []
+				elements: [],
+				default: true
 			}, {	
 				name: "Error",
 				horizontalMode: 'left',
@@ -10179,7 +10205,8 @@ async function load(settings, onChange) {
 				heightMode: 'normal',
 				heightValue: 16,
 				heightUnit: 'px',
-				elements: []
+				elements: [],
+				default: true
 			}, {	
 				name: "Unreach",
 				horizontalMode: 'left',
@@ -10194,7 +10221,8 @@ async function load(settings, onChange) {
 				heightMode: 'normal',
 				heightValue: 16,
 				heightUnit: 'px',
-				elements: []
+				elements: [],
+				default: true
 			}, {	
 				name: "Battery",
 				horizontalMode: 'left',
@@ -10209,7 +10237,8 @@ async function load(settings, onChange) {
 				heightMode: 'normal',
 				heightValue: 16,
 				heightUnit: 'px',
-				elements: []
+				elements: [],
+				default: true
 			}, {	
 				name: "INFO_A",
 				horizontalMode: 'left',
@@ -10224,7 +10253,8 @@ async function load(settings, onChange) {
 				heightMode: 'normal',
 				heightValue: 12,
 				heightUnit: 'px',
-				elements: []
+				elements: [],
+				default: true
 			}, {	
 				name: "INFO_B",
 				horizontalMode: 'left',
@@ -10239,7 +10269,8 @@ async function load(settings, onChange) {
 				heightMode: 'normal',
 				heightValue: 12,
 				heightUnit: 'px',
-				elements: []
+				elements: [],
+				default: true
 			}, {	
 				name: "Name",
 				horizontalMode: 'left',
@@ -10254,7 +10285,8 @@ async function load(settings, onChange) {
 				heightMode: 'normal',
 				heightValue: 30,
 				heightUnit: 'px',
-				elements: []
+				elements: [],
+				default: true
 			}, {	
 				name: "State",
 				horizontalMode: 'left',
@@ -10269,7 +10301,8 @@ async function load(settings, onChange) {
 				heightMode: 'tileMinus',
 				heightValue: 90,
 				heightUnit: 'px',
-				elements: []
+				elements: [],
+				default: true
 			}
 		]
 	}
@@ -10284,21 +10317,25 @@ async function load(settings, onChange) {
 		});
 	});
 	//Init
-	function dialogTileEditorInit(){
+	function dialogTileEditorInit(noZoomReset){
 		$('#dialogTileEditorDemoTile').html('');
-		$('#dialogTileEditorPositionsList').html('');
+		$('#dialogTileEditorStackList').html('');
 		$('.tabDialogTileEditorEditContainer').hide();
 		$('.tabDialogTileEditorTileBorderRadius').each(function(){
-			var selector = 'border-';
-			if($(this).hasClass('top')) selector += "top-"; else selector += "bottom-";
-			if($(this).hasClass('left')) selector += "left-"; else selector += "right-";
-			selector += 'radius';
-			$(this).val(tileEditor.tile[selector] || 15).trigger('change');
+			let selector = 'border-' + $(this).data('direction') + '-radius';
+			let defaultValue = 15;
+			if($(this).data('type') == 'unit'){
+				selector += '-unit';
+				defaultValue = 'px';	
+			}
+			$(this).val(tileEditor.tile[selector] || defaultValue).trigger('change');
 		});
-		tileEditor.positions.forEach(function(position, positionIndex){
-			dialogTileEditorAddPosition(positionIndex, position);
+		tileEditor.stacks.forEach(function(stack, stackIndex){
+			dialogTileEditorAddStack(stackIndex, stack);
 		});
+		if(!noZoomReset) setTimeout(function(){ $('#tabDialogTileEditorTileScale').val($('#dialogTileEditorDemoBackground').width() * 0.0065).trigger('change'); }, 100);
 	}
+
 	//Tile
 	$('.tabDialogTileEditorTileSize').on('input change', function(){
 		$('#dialogTileEditorDemoTile').css($(this).data('mode'), 110 * $(this).val());
@@ -10306,22 +10343,25 @@ async function load(settings, onChange) {
 	$('#tabDialogTileEditorTileScale').on('input change', function(){
 		$('#dialogTileEditorDemoTile').data('scale', $(this).val()).css('transform', `scale(${$(this).val()})`);
 	});
-	$('.tabDialogTileEditorTileBorderRadius').on('input change', function(){ //xxxxx daten übernehmen
-		var selector = 'border-';
-		if($(this).hasClass('top')) selector += "top-"; else selector += "bottom-";
-		if($(this).hasClass('left')) selector += "left-"; else selector += "right-";
-		selector += 'radius';
-		$('#dialogTileEditorDemoTile').css(selector, $(this).val() + 'px');
+	$('.tabDialogTileEditorTileBorderRadius').on('input change', function(){ //xxxxx daten speichern
+		var selector = 'border-' + $(this).data('direction') + '-radius';
+		var value = $(`.tabDialogTileEditorTileBorderRadius[data-direction="${$(this).data('direction')}"][data-type="value"]`).val() || 0;
+		var unit = $(`.tabDialogTileEditorTileBorderRadius[data-direction="${$(this).data('direction')}"][data-type="unit"]`).val() || 'px';
+		$('#dialogTileEditorDemoTile').css(selector, value + unit);
+		tileEditor.tile[selector] = value;
+		tileEditor.tile[selector + '-unit'] = unit;
 	});
 	$('#dialogTileEditorDemoTile, #dialogTileEditorDemoBackground').on('click touchstart', function(){
-		dialogTileEditorSelectPosition(-1);
+		dialogTileEditorSelectStack(-1);
 	});
-	//Position
-	$('#tabDialogTileEditorAddPosition').on('click', dialogTileEditorAddPosition);
-	function dialogTileEditorAddPosition(index, options){
-		index = typeof index == "number" ? index : tileEditor.positions.length;
+
+	//Stacks
+	//--Add Stack
+	$('#tabDialogTileEditorAddStack').on('click', dialogTileEditorAddStack);
+	function dialogTileEditorAddStack(index, options){
+		index = typeof index == "number" ? index : tileEditor.stacks.length;
 		var defaultOptions = {
-			name: "Position " + index,
+			name: "Stack " + index,
 			horizontalMode: 'left',
 			horizontalValue: index * 10,
 			horizontalUnit: 'px',
@@ -10336,75 +10376,85 @@ async function load(settings, onChange) {
 			heightUnit: 'px'
 		};
 		options = Object.assign({}, defaultOptions || {}, options);
-		tileEditor.positions[index] = options;
+		tileEditor.stacks[index] = options;
 		//Demo
-		var $newPosition = $(`<div id="dialogTileEditorDemoPosition_${index}" data-index="${index}" class="dialogTileEditorDemoPosition">${index}<span class="name small"></span><img src="corner_resize.png" class="resizeHandle"></div>`);
-		$newPosition.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
-		$('#dialogTileEditorDemoTile').append($newPosition);
-		dialogTileEditorEnableDraggable($newPosition);
-		//PositionList
+		var $newStack = $(`<div id="dialogTileEditorDemoStack_${index}" data-index="${index}" class="dialogTileEditorDemoStack">${index}<span class="name small"></span><img src="corner_resize.png" class="resizeHandle"></div>`);
+		$newStack.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
+		$('#dialogTileEditorDemoTile').append($newStack);
+		dialogTileEditorEnableDraggable($newStack);
+		//Stacklist
 		var $li = $(`<li class="collection-item avatar valign-wrapper" data-index="${index}"></li>`)
 			.on('click', function(){
-				if($(this).hasClass('selected')) dialogTileEditorSelectPosition(-1); else dialogTileEditorSelectPosition($(this).data('index'));
+				if($(this).hasClass('selected')) dialogTileEditorSelectStack(-1); else dialogTileEditorSelectStack($(this).data('index'));
 			});
 		var $avatar = $(`<div class="circle" style="font-size: 18px; font-weight: bold; line-height: 42px; text-align: center; color: white; text-shadow: 0px 0px 2px black;">${index}</div>`)
 			.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length])
 			.appendTo($li);
 		var $input = $(`<input data-index="${index}" value="${options.name}" style="width: calc(100% - 60px);">`)
 			.on('change', function(){
-				dialogTileEditorStylePosition($(this).data('index'), {name: $(this).val()});
-				dialogTileEditorSelectPosition(-1);
+				dialogTileEditorStyleStack($(this).data('index'), {name: $(this).val()});
+				dialogTileEditorSelectStack(-1);
 			})
 			.appendTo($li);
 		var $secondaryContent = $('<div class="secondary-content"></div>');
 		var $visiblility = $(`<a title="Visibility" data-index="${index}" data-value="0" class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">visibility</i></a>`)
-			.on('click', function(){
+			.on('click', function(e){
+				e.preventDefault();
+				e.stopPropagation();
 				visibility = ($(this).data('value') + 1) % 3;
 				$(this).data('value', visibility).find('i').css('opacity', visibility == 1 ? '0.4' : '1').html(visibility == 2 ? 'visibility_off' : 'visibility');
-				$(`.dialogTileEditorDemoPosition[data-index="${$(this).data('index')}"]`).css('opacity', visibility == 1 ? '0.3' : '1').css('display', visibility == 2 ? 'none' : 'block');
+				$(`.dialogTileEditorDemoStack[data-index="${$(this).data('index')}"]`).css('opacity', visibility == 1 ? '0.3' : '1').css('display', visibility == 2 ? 'none' : 'block');
 			})
 			.appendTo($secondaryContent);
-		var $delete = $(`<a title="Delete" data-index="${index}" class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">delete</i></a>`)
+		var $delete = $(`<a title="Delete" data-index="${index}" class="btn-floating btn-small waves-effect waves-light ${options.default ? 'disabled' : ''}"><i class="material-icons">delete</i></a>`)
 			.on('click', function(){
-				dialogTileEditorRemovePosition($(this).data('index'));
+				dialogTileEditorRemoveStack($(this).data('index'));
 			})
 			.appendTo($secondaryContent);
 		$secondaryContent.appendTo($li);
-		$('#dialogTileEditorPositionsList').append($li);
-		dialogTileEditorStylePosition(index, options);
+		$('#dialogTileEditorStackList').append($li);
+		dialogTileEditorStyleStack(index, options);
 	}
-	function dialogTileEditorRemovePosition(index){
+
+	//--Remove Stack
+	function dialogTileEditorRemoveStack(index){
 		if(!confirm(_("Are you shure?"))) return;
-		tileEditor.positions.splice(index, 1);
-		dialogTileEditorInit();
+		tileEditor.stacks.splice(index, 1);
+		dialogTileEditorInit(true);
 	}
-	function dialogTileEditorSelectPosition(index){ //this updates all inputs
-		dialogTileEditorSelectedPosition = index;
+
+	//--Select Stack and update all inputs
+	function dialogTileEditorSelectStack(index){
+		dialogTileEditorSelectedStack = index;
 		//Demo
-		$(`.dialogTileEditorDemoPosition`).removeClass('selected');
-		$(`.dialogTileEditorDemoPosition[data-index="${index}"]`).addClass('selected');
+		$(`.dialogTileEditorDemoStack`).removeClass('selected');
+		$(`.dialogTileEditorDemoStack[data-index="${index}"]`).addClass('selected');
 		//List
-		$('#dialogTileEditorPositionsList li').removeClass('selected');
-		$(`#dialogTileEditorPositionsList li[data-index="${index}"]`).addClass('selected');
-		$(`#dialogTileEditorPositionsList li[data-index="${index}"] input`).focus();
-		//Edit
+		$('#dialogTileEditorStackList li').removeClass('selected');
+		$(`#dialogTileEditorStackList li[data-index="${index}"]`).addClass('selected');
+		$(`#dialogTileEditorStackList li[data-index="${index}"] input`).focus();
 		if(index > -1){
-			$('.tabDialogTileEditorSelectedPositionName').html(`<b>${index}${tileEditor.positions[index].name ? ':</b> ' + tileEditor.positions[index].name : '</b>'}`);
+			//Edit
+			$('.tabDialogTileEditorSelectedStackName').html(`<b>${index}${tileEditor.stacks[index].name ? ':</b> ' + tileEditor.stacks[index].name : '</b>'}`);
 			$('.tabDialogTileEditor.positionValue').each(function(){
 				var $this = $(this);
 				if($this.hasClass('position') || $this.hasClass('size')){
-					$this.val(tileEditor.positions[index][$this.data('direction') + capitalize($this.data('type'))] || 0);
+					$this.val(tileEditor.stacks[index][$this.data('direction') + capitalize($this.data('type'))] || 0);
 				}
 			});
 			$('select.tabDialogTileEditor.positionValue').select();
 			$('.tabDialogTileEditorEditContainer').show();
+			//Elements
+			values2table('tableDialogTileEditorElements', tileEditor.stacks[index].elements || [], onChange, ontableDialogTileEditorElementsReady);
 		} else {
 			$('.tabDialogTileEditorEditContainer').hide();			
 		}
 	}
-	function dialogTileEditorStylePosition(index, options){
-		var options = Object.assign({}, tileEditor.positions[index] || {}, options || {});
-		$element = $(`.dialogTileEditorDemoPosition[data-index="${index}"]`);
+
+	//--Style Stack Demo, optional with new options, and save them
+	function dialogTileEditorStyleStack(index, options){
+		var options = Object.assign({}, tileEditor.stacks[index] || {}, options || {});
+		$element = $(`.dialogTileEditorDemoStack[data-index="${index}"]`);
 		$element.find('span.name').html(options.name ? '&nbsp;' + options.name : '');
 		var cssArray = dialogTileEditorCreateCssArrayFromOptions(options);
 		$element.data('css-array', cssArray);
@@ -10420,8 +10470,10 @@ async function load(settings, onChange) {
 				if(css.attribute == 'top' && css.value.indexOf('calc') == 0) $element.addClass('anchorBottom');
 			}
 		});
-		tileEditor.positions[index] = options;
+		tileEditor.stacks[index] = options;
 	}
+
+	//--Create CSS-array from options
 	function dialogTileEditorCreateCssArrayFromOptions(options){
 		options = options || {};
 		var cssArray = [];
@@ -10514,6 +10566,8 @@ async function load(settings, onChange) {
 		});			
 		return cssArray;
 	}
+
+	//--Enable draggable for stack demo
 	function dialogTileEditorEnableDraggable($element) {
 		let offsetX, offsetY, initX, initY, initWidth, initHeight, resize, $active;
 		const $tile = $('#dialogTileEditorDemoTile');
@@ -10521,7 +10575,7 @@ async function load(settings, onChange) {
 			e.preventDefault();
 			e.stopPropagation();
 			if(!$(this).hasClass('selected')){
-				dialogTileEditorSelectPosition($(this).data('index'));
+				dialogTileEditorSelectStack($(this).data('index'));
 				return;
 			}
 			const tileScale = parseFloat($tile.data('scale')) || 1;
@@ -10573,8 +10627,8 @@ async function load(settings, onChange) {
 				let directions = ['width', 'height'];
 				for(let i = 0; i < directions.length; i++){
 					let direction = directions[i];
-					let mode = tileEditor.positions[index][direction + 'Mode'];
-					let unit = tileEditor.positions[index][direction + 'Unit'];
+					let mode = tileEditor.stacks[index][direction + 'Mode'];
+					let unit = tileEditor.stacks[index][direction + 'Unit'];
 					let value = (direction == 'width' ? dimensions.width : dimensions.height);
 					let tileReference = (direction == 'width' ? tileWidth : tileHeight);
 					if(mode == 'normal'){
@@ -10583,13 +10637,13 @@ async function load(settings, onChange) {
 						if(unit == 'px') value = tileReference - value; 
 						else if(unit == '%') value = 100 * (tileReference - value) / tileReference; 
 					}
-					tileEditor.positions[index][direction + 'Value'] = Math.round(value);
+					tileEditor.stacks[index][direction + 'Value'] = Math.round(value);
 				}
 				directions = ['horizontal', 'vertical'];
 				for(let i = 0; i < directions.length; i++){
 					let direction = directions[i];
-					let mode = tileEditor.positions[index][direction + 'Mode'];
-					let unit = tileEditor.positions[index][direction + 'Unit'];
+					let mode = tileEditor.stacks[index][direction + 'Mode'];
+					let unit = tileEditor.stacks[index][direction + 'Unit'];
 					let value = (direction == 'horizontal' ? position.left / tileScale : position.top / tileScale);
 					if(mode == 'left' || mode == 'top'){
 						let tileReference = (mode == 'left' ? tileWidth : tileHeight);
@@ -10605,10 +10659,10 @@ async function load(settings, onChange) {
 						if(unit == 'px') value = value + (elementReference/2) - (tileReference/2);
 						else if(unit == '%') value = 100 * (value + (elementReference/2) - (tileReference/2)) / tileReference;
 					}
-					tileEditor.positions[index][direction + 'Value'] = Math.round(value);
+					tileEditor.stacks[index][direction + 'Value'] = Math.round(value);
 				}
-				dialogTileEditorSelectPosition(index);
-				dialogTileEditorStylePosition(index);
+				dialogTileEditorSelectStack(index);
+				dialogTileEditorStyleStack(index);
 			}
 			$active = false;
 		}
@@ -10620,15 +10674,142 @@ async function load(settings, onChange) {
 	}
 	$('.tabDialogTileEditor.positionValue').on('change', function(){
 		var options = {};
-		var index = dialogTileEditorSelectedPosition;
+		var index = dialogTileEditorSelectedStack;
 		var $this = $(this);
 		if($this.hasClass('position')){
 			options[$this.data('direction') + capitalize($this.data('type'))] = $this.val();
 		} else if($this.hasClass('size')){
 			options[$this.data('direction') + capitalize($this.data('type'))] = $this.val();
 		}
-		dialogTileEditorStylePosition(index, options)
+		dialogTileEditorStyleStack(index, options)
 	});
+
+	//Elements
+	function ontableDialogTileEditorElementsReady(){
+		var $div = $('#tableDialogTileEditorElements');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit Element Entry
+			if (command === 'edit') {
+				var elementIndex = $(this).data('index');
+				$(this).on('click', function () {
+					var _elementIndex = $(this).data('index');
+					initDialog('dialogTileEditorEditElementOptions', function(){ //save dialog
+						var _elementIndex = $('#dialogTileEditorEditElementIndex').val();
+						var $tbody = $('#tableDialogTileEditorEditElementOptions table tbody');
+						var options = [];
+						$tbody.find('tr').each(function(){
+							var option = $(this).data('option');
+							var type = $(this).data('type');
+							var value;
+							switch(type){
+								case "checkbox":
+									value = $(this).find('input').prop('checked');
+									options.push({option: option, type: type, value: value});
+								break;
+
+								case "select":
+									value = $(this).find('select').val();
+									options.push({option: option, type: type, value: value, selectOptions: $(this).find('select').data('select-options')});
+								break;
+									
+								case "position": //xxxx what to do with position... fixed, editable, hidden, ????
+									value = "";
+									options.push({option: option, type: type, value: value});
+								break;
+
+								case "textarea":
+									value = $(this).find('textarea').val();
+									options.push({option: option, type: type, value: value});
+								break;
+
+								case "deviceState": case "string": default:
+									value = $(this).find('input').val();
+									options.push({option: option, type: type, value: value});
+								break;								
+							}
+						});
+						tileEditor.stacks[dialogTileEditorSelectedStack].elements[_elementIndex].options = options;
+					}, function(){ //init dialog function
+						$('#dialogTileEditorEditElementOptionsName').html(_(tileEditor.stacks[dialogTileEditorSelectedStack].elements[_elementIndex].commonType) + ' ' + tileEditor.stacks[dialogTileEditorSelectedStack].elements[_elementIndex].commonName);
+						$('#dialogTileEditorEditElementIndex').val(_elementIndex);
+						var options = Object.assign([], uiElementOptions[tileEditor.stacks[dialogTileEditorSelectedStack].elements[_elementIndex].commonType] || [], tileEditor.stacks[dialogTileEditorSelectedStack].elements[_elementIndex].options || []);
+						var $tbody = $('#tableDialogTileEditorEditElementOptions table tbody').html('');
+						options.forEach(function(option, optionIndex){
+							var $tr = $(`<tr data-option="${option.option}" data-type="${option.type}"></tr>`);
+							$(`<td><pre>${option.option}</pre></td>`).appendTo($tr);
+							var $value;
+							switch(option.type){
+								case "checkbox":
+									$value = $(`<label><input type="checkbox" class="filled-in" ${(option.value ? 'checked="checked" ' : '')}/><span>&nbsp;</span></label>`);
+								break;
+
+								case "select":
+									var $select = $('<select></select>').data('select-options', option.selectOptions);
+									((option.selectOptions || "").split(';') || []).forEach(function(selectOption){
+										selectOption = selectOption.split('/');
+										$select.append(`<option value="${selectOption[0]}" ${typeof option.value != 'undefined' && option.value == selectOption[0] ? 'selected' : ''}>${_(selectOption[1] || selectOption[0])}</option>`);
+									});
+									$value = $(`<div class="input-field"></div>`).append($select);
+								break;
+									
+								case "position": //xxxx what to do with position... fixed, editable, hidden, ????
+									$value = $(`<span>{option.value}</span>`);
+								break;
+
+								case "textarea":
+									var $value = $(`<textarea id="tableDialogTileEditorEditElementOptions_${optionIndex}">`).val(option.value || "");
+									//$value = $(`<div class="input-field"></div>`).append($textarea).append(`<label for="tableDialogTileEditorEditElementOptions_${optionIndex}"></label>`);
+								break;
+
+								case "deviceState": case "string": default:
+									var $input = $(`<input id="tableDialogTileEditorEditElementOptions_${optionIndex}" type="text" class="validate">`).val(option.value || "");
+									$value = $(`<div class="input-field"></div>`).append($input).append(`<label for="tableDialogTileEditorEditElementOptions_${optionIndex}"></label>`);
+								break;
+							}
+							$(`<td data-option="${option.option}" data-type="${option.type}"></td>`).append($value).appendTo($tr);
+							$(`<td><span class='small'>${option.description || ''}</span></td>`).appendTo($tr);
+							$tbody.append($tr);
+						});
+						$tbody.find('select').select();
+						M.updateTextFields();
+					});
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Make table sortable
+		$("#tableDialogTileEditorElements tbody").sortable({
+			helper: fixHelper,
+			stop: function( event, ui ) {
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogTileEditorElements tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogTileEditorElements').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(tileEditor.stacks[dialogTileEditorSelectedStack].elements[sequence[i]]);
+				}
+				tileEditor.stacks[dialogTileEditorSelectedStack].elements = tableResorted;
+				onChange();
+				values2table('tableDialogTileEditorElements', tileEditor.stacks[dialogTileEditorSelectedStack].elements, onChange, ontableDialogTileEditorElementsReady);
+				$("#tableDialogTileEditorElements tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});		
+	}
+	
 }
 
 //++++++++++ SAVE ++++++++++

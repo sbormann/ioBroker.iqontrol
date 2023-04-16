@@ -197,13 +197,13 @@ span.small {
     transition: all 0.5s;
 }
 
-.dialogTileEditorDemoPosition{
+.dialogTileEditorDemoStack{
     position: absolute; 
     border: 1px solid grey;
     overflow: hidden;
     white-space: nowrap;
 }
-.dialogTileEditorDemoPosition:hover::before{
+.dialogTileEditorDemoStack:hover::before{
     content: "";
     position: absolute;
     top: 0;
@@ -213,14 +213,14 @@ span.small {
     background-color: rgba(255, 255, 255, 0.5); 
     z-index: -1;
 }
-.dialogTileEditorDemoPosition.selected{
+.dialogTileEditorDemoStack.selected{
     box-shadow: 0px 0px 10px 0px black;
     overflow: visible;
     z-index: 10000;
     cursor: grab;
     text-shadow: 0px 0px 1px white;
 }
-.dialogTileEditorDemoPosition.selected::before{
+.dialogTileEditorDemoStack.selected::before{
     content: "";
     position: absolute;
     top: 0;
@@ -230,7 +230,7 @@ span.small {
     background-color: rgba(255, 255, 255, 0.1); 
     z-index: -1;
 }
-.dialogTileEditorDemoPosition.selected:hover::before{
+.dialogTileEditorDemoStack.selected:hover::before{
     content: "";
     position: absolute;
     top: 0;
@@ -240,10 +240,10 @@ span.small {
     background-color: rgba(255, 255, 255, 0.2); 
     z-index: -1;
 }
-.dialogTileEditorDemoPosition.selected.dragActive{
+.dialogTileEditorDemoStack.selected.dragActive{
     cursor: grabbing;
 }
-.dialogTileEditorDemoPosition.selected.dragActive::before{
+.dialogTileEditorDemoStack.selected.dragActive::before{
     content: "";
     position: absolute;
     top: 0;
@@ -255,15 +255,15 @@ span.small {
     z-index: -1;
 }
 
-.dialogTileEditorDemoPosition span.name{
+.dialogTileEditorDemoStack span.name{
     display: none;
     white-space: nowrap;
 }
-.dialogTileEditorDemoPosition.selected span.name{
+.dialogTileEditorDemoStack.selected span.name{
     display: inline-block;
 }
 
-.dialogTileEditorDemoPosition img.resizeHandle{
+.dialogTileEditorDemoStack img.resizeHandle{
     position: absolute;
     bottom: 0;
     right: 0;
@@ -273,27 +273,27 @@ span.small {
     max-height: 75%;
     opacity: 0;
 }
-.dialogTileEditorDemoPosition.selected img.resizeHandle{
+.dialogTileEditorDemoStack.selected img.resizeHandle{
     opacity: 0.4;
 }
-.dialogTileEditorDemoPosition.selected img.resizeHandle:hover{
+.dialogTileEditorDemoStack.selected img.resizeHandle:hover{
     opacity: 1;
     cursor: nwse-resize;
 }
 
-.dialogTileEditorDemoPosition.selected.anchorLeft{
+.dialogTileEditorDemoStack.selected.anchorLeft{
     border-left: dotted 3px black;
 }
-.dialogTileEditorDemoPosition.selected.anchorRight{
+.dialogTileEditorDemoStack.selected.anchorRight{
     border-right: dotted 3px black;
 }
-.dialogTileEditorDemoPosition.selected.anchorTop{
+.dialogTileEditorDemoStack.selected.anchorTop{
     border-top: dotted 3px black;
 }
-.dialogTileEditorDemoPosition.selected.anchorBottom{
+.dialogTileEditorDemoStack.selected.anchorBottom{
     border-bottom: dotted 3px black;
 }
 
-#dialogTileEditorPositionsList li.selected{
+#dialogTileEditorStackList li.selected{
     background:rgba(0, 150, 255, 0.5);
 }
