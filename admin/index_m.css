@@ -45,7 +45,6 @@ tr.newGroup td {
     min-width: 1020px;
 }
 
-
 tr.marked td {
     animation: marked 5s linear;
 }
@@ -102,6 +101,10 @@ input.array {
 .validateOnlyError.valid {
     border-bottom: 1px solid #9e9e9e !important;
     box-shadow: none !important;
+}
+
+.range-field {
+    margin: 10px 0;
 }
 
 .combobox {
@@ -177,7 +180,7 @@ span.small {
 }
 
 
-#dialogTileEditorDemoBackground {
+#dialogTileEditorDemoBackground, #dialogDeviceEditTileSettingsDemoBackground {
     width: 100%; 
     max-width: 600px; 
     height: 80%;	
@@ -188,7 +191,7 @@ span.small {
     overflow: auto;
 }
 
-#dialogTileEditorDemoTile {
+#dialogTileEditorDemoTile, #dialogDeviceEditTileSettingsDemoTile {
     position: relative; 
     width: 110px; 
     height: 110px; 
@@ -197,13 +200,13 @@ span.small {
     transition: all 0.5s;
 }
 
-.dialogTileEditorDemoStack{
+.dialogTileEditorDemoStack, .dialogDeviceEditTileSettingsDemoStack {
     position: absolute; 
     border: 1px solid grey;
     overflow: hidden;
     white-space: nowrap;
 }
-.dialogTileEditorDemoStack:hover::before{
+.dialogTileEditorDemoStack:hover::before, .dialogDeviceEditTileSettingsDemoStack:hover::before {
     content: "";
     position: absolute;
     top: 0;
@@ -213,14 +216,14 @@ span.small {
     background-color: rgba(255, 255, 255, 0.5); 
     z-index: -1;
 }
-.dialogTileEditorDemoStack.selected{
+.dialogTileEditorDemoStack.selected, .dialogDeviceEditTileSettingsDemoStack.selected {
     box-shadow: 0px 0px 10px 0px black;
     overflow: visible;
     z-index: 10000;
     cursor: grab;
     text-shadow: 0px 0px 1px white;
 }
-.dialogTileEditorDemoStack.selected::before{
+.dialogTileEditorDemoStack.selected::before, .dialogDeviceEditTileSettingsDemoStack.selected::before {
     content: "";
     position: absolute;
     top: 0;
@@ -230,7 +233,7 @@ span.small {
     background-color: rgba(255, 255, 255, 0.1); 
     z-index: -1;
 }
-.dialogTileEditorDemoStack.selected:hover::before{
+.dialogTileEditorDemoStack.selected:hover::before, .dialogDeviceEditTileSettingsDemoStack.selected:hover::before {
     content: "";
     position: absolute;
     top: 0;
@@ -240,10 +243,10 @@ span.small {
     background-color: rgba(255, 255, 255, 0.2); 
     z-index: -1;
 }
-.dialogTileEditorDemoStack.selected.dragActive{
+.dialogTileEditorDemoStack.selected.dragActive, .dialogDeviceEditTileSettingsDemoStack.selected.dragActive {
     cursor: grabbing;
 }
-.dialogTileEditorDemoStack.selected.dragActive::before{
+.dialogTileEditorDemoStack.selected.dragActive::before, .dialogDeviceEditTileSettingsDemoStack.selected.dragActive::before {
     content: "";
     position: absolute;
     top: 0;
@@ -255,15 +258,15 @@ span.small {
     z-index: -1;
 }
 
-.dialogTileEditorDemoStack span.name{
+.dialogTileEditorDemoStack span.name, .dialogDeviceEditTileSettingsDemoStack span.name {
     display: none;
     white-space: nowrap;
 }
-.dialogTileEditorDemoStack.selected span.name{
+.dialogTileEditorDemoStack.selected span.name, .dialogDeviceEditTileSettingsDemoStack.selected span.name {
     display: inline-block;
 }
 
-.dialogTileEditorDemoStack img.resizeHandle{
+.dialogTileEditorDemoStack img.resizeHandle {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -273,27 +276,31 @@ span.small {
     max-height: 75%;
     opacity: 0;
 }
-.dialogTileEditorDemoStack.selected img.resizeHandle{
+.dialogTileEditorDemoStack.selected img.resizeHandle {
     opacity: 0.4;
 }
-.dialogTileEditorDemoStack.selected img.resizeHandle:hover{
+.dialogTileEditorDemoStack.selected img.resizeHandle:hover {
     opacity: 1;
     cursor: nwse-resize;
 }
 
-.dialogTileEditorDemoStack.selected.anchorLeft{
+.dialogTileEditorDemoStack.selected.anchorLeft {
     border-left: dotted 3px black;
 }
-.dialogTileEditorDemoStack.selected.anchorRight{
+.dialogTileEditorDemoStack.selected.anchorRight {
     border-right: dotted 3px black;
 }
-.dialogTileEditorDemoStack.selected.anchorTop{
+.dialogTileEditorDemoStack.selected.anchorTop {
     border-top: dotted 3px black;
 }
-.dialogTileEditorDemoStack.selected.anchorBottom{
+.dialogTileEditorDemoStack.selected.anchorBottom {
     border-bottom: dotted 3px black;
 }
 
-#dialogTileEditorStackList li.selected{
+#dialogTileEditorStackList li.selected {
+    background:rgba(0, 150, 255, 0.5);
+}
+
+.dialogDeviceEditTileSettingsTileClassContainer.selected{
     background:rgba(0, 150, 255, 0.5);
 }

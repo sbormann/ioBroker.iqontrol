@@ -72,14 +72,6 @@
 						<h6 class="translate sub-title heading">Start</h6>
 					</div>
 				</div>
-
-				<div class="row">
-					<div class="col s6">
-						<a id="optionsTileEditor">TILE EDITOR</a>
-					</div>
-				</div>
-
-
 				<div class="row showOnLoad">
 					<div class="col s12">
 						<p class="translate">Loading settings...</p>
@@ -1267,6 +1259,59 @@
 							<i class="material-icons">expand_more</i><h6 class="translate">Device-Tiles:</h6>
 						</div>
 						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Tile-Classes:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12 scrollableTable" id="tableTileClasses">
+									<div class="row">
+										<div class="col s2 m1 l1">
+											<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+												<i class="material-icons">add</i>
+											</button>
+										</div>
+									</div>
+									<div class="col s12 m12 l12">
+										<table class="table-values highlight" style="width: 90%;">
+											<thead>
+												<tr>
+													<th data-name="commonName" class="translate">Name</th>
+													<th data-name="value" class="hideCol" style="display:none;" data-tdstyle="display:none;">Value</th>
+													<th data-name="default" class="hideCol" style="display:none;" data-tdstyle="display:none;">Default</th>
+													<th data-name="inbuilt" class="hideCol" style="display:none;" data-tdstyle="display:none;">Inbuilt</th>
+													<th data-buttons="edit copy delete" style="width:135px;"></th>
+												</tr>
+											</thead>
+										</table>
+									</div>
+								</div>
+							</div>
+							<br><br>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Default Tile Classes:</p>
+								</div>
+							</div>
+							<div class="row">
+								<input type="hidden" class="value optionsLayoutTilesDefaultClass" name='optionsLayoutTilesDefaultClass' id='optionsLayoutTilesDefaultClass'>
+								<div class="input-field col s12 m6 l6">
+									<select class="optionsLayoutTilesDefaultClassSelectbox" name='optionsLayoutTilesDefaultClassSelectbox' id='optionsLayoutTilesDefaultClassSelectbox' data-for="optionsLayoutTilesDefaultClass">
+									</select>
+									<label for='optionsLayoutTilesDefaultClassSelectbox' class="translate">Default Tile-Class:</label>
+									<span class="helper-text"></span>
+								</div>
+								<input type="hidden" class="value optionsLayoutTilesDefaultClass" name='optionsLayoutTilesDefaultClassEnlarged' id='optionsLayoutTilesDefaultClassEnlarged'>
+								<div class="input-field col s12 m6 l6">
+									<select class="optionsLayoutTilesDefaultClassSelectbox" name='optionsLayoutTilesDefaultClassEnlargedSelectbox' id='optionsLayoutTilesDefaultClassEnlargedSelectbox' data-for="optionsLayoutTilesDefaultClassEnlarged">
+									</select>
+									<label for='optionsLayoutTilesDefaultClassSelectbox' class="translate">Default Tile-Class for enlarged Tiles:</label>
+									<span class="helper-text"></span>
+								</div>
+							</div>
+							<div class="divider" style="margin-bottom: 10px;">
+							</div>
 							<div class="row">
 								<div class="col s12">
 									<p class="translate sub-title">General:</p>
@@ -2959,8 +3004,8 @@
 						<li class="tab"><a href="#tabDialogDeviceEditRole" class="translate active">Role</a></li>
 						<li class="tab"><a href="#tabDialogDeviceEditStates" class="translate">States</a></li>
 						<li class="tab"><a href="#tabDialogDeviceEditOptions" class="translate">Options</a></li>
-						<li class="tab"><a href="#tabDialogDeviceEditTile" class="translate">Tile</a></li>
-						<li class="tab"><a href="#tabDialogDeviceEditDialog" class="translate">Dialog</a></li>
+						<li class="tab"><a href="#tabdialogDeviceEditTileSettings" class="translate">Tile</a></li>
+						<li class="tab"><a href="#tabDialogDeviceEditDialogSettings" class="translate">Dialog</a></li>
 					  </ul>
 					</div>
 					<div id="tabDialogDeviceEditRole" class="col s12">
@@ -2979,10 +3024,13 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12">
+							<div class="input-field col s12 m9 l10">
 								<select class="value icons" name='dialogDeviceEditCommonRole' id='dialogDeviceEditCommonRole'></select>
 								<label for='dialogDeviceEditCommonRole' class="translate"></label>
 								<span class="translate">Role</span>
+							</div>
+							<div class="input-field col s12 m3 l2">
+								<img class="dialogDeviceEditCommonRoleIcon" style="height: 100px; webkit-filter: drop-shadow(1px 1px 16px grey); moz-filter: drop-shadow(1px 1px 16px grey); filter: drop-shadow(1px 1px 16px grey);">
 							</div>
 						</div>
 					</div>
@@ -3044,15 +3092,93 @@
 							<span class="translate">Note on the data points BACKGROUND_VIEW/URL/HTML: Only one of the three data points can be used at a time. In descending order, first BACKGROUND_VIEW, then BACKGROUND_URL and finally BACKGROUND_HTML is checked for validity and the first valid entry is displayed.</span>
 						</div>
 					</div>
-					<div id="tabDialogDeviceEditTile" class="col s12">
+					<div id="tabdialogDeviceEditTileSettings" class="col s12">
 						<div class="row">
 							<div class="col s12">
 								<img src="devices.png"  class="headingIcon">
 								<h6 class="translate sub-title heading">Tile</h6>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col s12 m6 l4">
+								<div id="dialogDeviceEditTileSettingsDemoBackground">
+									<div id="dialogDeviceEditTileSettingsDemoTile" style="border-radius: 15px; transform: scale(3);" data-scale="3"></div>
+								</div>
+							</div>
+							<div class="col s12 m6 l8 tabcontainer" style="height: 80%; overflow-y: auto;">
+								<ul class="tabs">
+									<li class="tab"><a href="#tabdialogDeviceEditTileSettingsDemo" class="translate active">Demo</a></li>
+									<li class="tab"><a href="#tabdialogDeviceEditTileSettingsTile" class="translate">Tile</a></li>
+									<li class="tab"><a href="#tabdialogDeviceEditTileSettingsElementEdit" class="translate">Edit Elements</a></li>
+								</ul>
+								<div id="tabdialogDeviceEditTileSettingsDemo" class="col s12">
+									<div class="row">
+										<p class="translate">This only represents how the demo is displayed, it is not part of the tile class.</p>
+									</div>
+									<div class="row">
+										<div class="input-field col s12 m6 l6">
+											<p class="translate">Horizontal Size:</p>
+											<p class="range-field"><input type="range" class="dialogDeviceEditTileSettingsDemoSize" data-mode="width" min="0.5" max="3" step="0.5" value="1"></p>
+										</div>
+										<div class="input-field col s12 m6 l6">
+											<p class="translate">Vertical Size:</p>
+											<p class="range-field"><input type="range" class="dialogDeviceEditTileSettingsDemoSize" data-mode="height" min="0.5" max="3" step="0.5" value="1"></p>
+										</div>
+										<div class="input-field col s12 m6 l6">
+											<input class="value" type="checkbox" id="dialogDeviceEditTileSettingsDemoShowEnlarged" />
+											<label for="dialogDeviceEditTileSettingsDemoShowEnlarged" class="translate">Show enlarged state</label>
+											<span class="helper-text"></span>
+										</div>
+										<div class="input-field col s12 m6 l6">
+											<p class="translate">Zoom:</p>
+											<p class="range-field"><input type="range" class="dialogDeviceEditTileSettingsDemoScale" data-mode="width" min="0.5" max="5" step="0.1" value="3"></p>
+										</div>
+									</div>
+								</div>
+								<div id="tabdialogDeviceEditTileSettingsTile" class="col s12">
+									<div class="row" style="margin-top:10px;">
+										<div class="input-field col s12 m6 l6 dialogDeviceEditTileSettingsTileClassContainer" data-type="tileClass">
+											<select class="dialogDeviceEditTileSettingsTileClass" name='dialogDeviceEditTileSettingsTileClass' id='dialogDeviceEditTileSettingsTileClass' data-type="tileClass">
+											</select>
+											<label for='dialogDeviceEditTileSettingsTileClass' class="translate">Tile-Class:</label>
+											<span class="helper-text"></span>
+										</div>
+										<div class="input-field col s12 m6 l6 dialogDeviceEditTileSettingsTileClassContainer" data-type="tileClassEnlarged">
+											<select class="dialogDeviceEditTileSettingsTileClass" name='dialogDeviceEditTileSettingsTileClassEnlarged' id='dialogDeviceEditTileSettingsTileClassEnlarged' data-type="tileClassEnlarged">
+											</select>
+											<label for='dialogDeviceEditTileSettingsTileClassEnlarged' class="translate">Tile-Class if Tile is enlarged:</label>
+											<span class="helper-text"></span>
+										</div>
+									</div>
+								</div>
+								<div id="tabdialogDeviceEditTileSettingsElementEdit" class="col s12">
+									<div class="col s12 scrollableTable" id="tabledialogDeviceEditTileSettingsElements">
+										<div class="row">
+											<div class="col s2 m1 l1">
+												<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+													<i class="material-icons">add</i>
+												</button>
+											</div>
+										</div>
+										<div class="col s12 m12 l12">
+											<table class="table-values highlight" style="width: 90%;">
+												<thead>
+													<tr>
+														<th data-name="commonType" data-type="select" data-options="icon/Icon;test/Text;iconTextCombination/Icon + Text" class="translate">Type</th>
+														<th data-name="commonName" class="translate">Name</th>
+														<th data-name="stackIndex" class="translate">Stack</th>
+														<th data-name="options" class="hideCol" style="display:none;" data-tdstyle="display:none;">Options</th>
+														<th data-buttons="edit delete drag_handle" style="width:135px;"></th>
+													</tr>
+												</thead>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div id="tabDialogDeviceEditDialog" class="col s12">
+					<div id="tabDialogDeviceEditDialogSettings" class="col s12">
 						<div class="row">
 							<div class="col s12">
 								<img src="devices.png"  class="headingIcon">
@@ -3065,6 +3191,36 @@
             <div class="modal-footer">
                 <a class="modal-action waves-effect waves-green btn btn-preview float-left"><img src="iqontrol.png" style="height:26px; margin: 5px -10px 5px -10px;"></a>
                 <a class="modal-action waves-effect waves-green btn btn-save float-left"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- ---------- DIALOG: DeviceEditTileSettingsElementOptions ---------- -->
+        <div id="dialogDeviceEditTileSettingsElementOptions" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogDeviceEditTileSettingsElementIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit Elements Options:</span> <span id="dialogDeviceEditTileSettingsElementOptionsName"></span></h6>
+                    </div>
+                </div>
+				<div class="col s12 scrollableTable wide" id="tableDialogDeviceEditTileSettingsElementOptions">
+					<div class="col s12 m12 l12">
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="option" class="translate">Option</th>
+									<th data-name="value" class="translate">Value</th>
+									<th data-name="description" class="translate">Description</th>
+								</tr>
+							</thead>
+							<tbody></tbody>		
+						</table>
+					</div>
+				</div>
+			</div>
+            <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
@@ -3358,7 +3514,7 @@
             <div class="modal-content">
                 <div class="row">
                     <div class="col s12">
-                        <h6 class="title"><span class="translate">Tile Editor:</span></h6>
+                        <h6 class="title"><span class="translate">Tile Editor: </span><span class="dialogTileEditorName"></span></span></h6>
                     </div>
                 </div>
 				<div class="row">
@@ -3369,26 +3525,31 @@
                     </div>
 					<div class="col s12 m6 l8 tabcontainer" style="height: 80%; overflow-y: auto;">
 						<ul class="tabs">
-							<li class="tab"><a href="#tabDialogTileEditorTile" class="translate active">Tile</a></li>
+							<li class="tab"><a href="#tabDialogTileEditorDemo" class="translate active">Demo</a></li>
+							<li class="tab"><a href="#tabDialogTileEditorTile" class="translate">Tile</a></li>
 							<li class="tab"><a href="#tabDialogTileEditorStacks" class="translate">Stacks</a></li>
 							<li class="tab"><a href="#tabDialogTileEditorPositionEdit" class="translate">Edit Position</a></li>
-							<li class="tab"><a href="#tabDialogTileEditorElementEdit" class="translate">Edit Elements</a></li>
 						</ul>
-						<div id="tabDialogTileEditorTile" class="col s12">
+						<div id="tabDialogTileEditorDemo" class="col s12">
+							<div class="row">
+								<p class="translate">This only represents how the demo is displayed, it is not part of the tile class.</p>
+							</div>
 							<div class="row">
 								<div class="input-field col s12 m6 l6">
 									<p class="translate">Horizontal Size:</p>
-									<p class="range-field"><input type="range" id="tabDialogTileEditorTileHorizontalSize" class="tabDialogTileEditorTileSize" data-mode="width" min="0.5" max="3" step="0.5" value="1"></p>
+									<p class="range-field"><input type="range" class="dialogTileEditorDemoSize" data-mode="width" min="0.5" max="3" step="0.5" value="1"></p>
 								</div>
 								<div class="input-field col s12 m6 l6">
 									<p class="translate">Vertical Size:</p>
-									<p class="range-field"><input type="range" id="tabDialogTileEditorTileVerticalSize" class="tabDialogTileEditorTileSize" data-mode="height" min="0.5" max="3" step="0.5" value="1"></p>
+									<p class="range-field"><input type="range" class="dialogTileEditorDemoSize" data-mode="height" min="0.5" max="3" step="0.5" value="1"></p>
 								</div>
 								<div class="input-field col s12 m6 l6">
 									<p class="translate">Zoom:</p>
-									<input type="range" id="tabDialogTileEditorTileScale" class="tabDialogTileEditorTileScale" data-mode="width" min="0.5" max="5" step="0.1" value="3">
+									<p class="range-field"><input type="range" class="dialogTileEditorDemoScale" data-mode="width" min="0.5" max="5" step="0.1" value="3"></p>
 								</div>
 							</div>
+						</div>
+						<div id="tabDialogTileEditorTile" class="col s12">
 							<div class="row">
 								<div class="col s12">
 									<p class="translate sub-title">Border Radius:</p>
@@ -3396,37 +3557,37 @@
 							</div>
 							<div class="row">
 								<div class="input-field col s12 m6 l4">
-									<p class="range-field"><input type="range" class="tabDialogTileEditorTileBorderRadius" data-direction="top-left" data-type="value" min="0" max="100" /></p>
+									<p class="range-field"><input type="range" class="dialogTileEditorTileBorderRadius" data-direction="top-left" data-type="value" min="0" max="100" /></p>
 								</div>
 								<div class="input-field col s12 m6 l2">
-									<select class="tabDialogTileEditorTileBorderRadius" data-direction="top-left" data-type="unit">
+									<select class="dialogTileEditorTileBorderRadius" data-direction="top-left" data-type="unit">
 										<option value="px" class="Translate">px</option>
 										<option value="%" class="Translate">%</option>
 									</select>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<p class="range-field"><input type="range" class="tabDialogTileEditorTileBorderRadius" data-direction="top-right" data-type="value" min="0" max="100" /></p>
+									<p class="range-field"><input type="range" class="dialogTileEditorTileBorderRadius" data-direction="top-right" data-type="value" min="0" max="100" /></p>
 								</div>
 								<div class="input-field col s12 m6 l2">
-									<select class="tabDialogTileEditorTileBorderRadius" data-direction="top-right" data-type="unit">
+									<select class="dialogTileEditorTileBorderRadius" data-direction="top-right" data-type="unit">
 										<option value="px" class="Translate">px</option>
 										<option value="%" class="Translate">%</option>
 									</select>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<p class="range-field"><input type="range" class="tabDialogTileEditorTileBorderRadius" data-direction="bottom-left" data-type="value" min="0" max="100" /></p>
+									<p class="range-field"><input type="range" class="dialogTileEditorTileBorderRadius" data-direction="bottom-left" data-type="value" min="0" max="100" /></p>
 								</div>
 								<div class="input-field col s12 m6 l2">
-									<select class="tabDialogTileEditorTileBorderRadius" data-direction="bottom-left" data-type="unit">
+									<select class="dialogTileEditorTileBorderRadius" data-direction="bottom-left" data-type="unit">
 										<option value="px" class="Translate">px</option>
 										<option value="%" class="Translate">%</option>
 									</select>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<p class="range-field"><input type="range" class="tabDialogTileEditorTileBorderRadius" data-direction="bottom-right" data-type="value" min="0" max="100" /></p>
+									<p class="range-field"><input type="range" class="dialogTileEditorTileBorderRadius" data-direction="bottom-right" data-type="value" min="0" max="100" /></p>
 								</div>
 								<div class="input-field col s12 m6 l2">
-									<select class="tabDialogTileEditorTileBorderRadius" data-direction="bottom-right" data-type="unit">
+									<select class="dialogTileEditorTileBorderRadius" data-direction="bottom-right" data-type="unit">
 										<option value="px" class="Translate">px</option>
 										<option value="%" class="Translate">%</option>
 									</select>
@@ -3548,71 +3709,11 @@
 								</div>									
 							</div>
 						</div>
-						<div id="tabDialogTileEditorElementEdit" class="col s12">
-							<div class="tabDialogTileEditorEditContainer">
-								<div class="row">
-									<div class="col s12">
-										<h6 class="title"><span class="tabDialogTileEditorSelectedStackName"></span></h6>
-									</div>
-								</div>
-								<div class="col s12 scrollableTable" id="tableDialogTileEditorElements">
-									<div class="row">
-										<div class="col s2 m1 l1">
-											<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
-												<i class="material-icons">add</i>
-											</button>
-										</div>
-									</div>
-									<div class="col s12 m12 l12">
-										<table class="table-values highlight" style="width: 90%;">
-											<thead>
-												<tr>
-													<th data-name="commonType" data-type="select" data-options="icon/Icon;test/Text;iconTextCombination/Icon + Text" class="translate">Type</th>
-													<th data-name="commonName" class="translate">Name</th>
-													<th data-name="options" class="hideCol" style="display:none;" data-tdstyle="display:none;">Options</th>
-													<th data-buttons="edit delete drag_handle" style="width:135px;"></th>
-												</tr>
-											</thead>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
             <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">OK</span></a>
-                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
-            </div>
-        </div>
-
-		<!-- ---------- DIALOG: TileEditorEditElementOptions ---------- -->
-        <div id="dialogTileEditorEditElementOptions" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <input type="hidden" id="dialogTileEditorEditElementIndex" />
-                <div class="row">
-                    <div class="col s12">
-                        <h6 class="title"><span class="translate">Edit Elements Options:</span> <span id="dialogTileEditorEditElementOptionsName"></span></h6>
-                    </div>
-                </div>
-				<div class="col s12 scrollableTable wide" id="tableDialogTileEditorEditElementOptions">
-					<div class="col s12 m12 l12">
-						<table class="table-values highlight" style="width: 90%;">
-							<thead>
-								<tr>
-									<th data-name="option" class="translate">Option</th>
-									<th data-name="value" class="translate">Value</th>
-									<th data-name="description" class="translate">Description</th>
-								</tr>
-							</thead>
-							<tbody></tbody>		
-						</table>
-					</div>
-				</div>
-			</div>
-            <div class="modal-footer">
-                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
         </div>

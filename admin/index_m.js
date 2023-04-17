@@ -1,7 +1,7 @@
 //iQontrol - Copyright (c) by Sebatian Bormann
 //Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information
 
-//Settings
+//++++++++++ SETTINGS ++++++++++
 var namespace = "iqontrol.meta";
 var useCache = true;
 var imagePath = "/iqontrol/images";
@@ -872,6 +872,182 @@ var channelDetectorMatchTable = {
 								"ERROR": "ERROR"
 							}
 						}
+}
+
+var standardTileClass = {
+	tile: {
+		'border-top-left-radius': 15, 
+		'border-top-left-radius-unit': "px", 
+		'border-top-right-radius': 15, 
+		'border-top-right-radius-unit': "px", 
+		'border-bottom-left-radius': 15, 
+		'border-bottom-left-radius-unit': "px", 
+		'border-bottom-right-radius': 15,
+		'border-bottom-right-radius-unit': "px"
+	},
+	stacks: [
+		{	
+			name: "FullSizeState",
+			horizontalMode: 'left',
+			horizontalValue: 6,
+			horizontalUnit: 'px',
+			widthMode: 'tileMinus',
+			widthValue: 6,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: 6,
+			verticalUnit: 'px',
+			heightMode: 'tileMinus',
+			heightValue: 6,
+			heightUnit: 'px',
+			elements: [{commonType:'iconTextCombination', commonName:'FullSizeState', options:[]}],
+			default: true
+		}, {	
+			name: "Icon",
+			horizontalMode: 'left',
+			horizontalValue: 8,
+			horizontalUnit: 'px',
+			widthMode: 'normal',
+			widthValue: 38,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: 8,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 38,
+			heightUnit: 'px',
+			elements: [],
+			default: true
+		}, {	
+			name: "Busy",
+			horizontalMode: 'left',
+			horizontalValue: 15,
+			horizontalUnit: 'px',
+			widthMode: 'normal',
+			widthValue: 24,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: 15,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 24,
+			heightUnit: 'px',
+			elements: [],
+			default: true
+		}, {	
+			name: "Error",
+			horizontalMode: 'left',
+			horizontalValue: 52,
+			horizontalUnit: 'px',
+			widthMode: 'normal',
+			widthValue: 16,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: 2,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 16,
+			heightUnit: 'px',
+			elements: [],
+			default: true
+		}, {	
+			name: "Unreach",
+			horizontalMode: 'left',
+			horizontalValue: 68,
+			horizontalUnit: 'px',
+			widthMode: 'normal',
+			widthValue: 16,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: 2,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 16,
+			heightUnit: 'px',
+			elements: [],
+			default: true
+		}, {	
+			name: "Battery",
+			horizontalMode: 'left',
+			horizontalValue: 84,
+			horizontalUnit: 'px',
+			widthMode: 'normal',
+			widthValue: 16,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: 2,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 16,
+			heightUnit: 'px',
+			elements: [],
+			default: true
+		}, {	
+			name: "INFO_A",
+			horizontalMode: 'left',
+			horizontalValue: 52,
+			horizontalUnit: 'px',
+			widthMode: 'tileMinus',
+			widthValue: 52,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: 20,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 12,
+			heightUnit: 'px',
+			elements: [],
+			default: true
+		}, {	
+			name: "INFO_B",
+			horizontalMode: 'left',
+			horizontalValue: 52,
+			horizontalUnit: 'px',
+			widthMode: 'tileMinus',
+			widthValue: 52,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: 38,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 12,
+			heightUnit: 'px',
+			elements: [],
+			default: true
+		}, {	
+			name: "Name",
+			horizontalMode: 'left',
+			horizontalValue: 8,
+			horizontalUnit: 'px',
+			widthMode: 'tileMinus',
+			widthValue: 8,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: 58,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 30,
+			heightUnit: 'px',
+			elements: [],
+			default: true
+		}, {	
+			name: "State",
+			horizontalMode: 'left',
+			horizontalValue: 8,
+			horizontalUnit: 'px',
+			widthMode: 'tileMinus',
+			widthValue: 8,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: 90,
+			verticalUnit: 'px',
+			heightMode: 'tileMinus',
+			heightValue: 90,
+			heightUnit: 'px',
+			elements: [],
+			default: true
+		}
+	]
 }
 
 //types: string, textarea, checkbox, select with selectOptions, deviceState, position
@@ -2890,6 +3066,101 @@ function isValidColorString(colorString){
 	return (style.color && style.color != "");
 }
 
+//Create CSS-array from options of tileClass
+function tileEditorCreateCssArrayFromOptions(options){
+	options = options || {};
+	var cssArray = [];
+	var translateX = 0, translateY = 0;
+	//horizontal
+	if(options.horizontalMode == 'left'){
+		cssArray.push({
+			attribute: 'left', 
+			value: (options.horizontalValue || '0') + (options.horizontalUnit || 'px')
+		}, {
+			attribute: 'right',
+			value: ''
+		});
+		translateX = '0';
+	} else if(options.horizontalMode == 'right'){
+		cssArray.push({
+			attribute: 'right', 
+			value: (options.horizontalValue || '0') + (options.horizontalUnit || 'px')
+		}, {
+			attribute: 'left',
+			value: ''
+		});
+		translateX = '0'
+	} else if(options.horizontalMode == 'center'){
+		cssArray.push({
+			attribute: 'left', 
+			value: `calc(50% + ${(options.horizontalValue || '0')}${(options.horizontalUnit || 'px')})`
+		}, {
+			attribute: 'right',
+			value: ''
+		});	
+		translateX = '-50%';
+	}
+	//width
+	if(options.widthMode == 'normal'){
+		cssArray.push({
+			attribute: 'width', 
+			value: (options.widthValue || '0') + (options.widthUnit || 'px')
+		});	
+	} else if(options.widthMode == 'tileMinus'){
+		cssArray.push({
+			attribute: 'width', 
+			value: `calc(100% - ${(options.widthValue || '0')}${(options.widthUnit || 'px')})`
+		});	
+	}
+	//vertical
+	if(options.verticalMode == 'top'){
+		cssArray.push({
+			attribute: 'top', 
+			value: (options.verticalValue || '0') + (options.verticalUnit || 'px')
+		}, {
+			attribute: 'bottom',
+			value: ''
+		});
+		translateY = '0';
+	} else if(options.verticalMode == 'bottom'){
+		cssArray.push({
+			attribute: 'bottom', 
+			value: (options.verticalValue || '0') + (options.verticalUnit || 'px')
+		}, {
+			attribute: 'top',
+			value: ''
+		});
+		translateY = '0';
+	} else if(options.verticalMode == 'middle'){
+		cssArray.push({
+			attribute: 'top', 
+			value: `calc(50% + ${(options.verticalValue || '0')}${(options.verticalUnit || 'px')})`
+		}, {
+			attribute: 'bottom',
+			value: ''
+		});	
+		translateY = '-50%';
+	}
+	//height
+	if(options.heightMode == 'normal'){
+		cssArray.push({
+			attribute: 'height', 
+			value: (options.heightValue || '0') + (options.heightUnit || 'px')
+		});	
+	} else if(options.heightMode == 'tileMinus'){
+		cssArray.push({
+			attribute: 'height', 
+			value: `calc(100% - ${(options.heightValue || '0')}${(options.heightUnit || 'px')})`
+		});	
+	}
+	cssArray.push({
+		attribute: 'transform', 
+		value: `translate(${translateX}, ${translateY})`
+	});			
+	return cssArray;
+}
+
+
 //Add function to inputClear-Buttons and selectClear-Buttons
 function initInputClear(){
 	$('.inputClear').off('click').on('click', function(){
@@ -3232,12 +3503,12 @@ function enhanceTextInputToComboboxEntryToInput(value, element, that){
 		if (variable !== null){
 			value = decodeURIComponent(decodeURIComponent(value).replace("[VARIABLE]", "")).replace("{}", "{" + variable + "}");
 			$enhanceTextInputToComboboxActualTarget.val(value).trigger('change').trigger('blur');
-			if (onSelect) onSelect(value);
+			if (onSelect) onSelect(value, $enhanceTextInputToComboboxActualTarget);
 		}
 	} else {
 		value = decodeURIComponent(value).replace(/\\/g, "/");
 		$enhanceTextInputToComboboxActualTarget.val(value).trigger('change').trigger('blur');
-		if (onSelect) onSelect(value);
+		if (onSelect) onSelect(value, $enhanceTextInputToComboboxActualTarget);
 	}
 }
 
@@ -3770,7 +4041,6 @@ async function load(settings, onChange) {
 		
 		if ($('.m.adapter-container').hasClass('react-dark')) $('.m.material-dialogs').addClass('react-dark');
 	}
-	
 
 	//If tab, hide close buttons
 	if (window.location.search.indexOf('noCloseButtons') !== -1) addCustomCSS('.btn-save-close, .btn-cancel { visibility: hidden; }', 'noCloseButtons'); 
@@ -3862,8 +4132,10 @@ async function load(settings, onChange) {
 	//Add function to inputClear-Buttons and selectClear-Buttons
 	initInputClear();
 
-	//Select elements with id=key and class=value and insert value
+	//Convert settings to V3
 	settings = convertConfigV3(settings);
+
+	//Select elements with id=key and class=value and insert value
 	if(!settings) return;
 	$('.value').each(function () {
 		var $key = $(this);
@@ -3881,12 +4153,14 @@ async function load(settings, onChange) {
 		}
 	});
 
-	//Get Subsettings ##### create new demo settings
+	//---------- Subsettings ----------
+	//Get Subsettings ##### create new demo settings ##### SAVE: tileClasses!
 	//!!! If more subsettings are added - remember to add them to initDialog, saveFromDialogAndPreview, save-function and to backup/restore-section as well!!!
 	if (!settings.views && !settings.toolbar && confirm(_("No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration)."))){
 		toolbar = settings.toolbar || settings.demotoolbar || {items: []};
 		views = settings.views || settings.demoviews || [];
 		lists = settings.lists || settings.demolists || [];
+		tileClasses = settings.tileClasses || settings.demotileClasses || [];
 		optionsLayoutDefaultIcons = settings.optionsLayoutDefaultIcons || settings.demooptionsLayoutDefaultIcons || {};
 		optionsLayoutDefaultSymbols = settings.optionsLayoutDefaultSymbols || settings.demooptionsLayoutDefaultSymbols || {};
 		version = settings.version || 0;
@@ -3896,11 +4170,13 @@ async function load(settings, onChange) {
 		toolbar = settings.toolbar || {items: []};
 		views = settings.views || [];
 		lists = settings.lists || [];
+		tileClasses = settings.tileClasses || [];
 		optionsLayoutDefaultIcons = settings.optionsLayoutDefaultIcons || {};
 		optionsLayoutDefaultSymbols = settings.optionsLayoutDefaultSymbols || {};
 		version = settings.version || 0;
 		newConfig = false;
 	}
+	tileClasses[0] = {commonName: "iQontrol Standard Tile", value: standardTileClass, default: true, inbuilt: true}; //Make shure the first tileClass is always the standardTileClass
 
 	//Backward-Compatibility: Transfer old options to new options
   	views.forEach(function(view){
@@ -4791,7 +5067,7 @@ async function load(settings, onChange) {
 			//Edit Device
 			if (command === 'edit') {
 				var deviceIndex = $(this).data('index');
-				if (views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom){ //Symbolic link
+				if (views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom){ //Edit - Symbolic link
 					$(this).addClass('dark grey').find('i').html('control_point_duplicate');
 					$(this).on('click', function () {
 						var _viewIndex = devicesSelectedView;
@@ -4802,7 +5078,7 @@ async function load(settings, onChange) {
 							values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 						}
 					});
-				} else { //Normal device
+				} else { //Edit - Normal device
 					$(this).on('click', function () {
 						var _viewIndex = devicesSelectedView;
 						var _deviceIndex = $(this).data('index');
@@ -4821,6 +5097,7 @@ async function load(settings, onChange) {
 								dialogDeviceEditOptions.push(entry);
 							});
 							views[_viewIndex].devices[_deviceIndex].options = dialogDeviceEditOptions;
+							views[_viewIndex].devices[_deviceIndex].tileSettings = dialogDeviceEditTileSettings;
 							updateSymbolicLinks();
 							onTableDevicesReady();
 						}, function(){ //init dialog function
@@ -4831,6 +5108,8 @@ async function load(settings, onChange) {
 							dialogDeviceEditStatesTable = [];
 							dialogDeviceEditOptions = JSON.parse(JSON.stringify(views[_viewIndex].devices[_deviceIndex].options || []));
 							$('#dialogDeviceEditOptionsContent').empty();
+							dialogDeviceEditTileSettings = JSON.parse(JSON.stringify(views[_viewIndex].devices[_deviceIndex].tileSettings || {}));
+							dialogDeviceEditTileSettingsInit();
 							if (views[_viewIndex].devices[_deviceIndex].commonRole) {
 								$('#dialogDeviceEditCommonRole').val(views[_viewIndex].devices[_deviceIndex].commonRole).trigger('change');
 							} else {
@@ -4918,6 +5197,8 @@ async function load(settings, onChange) {
 		var viewIndex =   $('#dialogDeviceEditViewIndex').val();
 		var deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
 		dialogDeviceEditCommonRole = $('#dialogDeviceEditCommonRole').val();
+		//Icon
+		$('.dialogDeviceEditCommonRoleIcon').attr('src', (iQontrolRoles[dialogDeviceEditCommonRole].icon ? previewLink + iQontrolRoles[dialogDeviceEditCommonRole].icon : ""));
 		//States
 		if (typeof dialogDeviceEditStatesTable == 'object') dialogDeviceEditStatesTable.forEach(function(entry){ //save the table entrys before bulding the new states table
 			var index = dialogDeviceEditStates.findIndex(function(element){ return element.state == entry.state;});
@@ -5262,6 +5543,251 @@ async function load(settings, onChange) {
 			dialogDeviceEditOptionsBuildOptionsContent();
 		});
 	}
+
+	//TileSettings
+	$('#dialogDeviceEdit ul.tabs li.tab a[href="#tabdialogDeviceEditTileSettings"]').on('click', function(){ //Set Zoom-Level
+		setTimeout(function(){ $('.dialogDeviceEditTileSettingsDemoScale').val($('#dialogDeviceEditTileSettingsDemoBackground').width() * 0.0065).trigger('change'); }, 100);
+	});	
+	var dialogDeviceEditTileSettings = {}; //xxxxxxxx
+	//Init TileSettings
+	function dialogDeviceEditTileSettingsInit(){
+		dialogDeviceEditTileSettings.tileClass = dialogDeviceEditTileSettings.tileClass || 0;
+		dialogDeviceEditTileSettings.tileClassEnlarged = dialogDeviceEditTileSettings.tileClassEnlarged || 0;
+		dialogDeviceEditTileSettings.elements = dialogDeviceEditTileSettings.elements || [];
+		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', false);
+		//Fill and select dialogDeviceEditTileSettingsTileClass selectbox 
+		$('.dialogDeviceEditTileSettingsTileClass').html("");
+		tileClasses.forEach(function(tileClass, tileClassIndex){
+			$('.dialogDeviceEditTileSettingsTileClass').append(`<option value="${tileClassIndex}">${tileClass.commonName || tileClassIndex}</option>`);
+		});
+		$('#dialogDeviceEditTileSettingsTileClass').val(dialogDeviceEditTileSettings.tileClass);
+		$('#dialogDeviceEditTileSettingsTileClassEnlarged').val(dialogDeviceEditTileSettings.tileClassEnlarged);
+		$('.dialogDeviceEditTileSettingsTileClass').select();
+		dialogDeviceEditTileSettingsUpdateDemo();
+		//Elements	
+		values2table('tabledialogDeviceEditTileSettingsElements', dialogDeviceEditTileSettings.elements || [], onChange, ontableDialogDeviceEditTileSettingsElementsReady);
+	}
+	//Enhance dialogDeviceEditTileSettingsTileClass
+	$('.dialogDeviceEditTileSettingsTileClass').on('change', function(){
+		dialogDeviceEditTileSettings[$(this).data('type')] = $(this).val() || 0;
+		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', $(this).data('type') == 'tileClassEnlarged').trigger('change');
+	});	
+	$('.dialogDeviceEditTileSettingsTileClassContainer').on('click', function(){
+		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', $(this).data('type') == 'tileClassEnlarged').trigger('change');
+	});
+	function dialogDeviceEditTileSettingsUpdateDemo(){
+		$('#dialogDeviceEditTileSettingsDemoTile').html('');
+		let enlarged = $('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked');
+		let tileClass = (enlarged ? dialogDeviceEditTileSettings.tileClassEnlarged : dialogDeviceEditTileSettings.tileClass) || 0;
+		$('.dialogDeviceEditTileSettingsTileClassContainer').removeClass('selected');
+		$(`.dialogDeviceEditTileSettingsTileClassContainer[data-type="${enlarged ? 'tileClassEnlarged' : 'tileClass'}"]`).addClass('selected');
+		//Tile Border radius
+		for(let tileOption in tileClasses[tileClass].value.tile || {}){
+			if(tileOption.indexOf('border-') == 0 && tileOption.endsWith('-radius')){
+				$('#dialogDeviceEditTileSettingsDemoTile').css(tileOption, tileClasses[tileClass].value.tile[tileOption] + (tileClasses[tileClass].value.tile[tileOption + "-unit"] || "px"));
+			}
+		}
+		tileClasses[tileClass].value.stacks.forEach(function(stack, stackIndex){
+			dialogDeviceEditTileSettingsAddStack(stackIndex, stack);
+		});
+	}
+	//Enance inputs on Demo tab
+	$('.dialogDeviceEditTileSettingsDemoSize').on('input change', function(){
+		$('#dialogDeviceEditTileSettingsDemoTile').css($(this).data('mode'), 110 * $(this).val());
+	});
+
+	$('.dialogDeviceEditTileSettingsDemoScale').on('input change', function(){
+		$('#dialogDeviceEditTileSettingsDemoTile').data('scale', $(this).val()).css('transform', `scale(${$(this).val()})`);
+	});
+	$('#dialogDeviceEditTileSettingsDemoShowEnlarged').on('change', function(){
+		dialogDeviceEditTileSettingsUpdateDemo();
+	});
+	//Add Stacks
+	function dialogDeviceEditTileSettingsAddStack(index, options){
+		index = typeof index == "number" ? index : tileClasses[dialogDeviceEditTileSettings.tileClass].value.stacks.length;
+		var defaultOptions = {
+			name: "Stack " + index,
+			horizontalMode: 'left',
+			horizontalValue: index * 10,
+			horizontalUnit: 'px',
+			widthMode: 'normal',
+			widthValue: 65,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: index * 10,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 20,
+			heightUnit: 'px'
+		};
+		options = Object.assign({}, defaultOptions || {}, options);
+		//Demo
+		var $newStack = $(`<div id="dialogDeviceEditTileSettingsDemoStack_${index}" data-index="${index}" class="dialogDeviceEditTileSettingsDemoStack">${index}<span class="name small"></span></div>`);
+		$newStack.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
+		$newStack.on('click', function(){
+			var _index = $(this).data('index');
+			$('#tabledialogDeviceEditTileSettingsElements tbody tr').removeClass('marked');
+			setTimeout(function(){ 
+				$(`#tabledialogDeviceEditTileSettingsElements tbody tr`).each(function(){
+					if($(this).find('input[data-name="stackIndex"]').val() == _index) $(this).addClass('marked');
+				});
+			}, 100);
+		});
+		$('#dialogDeviceEditTileSettingsDemoTile').append($newStack);
+		dialogDeviceEditTileSettingsStyleStack(index, options);
+	}
+	//Style Stack Demo
+	function dialogDeviceEditTileSettingsStyleStack(index, options){
+		options = Object.assign({}, options || {});
+		$element = $(`.dialogDeviceEditTileSettingsDemoStack[data-index="${index}"]`);
+		$element.find('span.name').html(options.name ? '&nbsp;' + options.name : '');
+		var cssArray = tileEditorCreateCssArrayFromOptions(options);
+		$element.data('css-array', cssArray);
+		(cssArray || []).forEach(function(css){
+			$element.css(css.attribute, css.value);
+		});
+	}
+	//Elements
+	function ontableDialogDeviceEditTileSettingsElementsReady(){
+		var $div = $('#tabledialogDeviceEditTileSettingsElements');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Stack selectbox
+		let enlarged = $('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked');
+		let tileClass = (enlarged ? dialogDeviceEditTileSettings.tileClassEnlarged : dialogDeviceEditTileSettings.tileClass) || 0;
+		var stackOptions = [];
+		tileClasses[tileClass].value.stacks.forEach(function(stack, stackIndex){
+			stackOptions.push(stackIndex + "/" + stackIndex + " - " + stack.name);
+		});
+		enhanceTextInputToCombobox('#tabledialogDeviceEditTileSettingsElements tbody input[data-name="stackIndex"]', stackOptions.join(';'), false, function(value, $target){
+			if(!isNaN(value)) value = parseInt(value); else value = -1;
+			if(value > -1) $target.css('background-color', dialogTileEditorColors[value%dialogTileEditorColors.length])
+		});
+		$lines.find('input[data-name="stackIndex"]').each(function(){
+			let value = $(this).val();
+			if(!isNaN(value)) value = parseInt(value); else value = -1;
+			if(value > -1) $(this).css('background-color', dialogTileEditorColors[value%dialogTileEditorColors.length])
+		});
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit Element Entry
+			if (command === 'edit') {
+				var elementIndex = $(this).data('index');
+				$(this).on('click', function () {
+					var _elementIndex = $(this).data('index');
+					initDialog('dialogDeviceEditTileSettingsElementOptions', function(){ //save dialog
+						var _elementIndex = $('#dialogDeviceEditTileSettingsElementIndex').val();
+						var $tbody = $('#tableDialogDeviceEditTileSettingsElementOptions table tbody');
+						var options = [];
+						$tbody.find('tr').each(function(){
+							var option = $(this).data('option');
+							var type = $(this).data('type');
+							var value;
+							switch(type){
+								case "checkbox":
+									value = $(this).find('input').prop('checked');
+									options.push({option: option, type: type, value: value});
+								break;
+
+								case "select":
+									value = $(this).find('select').val();
+									options.push({option: option, type: type, value: value, selectOptions: $(this).find('select').data('select-options')});
+								break;
+									
+								case "position": //xxxx what to do with position... fixed, editable, hidden, ????
+									value = "";
+									options.push({option: option, type: type, value: value});
+								break;
+
+								case "textarea":
+									value = $(this).find('textarea').val();
+									options.push({option: option, type: type, value: value});
+								break;
+
+								case "deviceState": case "string": default:
+									value = $(this).find('input').val();
+									options.push({option: option, type: type, value: value});
+								break;								
+							}
+						});
+						dialogDeviceEditTileSettings.elements[_elementIndex].options = options;
+					}, function(){ //init dialog function
+						$('#dialogDeviceEditTileSettingsElementOptionsName').html(_(dialogDeviceEditTileSettings.elements[_elementIndex].commonType) + ' ' + dialogDeviceEditTileSettings.elements[_elementIndex].commonName);
+						$('#dialogDeviceEditTileSettingsElementIndex').val(_elementIndex);
+						var options = Object.assign([], uiElementOptions[dialogDeviceEditTileSettings.elements[_elementIndex].commonType] || [], dialogDeviceEditTileSettings.elements[_elementIndex].options || []);
+						var $tbody = $('#tableDialogDeviceEditTileSettingsElementOptions table tbody').html('');
+						options.forEach(function(option, optionIndex){
+							var $tr = $(`<tr data-option="${option.option}" data-type="${option.type}"></tr>`);
+							$(`<td><pre>${option.option}</pre></td>`).appendTo($tr);
+							var $value;
+							switch(option.type){
+								case "checkbox":
+									$value = $(`<label><input type="checkbox" class="filled-in" ${(option.value ? 'checked="checked" ' : '')}/><span>&nbsp;</span></label>`);
+								break;
+
+								case "select":
+									var $select = $('<select></select>').data('select-options', option.selectOptions);
+									((option.selectOptions || "").split(';') || []).forEach(function(selectOption){
+										selectOption = selectOption.split('/');
+										$select.append(`<option value="${selectOption[0]}" ${typeof option.value != 'undefined' && option.value == selectOption[0] ? 'selected' : ''}>${_(selectOption[1] || selectOption[0])}</option>`);
+									});
+									$value = $(`<div class="input-field"></div>`).append($select);
+								break;
+									
+								case "position": //xxxx what to do with position... fixed, editable, hidden, ????
+									$value = $(`<span>{option.value}</span>`);
+								break;
+
+								case "textarea":
+									var $value = $(`<textarea id="tableDialogDeviceEditTileSettingsElementOptions_${optionIndex}">`).val(option.value || "");
+								break;
+
+								case "deviceState": case "string": default:
+									var $input = $(`<input id="tableDialogDeviceEditTileSettingsElementOptions_${optionIndex}" type="text" class="validate">`).val(option.value || "");
+									$value = $(`<div class="input-field"></div>`).append($input).append(`<label for="tableDialogDeviceEditTileSettingsElementOptions_${optionIndex}"></label>`);
+								break;
+							}
+							$(`<td data-option="${option.option}" data-type="${option.type}"></td>`).append($value).appendTo($tr);
+							$(`<td><span class='small'>${option.description || ''}</span></td>`).appendTo($tr);
+							$tbody.append($tr);
+						});
+						$tbody.find('select').select();
+						M.updateTextFields();
+					});
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Make table sortable
+		$("#tableDialogDeviceEditTileSettingsElementOptions tbody").sortable({
+			helper: fixHelper,
+			stop: function( event, ui ) {
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogDeviceEditTileSettingsElementOptions tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogDeviceEditTileSettingsElementOptions').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogDeviceEditTileSettings.elements[sequence[i]]);
+				}
+				dialogDeviceEditTileSettings.elements = tableResorted;
+				onChange();
+				values2table('tableDialogDeviceEditTileSettingsElementOptions', dialogDeviceEditTileSettings.elements, onChange, ontableDialogDeviceEditTileSettingsElementsReady);
+				$("#tableDialogDeviceEditTileSettingsElementOptions tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});		
+	}
+	
 
 	//---------- Device Edit - Array ----------
 	//Enhance TableDialogDeviceEditStateArrayReady
@@ -9319,6 +9845,73 @@ async function load(settings, onChange) {
 		return {changeCount: changeCount, changeList: changeList};
 	}
 
+	//Tile Classes
+	values2table('tableTileClasses', tileClasses || [], onChange, ontableTileClassesReady);
+	function ontableTileClassesReady(){
+		var $div = $('#tableTileClasses');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Update optionsLayoutTilesDefaultClass-Selectboxes
+		$lines.find('input[data-name="commonName"]').on('change', fillOptionsLayoutTilesDefaultClassSelectboxes);
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit Element Entry
+			if (command === 'edit') {
+				var tileClassIndex = $(this).data('index');
+				if(tileClasses[tileClassIndex].inbuilt) $(this).addClass('disabled');
+				else $(this).on('click', function () {
+					var _tileClassIndex = $(this).data('index');
+					initDialog('dialogTileEditor', function(){ //save dialog 
+						var _tileClassIndex = tileEditor.index;
+						tileClasses[_tileClassIndex].value = JSON.parse(JSON.stringify(tileEditor));
+						values2table('tableTileClasses', tileClasses || [], onChange, ontableTileClassesReady);
+					}, function(){ //init dialog function 
+						tileEditor = JSON.parse(JSON.stringify(tileClasses[_tileClassIndex].value || standardTileClass || {}));
+						tileEditor.index = _tileClassIndex;
+						tileEditor.commonName = tileClasses[_tileClassIndex].commonName || '';
+						tileEditor.default = tileClasses[_tileClassIndex].default || false;
+						tileEditor.inbuilt = tileClasses[_tileClassIndex].inbuilt || false;
+						dialogTileEditorInit();
+					});
+				});
+			}
+			//Disable delete for inbuilt classes
+			if (command === 'delete'){
+				var tileClassIndex = $(this).data('index');
+				if(tileClasses[tileClassIndex].inbuilt) $(this).addClass('disabled');
+			}
+			//Make own copy function
+			if (command === 'copy'){
+				$(this).off('click').on('click', function () {
+					var _tileClassIndex = $(this).data('index');
+					var newClass = JSON.parse(JSON.stringify(tileClasses[_tileClassIndex]));
+					newClass.inbuilt = false;
+					newClass.commonName = newClass.commonName + " - copy";
+					tileClasses.push(newClass);
+					values2table('tableTileClasses', tileClasses || [], onChange, ontableTileClassesReady);
+				});	
+			}
+		});		
+		fillOptionsLayoutTilesDefaultClassSelectboxes();	
+	}
+
+	//Fill optionsLayoutTilesDefaultClass selectboxes
+	function fillOptionsLayoutTilesDefaultClassSelectboxes(){
+		let optionsLayoutTilesDefaultClass = $('#optionsLayoutTilesDefaultClass').val();
+		let optionsLayoutTilesDefaultClassEnlarged = $('#optionsLayoutTilesDefaultClassEnlarged').val();
+		$('.optionsLayoutTilesDefaultClassSelectbox').html("");
+		tileClasses.forEach(function(tileClass, tileClassIndex){
+			$('.optionsLayoutTilesDefaultClassSelectbox').append(`<option value="${tileClassIndex}">${tileClass.commonName || tileClassIndex}</option>`);
+		});
+		$('#optionsLayoutTilesDefaultClassSelectbox').val(optionsLayoutTilesDefaultClass);
+		$('#optionsLayoutTilesDefaultClassEnlargedSelectbox').val(optionsLayoutTilesDefaultClassEnlarged);
+		$('.optionsLayoutTilesDefaultClassSelectbox').select();
+	}
+	$('.optionsLayoutTilesDefaultClassSelectbox').on('change', function(){
+		$('#' + $(this).data('for')).val($(this).val());
+	});
+
 	//Activate demotiles
 	$('input.affectsDemotile').on('change changeColor', function(){
 		var id = $(this).prop('id');
@@ -10112,7 +10705,6 @@ async function load(settings, onChange) {
 		});
 	});
 
-
 	//---------- Tile Editor ----------
 	var tileEditor = {};
 	var dialogTileEditorSelectedStack = -1;
@@ -10131,197 +10723,14 @@ async function load(settings, onChange) {
 		"rgba(255, 0, 127, 0.5)",
 		"rgba(255, 51, 51, 0.5)"
 	];
-	var standardTile = {
-		tile: {
-			'border-top-left-radius': 15, 
-			'border-top-left-radius-unit': "px", 
-			'border-top-right-radius': 15, 
-			'border-top-right-radius-unit': "px", 
-			'border-bottom-left-radius': 15, 
-			'border-bottom-left-radius-unit': "px", 
-			'border-bottom-right-radius': 15,
-			'border-bottom-right-radius-unit': "px"
-		},
-		stacks: [
-			{	
-				name: "FullSizeState",
-				horizontalMode: 'left',
-				horizontalValue: 6,
-				horizontalUnit: 'px',
-				widthMode: 'tileMinus',
-				widthValue: 6,
-				widthUnit: 'px',
-				verticalMode: 'top',
-				verticalValue: 6,
-				verticalUnit: 'px',
-				heightMode: 'tileMinus',
-				heightValue: 6,
-				heightUnit: 'px',
-				elements: [{commonType:'iconTextCombination', commonName:'FullSizeState', options:[]}],
-				default: true
-			}, {	
-				name: "Icon",
-				horizontalMode: 'left',
-				horizontalValue: 8,
-				horizontalUnit: 'px',
-				widthMode: 'normal',
-				widthValue: 38,
-				widthUnit: 'px',
-				verticalMode: 'top',
-				verticalValue: 8,
-				verticalUnit: 'px',
-				heightMode: 'normal',
-				heightValue: 38,
-				heightUnit: 'px',
-				elements: [],
-				default: true
-			}, {	
-				name: "Busy",
-				horizontalMode: 'left',
-				horizontalValue: 15,
-				horizontalUnit: 'px',
-				widthMode: 'normal',
-				widthValue: 24,
-				widthUnit: 'px',
-				verticalMode: 'top',
-				verticalValue: 15,
-				verticalUnit: 'px',
-				heightMode: 'normal',
-				heightValue: 24,
-				heightUnit: 'px',
-				elements: [],
-				default: true
-			}, {	
-				name: "Error",
-				horizontalMode: 'left',
-				horizontalValue: 52,
-				horizontalUnit: 'px',
-				widthMode: 'normal',
-				widthValue: 16,
-				widthUnit: 'px',
-				verticalMode: 'top',
-				verticalValue: 2,
-				verticalUnit: 'px',
-				heightMode: 'normal',
-				heightValue: 16,
-				heightUnit: 'px',
-				elements: [],
-				default: true
-			}, {	
-				name: "Unreach",
-				horizontalMode: 'left',
-				horizontalValue: 68,
-				horizontalUnit: 'px',
-				widthMode: 'normal',
-				widthValue: 16,
-				widthUnit: 'px',
-				verticalMode: 'top',
-				verticalValue: 2,
-				verticalUnit: 'px',
-				heightMode: 'normal',
-				heightValue: 16,
-				heightUnit: 'px',
-				elements: [],
-				default: true
-			}, {	
-				name: "Battery",
-				horizontalMode: 'left',
-				horizontalValue: 84,
-				horizontalUnit: 'px',
-				widthMode: 'normal',
-				widthValue: 16,
-				widthUnit: 'px',
-				verticalMode: 'top',
-				verticalValue: 2,
-				verticalUnit: 'px',
-				heightMode: 'normal',
-				heightValue: 16,
-				heightUnit: 'px',
-				elements: [],
-				default: true
-			}, {	
-				name: "INFO_A",
-				horizontalMode: 'left',
-				horizontalValue: 52,
-				horizontalUnit: 'px',
-				widthMode: 'tileMinus',
-				widthValue: 52,
-				widthUnit: 'px',
-				verticalMode: 'top',
-				verticalValue: 20,
-				verticalUnit: 'px',
-				heightMode: 'normal',
-				heightValue: 12,
-				heightUnit: 'px',
-				elements: [],
-				default: true
-			}, {	
-				name: "INFO_B",
-				horizontalMode: 'left',
-				horizontalValue: 52,
-				horizontalUnit: 'px',
-				widthMode: 'tileMinus',
-				widthValue: 52,
-				widthUnit: 'px',
-				verticalMode: 'top',
-				verticalValue: 38,
-				verticalUnit: 'px',
-				heightMode: 'normal',
-				heightValue: 12,
-				heightUnit: 'px',
-				elements: [],
-				default: true
-			}, {	
-				name: "Name",
-				horizontalMode: 'left',
-				horizontalValue: 8,
-				horizontalUnit: 'px',
-				widthMode: 'tileMinus',
-				widthValue: 8,
-				widthUnit: 'px',
-				verticalMode: 'top',
-				verticalValue: 58,
-				verticalUnit: 'px',
-				heightMode: 'normal',
-				heightValue: 30,
-				heightUnit: 'px',
-				elements: [],
-				default: true
-			}, {	
-				name: "State",
-				horizontalMode: 'left',
-				horizontalValue: 8,
-				horizontalUnit: 'px',
-				widthMode: 'tileMinus',
-				widthValue: 8,
-				widthUnit: 'px',
-				verticalMode: 'top',
-				verticalValue: 90,
-				verticalUnit: 'px',
-				heightMode: 'tileMinus',
-				heightValue: 90,
-				heightUnit: 'px',
-				elements: [],
-				default: true
-			}
-		]
-	}
-	//Open tileEditor
-	$('#optionsTileEditor').on('click', function(){
-		initDialog('dialogTileEditor', function(){ //save dialog 
-			//var cssArray = dialogTileEditorCreateCssArrayFromOptions(options);
-		 //xxxxxxx
-		}, function(){ //init dialog function 
-			tileEditor = JSON.parse(JSON.stringify(standardTile)); //xxxxxxx
-			dialogTileEditorInit();
-		});
-	});
-	//Init
+
+	//Init tileEditor
 	function dialogTileEditorInit(noZoomReset){
+		$('.dialogTileEditorName').html(tileEditor.commonName || '');
 		$('#dialogTileEditorDemoTile').html('');
 		$('#dialogTileEditorStackList').html('');
 		$('.tabDialogTileEditorEditContainer').hide();
-		$('.tabDialogTileEditorTileBorderRadius').each(function(){
+		$('.dialogTileEditorTileBorderRadius').each(function(){
 			let selector = 'border-' + $(this).data('direction') + '-radius';
 			let defaultValue = 15;
 			if($(this).data('type') == 'unit'){
@@ -10333,24 +10742,28 @@ async function load(settings, onChange) {
 		tileEditor.stacks.forEach(function(stack, stackIndex){
 			dialogTileEditorAddStack(stackIndex, stack);
 		});
-		if(!noZoomReset) setTimeout(function(){ $('#tabDialogTileEditorTileScale').val($('#dialogTileEditorDemoBackground').width() * 0.0065).trigger('change'); }, 100);
+		if(!noZoomReset) setTimeout(function(){ $('.dialogTileEditorDemoScale').val($('#dialogTileEditorDemoBackground').width() * 0.0065).trigger('change'); }, 100);
 	}
 
-	//Tile
-	$('.tabDialogTileEditorTileSize').on('input change', function(){
+	//Demo
+	$('.dialogTileEditorDemoSize').on('input change', function(){
 		$('#dialogTileEditorDemoTile').css($(this).data('mode'), 110 * $(this).val());
 	});
-	$('#tabDialogTileEditorTileScale').on('input change', function(){
+
+	$('.dialogTileEditorDemoScale').on('input change', function(){
 		$('#dialogTileEditorDemoTile').data('scale', $(this).val()).css('transform', `scale(${$(this).val()})`);
 	});
-	$('.tabDialogTileEditorTileBorderRadius').on('input change', function(){ //xxxxx daten speichern
+
+	//Tile
+	$('.dialogTileEditorTileBorderRadius').on('input change', function(){
 		var selector = 'border-' + $(this).data('direction') + '-radius';
-		var value = $(`.tabDialogTileEditorTileBorderRadius[data-direction="${$(this).data('direction')}"][data-type="value"]`).val() || 0;
-		var unit = $(`.tabDialogTileEditorTileBorderRadius[data-direction="${$(this).data('direction')}"][data-type="unit"]`).val() || 'px';
+		var value = $(`.dialogTileEditorTileBorderRadius[data-direction="${$(this).data('direction')}"][data-type="value"]`).val() || 0;
+		var unit = $(`.dialogTileEditorTileBorderRadius[data-direction="${$(this).data('direction')}"][data-type="unit"]`).val() || 'px';
 		$('#dialogTileEditorDemoTile').css(selector, value + unit);
 		tileEditor.tile[selector] = value;
 		tileEditor.tile[selector + '-unit'] = unit;
 	});
+
 	$('#dialogTileEditorDemoTile, #dialogTileEditorDemoBackground').on('click touchstart', function(){
 		dialogTileEditorSelectStack(-1);
 	});
@@ -10444,8 +10857,6 @@ async function load(settings, onChange) {
 			});
 			$('select.tabDialogTileEditor.positionValue').select();
 			$('.tabDialogTileEditorEditContainer').show();
-			//Elements
-			values2table('tableDialogTileEditorElements', tileEditor.stacks[index].elements || [], onChange, ontableDialogTileEditorElementsReady);
 		} else {
 			$('.tabDialogTileEditorEditContainer').hide();			
 		}
@@ -10453,10 +10864,10 @@ async function load(settings, onChange) {
 
 	//--Style Stack Demo, optional with new options, and save them
 	function dialogTileEditorStyleStack(index, options){
-		var options = Object.assign({}, tileEditor.stacks[index] || {}, options || {});
+		options = Object.assign({}, tileEditor.stacks[index] || {}, options || {});
 		$element = $(`.dialogTileEditorDemoStack[data-index="${index}"]`);
 		$element.find('span.name').html(options.name ? '&nbsp;' + options.name : '');
-		var cssArray = dialogTileEditorCreateCssArrayFromOptions(options);
+		var cssArray = tileEditorCreateCssArrayFromOptions(options);
 		$element.data('css-array', cssArray);
 		$element.removeClass('anchorLeft anchorRight anchorTop anchorBottom');
 		(cssArray || []).forEach(function(css){
@@ -10471,100 +10882,6 @@ async function load(settings, onChange) {
 			}
 		});
 		tileEditor.stacks[index] = options;
-	}
-
-	//--Create CSS-array from options
-	function dialogTileEditorCreateCssArrayFromOptions(options){
-		options = options || {};
-		var cssArray = [];
-		var translateX = 0, translateY = 0;
-		//horizontal
-		if(options.horizontalMode == 'left'){
-			cssArray.push({
-				attribute: 'left', 
-				value: (options.horizontalValue || '0') + (options.horizontalUnit || 'px')
-			}, {
-				attribute: 'right',
-				value: ''
-			});
-			translateX = '0';
-		} else if(options.horizontalMode == 'right'){
-			cssArray.push({
-				attribute: 'right', 
-				value: (options.horizontalValue || '0') + (options.horizontalUnit || 'px')
-			}, {
-				attribute: 'left',
-				value: ''
-			});
-			translateX = '0'
-		} else if(options.horizontalMode == 'center'){
-			cssArray.push({
-				attribute: 'left', 
-				value: `calc(50% + ${(options.horizontalValue || '0')}${(options.horizontalUnit || 'px')})`
-			}, {
-				attribute: 'right',
-				value: ''
-			});	
-			translateX = '-50%';
-		}
-		//width
-		if(options.widthMode == 'normal'){
-			cssArray.push({
-				attribute: 'width', 
-				value: (options.widthValue || '0') + (options.widthUnit || 'px')
-			});	
-		} else if(options.widthMode == 'tileMinus'){
-			cssArray.push({
-				attribute: 'width', 
-				value: `calc(100% - ${(options.widthValue || '0')}${(options.widthUnit || 'px')})`
-			});	
-		}
-		//vertical
-		if(options.verticalMode == 'top'){
-			cssArray.push({
-				attribute: 'top', 
-				value: (options.verticalValue || '0') + (options.verticalUnit || 'px')
-			}, {
-				attribute: 'bottom',
-				value: ''
-			});
-			translateY = '0';
-		} else if(options.verticalMode == 'bottom'){
-			cssArray.push({
-				attribute: 'bottom', 
-				value: (options.verticalValue || '0') + (options.verticalUnit || 'px')
-			}, {
-				attribute: 'top',
-				value: ''
-			});
-			translateY = '0';
-		} else if(options.verticalMode == 'middle'){
-			cssArray.push({
-				attribute: 'top', 
-				value: `calc(50% + ${(options.verticalValue || '0')}${(options.verticalUnit || 'px')})`
-			}, {
-				attribute: 'bottom',
-				value: ''
-			});	
-			translateY = '-50%';
-		}
-		//height
-		if(options.heightMode == 'normal'){
-			cssArray.push({
-				attribute: 'height', 
-				value: (options.heightValue || '0') + (options.heightUnit || 'px')
-			});	
-		} else if(options.heightMode == 'tileMinus'){
-			cssArray.push({
-				attribute: 'height', 
-				value: `calc(100% - ${(options.heightValue || '0')}${(options.heightUnit || 'px')})`
-			});	
-		}
-		cssArray.push({
-			attribute: 'transform', 
-			value: `translate(${translateX}, ${translateY})`
-		});			
-		return cssArray;
 	}
 
 	//--Enable draggable for stack demo
@@ -10683,133 +11000,6 @@ async function load(settings, onChange) {
 		}
 		dialogTileEditorStyleStack(index, options)
 	});
-
-	//Elements
-	function ontableDialogTileEditorElementsReady(){
-		var $div = $('#tableDialogTileEditorElements');
-		var $table = $div.find('.table-values');
-		var $lines = $table.find('.table-lines');
-		//Button-Functions
-		$lines.find('a[data-command]').each(function () {
-			var command = $(this).data('command');
-			//Edit Element Entry
-			if (command === 'edit') {
-				var elementIndex = $(this).data('index');
-				$(this).on('click', function () {
-					var _elementIndex = $(this).data('index');
-					initDialog('dialogTileEditorEditElementOptions', function(){ //save dialog
-						var _elementIndex = $('#dialogTileEditorEditElementIndex').val();
-						var $tbody = $('#tableDialogTileEditorEditElementOptions table tbody');
-						var options = [];
-						$tbody.find('tr').each(function(){
-							var option = $(this).data('option');
-							var type = $(this).data('type');
-							var value;
-							switch(type){
-								case "checkbox":
-									value = $(this).find('input').prop('checked');
-									options.push({option: option, type: type, value: value});
-								break;
-
-								case "select":
-									value = $(this).find('select').val();
-									options.push({option: option, type: type, value: value, selectOptions: $(this).find('select').data('select-options')});
-								break;
-									
-								case "position": //xxxx what to do with position... fixed, editable, hidden, ????
-									value = "";
-									options.push({option: option, type: type, value: value});
-								break;
-
-								case "textarea":
-									value = $(this).find('textarea').val();
-									options.push({option: option, type: type, value: value});
-								break;
-
-								case "deviceState": case "string": default:
-									value = $(this).find('input').val();
-									options.push({option: option, type: type, value: value});
-								break;								
-							}
-						});
-						tileEditor.stacks[dialogTileEditorSelectedStack].elements[_elementIndex].options = options;
-					}, function(){ //init dialog function
-						$('#dialogTileEditorEditElementOptionsName').html(_(tileEditor.stacks[dialogTileEditorSelectedStack].elements[_elementIndex].commonType) + ' ' + tileEditor.stacks[dialogTileEditorSelectedStack].elements[_elementIndex].commonName);
-						$('#dialogTileEditorEditElementIndex').val(_elementIndex);
-						var options = Object.assign([], uiElementOptions[tileEditor.stacks[dialogTileEditorSelectedStack].elements[_elementIndex].commonType] || [], tileEditor.stacks[dialogTileEditorSelectedStack].elements[_elementIndex].options || []);
-						var $tbody = $('#tableDialogTileEditorEditElementOptions table tbody').html('');
-						options.forEach(function(option, optionIndex){
-							var $tr = $(`<tr data-option="${option.option}" data-type="${option.type}"></tr>`);
-							$(`<td><pre>${option.option}</pre></td>`).appendTo($tr);
-							var $value;
-							switch(option.type){
-								case "checkbox":
-									$value = $(`<label><input type="checkbox" class="filled-in" ${(option.value ? 'checked="checked" ' : '')}/><span>&nbsp;</span></label>`);
-								break;
-
-								case "select":
-									var $select = $('<select></select>').data('select-options', option.selectOptions);
-									((option.selectOptions || "").split(';') || []).forEach(function(selectOption){
-										selectOption = selectOption.split('/');
-										$select.append(`<option value="${selectOption[0]}" ${typeof option.value != 'undefined' && option.value == selectOption[0] ? 'selected' : ''}>${_(selectOption[1] || selectOption[0])}</option>`);
-									});
-									$value = $(`<div class="input-field"></div>`).append($select);
-								break;
-									
-								case "position": //xxxx what to do with position... fixed, editable, hidden, ????
-									$value = $(`<span>{option.value}</span>`);
-								break;
-
-								case "textarea":
-									var $value = $(`<textarea id="tableDialogTileEditorEditElementOptions_${optionIndex}">`).val(option.value || "");
-									//$value = $(`<div class="input-field"></div>`).append($textarea).append(`<label for="tableDialogTileEditorEditElementOptions_${optionIndex}"></label>`);
-								break;
-
-								case "deviceState": case "string": default:
-									var $input = $(`<input id="tableDialogTileEditorEditElementOptions_${optionIndex}" type="text" class="validate">`).val(option.value || "");
-									$value = $(`<div class="input-field"></div>`).append($input).append(`<label for="tableDialogTileEditorEditElementOptions_${optionIndex}"></label>`);
-								break;
-							}
-							$(`<td data-option="${option.option}" data-type="${option.type}"></td>`).append($value).appendTo($tr);
-							$(`<td><span class='small'>${option.description || ''}</span></td>`).appendTo($tr);
-							$tbody.append($tr);
-						});
-						$tbody.find('select').select();
-						M.updateTextFields();
-					});
-				});
-			}
-			//Drag-Icon
-			if (command === 'drag_handle') {
-				var imageIndex = $(this).data('index');
-				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
-			}
-		});
-		//Make table sortable
-		$("#tableDialogTileEditorElements tbody").sortable({
-			helper: fixHelper,
-			stop: function( event, ui ) {
-				console.log("Drag ended, start resorting...");
-				$("#tableDialogTileEditorElements tbody").sortable('disable');
-				var sequence = [];
-				$('#tableDialogTileEditorElements').find('.table-values').find('.table-lines').find('tr').each(function(){
-					sequence.push($(this).data('index'));
-				});
-				var tableResorted = [];
-				for(var i = 0; i < sequence.length; i++){
-					tableResorted.push(tileEditor.stacks[dialogTileEditorSelectedStack].elements[sequence[i]]);
-				}
-				tileEditor.stacks[dialogTileEditorSelectedStack].elements = tableResorted;
-				onChange();
-				values2table('tableDialogTileEditorElements', tileEditor.stacks[dialogTileEditorSelectedStack].elements, onChange, ontableDialogTileEditorElementsReady);
-				$("#tableDialogTileEditorElements tbody").sortable('enable');
-				console.log("resorted.");
-			},
-			axis: "y",
-			handle: "a[data-command='drag_handle']"
-		});		
-	}
-	
 }
 
 //++++++++++ SAVE ++++++++++
@@ -10853,6 +11043,38 @@ async function save(callback) {
 	obj.lists = lists;
 	obj.optionsLayoutDefaultIcons = optionsLayoutDefaultIcons || {};
 	obj.optionsLayoutDefaultSymbols = optionsLayoutDefaultSymbols || {};
+	obj.tileClasses = tileClasses || [];
+
+	//Generate cssString from tileClasses
+	obj.tileClassesCssString = "";
+	obj.tileClasses.forEach(function(tileClass, tileClassIndex){
+		obj.tileClassesCssString += createCssStringFromTileClass(tileClass, tileClassIndex) + " ";
+	});
+	function createCssStringFromTileClass(tileClass, tileClassIndex){
+		var cssPrefix = ".iQontrolTileClass_" + tileClassIndex;
+		var cssString = "";
+		if(!tileClass.value) tileClass.value = {};
+		//Tile
+		cssString += cssPrefix + " { /* " + tileClass.commonName + " */ ";
+		for(let tileOption in tileClass.value.tile || {}){
+			if(tileOption.indexOf('border-') == 0 && tileOption.endsWith('-radius')){
+				cssString += tileOption + ": " + tileClass.value.tile[tileOption] + (tileClass.value.tile[tileOption + "-unit"] || "px") + "; ";
+			}
+		}
+		cssString += " } ";
+		(tileClass.value.stacks || []).forEach(function(stack, stackIndex){
+			//Stacks
+			let cssArray = tileEditorCreateCssArrayFromOptions(stack);
+			if(cssArray && cssArray.length){
+				cssString += cssPrefix + "." + stack.index + "{ /* " + stack.name + " */ ";
+				cssArray.forEach(function(css){
+					cssString += css.attribute + ": " + css.value + "; ";
+				});
+				cssString += "} ";
+			}
+		});
+		return cssString;
+	}	
 
 	//Set version
 	version = ++version || 0;

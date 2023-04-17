@@ -1766,14 +1766,6 @@ function deliverObject(objId, obj, callback){
 }
 
 //++++++++++ HELPERS: OBJECT AND STATES-FUNCTIONS ++++++++++
-function createOptionsAndPanelObjectsFromConfig(){
-	console.log("* Creating options- and panel-objects");
-	for (var key in config[namespace]) {
-		if(key.indexOf("options") == 0) options[key.substring(7)] = config[namespace][key];
-		if(key.indexOf("panel") == 0){ panels[0][key.substring(5)] = config[namespace][key]; }
-	};
-}
-
 function fetchView(viewId, callback){ // fetches View configuration 
 	var _namespace = getNamespace(viewId);
 	if(typeof config[_namespace] == udef) {
@@ -3292,9 +3284,20 @@ function translateTextInsideBrackets(string){
 }
 
 //++++++++++ OPTIONS ++++++++++
+function createOptionsAndPanelObjectsFromConfig(){
+	console.log("* Creating options- and panel-objects");
+	for (var key in config[namespace]) {
+		if(key.indexOf("options") == 0) options[key.substring(7)] = config[namespace][key];
+		if(key.indexOf("panel") == 0) panels[0][key.substring(5)] = config[namespace][key];
+		if(key == "tileClassesCssString") options[key] = config[namespace][key];
+	};
+}
+
 function handleOptions(){
 	if(!options) return;
 	var customCSS = "";
+	//tileClassesCSS
+	if(options.tileClassesCssString) customCSS += options.tileClassesCssString;
 	//Toolbar
 	if(options.LayoutToolbarFooterColor) {
 		customCSS += "#Toolbar.ui-footer{";
