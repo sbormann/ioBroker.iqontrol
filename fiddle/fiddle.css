@@ -1,0 +1,74 @@
+body {
+    background-color: #661dd3 !important;
+    padding: 0 24px;
+    color: white; /* Change my color to yellow */
+  }
+  .main{
+    position:relative;
+    top:10px;
+    left: 10px;
+    width: 500px;
+    height: 500px;
+    background: rgba(255, 102, 0, 0.884);
+    padding: 0px;
+    margin: 0px;
+  }
+  .tile{
+    width: 100px;
+    height: 100px;
+    top: 20px; left: 20px;
+    margin: 10px;
+    background-color: beige;
+    position: relative;
+    transition: all 1s;
+  }
+  .shuffleSizer{
+    background-color: #28d93152;
+    transition: all 0s;
+  }
+  .extraContainer{
+    background-color: rgba(255, 0, 0, 0.192);
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    overflow:visible;
+  }
+  .intraContainer{
+    background-color: rgb(255 255 255 / 80%);
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    overflow:hidden;
+  }
+.borderRadius{
+   border-radius: 15px;
+}
+
+  .pressureIndicator{
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    border-radius: 15px;
+    box-shadow: 0 0 0 8px grey;
+  }
+  
+  .element{
+    position: absolute;
+    width: 80px; height: 20px;
+    z-index:2;
+  }
+  .one{
+    top: -10px; left: -10px; 
+    background-color: red;
+  }
+  .two{
+    left: 25px; top: 20px;
+    background-color: green;
+  }
+  .three{
+    left: 50px; top: 50px;
+    background-color: blue;
+  }

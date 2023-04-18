@@ -14077,7 +14077,7 @@ function startUiElementStacksTimer(collectionId, interval){
 			var stack = deviceCollections.uiElementStacks[collectionId].stacks[stackId];
 			if(stack.count > 1){ 
 				if(stack.index < stack.count - 1) stack.index++; else stack.index = 0;
-				$(`div.uiElementStack.container[data-ui-element-stack-id="${stackId}"]:not([data-ui-element-stack-index="${stack.index}"])`).css('opacity', 0);
+				$(`div.uiElementStack.container[data-ui-element-stack-id="${stackId}"]:not([data-ui-element-stack-index="${stack.index}"]):not([data-ui-element-stack-index="-1"])`).css('opacity', 0);
 				$(`div.uiElementStack.container[data-ui-element-stack-id="${stackId}"][data-ui-element-stack-index="${stack.index}"]`).css('opacity', 1);
 			}
 		}
@@ -14767,7 +14767,7 @@ function UIElements(initialUiElements) {
 	this.bindingFunctions = initialUiElements.bindingFunctions || [];
 	this.unbindingFunctions = initialUiElements.unbindingFunctions || [];
 	this.statesToFetchAndUpdate = initialUiElements.statesToFetchAndUpdate || [];
-	this.uiElementIndex = initialUiElements.statesToFetchAndUpdate || 0;
+	this.uiElementIndex = initialUiElements.uiElementIndex || 0;
 	this.uiElementStacks = initialUiElements.uiElementStacks || {};
 
 	/** Adds given HTML-Code to uiElements
@@ -14825,13 +14825,14 @@ function UIElements(initialUiElements) {
 			if(!this.uiElementStacks.stacks[deviceStackId]) this.uiElementStacks.stacks[deviceStackId] = {count: 0, index: 0};
 			this.uiElementStacks.stacks[deviceStackId].count = this.uiElementStacks.stacks[deviceStackId].count || 0;
 			if(this.uiElementStacks.open) this.closeElementStackContainer();
+			let index = uiElementOptions.stackCycle ? this.uiElementStacks.stacks[deviceStackId].count : -1;
 			this.addHtml(`<div
 				class="uiElementStack container"
 				data-ui-element-stack-id="${deviceStackId}"
-				data-ui-element-stack-index="${this.uiElementStacks.stacks[deviceStackId].count}"
+				data-ui-element-stack-index="${index}"
 				style="${(this.uiElementStacks.stacks[deviceStackId].count > 0 ? 'opacity: 0;' : 'opacity: 1;')}"
 			>`);
-			this.uiElementStacks.stacks[deviceStackId].count++;
+			if (uiElementOptions.stackCycle) this.uiElementStacks.stacks[deviceStackId].count++;
 			this.uiElementStacks.open = true;
 		}
 		return this;
@@ -14915,11 +14916,12 @@ function UIElements(initialUiElements) {
 
 
 	//---------- iconTextCombination ----------
-	/** Adds a 
+	/** Adds a icon and text combination
 	 * @param {object} device 
 	 * @param {object} uiElementOptions 
 	 *
 	 * @param {string} uiElementOptions.stackId
+	 * @param {boolean} uiElementOptions.stackCycles
 	 *
 	 * @param {string} uiElementOptions.iconClasses
 	 * @param {string} uiElementOptions.iconDeviceStateId

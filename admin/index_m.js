@@ -887,20 +887,50 @@ var standardTileClass = {
 	},
 	stacks: [
 		{	
-			name: "FullSizeState",
+			name: "Full Size",
 			horizontalMode: 'left',
-			horizontalValue: 6,
+			horizontalValue: 0,
 			horizontalUnit: 'px',
-			widthMode: 'tileMinus',
-			widthValue: 6,
+			widthMode: 'normal',
+			widthValue: 100,
+			widthUnit: '%',
+			verticalMode: 'top',
+			verticalValue: 0,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 100,
+			heightUnit: '%',
+			readonly: true,
+			default: true
+		}, {	
+			name: "Badge",
+			horizontalMode: 'left',
+			horizontalValue: -5,
+			horizontalUnit: 'px',
+			widthMode: 'normal',
+			widthValue: 61,
 			widthUnit: 'px',
 			verticalMode: 'top',
-			verticalValue: 6,
+			verticalValue: -5,
 			verticalUnit: 'px',
-			heightMode: 'tileMinus',
-			heightValue: 6,
+			heightMode: 'normal',
+			heightValue: 18,
 			heightUnit: 'px',
-			elements: [{commonType:'iconTextCombination', commonName:'FullSizeState', options:[]}],
+			default: true
+		}, {	
+			name: "Enlarge",
+			horizontalMode: 'right',
+			horizontalValue: -6,
+			horizontalUnit: 'px',
+			widthMode: 'normal',
+			widthValue: 18,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: -6,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 18,
+			heightUnit: 'px',
 			default: true
 		}, {	
 			name: "Icon",
@@ -916,10 +946,9 @@ var standardTileClass = {
 			heightMode: 'normal',
 			heightValue: 38,
 			heightUnit: 'px',
-			elements: [],
 			default: true
 		}, {	
-			name: "Busy",
+			name: "Loading",
 			horizontalMode: 'left',
 			horizontalValue: 15,
 			horizontalUnit: 'px',
@@ -932,7 +961,6 @@ var standardTileClass = {
 			heightMode: 'normal',
 			heightValue: 24,
 			heightUnit: 'px',
-			elements: [],
 			default: true
 		}, {	
 			name: "Error",
@@ -948,7 +976,6 @@ var standardTileClass = {
 			heightMode: 'normal',
 			heightValue: 16,
 			heightUnit: 'px',
-			elements: [],
 			default: true
 		}, {	
 			name: "Unreach",
@@ -964,7 +991,6 @@ var standardTileClass = {
 			heightMode: 'normal',
 			heightValue: 16,
 			heightUnit: 'px',
-			elements: [],
 			default: true
 		}, {	
 			name: "Battery",
@@ -980,7 +1006,6 @@ var standardTileClass = {
 			heightMode: 'normal',
 			heightValue: 16,
 			heightUnit: 'px',
-			elements: [],
 			default: true
 		}, {	
 			name: "INFO_A",
@@ -996,7 +1021,6 @@ var standardTileClass = {
 			heightMode: 'normal',
 			heightValue: 12,
 			heightUnit: 'px',
-			elements: [],
 			default: true
 		}, {	
 			name: "INFO_B",
@@ -1012,7 +1036,6 @@ var standardTileClass = {
 			heightMode: 'normal',
 			heightValue: 12,
 			heightUnit: 'px',
-			elements: [],
 			default: true
 		}, {	
 			name: "Name",
@@ -1028,7 +1051,6 @@ var standardTileClass = {
 			heightMode: 'normal',
 			heightValue: 30,
 			heightUnit: 'px',
-			elements: [],
 			default: true
 		}, {	
 			name: "State",
@@ -1044,7 +1066,6 @@ var standardTileClass = {
 			heightMode: 'tileMinus',
 			heightValue: 90,
 			heightUnit: 'px',
-			elements: [],
 			default: true
 		}
 	]
@@ -3815,17 +3836,17 @@ function convertViewV3(view){ //No conversion so far but in .devices
 
 function convertDeviceV3(device){  //No conversion so far
 	let newDevice = {};
-	newDevice.commonName = device.commonName;
-	newDevice.commonRole = device.commonRole;
-	newDevice.nativeBackgroundImage = device.nativeBackgroundImage;
-	newDevice.nativeBackgroundImageActive = device.nativeBackgroundImageActive;
-	newDevice.nativeHeading = device.nativeHeading;
-	newDevice.nativeHeadingOptions = device.nativeHeadingOptions;
-	newDevice.nativeLinkedView = device.nativeLinkedView;
-	newDevice.nativeNewLine = device.nativeNewLine;
-	newDevice.nativeHide = device.nativeHide;
-	newDevice.options = device.options;
-	newDevice.states = device.states;
+	newDevice.commonName = device.commonName || "";
+	newDevice.commonRole = device.commonRole || "";
+	newDevice.nativeBackgroundImage = device.nativeBackgroundImage || "";
+	newDevice.nativeBackgroundImageActive = device.nativeBackgroundImageActive || "";
+	newDevice.nativeHeading = device.nativeHeading || "";
+	newDevice.nativeHeadingOptions = device.nativeHeadingOptions || "";
+	newDevice.nativeLinkedView = device.nativeLinkedView || "";
+	newDevice.nativeNewLine = device.nativeNewLine || false;
+	newDevice.nativeHide = device.nativeHide || false;
+	newDevice.options = device.options || [];
+	newDevice.states = device.states || [];
 	newDevice.states.forEach(function(state, stateIndex){
 		if(state.commonRole && state.commonRole == "array" && state.value){ //Array
 			/* 	state.value = 
@@ -3958,6 +3979,7 @@ function convertDeviceV3(device){  //No conversion so far
 			state.commonRole = "const";
 		} 
 	});
+	newDevice.tileSettings = device.tileSettings || {};
 	return newDevice;
 } 
 
@@ -5545,10 +5567,10 @@ async function load(settings, onChange) {
 	}
 
 	//TileSettings
+	var dialogDeviceEditTileSettings = {};
 	$('#dialogDeviceEdit ul.tabs li.tab a[href="#tabdialogDeviceEditTileSettings"]').on('click', function(){ //Set Zoom-Level
 		setTimeout(function(){ $('.dialogDeviceEditTileSettingsDemoScale').val($('#dialogDeviceEditTileSettingsDemoBackground').width() * 0.0065).trigger('change'); }, 100);
 	});	
-	var dialogDeviceEditTileSettings = {}; //xxxxxxxx
 	//Init TileSettings
 	function dialogDeviceEditTileSettingsInit(){
 		dialogDeviceEditTileSettings.tileClass = dialogDeviceEditTileSettings.tileClass || 0;
@@ -5595,7 +5617,6 @@ async function load(settings, onChange) {
 	$('.dialogDeviceEditTileSettingsDemoSize').on('input change', function(){
 		$('#dialogDeviceEditTileSettingsDemoTile').css($(this).data('mode'), 110 * $(this).val());
 	});
-
 	$('.dialogDeviceEditTileSettingsDemoScale').on('input change', function(){
 		$('#dialogDeviceEditTileSettingsDemoTile').data('scale', $(this).val()).css('transform', `scale(${$(this).val()})`);
 	});
@@ -5623,7 +5644,7 @@ async function load(settings, onChange) {
 		options = Object.assign({}, defaultOptions || {}, options);
 		//Demo
 		var $newStack = $(`<div id="dialogDeviceEditTileSettingsDemoStack_${index}" data-index="${index}" class="dialogDeviceEditTileSettingsDemoStack">${index}<span class="name small"></span></div>`);
-		$newStack.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
+		if(index > 0) $newStack.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
 		$newStack.on('click', function(){
 			var _index = $(this).data('index');
 			$('#tabledialogDeviceEditTileSettingsElements tbody tr').removeClass('marked');
@@ -5661,13 +5682,13 @@ async function load(settings, onChange) {
 		});
 		enhanceTextInputToCombobox('#tabledialogDeviceEditTileSettingsElements tbody input[data-name="stackIndex"]', stackOptions.join(';'), false, function(value, $target){
 			if(!isNaN(value)) value = parseInt(value); else value = -1;
-			if(value > -1) $target.css('background-color', dialogTileEditorColors[value%dialogTileEditorColors.length])
+			if(value > 0) $target.css('background-color', dialogTileEditorColors[value%dialogTileEditorColors.length])
 		});
-		$lines.find('input[data-name="stackIndex"]').each(function(){
+		$lines.find('input[data-name="stackIndex"]').on('change', function(){
 			let value = $(this).val();
 			if(!isNaN(value)) value = parseInt(value); else value = -1;
-			if(value > -1) $(this).css('background-color', dialogTileEditorColors[value%dialogTileEditorColors.length])
-		});
+			if(value > 0) $(this).css('background-color', dialogTileEditorColors[value%dialogTileEditorColors.length])
+		}).trigger('change');
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
@@ -5816,18 +5837,20 @@ async function load(settings, onChange) {
 			}
 			//Drag-Icon
 			if (command === 'drag_handle') {
-				var imageIndex = $(this).data('index');
 				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
 			}
 		});
 		//Make table sortable
-		$("#tableDialogDeviceEditTileSettingsElementOptions tbody").sortable({
+		$("#tabledialogDeviceEditTileSettingsElements tbody").sortable({
 			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
 			stop: function( event, ui ) {
 				console.log("Drag ended, start resorting...");
-				$("#tableDialogDeviceEditTileSettingsElementOptions tbody").sortable('disable');
+				$("#tabledialogDeviceEditTileSettingsElements tbody").sortable('disable');
 				var sequence = [];
-				$('#tableDialogDeviceEditTileSettingsElementOptions').find('.table-values').find('.table-lines').find('tr').each(function(){
+				$('#tabledialogDeviceEditTileSettingsElements').find('.table-values').find('.table-lines').find('tr').each(function(){
 					sequence.push($(this).data('index'));
 				});
 				var tableResorted = [];
@@ -5836,8 +5859,8 @@ async function load(settings, onChange) {
 				}
 				dialogDeviceEditTileSettings.elements = tableResorted;
 				onChange();
-				values2table('tableDialogDeviceEditTileSettingsElementOptions', dialogDeviceEditTileSettings.elements, onChange, ontableDialogDeviceEditTileSettingsElementsReady);
-				$("#tableDialogDeviceEditTileSettingsElementOptions tbody").sortable('enable');
+				values2table('tabledialogDeviceEditTileSettingsElements', dialogDeviceEditTileSettings.elements, onChange, ontableDialogDeviceEditTileSettingsElementsReady);
+				$("#tabledialogDeviceEditTileSettingsElements tbody").sortable('enable');
 				console.log("resorted.");
 			},
 			axis: "y",
@@ -10766,6 +10789,7 @@ async function load(settings, onChange) {
 	var tileEditor = {};
 	var dialogTileEditorSelectedStack = -1;
 	var dialogTileEditorColors = [
+		"rgba(255, 51, 51, 0.5)",
 		"rgba(255, 0, 0, 0.5)",
 		"rgba(255, 127, 0, 0.5)",
 		"rgba(255, 255, 0, 0.5)",
@@ -10777,8 +10801,7 @@ async function load(settings, onChange) {
 		"rgba(0, 0, 255, 0.5)",
 		"rgba(127, 0, 255, 0.5)",
 		"rgba(255, 0, 255, 0.5)",
-		"rgba(255, 0, 127, 0.5)",
-		"rgba(255, 51, 51, 0.5)"
+		"rgba(255, 0, 127, 0.5)"
 	];
 
 	//Init tileEditor
@@ -10830,6 +10853,23 @@ async function load(settings, onChange) {
 	$('#tabDialogTileEditorAddStack').on('click', dialogTileEditorAddStack);
 	function dialogTileEditorAddStack(index, options){
 		index = typeof index == "number" ? index : tileEditor.stacks.length;
+		var fullSizeStack = {
+			name: "Full Size",
+			horizontalMode: 'left',
+			horizontalValue: 0,
+			horizontalUnit: 'px',
+			widthMode: 'normal',
+			widthValue: 100,
+			widthUnit: '%',
+			verticalMode: 'top',
+			verticalValue: 0,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 100,
+			heightUnit: '%',
+			default: true,
+			readonly: true
+		}
 		var defaultOptions = {
 			name: "Stack " + index,
 			horizontalMode: 'left',
@@ -10845,11 +10885,11 @@ async function load(settings, onChange) {
 			heightValue: 20,
 			heightUnit: 'px'
 		};
-		options = Object.assign({}, defaultOptions || {}, options);
+		if(index == 0)	options = fullSizeStack; else options = Object.assign({}, defaultOptions || {}, options);
 		tileEditor.stacks[index] = options;
 		//Demo
 		var $newStack = $(`<div id="dialogTileEditorDemoStack_${index}" data-index="${index}" class="dialogTileEditorDemoStack">${index}<span class="name small"></span><img src="corner_resize.png" class="resizeHandle"></div>`);
-		$newStack.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
+		if(index > 0) $newStack.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
 		$('#dialogTileEditorDemoTile').append($newStack);
 		dialogTileEditorEnableDraggable($newStack);
 		//Stacklist
@@ -10912,6 +10952,7 @@ async function load(settings, onChange) {
 					$this.val(tileEditor.stacks[index][$this.data('direction') + capitalize($this.data('type'))] || 0);
 				}
 			});
+			if(tileEditor.stacks[index].readonly) $('.tabDialogTileEditor.positionValue').prop('disabled', 'disabled').addClass('disabled'); else $('.tabDialogTileEditor.positionValue').prop('disabled', false).removeClass('disabled');
 			$('select.tabDialogTileEditor.positionValue').select();
 			$('.tabDialogTileEditorEditContainer').show();
 		} else {
@@ -10945,7 +10986,9 @@ async function load(settings, onChange) {
 	function dialogTileEditorEnableDraggable($element) {
 		let offsetX, offsetY, initX, initY, initWidth, initHeight, resize, $active;
 		const $tile = $('#dialogTileEditorDemoTile');
+		const $background = $('#dialogTileEditorDemoBackground');
 		function start(e) {
+			if($active) return;
 			e.preventDefault();
 			e.stopPropagation();
 			if(!$(this).hasClass('selected')){
@@ -11043,8 +11086,10 @@ async function load(settings, onChange) {
 		$element.on("mousedown touchstart", start);
 		$element.on("mousemove touchmove", move);
 		$tile.on("mousemove touchmove", move);
+		$background.on("mousemove touchmove", move);
 		$element.on("mouseup click touchend", end);
-		$tile.on("mouseup mouseleave click touchend", end);
+		$tile.on("mouseup click touchend", end);
+		$background.on("mouseup click touchend", end);
 	}
 	$('.tabDialogTileEditor.positionValue').on('change', function(){
 		var options = {};
