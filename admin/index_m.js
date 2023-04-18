@@ -5682,34 +5682,39 @@ async function load(settings, onChange) {
 						var options = [];
 						$tbody.find('tr').each(function(){
 							var option = $(this).data('option');
-							var type = $(this).data('type');
+							option.role = $(this).find('td[data-name="role"]').find('select').val();
+							var $tdValue = $(this).find('td[data-name="value"]');
 							var value;
-							switch(type){
-								case "checkbox":
-									value = $(this).find('input').prop('checked');
-									options.push({option: option, type: type, value: value});
+							switch(option.role){
+								case "deviceOption": case "deviceState":
+									option.value = $tdValue.find('select').val();
 								break;
 
-								case "select":
-									value = $(this).find('select').val();
-									options.push({option: option, type: type, value: value, selectOptions: $(this).find('select').data('select-options')});
-								break;
-									
-								case "position": //xxxx what to do with position... fixed, editable, hidden, ????
-									value = "";
-									options.push({option: option, type: type, value: value});
-								break;
-
-								case "textarea":
-									value = $(this).find('textarea').val();
-									options.push({option: option, type: type, value: value});
-								break;
-
-								case "deviceState": case "string": default:
-									value = $(this).find('input').val();
-									options.push({option: option, type: type, value: value});
-								break;								
+								case "const": default:
+									switch(option.type){
+										case "checkbox":
+											option.value = $tdValue.find('input').prop('checked');
+										break;
+	
+										case "select":
+											option.value = $tdValue.find('select').val();
+										break;
+											
+										case "position": //xxxx what to do with position... fixed, editable, hidden, ????
+											option.value = "";
+										break;
+	
+										case "textarea":
+											option.value = $tdValue.find('textarea').val();
+										break;
+	
+										case "deviceState": case "string": default:
+											option.value = $tdValue.find('input').val();
+										break;
+									}
+								break;	
 							}
+							options.push(option);
 						});
 						dialogDeviceEditTileSettings.elements[_elementIndex].options = options;
 					}, function(){ //init dialog function
@@ -5718,42 +5723,94 @@ async function load(settings, onChange) {
 						var options = Object.assign([], uiElementOptions[dialogDeviceEditTileSettings.elements[_elementIndex].commonType] || [], dialogDeviceEditTileSettings.elements[_elementIndex].options || []);
 						var $tbody = $('#tableDialogDeviceEditTileSettingsElementOptions table tbody').html('');
 						options.forEach(function(option, optionIndex){
-							var $tr = $(`<tr data-option="${option.option}" data-type="${option.type}"></tr>`);
-							$(`<td><pre>${option.option}</pre></td>`).appendTo($tr);
-							var $value;
-							switch(option.type){
-								case "checkbox":
-									$value = $(`<label><input type="checkbox" class="filled-in" ${(option.value ? 'checked="checked" ' : '')}/><span>&nbsp;</span></label>`);
-								break;
-
-								case "select":
-									var $select = $('<select></select>').data('select-options', option.selectOptions);
-									((option.selectOptions || "").split(';') || []).forEach(function(selectOption){
-										selectOption = selectOption.split('/');
-										$select.append(`<option value="${selectOption[0]}" ${typeof option.value != 'undefined' && option.value == selectOption[0] ? 'selected' : ''}>${_(selectOption[1] || selectOption[0])}</option>`);
-									});
-									$value = $(`<div class="input-field"></div>`).append($select);
-								break;
-									
-								case "position": //xxxx what to do with position... fixed, editable, hidden, ????
-									$value = $(`<span>{option.value}</span>`);
-								break;
-
-								case "textarea":
-									var $value = $(`<textarea id="tableDialogDeviceEditTileSettingsElementOptions_${optionIndex}">`).val(option.value || "");
-								break;
-
-								case "deviceState": case "string": default:
-									var $input = $(`<input id="tableDialogDeviceEditTileSettingsElementOptions_${optionIndex}" type="text" class="validate">`).val(option.value || "");
-									$value = $(`<div class="input-field"></div>`).append($input).append(`<label for="tableDialogDeviceEditTileSettingsElementOptions_${optionIndex}"></label>`);
-								break;
-							}
-							$(`<td data-option="${option.option}" data-type="${option.type}"></td>`).append($value).appendTo($tr);
-							$(`<td><span class='small'>${option.description || ''}</span></td>`).appendTo($tr);
+							option.optionIndex = optionIndex;
+							var $tr = $(`<tr data-optionName="${option.option}" data-type="${option.type}"></tr>`)
+							.data('option', option);
+							//Col 1: Option
+							$(`<td data-name="option"><pre>${option.option}</pre></td>`).appendTo($tr);
+							//Col 2: Role
+							var $role = $('<select></select>')
+							.on('change', function(){ //Role has changed - generate new $value
+								let option = $(this).parents('tr').data('option') || {};
+								let $targetTd = $(this).parents('tr').find('td[data-name="value"]');
+								let newValue;
+								if($targetTd.find('input[type="checkbox"]').length){
+									newValue = $targetTd.find('input[type="checkbox"]').prop('checked');
+								} else if($targetTd.find('input').length) {
+									newValue = $targetTd.find('input').val();
+								} else if($targetTd.find('select').length) {
+									newValue = $targetTd.find('select').val();
+								}
+								option.value = newValue;
+								option.role = $(this).val();
+								$targetTd.html(get$value(option));
+								$('#tableDialogDeviceEditTileSettingsElementOptions table tbody').find('select').select();
+								M.updateTextFields();
+							})
+							.append(`<option value="const" ${option.role == 'const' ? 'selected' : ''}>${_("Constant")}</option>`)
+							.append(`<option value="deviceState" ${option.role == 'deviceState' ? 'selected' : ''}>${_("Device State")}</option>`)
+							.append(`<option value="deviceOption" ${option.role == 'deviceOption' ? 'selected' : ''}>${_("Device Option")}</option>`)
+							$(`<td data-name="role"></td>`).append($role).appendTo($tr);
+							//Col 3: Value
+							var $value = get$value(option);
+							$(`<td data-name="value"></td>`).append($value).appendTo($tr);
+							//Col 4: Description
+							$(`<td data-name="description"><span class='small'>${option.description || ''}</span></td>`).appendTo($tr);
 							$tbody.append($tr);
 						});
 						$tbody.find('select').select();
 						M.updateTextFields();
+						function get$value(option){
+							var $value;
+							switch(option.role){
+								case "deviceOption": 
+									var $select = $('<select></select>');
+									dialogDeviceEditOptions.forEach(function(deviceOption){
+										$select.append(`<option value="${deviceOption.option}" ${typeof option.value != 'undefined' && option.value == deviceOption.option ? 'selected' : ''}>${deviceOption.option}</option>`);
+									});
+									$value = $(`<div class="input-field"></div>`).append($select);
+								break;
+
+								case "deviceState":
+									var $select = $('<select></select>');
+									dialogDeviceEditStatesTable.forEach(function(deviceState){
+										$select.append(`<option value="${deviceState.state}" ${typeof option.value != 'undefined' && option.value == deviceState.state ? 'selected' : ''}>${deviceState.state}</option>`);
+									});
+									$value = $(`<div class="input-field"></div>`).append($select);
+								break;
+
+								case "const": default:
+									switch(option.type){
+										case "checkbox":
+											$value = $(`<label><input type="checkbox" class="filled-in" ${(option.value ? 'checked="checked" ' : '')}/><span>&nbsp;</span></label>`);
+										break;
+		
+										case "select":
+											var $select = $('<select></select>').data('select-options', option.selectOptions);
+											((option.selectOptions || "").split(';') || []).forEach(function(selectOption){
+												selectOption = selectOption.split('/');
+												$select.append(`<option value="${selectOption[0]}" ${typeof option.value != 'undefined' && option.value == selectOption[0] ? 'selected' : ''}>${_(selectOption[1] || selectOption[0])}</option>`);
+											});
+											$value = $(`<div class="input-field"></div>`).append($select);
+										break;
+											
+										case "position": //xxxx what to do with position... fixed, editable, hidden, ????
+											$value = $(`<span>{option.value}</span>`);
+										break;
+		
+										case "textarea":
+											var $value = $(`<textarea id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}">`).val(option.value || "");
+										break;
+		
+										case "deviceState": case "string": default:
+											var $input = $(`<input id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}" type="text" class="validate">`).val(option.value || "");
+											$value = $(`<div class="input-field"></div>`).append($input).append(`<label for="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}"></label>`);
+										break;
+									}
+								break;
+							}	
+							return $value;						
+						}
 					});
 				});
 			}

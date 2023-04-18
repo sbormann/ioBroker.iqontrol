@@ -14930,7 +14930,7 @@ function UIElements(initialUiElements) {
 	 * @param {string} uiElementOptions.textClasses
 	 * @param {string} uiElementOptions.textDeviceStateId
 	 * @param {string} uiElementOptions.textLevelDeviceStateId
-	 * @param {string} uiElementOptions.textShowStateAndLevelDividedBy
+	 * @param {string} uiElementOptions.showStateAndLevelSeparatelyInTile
 	 * @param {function} uiElementOptions.textProcessingFunction
 	 * @param {object} uiElementOptions.textProcessingOptions
 	 * @param {string} uiElementOptions.textActiveDeviceStateId
