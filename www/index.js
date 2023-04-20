@@ -5136,36 +5136,27 @@ function renderView(viewId, triggeredByReconnection){
 						uiElements.addHtml(deviceContent)
 						.addIconTextCombination(device, {
 							stackId: "INFO_A",
+							stackCycles: true,
 							
 							iconClasses: "iQontrolDeviceInfoAIcon",
-							iconDeviceStateId: "INFO_A.icon.0",
-							iconActiveDeviceStateId: "UNREACH",
+							iconsState: {role:"deviceState", value: "INFO_A.icon"},
+							iconActiveState: {role:"deviceState", value: "UNREACH"},
 
 							textClasses: "iQontrolDeviceInfoAText",
-							textDeviceStateId: "INFO_A.state.0",
-							textActiveDeviceStateId: "UNREACH"
-						})
-						.addIconTextCombination(device, {
-							stackId: "INFO_A",
-							
-							iconClasses: "iQontrolDeviceInfoAIcon",
-							iconDeviceStateId: "INFO_A.icon.1",
-							iconActiveDeviceStateId: "UNREACH",
-
-							textClasses: "iQontrolDeviceInfoAText",
-							textDeviceStateId: "INFO_A.state.1",
-							textActiveDeviceStateId: "UNREACH"
+							textState: {role:"deviceState", value: "INFO_A.state"},
+							textActiveState: {role:"deviceState", value: "UNREACH"}
 						})
 						.addIconTextCombination(device, {
 							stackId: "INFO_B",
+							stackCycles: true,
 							
 							iconClasses: "iQontrolDeviceInfoBIcon",
-							iconDeviceStateId: "",
-							iconActiveDeviceStateId: "UNREACH",
+							iconState: "",
+							iconActiveState: {role:"deviceState", value: "UNREACH"},
 
 							textClasses: "iQontrolDeviceInfoBText",
-							textDeviceStateId: "INFO_B.state",
-							textActiveDeviceStateId: "UNREACH"
+							textState: {role:"deviceState", value: "INFO_B.state"},
+							textActiveState: {role:"deviceState", value: "UNREACH"}
 						});
 						deviceContent = ""; //##### 
 
@@ -14351,6 +14342,8 @@ function fetchAndSubscribeStates(stateIds, ignorePreventUpdate, callback){
 
 /** Returns value of stateId as object extended by type, unit, plain text and attributes that respect the custom settings of the state.
  *  It also returns processed values of CONST:, CALC:, VIRTUAL: and ARRAY:-States.
+ *  The returned object contains:
+ *  val, valRaw, plainText, unit, min, max, step, readonly, valueList, type, role, custom, name, desc, targetValues  
  * @param {string} stateId 
  * @returns {object} - stateValueObject
  */
@@ -14359,27 +14352,33 @@ function getState(stateId){ //
 	var stateIdParts = stateId.split(':');
 	var stateIdRole = stateIdParts.length > 1 && stateIdParts[0] || null; // 'CONST', 'ARRAY', 'CALC', 'VIRTUAL' or null
 	var result = {};
-	//check for arrayPath in stateId and create initial result
-	stateIdParts = stateId.split('.');
-	var arrayPath;
-	var arrayPathParts = [];
-	for(var i = stateIdParts.length; i > 0; i--){
-		stateId = stateIdParts.join('.');
-		if(typeof fetchedStates[stateId] !== udef && fetchedStates[stateId] !== null){
+	if(stateIdRole == 'ARRAY'){
+		//check for arrayPath in stateId and create initial result
+		stateIdParts = stateId.split('.');
+		var arrayPath;
+		var arrayPathParts = [];
+		for(var i = stateIdParts.length; i > 0; i--){
+			stateId = stateIdParts.join('.');
+			if(typeof fetchedStates[stateId] !== udef && fetchedStates[stateId] !== null){
+				result = Object.assign(result, fetchedStates[stateId]);
+				arrayPath = arrayPathParts.join('.');
+				var arrayVal;
+				if(typeof fetchedStates[stateId] == "object" && fetchedStates[stateId].val && arrayPath){
+					result.val = getObjectValue(fetchedStates[stateId].val, arrayPath);
+				}
+				break;
+			} 
+			arrayPathParts.unshift(stateIdParts.splice(i - 1, 1)[0]); //removes last part of stateIdParts and puts it to beginning of arrayPathParts
+		}
+		result.valRaw = result.val;
+		//Processing arrays
+		if(stateIdRole == 'ARRAY' && typeof result.val == "string"){
+			return getState(result.val);
+		}
+	} else {
+		if(typeof fetchedStates[stateId] !== udef && fetchedStates[stateId] !== null) {
 			result = Object.assign(result, fetchedStates[stateId]);
-			arrayPath = arrayPathParts.join('.');
-			var arrayVal;
-			if(typeof fetchedStates[stateId] == "object" && fetchedStates[stateId].val && arrayPath){
-				result.val = getObjectValue(fetchedStates[stateId].val, arrayPath);
-			}
-			break;
-		} 
-		arrayPathParts.unshift(stateIdParts.splice(i - 1, 1)[0]); //removes last part of stateIdParts and puts it to beginning of arrayPathParts
-	}
-	result.valRaw = result.val;
-	//Processing arrays
-	if(stateIdRole == 'ARRAY' && typeof result.val == "string"){
-		return getState(result.val);
+		}		
 	}
 	//Processing variables
 	if((stateIdRole == 'CONST' || stateIdRole == 'CALC') && typeof result.val == "string"){
@@ -14399,7 +14398,7 @@ function getState(stateId){ //
 			if(replacement != null) return replacement; else return p1;
 		});
 		function processVariable(variable){
-			var result = {};
+			var varResult = {};
 			var variableParts = variable.split('|');
 			var _stateId = variableParts[0];
 			var noUnit = false;
@@ -14407,10 +14406,10 @@ function getState(stateId){ //
 				_stateId = _stateId.substring(1, _stateId.length - 1);
 				noUnit = true;
 			}
-			result.stateId = _stateId;
-			result.noUnit = noUnit;
-			result.placeholder = variableParts[1] || null;
-			return result;		
+			varResult.stateId = _stateId;
+			varResult.noUnit = noUnit;
+			varResult.placeholder = variableParts[1] || null;
+			return varResult;		
 		}
 		//--Calculation
 		if(stateIdRole == 'CALC'){
@@ -14825,14 +14824,14 @@ function UIElements(initialUiElements) {
 			if(!this.uiElementStacks.stacks[deviceStackId]) this.uiElementStacks.stacks[deviceStackId] = {count: 0, index: 0};
 			this.uiElementStacks.stacks[deviceStackId].count = this.uiElementStacks.stacks[deviceStackId].count || 0;
 			if(this.uiElementStacks.open) this.closeElementStackContainer();
-			let index = uiElementOptions.stackCycle ? this.uiElementStacks.stacks[deviceStackId].count : -1;
+			let index = uiElementOptions.stackCycles ? this.uiElementStacks.stacks[deviceStackId].count : -1;
 			this.addHtml(`<div
 				class="uiElementStack container"
 				data-ui-element-stack-id="${deviceStackId}"
 				data-ui-element-stack-index="${index}"
 				style="${(this.uiElementStacks.stacks[deviceStackId].count > 0 ? 'opacity: 0;' : 'opacity: 1;')}"
 			>`);
-			if (uiElementOptions.stackCycle) this.uiElementStacks.stacks[deviceStackId].count++;
+			if (uiElementOptions.stackCycles) this.uiElementStacks.stacks[deviceStackId].count++;
 			this.uiElementStacks.open = true;
 		}
 		return this;
@@ -14912,7 +14911,7 @@ function UIElements(initialUiElements) {
 		};
 		this.addUpdateFunction([deviceStateBadge, deviceStateBadgeColor], updateFunction);
 		return this;
-	};
+	}
 
 
 	//---------- iconTextCombination ----------
@@ -14924,41 +14923,49 @@ function UIElements(initialUiElements) {
 	 * @param {boolean} uiElementOptions.stackCycles
 	 *
 	 * @param {string} uiElementOptions.iconClasses
-	 * @param {string} uiElementOptions.iconDeviceStateId
-	 * @param {string} uiElementOptions.iconActiveDeviceStateId
+	 * @param {string} uiElementOptions.iconState
+	 * @param {string} uiElementOptions.iconActiveState
 	 * @param {string} uiElementOptions.iconActiveCondition
 	 * @param {string} uiElementOptions.iconActiveConditionValue
 	 *
 	 * @param {string} uiElementOptions.textClasses
-	 * @param {string} uiElementOptions.textDeviceStateId
-	 * @param {string} uiElementOptions.textLevelDeviceStateId
+	 * @param {string} uiElementOptions.textState
+	 * @param {string} uiElementOptions.textLevelState
 	 * @param {string} uiElementOptions.showStateAndLevelSeparatelyInTile
 	 * @param {function} uiElementOptions.textProcessingFunction
 	 * @param {object} uiElementOptions.textProcessingOptions
-	 * @param {string} uiElementOptions.textActiveDeviceStateId
+	 * @param {string} uiElementOptions.textActiveState
 	 * @param {string} uiElementOptions.textActiveCondition
 	 * @param {string} uiElementOptions.textActiveConditionValue
 
 	 * @returns {UIElements}  
 	 */
-	this.addIconTextCombination = function(device, uiElementOptions){
+	this.addIconTextCombination = function(device, uiElementOptions, arrayIndex){
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
+		//Recoursive call for arrays
+		if(typeof arrayIndex == udef){
+			let maxArrayLength = getMaxArrayLengthOfUiOptions(device, uiElementOptions);
+			if(maxArrayLength > -1){
+				for(let arrayIndex = 0; arrayIndex < maxArrayLength; arrayIndex++) this.addIconTextCombination(device, uiElementOptions, arrayIndex);
+				return this;
+			}	
+		}
 		this.newElementStackContainer(device, uiElementOptions);
 		var _uiElementIndex = this.uiElementIndex; //#####
 		//--Icon
-		if(uiElementOptions.iconDeviceStateId){
-			var iconStateId = getStateIdFromDeviceState(device, uiElementOptions.iconDeviceStateId);
-			var iconActiveStateId = getStateIdFromDeviceState(device, uiElementOptions.iconActiveDeviceStateId);
+		if(uiElementOptions.iconState){
+			var iconStateId = getUiOptionStateId(device, uiElementOptions.iconState, arrayIndex);
+			var iconActiveStateId = getUiOptionStateId(device, uiElementOptions.iconActiveState, arrayIndex);
 			this.addHtml(`<img 	
 				class="uiElement icon ${uiElementOptions.iconClasses || ""}"'
 				data-device-id="${device.deviceIdEscaped}"
 				data-ui-element-index="${_uiElementIndex}"
 				style="display: none;" 
-			>`);
+				>`);
 			var updateFunction = function(stateId, forceReloadOfImage){
 				var $iconElement = $(`img.uiElement.icon[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-				var iconState = getState(iconStateId);
-				var iconActiveState = getState(iconActiveStateId);
+				var iconState = getUiOptionState(device, uiElementOptions.iconState, arrayIndex);
+				var iconActiveState = getUiOptionState(device, uiElementOptions.iconActiveState, arrayIndex);
 				var iconActive = (iconActiveState ? checkCondition(iconActiveState.val, uiElementOptions.iconActiveCondition || "eqt", uiElementOptions.iconActiveConditionValue) : true);
 				var src = iconState && iconState.val || "";
 				if(forceReloadOfImage) src = src.replace(/(?<=\?|&)forcedReload=([^&]+)/, "forcedReload=irgendwasAnderes" + Math.floor(new Date().getTime() / 100));
@@ -14975,20 +14982,20 @@ function UIElements(initialUiElements) {
 			this.addUpdateFunction([iconStateId, iconActiveStateId], updateFunction)
 		}
 		//--Text
-		if(uiElementOptions.textDeviceStateId){
-			var textStateId = getStateIdFromDeviceState(device, uiElementOptions.textDeviceStateId);
-			var textLevelStateId = getStateIdFromDeviceState(device, uiElementOptions.textLevelDeviceStateId);
-			var textActiveStateId = getStateIdFromDeviceState(device, uiElementOptions.textActiveDeviceStateId);
+		if(uiElementOptions.textState){
+			var textStateId = getUiOptionStateId(device, uiElementOptions.textState, arrayIndex);
+			var textLevelStateId = getUiOptionStateId(device, uiElementOptions.textLevelState, arrayIndex);
+			var textActiveStateId = getUiOptionStateId(device, uiElementOptions.textActiveState), arrayIndex;
 			this.addHtml(`<div 	
 				class="uiElement text ${uiElementOptions.textClasses || ""}"'
 				data-device-id="${device.deviceIdEscaped}"
 				data-ui-element-index="${_uiElementIndex}"
-			></div>`);
+				></div>`);
 			var updateFunction = function(stateId){
 				var $textElement = $(`div.uiElement.text[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-				var textState = getState(textStateId);
-				var textLevelState = getState(textLevelStateId);
-				var textActiveState = getState(textActiveStateId);
+				var textState = getUiOptionState(device, uiElementOptions.textState, arrayIndex);
+				var textLevelState = getUiOptionState(device, uiElementOptions.textLevelState, arrayIndex);
+				var textActiveState = getUiOptionState(device, uiElementOptions.textActiveState, arrayIndex);
 				var textResult = processStateText(textState, textLevelState, uiElementOptions.textProcessingOptions, uiElementOptions.textProcessingFunction);
 				var textActive = (textActiveState ? checkCondition(textActiveState.val, uiElementOptions.textActiveCondition || "eqt", uiElementOptions.textActiveConditionValue) : true);
 				$textElement.html(textResult);
@@ -15000,100 +15007,165 @@ function UIElements(initialUiElements) {
 		this.uiElementIndex++;
 		return this;
 	}
-} //End UIElements
+	this.addIcon = this.addIconTextCombination;
+	this.addText = this.addIconTextCombination;
 
-function processStateText(state, level, processStateOptions, processFunction){ 
-	if(typeof processStateOptions != "object") processStateOptions = {};
-	try{
-		return (typeof processFunction == "function" ? processFunction(state || null, level || null, processStateOptions) : defaultProcessStateTextFunction(state || null, level || null, processStateOptions));
-	} catch{
-		console.log("ERROR processing processFunction, fail back to defaultProcessStateTextFunction")
-		return defaultProcessStateTextFunction(state || null, level || null, processStateOptions);
-	}
-}
-
-function defaultProcessStateTextFunction(state, level, processStateOptions){
-	
-	var result;
-	var resultText;
-	if(!level || typeof level == udef || typeof level.val == udef){
-		if(state && typeof state.plainText == 'number'){							//STATE = number (= level); LEVEL = nothing
-			result = state.val;
-			resultText = result + state.unit;
-		} else if(state){ 															//STATE = bool or text; LEVEL = nothing
-			result = state.val;
-			resultText = state.plainText;
+	//---------- Helper ----------
+	function getUiOptionState(device, uiElementOption, arrayIndex){
+		if(typeof uiElementOption == udef || uiElementOption == null) return null;
+		if(typeof uiElementOption == 'string') {
+			uiElementOption = {
+				type: 'string',
+				role: 'const',
+				value: uiElementOption
+			};
 		}
-	} else if(level && level.type == 'valueList'){
-		if(state && typeof state.val !== udef && typeof state.val !== 'string'){ 	//STATE = bool (or level - but that makes no sense); LEVEL = value-list
-			if(state.val) {
-				result = level.val;
-				resultText = level.plainText;
-			} else {
+		var result = {};
+		if(typeof uiElementOption.value == udef) uiElementOption.value = null;
+		if(uiElementOption.role && uiElementOption.role == 'deviceState'){
+			result = getStateFromDeviceState(device, uiElementOption.value + (typeof arrayIndex != udef ? '.' + arrayIndex : ''));
+		} else {
+			var value = null;
+			if(uiElementOption.role && uiElementOption.role == 'deviceOption'){
+				value = getDeviceOptionValue(device, uiElementOption.value);
+			} else { //const
+				value = uiElementOption.value;
+			}
+			result = {
+				val: value,
+				valRaw: value,
+				plainText: value,
+				unit: '',
+				readonly: true,
+				type: 'string',
+				role: 'value',
+				stateId: null
+			};
+		}
+		return result;
+	}
+
+	function getUiOptionStateId(device, uiElementOption, arrayIndex){
+		if(typeof uiElementOption != 'object' || uiElementOption === null) return null;
+		if(uiElementOption.role && uiElementOption.role == 'deviceState' && uiElementOption.value) return getStateIdFromDeviceState(device, uiElementOption.value) + (typeof arrayIndex != udef ? '.' + arrayIndex : '');
+		return null;
+	}
+
+	function getMaxArrayLengthOfUiOptions(device, uiElementOptions){
+		if(typeof uiElementOptions != 'object') return -1;
+		let maxArrayLength = -1;
+		for(let key in uiElementOptions){
+			let arrayLength = getArrayLengthOfStateId(getUiOptionStateId(device, uiElementOptions[key]));
+			if(arrayLength > maxArrayLength) maxArrayLength = arrayLength;
+		}
+		return maxArrayLength;
+	}
+
+	function getArrayLengthOfStateId(stateId){
+		if((stateId || "").indexOf('ARRAY:') == 0){
+			var state = getState(stateId);
+			return (state && state.val && Array.isArray(state.val) ? state.val.length : -1);
+		}
+		return -1;
+	}
+
+	function processStateText(state, level, processStateOptions, processFunction){ 
+		if(typeof processStateOptions != "object") processStateOptions = {};
+		try{
+			return (typeof processFunction == "function" ? processFunction(state || null, level || null, processStateOptions) : defaultProcessStateTextFunction(state || null, level || null, processStateOptions));
+		} catch{
+			console.log("ERROR processing processFunction, fail back to defaultProcessStateTextFunction")
+			return defaultProcessStateTextFunction(state || null, level || null, processStateOptions);
+		}
+	}
+
+	//---------- Processing-Functions ----------
+	function defaultProcessStateTextFunction(state, level, processStateOptions){
+		
+		var result;
+		var resultText;
+		if(!level || typeof level == udef || typeof level.val == udef){
+			if(state && typeof state.plainText == 'number'){							//STATE = number (= level); LEVEL = nothing
+				result = state.val;
+				resultText = result + state.unit;
+			} else if(state){ 															//STATE = bool or text; LEVEL = nothing
 				result = state.val;
 				resultText = state.plainText;
 			}
-		} else if(level) {															//STATE = undefined (or string - but that makes no sense); LEVEL = value-list
-			result = level.val;
-			resultText = level.plainText;
-		}
-	} else {
-		if(state && typeof state.val !== udef && typeof state.val !== 'string'){ 	//STATE = bool (or level - but that makes no sense); LEVEL = level
-			result = state.val * level.val;
-			resultText = result + level.unit;
-		} else if(level) {															//STATE = undefined (or string - but that makes no sense); LEVEL = level
-			result = level.val;
-			resultText = result + level.unit;
-		}
-	}
-	if(processStateOptions.showStateAndLevelSeparatelyInTile && processStateOptions.showStateAndLevelSeparatelyInTile.indexOf('devidedBy') != -1){
-		resultText = "";
-		if(state && typeof state != udef && state.val != udef){
-			var val = state.plainText;
-			var unit = state.unit;
-			if(state.plainText == state.val) val = val + unit;
-			if(showStateAndLevelSeparatelyInTile.indexOf('preceedCaptions') != -1){
-				var type = getDeviceOptionValue(_device, "stateCaption");
-				if(!type) switch(state.type){
-					case "switch": type = "Switch"; break;
-					case "button": type = "Button"; break;
-					case "level": type = "Level"; break;
-					case "valueList": type = "Selection"; break;
-					case "string": type = "Text"; break;
-					case "time": type = "Time"; break;
-					default: type = "State"; break;
+		} else if(level && level.type == 'valueList'){
+			if(state && typeof state.val !== udef && typeof state.val !== 'string'){ 	//STATE = bool (or level - but that makes no sense); LEVEL = value-list
+				if(state.val) {
+					result = level.val;
+					resultText = level.plainText;
+				} else {
+					result = state.val;
+					resultText = state.plainText;
 				}
-				resultText += _(type) + ":&nbsp;";
+			} else if(level) {															//STATE = undefined (or string - but that makes no sense); LEVEL = value-list
+				result = level.val;
+				resultText = level.plainText;
 			}
-			resultText += val;
+		} else {
+			if(state && typeof state.val !== udef && typeof state.val !== 'string'){ 	//STATE = bool (or level - but that makes no sense); LEVEL = level
+				result = state.val * level.val;
+				resultText = result + level.unit;
+			} else if(level) {															//STATE = undefined (or string - but that makes no sense); LEVEL = level
+				result = level.val;
+				resultText = result + level.unit;
+			}
 		}
-		if(level && typeof level != udef && level.val != udef){
-			var val = level.plainText;
-			var unit = level.unit;
-			if(level.plainText == level.val) val = val + unit;
-			if(resultText != ""){
-				if(showStateAndLevelSeparatelyInTile.indexOf('devidedByComma') != -1) resultText += ", ";
-				else if(showStateAndLevelSeparatelyInTile.indexOf('devidedBySemicolon') != -1) resultText += "; ";
-				else if(showStateAndLevelSeparatelyInTile.indexOf('devidedByHyphen') != -1) resultText += "&nbsp;- ";
-			}
-			if(showStateAndLevelSeparatelyInTile.indexOf('preceedCaptions') != -1){
-				var type = getDeviceOptionValue(_device, "levelCaption");
-				if(!type) switch(level.type){
-					case "switch": type = "Switch"; break;
-					case "button": type = "Button"; break;
-					case "level": type = "Level"; break;
-					case "valueList": type = "Selection"; break;
-					case "string": type = "Text"; break;
-					case "time": type = "Time"; break;
-					default: type = "State"; break;
+		if(processStateOptions.showStateAndLevelSeparatelyInTile && processStateOptions.showStateAndLevelSeparatelyInTile.indexOf('devidedBy') != -1){
+			resultText = "";
+			if(state && typeof state != udef && state.val != udef){
+				var val = state.plainText;
+				var unit = state.unit;
+				if(state.plainText == state.val) val = val + unit;
+				if(showStateAndLevelSeparatelyInTile.indexOf('preceedCaptions') != -1){
+					var type = getDeviceOptionValue(_device, "stateCaption");
+					if(!type) switch(state.type){
+						case "switch": type = "Switch"; break;
+						case "button": type = "Button"; break;
+						case "level": type = "Level"; break;
+						case "valueList": type = "Selection"; break;
+						case "string": type = "Text"; break;
+						case "time": type = "Time"; break;
+						default: type = "State"; break;
+					}
+					resultText += _(type) + ":&nbsp;";
 				}
-				resultText += _(type) + ":&nbsp;";
+				resultText += val;
 			}
-			resultText += val;
+			if(level && typeof level != udef && level.val != udef){
+				var val = level.plainText;
+				var unit = level.unit;
+				if(level.plainText == level.val) val = val + unit;
+				if(resultText != ""){
+					if(showStateAndLevelSeparatelyInTile.indexOf('devidedByComma') != -1) resultText += ", ";
+					else if(showStateAndLevelSeparatelyInTile.indexOf('devidedBySemicolon') != -1) resultText += "; ";
+					else if(showStateAndLevelSeparatelyInTile.indexOf('devidedByHyphen') != -1) resultText += "&nbsp;- ";
+				}
+				if(showStateAndLevelSeparatelyInTile.indexOf('preceedCaptions') != -1){
+					var type = getDeviceOptionValue(_device, "levelCaption");
+					if(!type) switch(level.type){
+						case "switch": type = "Switch"; break;
+						case "button": type = "Button"; break;
+						case "level": type = "Level"; break;
+						case "valueList": type = "Selection"; break;
+						case "string": type = "Text"; break;
+						case "time": type = "Time"; break;
+						default: type = "State"; break;
+					}
+					resultText += _(type) + ":&nbsp;";
+				}
+				resultText += val;
+			}
 		}
-	}
-	return resultText;
-} 
+		return resultText;
+	} 
+
+} //End UIElements
+
+
 
 //#####################################################################################################
 function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementieren (open beforeUpdate)

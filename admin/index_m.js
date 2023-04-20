@@ -1072,10 +1072,10 @@ var standardTileClass = {
 }
 
 //types: string, textarea, checkbox, select with selectOptions, deviceState, position
-//{option: "", description: "", type: "select", selectOptions: "", value: ""}
+//{option: "<name of option>", type: "string|textarea|checkbox|select", typeOptions: "+deviceState;-deviceOption", selectOptions: "value1/Caption1;value2/Caption2;...", value: "", description: ""}
 var uiElementOptions = {
 	test: [
-		{option: "stackId", description: "asdf", type: "checkbox"},
+		{option: "stackId", type: "checkbox", role: "", roleOptions: "+deviceState", description: "asdf"},
 		{option: "stringX", description: "asdf", type: "string", value: "testString"},
 		{option: "textareaX", description: "asdf", type: "textarea", value: "function(test){ console.log(test); }"},
 		{option: "iconClasses", description: "jklö", type: "select", selectOptions: "a/A;b/B", value: "b"},
@@ -5767,10 +5767,11 @@ async function load(settings, onChange) {
 								$targetTd.html(get$value(option));
 								$('#tableDialogDeviceEditTileSettingsElementOptions table tbody').find('select').select();
 								M.updateTextFields();
-							})
-							.append(`<option value="const" ${option.role == 'const' ? 'selected' : ''}>${_("Constant")}</option>`)
-							.append(`<option value="deviceState" ${option.role == 'deviceState' ? 'selected' : ''}>${_("Device State")}</option>`)
-							.append(`<option value="deviceOption" ${option.role == 'deviceOption' ? 'selected' : ''}>${_("Device Option")}</option>`)
+							});
+							if(!option.typeOptions) option.typeOptions = "";
+							if(option.typeOptions.indexOf('-const') == -1) $role.append(`<option value="const" ${option.role == 'const' ? 'selected' : ''}>${_("Constant")}</option>`);
+							if(option.typeOptions.indexOf('+deviceState') > -1) $role.append(`<option value="deviceState" ${option.role == 'deviceState' ? 'selected' : ''}>${_("Device State")}</option>`);
+							if(option.typeOptions.indexOf('-deviceOption') == -1) $role.append(`<option value="deviceOption" ${option.role == 'deviceOption' ? 'selected' : ''}>${_("Device Option")}</option>`);
 							$(`<td data-name="role"></td>`).append($role).appendTo($tr);
 							//Col 3: Value
 							var $value = get$value(option);
