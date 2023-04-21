@@ -5139,7 +5139,7 @@ function renderView(viewId, triggeredByReconnection){
 							stackCycles: true,
 							
 							iconClasses: "iQontrolDeviceInfoAIcon",
-							iconsState: {role:"deviceState", value: "INFO_A.icon"},
+							iconState: {role:"deviceState", value: "INFO_A.icon"},
 							iconActiveState: {role:"deviceState", value: "UNREACH"},
 
 							textClasses: "iQontrolDeviceInfoAText",
@@ -14141,11 +14141,15 @@ function getStateFromDeviceState(device, state){
 */
 function getStateIdFromDeviceState(device, state){
 	if(!state) return null;
+	var stateId = null;
 	var stateParts = state.split('.');
 	var arrayPathParts = [];
 	for(var i = stateParts.length; i > 0; i--){
 		state = stateParts.join('.');
-		if(device.deviceStates && device.deviceStates[state] && typeof device.deviceStates[state].stateId != udef) return device.deviceStates[state].stateId + [''].concat(arrayPathParts).join('.'); //Was already extended
+		if(device.deviceStates && device.deviceStates[state] && typeof device.deviceStates[state].stateId != udef){ //Was already extended
+			stateId = device.deviceStates[state].stateId;
+			return  stateId + (stateId.indexOf('ARRAY:') == 0 ? [''].concat(arrayPathParts).join('.') : ''); 
+		}
 		arrayPathParts.unshift(stateParts.splice(i - 1, 1)[0]); //removes last part of stateParts and puts it to beginning of arrayPathParts
 	}
 	var deviceStateId = device.deviceId + ".deviceStates." + state;
@@ -14154,7 +14158,6 @@ function getStateIdFromDeviceState(device, state){
 	deviceStateObject.value = (typeof deviceStateObject.value != udef ? deviceStateObject.value : '');
 	if(typeof deviceStateObject.value == "object") deviceStateObject.value = JSON.stringify(deviceStateObject.value); //##### maybo only a workaround until arrays are fully implemented?
 	deviceStateObject.commonRole = (typeof deviceStateObject.commonRole != udef ? deviceStateObject.commonRole : '');
-	var stateId = null;
 	var statesToFetchAndSubscribe = [];
 	//Arrays
 	if(deviceStateObject.commonType == 'array'){ //deviceState is array
@@ -14365,6 +14368,11 @@ function getState(stateId){ //
 				var arrayVal;
 				if(typeof fetchedStates[stateId] == "object" && fetchedStates[stateId].val && arrayPath){
 					result.val = getObjectValue(fetchedStates[stateId].val, arrayPath);
+					if(!result.val && !isNaN(arrayPathParts[arrayPathParts.length - 1])){ //if arrayIndex > arrayLength, try to use 0 as arrayIndex
+						arrayPathParts[arrayPathParts.length - 1] = "0";
+						arrayPath = arrayPathParts.join('.');
+						result.val = getObjectValue(fetchedStates[stateId].val, arrayPath);
+					}
 				}
 				break;
 			} 
@@ -14378,7 +14386,16 @@ function getState(stateId){ //
 	} else {
 		if(typeof fetchedStates[stateId] !== udef && fetchedStates[stateId] !== null) {
 			result = Object.assign(result, fetchedStates[stateId]);
-		}		
+		} else { //if last Part of stateId is a number, it might be an arrayIndex, despite stateId is not an array - try to remove it
+			stateIdParts = stateId.split('.');
+			if(!isNaN(stateIdParts[stateIdParts.length - 1])){ 
+				stateIdParts.splice(stateIdParts.length - 1);
+				stateId = stateIdParts.join('.');
+				if(typeof fetchedStates[stateId] !== udef && fetchedStates[stateId] !== null) {
+					result = Object.assign(result, fetchedStates[stateId]);
+				}
+			}
+		}
 	}
 	//Processing variables
 	if((stateIdRole == 'CONST' || stateIdRole == 'CALC') && typeof result.val == "string"){
@@ -14932,11 +14949,11 @@ function UIElements(initialUiElements) {
 	 * @param {string} uiElementOptions.textState
 	 * @param {string} uiElementOptions.textLevelState
 	 * @param {string} uiElementOptions.showStateAndLevelSeparatelyInTile
-	 * @param {function} uiElementOptions.textProcessingFunction
-	 * @param {object} uiElementOptions.textProcessingOptions
 	 * @param {string} uiElementOptions.textActiveState
 	 * @param {string} uiElementOptions.textActiveCondition
 	 * @param {string} uiElementOptions.textActiveConditionValue
+	 * @param {function} uiElementOptions.textProcessingFunction
+	 * @param {object} uiElementOptions.textProcessingOptions
 
 	 * @returns {UIElements}  
 	 */
@@ -15010,7 +15027,15 @@ function UIElements(initialUiElements) {
 	this.addIcon = this.addIconTextCombination;
 	this.addText = this.addIconTextCombination;
 
-	//---------- Helper ----------
+	//---------- Helpers ----------
+	function getUiOptionStateId(device, uiElementOption, arrayIndex){
+		if(typeof uiElementOption != 'object' || uiElementOption === null) return null;
+		if(uiElementOption.role && uiElementOption.role == 'deviceState' && uiElementOption.value){
+			return getStateIdFromDeviceState(device, uiElementOption.value + (uiElementOption.value.split('.').length < 3 && typeof arrayIndex != udef ? '.' + arrayIndex : ''));
+		} 
+		return null;
+	}
+
 	function getUiOptionState(device, uiElementOption, arrayIndex){
 		if(typeof uiElementOption == udef || uiElementOption == null) return null;
 		if(typeof uiElementOption == 'string') {
@@ -15023,7 +15048,7 @@ function UIElements(initialUiElements) {
 		var result = {};
 		if(typeof uiElementOption.value == udef) uiElementOption.value = null;
 		if(uiElementOption.role && uiElementOption.role == 'deviceState'){
-			result = getStateFromDeviceState(device, uiElementOption.value + (typeof arrayIndex != udef ? '.' + arrayIndex : ''));
+			result = getStateFromDeviceState(device, uiElementOption.value + (uiElementOption.value.split('.').length < 3 && typeof arrayIndex != udef ? '.' + arrayIndex : ''));
 		} else {
 			var value = null;
 			if(uiElementOption.role && uiElementOption.role == 'deviceOption'){
@@ -15043,12 +15068,6 @@ function UIElements(initialUiElements) {
 			};
 		}
 		return result;
-	}
-
-	function getUiOptionStateId(device, uiElementOption, arrayIndex){
-		if(typeof uiElementOption != 'object' || uiElementOption === null) return null;
-		if(uiElementOption.role && uiElementOption.role == 'deviceState' && uiElementOption.value) return getStateIdFromDeviceState(device, uiElementOption.value) + (typeof arrayIndex != udef ? '.' + arrayIndex : '');
-		return null;
 	}
 
 	function getMaxArrayLengthOfUiOptions(device, uiElementOptions){
@@ -15081,7 +15100,6 @@ function UIElements(initialUiElements) {
 
 	//---------- Processing-Functions ----------
 	function defaultProcessStateTextFunction(state, level, processStateOptions){
-		
 		var result;
 		var resultText;
 		if(!level || typeof level == udef || typeof level.val == udef){
