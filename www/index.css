@@ -2098,3 +2098,21 @@ html.adjustHeightToBackgroundView {
 	min-height: unset !important;
 	max-height: unset !important;
 }
+
+
+.testInfoA{
+		pointer-events:none !important;
+		position:absolute; left: 52px; top: 19px; width: calc(100% - 53px); height: 16px;
+		overflow: hidden;
+		-webkit-transition: all 1s;
+		   -moz-transition: all 1s;
+				transition: all 1s;
+
+				pointer-events:none !important;
+		background: rgba(225, 0, 255, 0.329);
+		color: black;
+		font-size: 7.5pt;
+		font-weight: normal;
+		text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+		text-align: left;
+}

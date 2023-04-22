@@ -5137,12 +5137,12 @@ function renderView(viewId, triggeredByReconnection){
 						.addIconTextCombination(device, {
 							stackId: "INFO_A",
 							stackCycles: true,
-							
-							iconClasses: "iQontrolDeviceInfoAIcon",
+
+							iconClasses: "testInfoA",
 							iconState: {role:"deviceState", value: "INFO_A.icon"},
 							iconActiveState: {role:"deviceState", value: "UNREACH"},
 
-							textClasses: "iQontrolDeviceInfoAText",
+							textClasses: "testInfoA",
 							textState: {role:"deviceState", value: "INFO_A.state"},
 							textActiveState: {role:"deviceState", value: "UNREACH"}
 						})
@@ -15086,6 +15086,44 @@ function UIElements(initialUiElements) {
 			return (state && state.val && Array.isArray(state.val) ? state.val.length : -1);
 		}
 		return -1;
+	}
+
+	function getFreeSpace(containerSelector, childsSelector) {
+		const $container = $(containerSelector);
+		if ($container.length === 0) {
+			console.error(`Element with selector "${containerSelector}" not found.`);
+			return [];
+		}
+		const containerRect = $container[0].getBoundingClientRect();
+		let left = containerRect.left;
+		let top = containerRect.top;
+		let right = containerRect.right;
+		let bottom = containerRect.bottom;
+		$container.find(childsSelector).each(function () {
+			const rect = this.getBoundingClientRect();
+			const intersectsHorizontally = rect.left <= right && rect.right >= left;
+			const intersectsVertically = rect.top <= bottom && rect.bottom >= top;
+			if (intersectsHorizontally && intersectsVertically) {
+				const visible = $(this).css('opacity') != '0' && $(this).css('visibility') == 'visible' && $(this).css('display') != 'none';
+				if(visible){
+					let diffTop = Math.abs(top - rect.bottom);
+					let diffBottom = Math.abs(bottom - rect.top);
+					let diffLeft = Math.abs(left - rect.right);
+					let diffRight = Math.abs(right - rect.left);
+					let min = Math.min(diffTop, diffBottom, diffLeft, diffRight);
+					if(min == diffTop) top = rect.bottom;
+					else if(min == diffBottom) bottom = rect.top;
+					else if(min == diffLeft) left = rect.right;
+					else if(min == diffRight) right = rect.left;
+				}
+			}
+		});
+		return {
+			left: left-containerRect.left,
+			top: top-containerRect.top,
+			width: right-left,
+			height: bottom-top,
+		};
 	}
 
 	function processStateText(state, level, processStateOptions, processFunction){ 
