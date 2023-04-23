@@ -1325,31 +1325,6 @@ html.noscroll body {
 	opacity: 1 !important;
 }
 
-/* ++++++++++ V3 DEVELOPMENT +++++++++ */
-.uiElementStack.container{
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
-}
-.uiElement.icon{
-	opacity: 0;
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
-}
-.uiElement.icon.active{
-	opacity: 0.99;
-}
-.uiElement.text{
-	opacity: 0;
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
-}
-.uiElement.text.active{
-	opacity: 0.99;
-}
-
 /* ++++++++++ Dialog ++++++++++ */ 
 #Dialog {
 	min-width: 300px;
@@ -2100,19 +2075,44 @@ html.adjustHeightToBackgroundView {
 }
 
 
-.testInfoA{
-		pointer-events:none !important;
-		position:absolute; left: 52px; top: 19px; width: calc(100% - 53px); height: 16px;
-		overflow: hidden;
-		-webkit-transition: all 1s;
-		   -moz-transition: all 1s;
-				transition: all 1s;
+/* ++++++++++ V3 DEVELOPMENT +++++++++ */
+.uiElementStack.container{
+	background: rgba(255, 208, 0, 0.329); /* ####### */
+	position: absolute;
+	overflow: hidden;
+	pointer-events:none !important;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+}
+.uiElement{
+	position: absolute; left:0; top:0; width: 100%; height: 100%;
+	opacity: 0;
+	-webkit-transition: opacity 0.5s;
+	   -moz-transition: opacity 0.5s;
+			transition: opacity 0.5s;
+	color: black;
+	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+	text-align: left;
+	font-weight: normal;
+}
+.uiElement.uiElement.active{
+	opacity: 0.99;
+}
 
-				pointer-events:none !important;
-		background: rgba(225, 0, 255, 0.329);
-		color: black;
-		font-size: 7.5pt;
-		font-weight: normal;
-		text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
-		text-align: left;
+
+.uiElement.icon{
+	background: rgba(0, 255, 55, 0.329); /* ####### */
+}
+.uiElement.text{
+	background: rgba(4, 0, 255, 0.329); /* ####### */
+}
+
+/* ####### */
+tile:not(.enlarged) .testInfoA{
+	left: 52px; top: 19px; width: calc(100% - 53px); height: 16px;
+}
+
+.testInfoA .uiElement.text{
+	font-size: 4.5pt;
 }
