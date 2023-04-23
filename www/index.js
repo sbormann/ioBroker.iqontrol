@@ -4882,7 +4882,7 @@ function renderView(viewId, triggeredByReconnection){
 					var stateHeightAdaptsContentInactive = (getDeviceOptionValue(device, "stateHeightAdaptsContentInactive") == "true");
 					var stateHeightAdaptsContentActive = (getDeviceOptionValue(device, "stateHeightAdaptsContentActive") == "true");
 					var stateHeightAdaptsContentEnlarged = (getDeviceOptionValue(device, "stateHeightAdaptsContentEnlarged") == "true");
-					viewContent += "<div class='iQontrolDevice" + ((getDeviceOptionValue(device, "transparentIfInactive") == "true") ? " transparentIfInactive" : "") + ((getDeviceOptionValue(device, "transparentIfActive") == "true") ? " transparentIfActive" : "") + ((getDeviceOptionValue(device, "transparentIfEnlarged") == "true") ? " transparentIfEnlarged" : "") + (getDeviceOptionValue(device, "sizeInactive") ? " " + getDeviceOptionValue(device, "sizeInactive") : "") + (getDeviceOptionValue(device, "sizeActive") ? " " + getDeviceOptionValue(device, "sizeActive") : "") + (getDeviceOptionValue(device, "sizeEnlarged") ? " " + getDeviceOptionValue(device, "sizeEnlarged") : "") + (enlarged ? " enlarged": "") + (stateHeightAdaptsContentInactive ? " adaptsHeightIfInactive" : "") + (stateHeightAdaptsContentActive ? " adaptsHeightIfActive" : "") + (stateHeightAdaptsContentEnlarged ? " adaptsHeightIfEnlarged" : "") + ((getDeviceOptionValue(device, "bigIconInactive") == "true") ? " bigIconIfInactive" : "") + ((getDeviceOptionValue(device, "bigIconActive") == "true") ? " bigIconIfActive" : "") + ((getDeviceOptionValue(device, "bigIconEnlarged") != "false") ? " bigIconIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+					viewContent += "<div class='iQontrolDevice" + (device.tileSettings && typeof device.tileSettings.tileClass != udef ? ' tileClass_' + device.tileSettings.tileClass : '') + ((getDeviceOptionValue(device, "transparentIfInactive") == "true") ? " transparentIfInactive" : "") + ((getDeviceOptionValue(device, "transparentIfActive") == "true") ? " transparentIfActive" : "") + ((getDeviceOptionValue(device, "transparentIfEnlarged") == "true") ? " transparentIfEnlarged" : "") + (getDeviceOptionValue(device, "sizeInactive") ? " " + getDeviceOptionValue(device, "sizeInactive") : "") + (getDeviceOptionValue(device, "sizeActive") ? " " + getDeviceOptionValue(device, "sizeActive") : "") + (getDeviceOptionValue(device, "sizeEnlarged") ? " " + getDeviceOptionValue(device, "sizeEnlarged") : "") + (enlarged ? " enlarged": "") + (stateHeightAdaptsContentInactive ? " adaptsHeightIfInactive" : "") + (stateHeightAdaptsContentActive ? " adaptsHeightIfActive" : "") + (stateHeightAdaptsContentEnlarged ? " adaptsHeightIfEnlarged" : "") + ((getDeviceOptionValue(device, "bigIconInactive") == "true") ? " bigIconIfInactive" : "") + ((getDeviceOptionValue(device, "bigIconActive") == "true") ? " bigIconIfActive" : "") + ((getDeviceOptionValue(device, "bigIconEnlarged") != "false") ? " bigIconIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 
 					uiElements
 					.addHtml(viewContent);
@@ -5137,13 +5137,13 @@ function renderView(viewId, triggeredByReconnection){
 						.addIconTextCombination(device, {
 							stackId: "INFO_A",
 							stackCycles: true,
-							stackClasses: "testInfoA",
+							stackClasses: "stackClass_8",
 
-							iconClasses: "testInfoAIcon",
+							iconClasses: "",
 							iconState: {role:"deviceState", value: "INFO_A.icon"},
 							iconActiveState: {role:"deviceState", value: "UNREACH"},
 
-							textClasses: "testInfoAText",
+							textClasses: "",
 							textState: {role:"deviceState", value: "INFO_A.state"},
 							textActiveState: {role:"deviceState", value: "UNREACH"}
 						})
@@ -15033,7 +15033,7 @@ function UIElements(initialUiElements) {
 					}
 					let fontSize = $textElement.height() / 1.2 + 'px';
 					if(!getUiOption(uiElementOptions.textMultiline)) $textElement.css('font-size', fontSize);
-				}, 20);
+				}, 50);
 				$textElement.html(textResult);
 				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');
 			}

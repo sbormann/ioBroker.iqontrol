@@ -11185,7 +11185,7 @@ async function save(callback) {
 		obj.tileClassesCssString += createCssStringFromTileClass(tileClass, tileClassIndex) + " ";
 	});
 	function createCssStringFromTileClass(tileClass, tileClassIndex){
-		const cssPrefixes = ['tile:not(.enlarged).tileClass_' + tileClassIndex, 'tile.enlarged.tileClass_' + tileClassIndex + '_ifEnlarged'];
+		const cssPrefixes = ['.iQontrolDevice:not(.enlarged).tileClass_' + tileClassIndex, '.iQontrolDevice.enlarged.tileClass_' + tileClassIndex + '_ifEnlarged'];
 		let cssString = '';
 		if(!tileClass.value) tileClass.value = {};
 		//Tile
