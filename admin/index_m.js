@@ -874,6 +874,22 @@ var channelDetectorMatchTable = {
 						}
 }
 
+var dialogTileEditorColors = [
+	"rgba(255, 51, 51, 0.5)",
+	"rgba(255, 0, 0, 0.5)",
+	"rgba(255, 127, 0, 0.5)",
+	"rgba(255, 255, 0, 0.5)",
+	"rgba(127, 255, 0, 0.5)",
+	"rgba(0, 255, 0, 0.5)",
+	"rgba(0, 255, 127, 0.5)",
+	"rgba(0, 255, 255, 0.5)",
+	"rgba(0, 127, 255, 0.5)",
+	"rgba(0, 0, 255, 0.5)",
+	"rgba(127, 0, 255, 0.5)",
+	"rgba(255, 0, 255, 0.5)",
+	"rgba(255, 0, 127, 0.5)"
+];
+
 var standardTileClass = {
 	tile: {
 		'border-top-left-radius': 15, 
@@ -1072,19 +1088,32 @@ var standardTileClass = {
 }
 
 //types: string, textarea, checkbox, select with selectOptions, deviceState, position
-//{option: "<name of option>", type: "string|textarea|checkbox|select", typeOptions: "+deviceState;-deviceOption", selectOptions: "value1/Caption1;value2/Caption2;...", value: "", description: ""}
+//{option: "<name of option>", type: "string|textarea|checkbox|select", roleOptions: "+deviceState;-deviceOption", selectOptions: "value1/Caption1;value2/Caption2;...", value: "", description: ""}
 var uiElementOptions = {
-	test: [
-		{option: "stackId", type: "checkbox", role: "", roleOptions: "+deviceState", description: "asdf"},
-		{option: "stringX", description: "asdf", type: "string", value: "testString"},
-		{option: "textareaX", description: "asdf", type: "textarea", value: "function(test){ console.log(test); }"},
-		{option: "iconClasses", description: "jklö", type: "select", selectOptions: "a/A;b/B", value: "b"},
-	],
 	icon: [
-		{option: "stackId", description: "If multiple Elements share the same stackId they will be displayed one after another.", type: "checkbox"},
-		{option: "iconClasses", description: "jklö", type: "select", selectOptions: "a/A;b/B", value: "b"},
-	],
+		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
+		{option: "iconClasses", type: "string", description: "Optional. Add these CSS-Classes to the icon."},
+		{option: "iconState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "The url of the icon."},
+		{option: "iconActiveState", type: "string", roleOptions: "+deviceState", description: "Optional. If given, this state will define, if the icon is visible."},
+		{option: "iconActiveCondition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", description: "Optional. This defines, under which conditions the icon is visible."},
+		{option: "iconActiveConditionValue", type: "string", roleOptions: "+deviceState", description: "Optional. The comparative value for the condition."},
+	],	
+	text: [
+		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
+		{option: "textClasses", type: "string", description: "Optional. Add these CSS-Classes to the text."},
+		{option: "textState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "STATE", description: "The text to display."},
+		{option: "textLevelState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "LEVEL", description: "Optional. The default textProcessing can combine two values, a state and a level. This ist the level."},
+		{option: "textActiveState", type: "string", role: "deviceState", roleOptions: "+deviceState", description: "Optional. If given, this state will define, if the text is visible."},
+		{option: "textActiveCondition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", value: "", description: "Optional. This defines, under which conditions the text is visible."},
+		{option: "textActiveConditionValue", type: "string", roleOptions: "+deviceState", description: "Optional. The comparative value for the condition."},
+		{option: "textProcessingFunction", type: "textarea", description: "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction"},
+		{option: "textProcessingOptions", type: "textarea", value: "{}", description: "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}."},
+		{option: "textMultiline", type: "checkbox", description: "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false."}
+	]
 }
+uiElementOptions.iconTextCombination = Object.assign([], [
+		{option: "textAlwaysReservePlaceForIcon", type: "checkbox", description: "If true, the text will leave place for the icon, even if it is invisible. Default: false."},
+], uiElementOptions.text, uiElementOptions.icon);
 
 var iQontrolRoles = {
 	"iQontrolView": {
@@ -2788,6 +2817,8 @@ var isReact = false;
 var previewWindow = null;
 var passphrase;
 var devicesMarkDevice = null;
+var tileEditor = {};
+var dialogTileEditorSelectedStack = -1;
 
 //Subsettings
 var toolbar;
@@ -3043,6 +3074,7 @@ function md5(inputString) {
 }
 
 function capitalize(string){
+	if(!string) return '';
 	return string.substring(0, 1).toUpperCase() + string.substring(1);
 }
 
@@ -3088,7 +3120,7 @@ function isValidColorString(colorString){
 }
 
 //Create CSS-array from options of tileClass
-function tileEditorCreateCssArrayFromOptions(options){
+function tileEditorCreateCssPositionsArrayFromOptions(options){
 	options = options || {};
 	var cssArray = [];
 	var translateX = 0, translateY = 0;
@@ -3174,10 +3206,11 @@ function tileEditorCreateCssArrayFromOptions(options){
 			value: `calc(100% - ${(options.heightValue || '0')}${(options.heightUnit || 'px')})`
 		});	
 	}
+	//transform: translate
 	cssArray.push({
 		attribute: 'transform', 
 		value: `translate(${translateX}, ${translateY})`
-	});			
+	});
 	return cssArray;
 }
 
@@ -5662,7 +5695,7 @@ async function load(settings, onChange) {
 		options = Object.assign({}, options || {});
 		$element = $(`.dialogDeviceEditTileSettingsDemoStack[data-index="${index}"]`);
 		$element.find('span.name').html(options.name ? '&nbsp;' + options.name : '');
-		var cssArray = tileEditorCreateCssArrayFromOptions(options);
+		var cssArray = tileEditorCreateCssPositionsArrayFromOptions(options);
 		$element.data('css-array', cssArray);
 		(cssArray || []).forEach(function(css){
 			$element.css(css.attribute, css.value);
@@ -5768,10 +5801,10 @@ async function load(settings, onChange) {
 								$('#tableDialogDeviceEditTileSettingsElementOptions table tbody').find('select').select();
 								M.updateTextFields();
 							});
-							if(!option.typeOptions) option.typeOptions = "";
-							if(option.typeOptions.indexOf('-const') == -1) $role.append(`<option value="const" ${option.role == 'const' ? 'selected' : ''}>${_("Constant")}</option>`);
-							if(option.typeOptions.indexOf('+deviceState') > -1) $role.append(`<option value="deviceState" ${option.role == 'deviceState' ? 'selected' : ''}>${_("Device State")}</option>`);
-							if(option.typeOptions.indexOf('-deviceOption') == -1) $role.append(`<option value="deviceOption" ${option.role == 'deviceOption' ? 'selected' : ''}>${_("Device Option")}</option>`);
+							if(!option.roleOptions) option.roleOptions = "";
+							if(option.roleOptions.indexOf('-const') == -1) $role.append(`<option value="const" ${option.role == 'const' ? 'selected' : ''}>${_("Constant")}</option>`);
+							if(option.roleOptions.indexOf('+deviceState') > -1) $role.append(`<option value="deviceState" ${option.role == 'deviceState' ? 'selected' : ''}>${_("Device State")}</option>`);
+							if(option.roleOptions.indexOf('-deviceOption') == -1) $role.append(`<option value="deviceOption" ${option.role == 'deviceOption' ? 'selected' : ''}>${_("Device Option")}</option>`);
 							$(`<td data-name="role"></td>`).append($role).appendTo($tr);
 							//Col 3: Value
 							var $value = get$value(option);
@@ -5787,6 +5820,7 @@ async function load(settings, onChange) {
 							switch(option.role){
 								case "deviceOption": 
 									var $select = $('<select></select>');
+									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
 									dialogDeviceEditOptions.forEach(function(deviceOption){
 										$select.append(`<option value="${deviceOption.option}" ${typeof option.value != 'undefined' && option.value == deviceOption.option ? 'selected' : ''}>${deviceOption.option}</option>`);
 									});
@@ -5795,6 +5829,7 @@ async function load(settings, onChange) {
 
 								case "deviceState":
 									var $select = $('<select></select>');
+									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
 									dialogDeviceEditStatesTable.forEach(function(deviceState){
 										$select.append(`<option value="${deviceState.state}" ${typeof option.value != 'undefined' && option.value == deviceState.state ? 'selected' : ''}>${deviceState.state}</option>`);
 									});
@@ -10787,24 +10822,6 @@ async function load(settings, onChange) {
 	});
 
 	//---------- Tile Editor ----------
-	var tileEditor = {};
-	var dialogTileEditorSelectedStack = -1;
-	var dialogTileEditorColors = [
-		"rgba(255, 51, 51, 0.5)",
-		"rgba(255, 0, 0, 0.5)",
-		"rgba(255, 127, 0, 0.5)",
-		"rgba(255, 255, 0, 0.5)",
-		"rgba(127, 255, 0, 0.5)",
-		"rgba(0, 255, 0, 0.5)",
-		"rgba(0, 255, 127, 0.5)",
-		"rgba(0, 255, 255, 0.5)",
-		"rgba(0, 127, 255, 0.5)",
-		"rgba(0, 0, 255, 0.5)",
-		"rgba(127, 0, 255, 0.5)",
-		"rgba(255, 0, 255, 0.5)",
-		"rgba(255, 0, 127, 0.5)"
-	];
-
 	//Init tileEditor
 	function dialogTileEditorInit(noZoomReset){
 		$('.dialogTileEditorName').html(tileEditor.commonName || '');
@@ -10830,9 +10847,11 @@ async function load(settings, onChange) {
 	$('.dialogTileEditorDemoSize').on('input change', function(){
 		$('#dialogTileEditorDemoTile').css($(this).data('mode'), 110 * $(this).val());
 	});
-
 	$('.dialogTileEditorDemoScale').on('input change', function(){
 		$('#dialogTileEditorDemoTile').data('scale', $(this).val()).css('transform', `scale(${$(this).val()})`);
+	});
+	$('#dialogTileEditorDemoTile, #dialogTileEditorDemoBackground').on('click touchstart', function(){
+		dialogTileEditorSelectStack(-1);
 	});
 
 	//Tile
@@ -10843,10 +10862,6 @@ async function load(settings, onChange) {
 		$('#dialogTileEditorDemoTile').css(selector, value + unit);
 		tileEditor.tile[selector] = value;
 		tileEditor.tile[selector + '-unit'] = unit;
-	});
-
-	$('#dialogTileEditorDemoTile, #dialogTileEditorDemoBackground').on('click touchstart', function(){
-		dialogTileEditorSelectStack(-1);
 	});
 
 	//Stacks
@@ -10945,8 +10960,8 @@ async function load(settings, onChange) {
 		$(`#dialogTileEditorStackList li[data-index="${index}"]`).addClass('selected');
 		$(`#dialogTileEditorStackList li[data-index="${index}"] input`).focus();
 		if(index > -1){
-			//Edit
 			$('.tabDialogTileEditorSelectedStackName').html(`<b>${index}${tileEditor.stacks[index].name ? ':</b> ' + tileEditor.stacks[index].name : '</b>'}`);
+			//Position Edit
 			$('.tabDialogTileEditor.positionValue').each(function(){
 				var $this = $(this);
 				if($this.hasClass('position') || $this.hasClass('size')){
@@ -10955,6 +10970,14 @@ async function load(settings, onChange) {
 			});
 			if(tileEditor.stacks[index].readonly) $('.tabDialogTileEditor.positionValue').prop('disabled', 'disabled').addClass('disabled'); else $('.tabDialogTileEditor.positionValue').prop('disabled', false).removeClass('disabled');
 			$('select.tabDialogTileEditor.positionValue').select();
+			//Style Edit
+			$('.tabDialogTileEditor.styleValue').each(function(){
+				var $this = $(this);
+				$this.val(tileEditor.stacks[index]['style' + capitalize($this.data('type')) + capitalize($this.data('type-options'))] || ($(this).data('type') == 'font-weight' || $(this).data('type') == 'font-style' ? 'normal' : ''));
+			});
+			if(tileEditor.stacks[index].readonly) $('.tabDialogTileEditor.styleValue').prop('disabled', 'disabled').addClass('disabled'); else $('.tabDialogTileEditor.styleValue').prop('disabled', false).removeClass('disabled');
+			$('select.tabDialogTileEditor.styleValue').select();
+			initColorpickers(onChange);
 			$('.tabDialogTileEditorEditContainer').show();
 		} else {
 			$('.tabDialogTileEditorEditContainer').hide();			
@@ -10963,10 +10986,11 @@ async function load(settings, onChange) {
 
 	//--Style Stack Demo, optional with new options, and save them
 	function dialogTileEditorStyleStack(index, options){
-		options = Object.assign({}, tileEditor.stacks[index] || {}, options || {});
+		if(index < 0) return;
+		options = Object.assign({}, tileEditor.stacks && tileEditor.stacks[index] || {}, options || {});
 		$element = $(`.dialogTileEditorDemoStack[data-index="${index}"]`);
 		$element.find('span.name').html(options.name ? '&nbsp;' + options.name : '');
-		var cssArray = tileEditorCreateCssArrayFromOptions(options);
+		var cssArray = tileEditorCreateCssPositionsArrayFromOptions(options);
 		$element.data('css-array', cssArray);
 		$element.removeClass('anchorLeft anchorRight anchorTop anchorBottom');
 		(cssArray || []).forEach(function(css){
@@ -11103,6 +11127,13 @@ async function load(settings, onChange) {
 		}
 		dialogTileEditorStyleStack(index, options)
 	});
+	$('.tabDialogTileEditor.styleValue').on('change', function(){
+		var options = {};
+		var index = dialogTileEditorSelectedStack;
+		var $this = $(this);
+		options['style' + capitalize($this.data('type')) + capitalize($this.data('type-options'))] = $this.val();
+		dialogTileEditorStyleStack(index, options)
+	});
 }
 
 //++++++++++ SAVE ++++++++++
@@ -11154,26 +11185,59 @@ async function save(callback) {
 		obj.tileClassesCssString += createCssStringFromTileClass(tileClass, tileClassIndex) + " ";
 	});
 	function createCssStringFromTileClass(tileClass, tileClassIndex){
-		var cssPrefix = ".iQontrolTileClass_" + tileClassIndex;
-		var cssString = "";
+		const cssPrefixes = ['tile:not(.enlarged).tileClass_' + tileClassIndex, 'tile.enlarged.tileClass_' + tileClassIndex + '_ifEnlarged'];
+		let cssString = '';
 		if(!tileClass.value) tileClass.value = {};
 		//Tile
-		cssString += cssPrefix + " { /* " + tileClass.commonName + " */ ";
+		cssString += cssPrefixes.join(', ') + ' { /* ' + tileClass.commonName + ' */ ';
 		for(let tileOption in tileClass.value.tile || {}){
 			if(tileOption.indexOf('border-') == 0 && tileOption.endsWith('-radius')){
-				cssString += tileOption + ": " + tileClass.value.tile[tileOption] + (tileClass.value.tile[tileOption + "-unit"] || "px") + "; ";
+				cssString += tileOption + ': ' + tileClass.value.tile[tileOption] + (tileClass.value.tile[tileOption + '-unit'] || 'px') + '; ';
 			}
 		}
-		cssString += " } ";
+		cssString += ' } ';
+		//Stacks
 		(tileClass.value.stacks || []).forEach(function(stack, stackIndex){
-			//Stacks
-			let cssArray = tileEditorCreateCssArrayFromOptions(stack);
+			//Stack Positions
+			let cssArray = tileEditorCreateCssPositionsArrayFromOptions(stack);
 			if(cssArray && cssArray.length){
-				cssString += cssPrefix + "." + stack.index + "{ /* " + stack.name + " */ ";
+				let cssPostfix = ' .stackClass_' + stackIndex;
+				let cssSelector = cssPrefixes.map(function(cssPrefix){ return `${cssPrefix}${cssPostfix}`; }).join(', ');
+				cssString += cssSelector + ' { /* ' + tileClass.commonName + ' - ' + stack.name + ' */ ';
 				cssArray.forEach(function(css){
-					cssString += css.attribute + ": " + css.value + "; ";
+					cssString += css.attribute + ': ' + (css.value && css.value != '' ? css.value : 'unset') + '; ';
 				});
-				cssString += "} ";
+				//General Stack styles
+				if(stack['styleColor']) cssString += 'color: ' + stack['styleColor']+ '; ';
+				if(stack['font-family']) cssString += 'font-family: ' + stack['font-family'] + '; ';
+				if(stack['font-weight']) cssString += 'font-weight: ' + stack['font-weight'] + '; ';
+				if(stack['font-style']) cssString += 'font-style: ' + stack['font-style'] + '; ';
+				if(stack['font-size']) cssString += 'font-size: ' + stack['font-size'] + '; ';
+				cssString += '} ';
+			}
+			//Stack Styles for other sub-selectors
+			for(let key in stack){
+				if(stack[key] && stack[key] != ''){
+					if(key.indexOf('styleColor') == 0){
+						let cssPostfix = '';
+						if(key.indexOf('Inactive') > -1){ //inactive
+							cssPostfix += ':not(active)';
+						} else { //active
+							cssPostfix += '.active';
+						}
+						if(key.indexOf('Ontransparent') > -1){ //transparent
+							cssPostfix += '.transparent';
+						}
+						if(key.indexOf('Hover') > -1){ //hover
+							cssPostfix += ':hover';
+						}
+						cssPostfix += ' .stackClass_' + stackIndex;
+						let cssSelector = cssPrefixes.map(function(cssPrefix){ return `${cssPrefix}${cssPostfix}`; }).join(', ');
+						cssString += cssSelector + ' { /* ' + tileClass.commonName + ' - ' + stack.name + ' */ ';
+						cssString += 'color: ' + stack[key] + '; ';
+						cssString += '} ';
+					}
+				}
 			}
 		});
 		return cssString;

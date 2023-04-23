@@ -3164,7 +3164,7 @@
 											<table class="table-values highlight" style="width: 90%;">
 												<thead>
 													<tr>
-														<th data-name="commonType" data-type="select" data-options="icon/Icon;test/Text;iconTextCombination/Icon + Text" class="translate">Type</th>
+														<th data-name="commonType" data-type="select" data-options="icon/Icon;text/Text;iconTextCombination/Icon + Text" class="translate">Type</th>
 														<th data-name="commonName" class="translate">Name</th>
 														<th data-name="stackIndex" class="translate">Stack</th>
 														<th data-name="outside" data-type="checkbox" class="translate">Outside Tile</th>
@@ -3531,6 +3531,7 @@
 							<li class="tab"><a href="#tabDialogTileEditorTile" class="translate">Tile</a></li>
 							<li class="tab"><a href="#tabDialogTileEditorStacks" class="translate">Stacks</a></li>
 							<li class="tab"><a href="#tabDialogTileEditorPositionEdit" class="translate">Edit Position</a></li>
+							<li class="tab"><a href="#tabDialogTileEditorStyleEdit" class="translate">Edit Style</a></li>
 						</ul>
 						<div id="tabDialogTileEditorDemo" class="col s12">
 							<div class="row">
@@ -3710,6 +3711,107 @@
 									</div>
 								</div>									
 							</div>
+						</div>
+						<div id="tabDialogTileEditorStyleEdit" class="col s12">
+							<div class="tabDialogTileEditorEditContainer">
+								<div class="row">
+									<div class="col s12">
+										<h6 class="title"><span class="tabDialogTileEditorSelectedStackName"></span></h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12 m6 l6">
+										<input class="tabDialogTileEditor styleValue MaterializeColorPicker validate validateOnlyError" data-type="color" data-type-options="inactive" type="text" id="tabDialogTileEditorInactiveTextColor" placeholder="rgb(0,0,0)" />
+										<label for="tabDialogTileEditorInactiveTextColor" class="translate">Inactive Text-Color:</label>
+										<span class="helper-text"></span>
+										<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									</div>
+									<div class="input-field col s12 m6 l6">
+										<input class="tabDialogTileEditor styleValue MaterializeColorPicker validate validateOnlyError" data-type="color" data-type-options="inactiveHover" type="text" id="tabDialogTileEditorInactiveHoverTextColor" placeholder="rgb(0,0,0)" />
+										<label for="tabDialogTileEditorInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+										<span class="helper-text"></span>
+										<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12 m6 l6">
+										<input class="tabDialogTileEditor styleValue MaterializeColorPicker validate validateOnlyError" data-type="color" data-type-options="active" type="text" id="tabDialogTileEditorActiveTextColor" placeholder="rgb(0,0,0)" />
+										<label for="tabDialogTileEditorActiveTextColor" class="translate">Active Text-Color:</label>
+										<span class="helper-text"></span>
+										<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									</div>
+									<div class="input-field col s12 m6 l6">
+										<input class="tabDialogTileEditor styleValue MaterializeColorPicker validate validateOnlyError" data-type="color" data-type-options="activeHover" type="text" id="tabDialogTileEditorActiveHoverTextColor" placeholder="rgb(0,0,0)" />
+										<label for="tabDialogTileEditorActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+										<span class="helper-text"></span>
+										<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12 m6 l6">
+										<input class="tabDialogTileEditor styleValue MaterializeColorPicker validate validateOnlyError" data-type="color" data-type-options="inactiveOntransparent" type="text" id="tabDialogTileEditorInactiveOnTransparentTextColor" placeholder="rgb(255,255,255)" />
+										<label for="tabDialogTileEditorInactiveOnTransparentTextColor" class="translate">Inactive on Transparent Background Text-Color:</label>
+										<span class="helper-text"></span>
+										<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									</div>
+									<div class="input-field col s12 m6 l6">
+										<input class="tabDialogTileEditor styleValue MaterializeColorPicker validate validateOnlyError" data-type="color" data-type-options="inactiveOntransparentHover" type="text" id="tabDialogTileEditorInactiveOnTransparentHoverTextColor" placeholder="rgb(255,255,255)" />
+										<label for="tabDialogTileEditorInactiveOnTransparentHoverTextColor" class="translate">Inactive on Transparent Background Hover Text-Color:</label>
+										<span class="helper-text"></span>
+										<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12 m6 l6">
+										<input class="tabDialogTileEditor styleValue MaterializeColorPicker validate validateOnlyError" data-type="color" data-type-options="activeOntransparent" type="text" id="tabDialogTileEditorActiveOnTransparentTextColor" placeholder="rgb(255,255,255)" />
+										<label for="tabDialogTileEditorActiveOnTransparentTextColor" class="translate">Active on Transparent Background Text-Color:</label>
+										<span class="helper-text"></span>
+										<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									</div>
+									<div class="input-field col s12 m6 l6">
+										<input class="tabDialogTileEditor styleValue MaterializeColorPicker validate validateOnlyError" data-type="color" data-type-options="activeOntransparentHover" type="text" id="tabDialogTileEditorActiveOnTransparentHoverTextColor" placeholder="rgb(255,255,255)" />
+										<label for="tabDialogTileEditorActiveOnTransparentHoverTextColor" class="translate">Active on Transparent Background Hover Text-Color:</label>
+										<span class="helper-text"></span>
+										<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12 m6 l6">
+										<label for="tabDialogTileEditorFontFamily" class="translate">Font-Family:</label>
+										<input class="tabDialogTileEditor styleValue optionsFontFamily" data-type="font-family" type="text" id="tabDialogTileEditorFontFamily" placeholder="" />
+										<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
+									</div>
+									<div class="input-field col s12 m6 l6">
+										<select class="tabDialogTileEditor styleValue" data-type="font-weight" name='tabDialogTileEditorFontWeight' id='tabDialogTileEditorFontWeight'>
+											<option value="" disabled selected class="translate">Choose:</option>
+											<option value="lighter" class="translate">Lighter</option>
+											<option value="normal" class="translate">Normal</option>
+											<option value="bold" class="translate">Bold</option>
+											<option value="bolder" class="translate">Bolder</option>
+										</select>
+										<label for='tabDialogTileEditorFontWeight' class="translate">Font-Weight:</label>
+										<span class="helper-text"></span>
+										<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									</div>
+									<div class="input-field col s12 m6 l6">
+										<select class="tabDialogTileEditor styleValue" data-type="font-style" name='tabDialogTileEditorFontStyle' id='tabDialogTileEditorFontStyle'>
+											<option value="" disabled selected class="translate">Choose:</option>
+											<option value="normal" class="translate">Normal</option>
+											<option value="italic" class="translate">Italic</option>
+											<option value="oblique" class="translate">Oblique</option>
+										</select>
+										<label for='tabDialogTileEditorFontStyle' class="translate">Font-Style:</label>
+										<span class="helper-text"></span>
+										<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									</div>
+								</div>
+								<div class="input-field col s12 m6 l6">
+									<input class="tabDialogTileEditor styleValue validate validateOnlyError" data-type="font-size" type="text" id="tabDialogTileEditorFontSize" placeholder="9px" />
+									<label for="tabDialogTileEditorFontSize" class="translate">Font Size (only for multi-line elements):</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+						</div>
 						</div>
 					</div>
 				</div>

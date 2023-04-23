@@ -4312,13 +4312,13 @@ function handleOptions(){
 			customCSSFontFace += "	font-family: '" + fontFamily + "';"
 			customCSSFontFace += "	src: url('" + encodeURI(option.split('@')[1].replace(/\\/g,"/")) + "') format('" + format + "');"
 			customCSSFontFace += "}";
-			if($('style.customCSS_default').text().indexOf(customCSSFontFace) == -1) addCustomCSS(customCSSFontFace);
+			if($('style.customCSS_default').text().indexOf(customCSSFontFace) == -1) addCustomCSS(customCSSFontFace, 'fontFaces');
 			return fontFamily;
 		}
 		return option;
 	}
 	//Add customCSS
-	if(customCSS) addCustomCSS(customCSS);
+	if(customCSS) addCustomCSS(customCSS, 'options');
 	//Return after time
 	if(getUrlParameter('returnAfterTimeTreshold') != "0" && (getUrlParameter('returnAfterTimeTreshold') || options.LayoutViewReturnAfterTimeEnabled)) {
 		returnAfterTimeDestinationView = getUrlParameter('returnAfterTimeDestinationView') || options.LayoutViewReturnAfterTimeDestinationView || homeId;
@@ -5137,12 +5137,13 @@ function renderView(viewId, triggeredByReconnection){
 						.addIconTextCombination(device, {
 							stackId: "INFO_A",
 							stackCycles: true,
+							stackClasses: "testInfoA",
 
-							iconClasses: "testInfoA",
+							iconClasses: "testInfoAIcon",
 							iconState: {role:"deviceState", value: "INFO_A.icon"},
 							iconActiveState: {role:"deviceState", value: "UNREACH"},
 
-							textClasses: "testInfoA",
+							textClasses: "testInfoAText",
 							textState: {role:"deviceState", value: "INFO_A.state"},
 							textActiveState: {role:"deviceState", value: "UNREACH"}
 						})
@@ -14837,18 +14838,18 @@ function UIElements(initialUiElements) {
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
 		if(!this.uiElementStacks.stacks) this.uiElementStacks.stacks = {};
 		if(uiElementOptions.stackId){
-			var deviceStackId = device.deviceIdEscaped + "#" + uiElementOptions.stackId;
+			var deviceStackId = device.deviceIdEscaped + "#" + getUiOption(uiElementOptions.stackId);
 			if(!this.uiElementStacks.stacks[deviceStackId]) this.uiElementStacks.stacks[deviceStackId] = {count: 0, index: 0};
 			this.uiElementStacks.stacks[deviceStackId].count = this.uiElementStacks.stacks[deviceStackId].count || 0;
 			if(this.uiElementStacks.open) this.closeElementStackContainer();
-			let index = uiElementOptions.stackCycles ? this.uiElementStacks.stacks[deviceStackId].count : -1;
+			let index = getUiOption(uiElementOptions.stackCycles) ? this.uiElementStacks.stacks[deviceStackId].count : -1;
 			this.addHtml(`<div
-				class="uiElementStack container"
+				class="uiElementStack container ${getUiOption(uiElementOptions.stackClasses) || ""}"
 				data-ui-element-stack-id="${deviceStackId}"
 				data-ui-element-stack-index="${index}"
 				style="${(this.uiElementStacks.stacks[deviceStackId].count > 0 ? 'opacity: 0;' : 'opacity: 1;')}"
 			>`);
-			if (uiElementOptions.stackCycles) this.uiElementStacks.stacks[deviceStackId].count++;
+			if (getUiOption(uiElementOptions.stackCycles)) this.uiElementStacks.stacks[deviceStackId].count++;
 			this.uiElementStacks.open = true;
 		}
 		return this;
@@ -14948,13 +14949,15 @@ function UIElements(initialUiElements) {
 	 * @param {string} uiElementOptions.textClasses
 	 * @param {string} uiElementOptions.textState
 	 * @param {string} uiElementOptions.textLevelState
-	 * @param {string} uiElementOptions.showStateAndLevelSeparatelyInTile
 	 * @param {string} uiElementOptions.textActiveState
 	 * @param {string} uiElementOptions.textActiveCondition
 	 * @param {string} uiElementOptions.textActiveConditionValue
+	 * @param {boolean} uiElementOptions.textAlwaysReservePlaceForIcon
+	 * @param {boolean} uiElementOptions.textMultiline
 	 * @param {function} uiElementOptions.textProcessingFunction
 	 * @param {object} uiElementOptions.textProcessingOptions
-
+	 * @param {string} uiElementOptions.textProcessingOptions.showStateAndLevelSeparatelyInTile
+	 * 
 	 * @returns {UIElements}  
 	 */
 	this.addIconTextCombination = function(device, uiElementOptions, arrayIndex){
@@ -14969,56 +14972,72 @@ function UIElements(initialUiElements) {
 		}
 		this.newElementStackContainer(device, uiElementOptions);
 		var _uiElementIndex = this.uiElementIndex; //#####
+		var iconStateId = getUiOptionStateId(device, uiElementOptions.iconState, arrayIndex);
+		var iconActiveStateId = getUiOptionStateId(device, uiElementOptions.iconActiveState, arrayIndex);
+		var textStateId = getUiOptionStateId(device, uiElementOptions.textState, arrayIndex);
+		var textLevelStateId = getUiOptionStateId(device, uiElementOptions.textLevelState, arrayIndex);
+		var textActiveStateId = getUiOptionStateId(device, uiElementOptions.textActiveState), arrayIndex;
 		//--Icon
 		if(uiElementOptions.iconState){
-			var iconStateId = getUiOptionStateId(device, uiElementOptions.iconState, arrayIndex);
-			var iconActiveStateId = getUiOptionStateId(device, uiElementOptions.iconActiveState, arrayIndex);
-			this.addHtml(`<img 	
-				class="uiElement icon ${uiElementOptions.iconClasses || ""}"'
-				data-device-id="${device.deviceIdEscaped}"
-				data-ui-element-index="${_uiElementIndex}"
-				style="display: none;" 
-				>`);
+			this.addHtml(`<div 	
+				class="uiElement icon ${getUiOption(uiElementOptions.iconClasses) || ""}"'
+				data-device-id="${device.deviceIdEscaped}" 
+				data-ui-element-index="${_uiElementIndex}" 
+				style="background-position: left top; background-size: contain; background-repeat: no-repeat;" 
+				></div>`);
 			var updateFunction = function(stateId, forceReloadOfImage){
-				var $iconElement = $(`img.uiElement.icon[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				var $iconElement = $(`div.uiElement.icon[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
 				var iconState = getUiOptionState(device, uiElementOptions.iconState, arrayIndex);
 				var iconActiveState = getUiOptionState(device, uiElementOptions.iconActiveState, arrayIndex);
-				var iconActive = (iconActiveState ? checkCondition(iconActiveState.val, uiElementOptions.iconActiveCondition || "eqt", uiElementOptions.iconActiveConditionValue) : true);
+				var iconActive = (iconActiveState ? checkCondition(iconActiveState.val, getUiOption(uiElementOptions.iconActiveCondition) || "eqt", getUiOption(uiElementOptions.iconActiveConditionValue)) : true);
 				var src = iconState && iconState.val || "";
-				if(forceReloadOfImage) src = src.replace(/(?<=\?|&)forcedReload=([^&]+)/, "forcedReload=irgendwasAnderes" + Math.floor(new Date().getTime() / 100));
-				if(src != $iconElement.attr('src')){
-					if(($iconElement.attr('src') || "").substring(0, 5).toLowerCase() !== "data:") $iconElement.fadeTo(0, 0, function(){ $(this).css('opacity', '')});
-					setTimeout(function(){
-						$iconElement.off('load').on('load', function(){
-							if($iconElement.hasClass('active')) $iconElement.fadeTo(0, 1, function(){ $(this).css('opacity', '')}); else $iconElement.css('opacity', '');
-						}).attr('src', src);
-					}, 250);					
+				if(src && forceReloadOfImage) src = src.replace(/(?<=\?|&)forcedReload=([^&]+)/, "forcedReload=" + Math.floor(new Date().getTime() / 100));
+				if(`url("${src}")` != $iconElement.css('background-image')){
+					var $newBackgroundimageFile = $(new Image());
+					$newBackgroundimageFile.on('load', function(){ //Preloading the image
+						var oldCssTransition = null;
+						if(src.substring(0, 5).toLowerCase() == "data:"){ //Bugfix for transition in background-size for SVGs
+							oldCssTransition = $iconElement.css('transition');
+							$iconElement.css('transition', 'background-size 0s');
+						}
+ 						if ($iconElement.height() < $iconElement.width()) $iconElement.css('width', $iconElement.height() + 'px'); $iconElement.css('height', $iconElement.width() + 'px'); //make it square
+						let _src = $newBackgroundimageFile.attr('src');
+						$iconElement.css('background-image', _src ? `url("${_src}")` : '');
+						if(oldCssTransition !== null) setTimeout(function(){ $iconElement.css('transition', oldCssTransition); }, 10);
+					}).attr('src', src);
 				}
 				if(iconActive) $iconElement.addClass('active').css('opacity', ''); else $iconElement.removeClass('active');
 			}
 			this.addUpdateFunction([iconStateId, iconActiveStateId], updateFunction)
 		}
 		//--Text
-		if(uiElementOptions.textState){
-			var textStateId = getUiOptionStateId(device, uiElementOptions.textState, arrayIndex);
-			var textLevelStateId = getUiOptionStateId(device, uiElementOptions.textLevelState, arrayIndex);
-			var textActiveStateId = getUiOptionStateId(device, uiElementOptions.textActiveState), arrayIndex;
+		if(uiElementOptions.textState || uiElementOptions.textLevelState){
 			this.addHtml(`<div 	
-				class="uiElement text ${uiElementOptions.textClasses || ""}"'
+				class="uiElement text ${getUiOption(uiElementOptions.textClasses) || ""}"'
 				data-device-id="${device.deviceIdEscaped}"
 				data-ui-element-index="${_uiElementIndex}"
+				style="${getUiOption(uiElementOptions.textMultiline) ? 'white-space: break-word;' : 'white-space: nowrap;'}" 
 				></div>`);
 			var updateFunction = function(stateId){
 				var $textElement = $(`div.uiElement.text[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				var $iconElement = $(`div.uiElement.icon[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
 				var textState = getUiOptionState(device, uiElementOptions.textState, arrayIndex);
 				var textLevelState = getUiOptionState(device, uiElementOptions.textLevelState, arrayIndex);
 				var textActiveState = getUiOptionState(device, uiElementOptions.textActiveState, arrayIndex);
-				var textResult = processStateText(textState, textLevelState, uiElementOptions.textProcessingOptions, uiElementOptions.textProcessingFunction);
-				var textActive = (textActiveState ? checkCondition(textActiveState.val, uiElementOptions.textActiveCondition || "eqt", uiElementOptions.textActiveConditionValue) : true);
+				var textResult = processText(textState, textLevelState, getUiOption(uiElementOptions.textProcessingOptions), getUiOption(uiElementOptions.textProcessingFunction));
+				var textActive = (textActiveState ? checkCondition(textActiveState.val, getUiOption(uiElementOptions.textActiveCondition) || "eqt", getUiOption(uiElementOptions.textActiveConditionValue)) : true);
+				setTimeout(function(){
+					if(getUiOption(uiElementOptions.textAlwaysReservePlaceForIcon) || ($iconElement.hasClass('active') && $iconElement.css('background-image').indexOf('url(') == 0)){ //icon visible - reserve Place
+						$textElement.css('left', `${$iconElement.width()}px`);
+						$textElement.css('width', `calc(100% - ${$iconElement.width()}px)`);
+					}
+					let fontSize = $textElement.height() / 1.2 + 'px';
+					if(!getUiOption(uiElementOptions.textMultiline)) $textElement.css('font-size', fontSize);
+				}, 20);
 				$textElement.html(textResult);
 				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');
 			}
-			this.addUpdateFunction([textStateId, textActiveStateId], updateFunction)
+			this.addUpdateFunction([textStateId, textLevelStateId, textActiveStateId, iconStateId, iconActiveStateId], updateFunction)
 		}
 		this.closeElementStackContainer();
 		this.uiElementIndex++;
@@ -15028,6 +15047,12 @@ function UIElements(initialUiElements) {
 	this.addText = this.addIconTextCombination;
 
 	//---------- Helpers ----------
+	function getUiOption(uiElementOption){
+		if(typeof uiElementOption == 'string') return uiElementOption;
+		if(typeof uiElementOption == 'object' && typeof uiElementOption.value != udef) return uiElementOption.value;
+		return null;
+	}
+
 	function getUiOptionStateId(device, uiElementOption, arrayIndex){
 		if(typeof uiElementOption != 'object' || uiElementOption === null) return null;
 		if(uiElementOption.role && uiElementOption.role == 'deviceState' && uiElementOption.value){
@@ -15126,18 +15151,18 @@ function UIElements(initialUiElements) {
 		};
 	}
 
-	function processStateText(state, level, processStateOptions, processFunction){ 
-		if(typeof processStateOptions != "object") processStateOptions = {};
+	function processText(state, level, textProcessingOptions, textProcessingFunction){ 
+		if(typeof textProcessingOptions != "object") textProcessingOptions = {};
 		try{
-			return (typeof processFunction == "function" ? processFunction(state || null, level || null, processStateOptions) : defaultProcessStateTextFunction(state || null, level || null, processStateOptions));
+			return (typeof textProcessingFunction == "function" ? textProcessingFunction(state || null, level || null, textProcessingOptions || {}) : defaultProcessTextFunction(state || null, level || null, textProcessingOptions || {}));
 		} catch{
-			console.log("ERROR processing processFunction, fail back to defaultProcessStateTextFunction")
-			return defaultProcessStateTextFunction(state || null, level || null, processStateOptions);
+			console.log("ERROR processing textProcessingFunction, fail back to defaultProcessStateTextFunction")
+			return defaultProcessTextFunction(state || null, level || null, textProcessingOptions);
 		}
 	}
 
 	//---------- Processing-Functions ----------
-	function defaultProcessStateTextFunction(state, level, processStateOptions){
+	function defaultProcessTextFunction(state, level, textProcessingOptions){
 		var result;
 		var resultText;
 		if(!level || typeof level == udef || typeof level.val == udef){
@@ -15170,7 +15195,7 @@ function UIElements(initialUiElements) {
 				resultText = result + level.unit;
 			}
 		}
-		if(processStateOptions.showStateAndLevelSeparatelyInTile && processStateOptions.showStateAndLevelSeparatelyInTile.indexOf('devidedBy') != -1){
+		if(textProcessingOptions.showStateAndLevelSeparatelyInTile && textProcessingOptions.showStateAndLevelSeparatelyInTile.indexOf('devidedBy') != -1){
 			resultText = "";
 			if(state && typeof state != udef && state.val != udef){
 				var val = state.plainText;
