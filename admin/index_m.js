@@ -1087,7 +1087,7 @@ var standardTileClass = {
 	]
 }
 
-//types: string, textarea, checkbox, select with selectOptions, deviceState, position
+//types: string, textarea, checkbox, select with selectOptions, deviceState, position. roles: const,deviceState,deviceOption. roleOptions: "+deviceState;-deviceOption"
 //{option: "<name of option>", type: "string|textarea|checkbox|select", roleOptions: "+deviceState;-deviceOption", selectOptions: "value1/Caption1;value2/Caption2;...", value: "", description: ""}
 var uiElementOptions = {
 	icon: [
@@ -1097,6 +1097,7 @@ var uiElementOptions = {
 		{option: "iconActiveState", type: "string", roleOptions: "+deviceState", description: "Optional. If given, this state will define, if the icon is visible."},
 		{option: "iconActiveCondition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", description: "Optional. This defines, under which conditions the icon is visible."},
 		{option: "iconActiveConditionValue", type: "string", roleOptions: "+deviceState", description: "Optional. The comparative value for the condition."},
+		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."}
 	],	
 	text: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},

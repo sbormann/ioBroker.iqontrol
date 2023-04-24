@@ -5142,6 +5142,7 @@ function renderView(viewId, triggeredByReconnection){
 							iconClasses: "",
 							iconState: {role:"deviceState", value: "INFO_A.icon"},
 							iconActiveState: {role:"deviceState", value: "UNREACH"},
+							iconZoomOnHover: true,
 
 							textClasses: "",
 							textState: {role:"deviceState", value: "INFO_A.state"},
@@ -14945,6 +14946,7 @@ function UIElements(initialUiElements) {
 	 * @param {string} uiElementOptions.iconActiveState
 	 * @param {string} uiElementOptions.iconActiveCondition
 	 * @param {string} uiElementOptions.iconActiveConditionValue
+	 * @param {boolean} uiElementOptions.iconZoomOnHover
 	 *
 	 * @param {string} uiElementOptions.textClasses
 	 * @param {string} uiElementOptions.textState
@@ -14980,10 +14982,10 @@ function UIElements(initialUiElements) {
 		//--Icon
 		if(uiElementOptions.iconState){
 			this.addHtml(`<div 	
-				class="uiElement icon ${getUiOption(uiElementOptions.iconClasses) || ""}"'
+				class="uiElement icon ${getUiOption(uiElementOptions.iconClasses) || ''} ${(getUiOption(uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')}"'
 				data-device-id="${device.deviceIdEscaped}" 
 				data-ui-element-index="${_uiElementIndex}" 
-				style="background-position: left top; background-size: contain; background-repeat: no-repeat;" 
+				style="background-position: center; background-size: contain; background-repeat: no-repeat;" 
 				></div>`);
 			var updateFunction = function(stateId, forceReloadOfImage){
 				var $iconElement = $(`div.uiElement.icon[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
@@ -15048,9 +15050,8 @@ function UIElements(initialUiElements) {
 
 	//---------- Helpers ----------
 	function getUiOption(uiElementOption){
-		if(typeof uiElementOption == 'string') return uiElementOption;
 		if(typeof uiElementOption == 'object' && typeof uiElementOption.value != udef) return uiElementOption.value;
-		return null;
+		return uiElementOption;
 	}
 
 	function getUiOptionStateId(device, uiElementOption, arrayIndex){

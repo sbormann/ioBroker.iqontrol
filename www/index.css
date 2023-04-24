@@ -2080,7 +2080,6 @@ html.adjustHeightToBackgroundView {
 	background: rgba(255, 208, 0, 0.329); /* ####### */
 	position: absolute;
 	overflow: hidden;
-	pointer-events:none !important;
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
@@ -2097,6 +2096,14 @@ html.adjustHeightToBackgroundView {
 }
 .uiElement.uiElement.active{
 	opacity: 0.99;
+}
+.uiElement.zoomOnHover:hover {
+	-webkit-transform: scale3d(1.05,1.05,1);
+	   -moz-transform: scale3d(1.05,1.05,1);
+			transform: scale3d(1.05,1.05,1);
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 
 
