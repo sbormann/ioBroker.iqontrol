@@ -13393,12 +13393,12 @@ function resizeDevicesToFitScreen(){
 	var screenPadding = deviceMargin + viewPadding;
 	var panelMarginLeft = parseFloat(($('.ui-panel-page-content-open.ui-panel-page-content-position-left').css('margin-right') || "0px").slice(0, -2))
 	var panelMarginRight = parseFloat(($('.ui-panel-page-content-open.ui-panel-page-content-position-right').css('margin-left') || "0px").slice(0, -2))
-	var screenWidth = $(window).innerWidth() - screenPadding - panelMarginLeft - panelMarginRight;
-	var deviceSize = 2 * $('.iQontrolDeviceShuffleSizer').outerWidth(true);
 	var scale = $('html').hasClass('bigMode') ? 1.5 : 1;
+	var screenWidth = ($(window).innerWidth() - screenPadding - panelMarginLeft - panelMarginRight) / scale;
+	var deviceSize = 2 * $('.iQontrolDeviceShuffleSizer').outerWidth(true);
 	var columns = Math.round(screenWidth/deviceSize);
 	var customCSS = ".viewShuffleContainer, .fullScreenWidth {";
-	customCSS += "	width: " + (deviceSize * columns / scale) +"px !important;";
+	customCSS += "	width: " + (deviceSize * columns) +"px !important;";
 	customCSS += "}";
 	removeCustomCSS('resizeViewShuffleContainer');
 	addCustomCSS(customCSS, "resizeViewShuffleContainer");
@@ -13425,15 +13425,15 @@ function resizeFullWidthDevicesToFitScreen(){
 	var screenPadding = deviceMargin + viewPadding;
 	var panelMarginLeft = parseFloat(($('.ui-panel-page-content-open.ui-panel-page-content-position-left').css('margin-right') || "0px").slice(0, -2))
 	var panelMarginRight = parseFloat(($('.ui-panel-page-content-open.ui-panel-page-content-position-right').css('margin-left') || "0px").slice(0, -2))
-	var screenWidth = $(window).innerWidth() - screenPadding - panelMarginLeft - panelMarginRight;
-	var screenHeight = $(window).innerHeight();
-	var deviceSize = 2 * $('.iQontrolDeviceShuffleSizer').outerWidth(true);
 	var scale = $('html').hasClass('bigMode') ? 1.5 : 1;
+	var screenWidth = ($(window).innerWidth() - screenPadding - panelMarginLeft - panelMarginRight) / scale;
+	var screenHeight = $(window).innerHeight() / scale;
+	var deviceSize = 2 * $('.iQontrolDeviceShuffleSizer').outerWidth(true);
 	var columns = Math.round(screenWidth/deviceSize);
 	var toolbarHeight = $('#Toolbar').outerHeight();
 	var rows = Math.round((screenHeight - toolbarHeight)/deviceSize);
 	if(options.LayoutViewResizeDevicesToFitScreenOnBigScreens || screenWidth <= (options.LayoutViewResizeDevicesToFitScreenTreshold || 600)){
-		zoom = screenWidth / (columns * deviceSize / scale);
+		zoom = screenWidth / (columns * deviceSize);
 		console.log("resizeFullWidthDevicesToFitScreen with zoom-factor " + zoom);
 		customCSS = ".iQontrolDevice.fullWidth, .iQontrolDevice:not(.active).fullWidthIfInactive, .iQontrolDevice.active.fullWidthIfActive, .iQontrolDevice.enlarged.fullWidthIfEnlarged {";
 		customCSS += "	max-width: " + (deviceSize * columns - (3 * deviceMargin)) +"px !important;";
