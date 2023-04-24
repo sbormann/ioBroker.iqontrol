@@ -4882,7 +4882,7 @@ function renderView(viewId, triggeredByReconnection){
 					var stateHeightAdaptsContentInactive = (getDeviceOptionValue(device, "stateHeightAdaptsContentInactive") == "true");
 					var stateHeightAdaptsContentActive = (getDeviceOptionValue(device, "stateHeightAdaptsContentActive") == "true");
 					var stateHeightAdaptsContentEnlarged = (getDeviceOptionValue(device, "stateHeightAdaptsContentEnlarged") == "true");
-					viewContent += "<div class='iQontrolDevice" + (device.tileSettings && typeof device.tileSettings.tileClass != udef ? ' tileClass_' + device.tileSettings.tileClass : '') + ((getDeviceOptionValue(device, "transparentIfInactive") == "true") ? " transparentIfInactive" : "") + ((getDeviceOptionValue(device, "transparentIfActive") == "true") ? " transparentIfActive" : "") + ((getDeviceOptionValue(device, "transparentIfEnlarged") == "true") ? " transparentIfEnlarged" : "") + (getDeviceOptionValue(device, "sizeInactive") ? " " + getDeviceOptionValue(device, "sizeInactive") : "") + (getDeviceOptionValue(device, "sizeActive") ? " " + getDeviceOptionValue(device, "sizeActive") : "") + (getDeviceOptionValue(device, "sizeEnlarged") ? " " + getDeviceOptionValue(device, "sizeEnlarged") : "") + (enlarged ? " enlarged": "") + (stateHeightAdaptsContentInactive ? " adaptsHeightIfInactive" : "") + (stateHeightAdaptsContentActive ? " adaptsHeightIfActive" : "") + (stateHeightAdaptsContentEnlarged ? " adaptsHeightIfEnlarged" : "") + ((getDeviceOptionValue(device, "bigIconInactive") == "true") ? " bigIconIfInactive" : "") + ((getDeviceOptionValue(device, "bigIconActive") == "true") ? " bigIconIfActive" : "") + ((getDeviceOptionValue(device, "bigIconEnlarged") != "false") ? " bigIconIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+					viewContent += "<div class='iQontrolDevice" + (device.tileSettings && typeof device.tileSettings.tileClass != udef ? ' tileClass_' + device.tileSettings.tileClass : '') + (device.tileSettings && typeof device.tileSettings.tileClassEnlarged != udef ? ' tileClass_' + device.tileSettings.tileClassEnlarged + '_ifEnlarged' : '') + ((getDeviceOptionValue(device, "transparentIfInactive") == "true") ? " transparentIfInactive" : "") + ((getDeviceOptionValue(device, "transparentIfActive") == "true") ? " transparentIfActive" : "") + ((getDeviceOptionValue(device, "transparentIfEnlarged") == "true") ? " transparentIfEnlarged" : "") + (getDeviceOptionValue(device, "sizeInactive") ? " " + getDeviceOptionValue(device, "sizeInactive") : "") + (getDeviceOptionValue(device, "sizeActive") ? " " + getDeviceOptionValue(device, "sizeActive") : "") + (getDeviceOptionValue(device, "sizeEnlarged") ? " " + getDeviceOptionValue(device, "sizeEnlarged") : "") + (enlarged ? " enlarged": "") + (stateHeightAdaptsContentInactive ? " adaptsHeightIfInactive" : "") + (stateHeightAdaptsContentActive ? " adaptsHeightIfActive" : "") + (stateHeightAdaptsContentEnlarged ? " adaptsHeightIfEnlarged" : "") + ((getDeviceOptionValue(device, "bigIconInactive") == "true") ? " bigIconIfInactive" : "") + ((getDeviceOptionValue(device, "bigIconActive") == "true") ? " bigIconIfActive" : "") + ((getDeviceOptionValue(device, "bigIconEnlarged") != "false") ? " bigIconIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 
 					uiElements
 					.addHtml(viewContent);
@@ -5133,8 +5133,42 @@ function renderView(viewId, triggeredByReconnection){
 
 
 						//---------- TEST UI ELEMENTS ----------
-						uiElements.addHtml(deviceContent)
-						.addIconTextCombination(device, {
+						uiElements.addHtml(deviceContent);
+
+
+						if(device.tileSettings && device.tileSettings.elements){
+							device.tileSettings.elements.filter(function(element){ return element.outside; }).forEach(function(element, elementIndex){ //Outside
+								//uiElements.addHtml(''); //Ouside-Container
+								//processElement(element, elementIndex);
+							});
+							device.tileSettings.elements.filter(function(element){ return !element.outside; }).forEach(function(element, elementIndex){ //Inside
+								//uiElements.addHtml(''); //Inside-Container
+								processElement(element, elementIndex);
+							});		
+						}
+						function processElement(element, elementIndex){
+							let options = {}
+							options.stackId = element.commonName;
+							options.stackClasses = 'stackClass_' + element.stackIndex;
+							(element.options || []).forEach(function(option){
+								options[option.option] = {role: option.role, value: option.value};
+							});
+							switch(element.commonType){
+								case "icon": 
+									uiElements.addIcon(device, options);
+								break;
+
+								case "text": 
+									uiElements.addText(device, options);
+								break;
+
+								case "iconTextCombination": 
+									uiElements.addIconTextCombination(device, options);
+								break;
+							}
+						}
+
+/*						uiElements.addIconTextCombination(device, {
 							stackId: "INFO_A",
 							stackCycles: true,
 							stackClasses: "stackClass_8",
@@ -5160,6 +5194,8 @@ function renderView(viewId, triggeredByReconnection){
 							textState: {role:"deviceState", value: "INFO_B.state"},
 							textActiveState: {role:"deviceState", value: "UNREACH"}
 						});
+*/
+
 						deviceContent = ""; //##### 
 
 
@@ -14125,11 +14161,6 @@ function extendDevice(device, deviceId){ // #####
 	return device;
 }
 
-function getStateFromDeviceState(device, state){
-	var stateId = getStateIdFromDeviceState(device, state);
-	return getState(stateId);
-}
-
 /** Gets the stateId of a deviceState and calls fetchAndSubscribeState() or createTemporaryState() or createVirtualState() if necessary.
  * Returns null if state is not found in device.
  * Returns 'CONST:deviceId.state' if the found deviceState's role is 'const'.
@@ -14180,7 +14211,7 @@ function getStateIdFromDeviceState(device, state){
 							var commonRole = givenArrayValue[givenArrayCol.commonRoleFrom];
 							if(commonRole == 'linkedState'){//ARRAY-Element of combination - linkedState								
 								if(value && !fetchedStates[value] && !statesToFetchAndSubscribe[value]) statesToFetchAndSubscribe.push(value);
-								createStateVariableUpdateFunction(value, stateId + '.' + givenArrayCol.col + '.' + givenArrayValueIndex);
+								createStateUpdateFunction('stateVariables', value, stateId + '.' + givenArrayCol.col + '.' + givenArrayValueIndex);
 								resultArray[givenArrayCol.col].push(value);
 							} else { //ARRAY-Element of combination - const or calc
 								var elementStateId = commonRole.toUpperCase() + ":" + deviceStateId + '.' + givenArrayCol.col + '.' + givenArrayValueIndex; //CONST: or CALC: + arrayStateId inc. arrayPath
@@ -14204,6 +14235,13 @@ function getStateIdFromDeviceState(device, state){
 				}
 			});
 			createTemporaryState(stateId, 'array', 'array', false, resultArray);
+			//Create updateFunctions for array
+			for(let col in resultArray){
+				createStateUpdateFunction('arrays', stateId, stateId + '.' + col);
+				resultArray[col].forEach(function(colValue, colValueIndex){
+					createStateUpdateFunction('arrays', stateId + '.' + col, stateId + '.' + col + '.' + colValueIndex);
+				});
+			}
 		}
 		if(statesToFetchAndSubscribe.length) fetchAndSubscribeStates(statesToFetchAndSubscribe);
 		return stateId;
@@ -14238,17 +14276,17 @@ function getStateIdFromDeviceState(device, state){
 			if(variableLinkedStateId){
 				if(variableLinkedStateId.substr(0, 1) == "[" && variableLinkedStateId.substr(-1) == "]") variableLinkedStateId = variableLinkedStateId.substring(1, variableLinkedStateId.length - 1);
 				if(!fetchedStates[variableLinkedStateId] && !statesToFetchAndSubscribe[variableLinkedStateId]) statesToFetchAndSubscribe.push(variableLinkedStateId);
-				createStateVariableUpdateFunction(variableLinkedStateId, stateId);
+				createStateUpdateFunction('stateVariables', variableLinkedStateId, stateId);
 			}
 		});
 	}
-	function createStateVariableUpdateFunction(variableLinkedStateId, stateId){
-		var updateFunction = new Function("updateState('" + stateId + "');");
-		if(!deviceCollections.updateFunctions["stateVariables"]) deviceCollections.updateFunctions["stateVariables"] = [];
-		if(!deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId]) deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId] = [];
-		if(!deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId].filter(function(f){ return f.toString() == updateFunction.toString(); }).length){
-			console.log("Create stateVariable updateFunction for " + variableLinkedStateId + " to update " + stateId)
-			deviceCollections.updateFunctions["stateVariables"][variableLinkedStateId].push(updateFunction);
+	function createStateUpdateFunction(identifier, variableLinkedStateId, stateIdToUpdate){
+		var updateFunction = new Function("updateState('" + stateIdToUpdate + "');");
+		if(!deviceCollections.updateFunctions[identifier]) deviceCollections.updateFunctions[identifier] = [];
+		if(!deviceCollections.updateFunctions[identifier][variableLinkedStateId]) deviceCollections.updateFunctions[identifier][variableLinkedStateId] = [];
+		if(!deviceCollections.updateFunctions[identifier][variableLinkedStateId].filter(function(f){ return f.toString() == updateFunction.toString(); }).length){
+			console.log("Create stateVariable updateFunction for " + variableLinkedStateId + " to update " + stateIdToUpdate)
+			deviceCollections.updateFunctions[identifier][variableLinkedStateId].push(updateFunction);
 		}
 	}
 }
@@ -14765,6 +14803,11 @@ function getState(stateId){ //
 	return result;
 }
 
+function getStateFromDeviceState(device, state){
+	var stateId = getStateIdFromDeviceState(device, state);
+	return getState(stateId);
+}
+
 //---------- UIElements ----------
 /**
  * @typedef {object} UIElements
@@ -15056,7 +15099,7 @@ function UIElements(initialUiElements) {
 
 	function getUiOptionStateId(device, uiElementOption, arrayIndex){
 		if(typeof uiElementOption != 'object' || uiElementOption === null) return null;
-		if(uiElementOption.role && uiElementOption.role == 'deviceState' && uiElementOption.value){
+		if(uiElementOption.role && uiElementOption.role == 'deviceState' && uiElementOption.value && uiElementOption.value != ''){
 			return getStateIdFromDeviceState(device, uiElementOption.value + (uiElementOption.value.split('.').length < 3 && typeof arrayIndex != udef ? '.' + arrayIndex : ''));
 		} 
 		return null;
@@ -15074,6 +15117,7 @@ function UIElements(initialUiElements) {
 		var result = {};
 		if(typeof uiElementOption.value == udef) uiElementOption.value = null;
 		if(uiElementOption.role && uiElementOption.role == 'deviceState'){
+			if (typeof uiElementOption.value == udef || uiElementOption.value == null || uiElementOption.value == '') return null;
 			result = getStateFromDeviceState(device, uiElementOption.value + (uiElementOption.value.split('.').length < 3 && typeof arrayIndex != udef ? '.' + arrayIndex : ''));
 		} else {
 			var value = null;

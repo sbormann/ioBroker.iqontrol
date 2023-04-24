@@ -1110,11 +1110,27 @@ var uiElementOptions = {
 		{option: "textProcessingFunction", type: "textarea", description: "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction"},
 		{option: "textProcessingOptions", type: "textarea", value: "{}", description: "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}."},
 		{option: "textMultiline", type: "checkbox", description: "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false."}
+	],
+	iconTextCombination: [
+		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
+		{option: "iconClasses", type: "string", description: "Optional. Add these CSS-Classes to the icon."},
+		{option: "iconState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "The url of the icon."},
+		{option: "iconActiveState", type: "string", roleOptions: "+deviceState", description: "Optional. If given, this state will define, if the icon is visible."},
+		{option: "iconActiveCondition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", description: "Optional. This defines, under which conditions the icon is visible."},
+		{option: "iconActiveConditionValue", type: "string", roleOptions: "+deviceState", description: "Optional. The comparative value for the condition."},
+		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
+		{option: "textClasses", type: "string", description: "Optional. Add these CSS-Classes to the text."},
+		{option: "textState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "STATE", description: "The text to display."},
+		{option: "textLevelState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "LEVEL", description: "Optional. The default textProcessing can combine two values, a state and a level. This ist the level."},
+		{option: "textActiveState", type: "string", role: "deviceState", roleOptions: "+deviceState", description: "Optional. If given, this state will define, if the text is visible."},
+		{option: "textActiveCondition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", value: "", description: "Optional. This defines, under which conditions the text is visible."},
+		{option: "textActiveConditionValue", type: "string", roleOptions: "+deviceState", description: "Optional. The comparative value for the condition."},
+		{option: "textProcessingFunction", type: "textarea", description: "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction"},
+		{option: "textProcessingOptions", type: "textarea", value: "{}", description: "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}."},
+		{option: "textMultiline", type: "checkbox", description: "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false."},
+		{option: "textAlwaysReservePlaceForIcon", type: "checkbox", description: "If true, the text will leave place for the icon, even if it is invisible. Default: false."}
 	]
 }
-uiElementOptions.iconTextCombination = Object.assign([], [
-		{option: "textAlwaysReservePlaceForIcon", type: "checkbox", description: "If true, the text will leave place for the icon, even if it is invisible. Default: false."},
-], uiElementOptions.text, uiElementOptions.icon);
 
 var iQontrolRoles = {
 	"iQontrolView": {
@@ -3179,14 +3195,15 @@ function capitalize(string){
 	return string.substring(0, 1).toUpperCase() + string.substring(1);
 }
 
-function scrollTo(target, speed, delay){
+function scrollTo(target, container, speed, delay){
 	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 		var _target = target;
 		var _speed = speed || 750;
 		var _delay = delay || 250;
 		setTimeout(function(){
-			target_position = $(target).get(0).offsetTop; 
-			$('.adapter-body').animate({'scrollTop' : target_position }, speed);
+			let target_position = $(target).get(0).offsetTop; 
+			let container_position = container ? $(container).get(0).offsetTop : 0;
+			$(container ? container : '.adapter-body').animate({'scrollTop' : target_position-container_position }, speed);
 		}, delay);
 	})(); //<--End Closure
 }
@@ -6311,10 +6328,13 @@ async function load(settings, onChange) {
 		if(index > 0) $newStack.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
 		$newStack.on('click', function(){
 			var _index = $(this).data('index');
-			$('#tabledialogDeviceEditTileSettingsElements tbody tr').removeClass('marked');
+			$('#tabledialogDeviceEditTileSettingsElements tbody tr').removeClass('marked');			
 			setTimeout(function(){ 
 				$(`#tabledialogDeviceEditTileSettingsElements tbody tr`).each(function(){
-					if($(this).find('input[data-name="stackIndex"]').val() == _index) $(this).addClass('marked');
+					if($(this).find('input[data-name="stackIndex"]').val() == _index){
+						$(this).addClass('marked');
+						scrollTo(this, $(this).parents('.tabcontainer'));
+					}
 				});
 			}, 100);
 		});
@@ -6385,15 +6405,11 @@ async function load(settings, onChange) {
 											option.value = $tdValue.find('select').val();
 										break;
 											
-										case "position": //xxxx what to do with position... fixed, editable, hidden, ????
-											option.value = "";
-										break;
-	
 										case "textarea":
 											option.value = $tdValue.find('textarea').val();
 										break;
 	
-										case "deviceState": case "string": default:
+										case "string": default:
 											option.value = $tdValue.find('input').val();
 										break;
 									}
@@ -6401,11 +6417,17 @@ async function load(settings, onChange) {
 							}
 							options.push(option);
 						});
-						dialogDeviceEditTileSettings.elements[_elementIndex].options = options;
+						dialogDeviceEditTileSettings.elements[_elementIndex].options = JSON.parse(JSON.stringify(options));
 					}, function(){ //init dialog function
 						$('#dialogDeviceEditTileSettingsElementOptionsName').html(_(dialogDeviceEditTileSettings.elements[_elementIndex].commonType) + ' ' + dialogDeviceEditTileSettings.elements[_elementIndex].commonName);
 						$('#dialogDeviceEditTileSettingsElementIndex').val(_elementIndex);
-						var options = Object.assign([], JSON.parse(JSON.stringify(uiElementOptions[dialogDeviceEditTileSettings.elements[_elementIndex].commonType] || [])), dialogDeviceEditTileSettings.elements[_elementIndex].options || []);
+						var options = JSON.parse(JSON.stringify(uiElementOptions[dialogDeviceEditTileSettings.elements[_elementIndex].commonType] || []));					
+						(dialogDeviceEditTileSettings.elements[_elementIndex].options || []).forEach(function(elementOption){
+							let index = options.findIndex(function(option){ return option.option == elementOption.option; });
+							if(index > -1){
+								options[index] = Object.assign({}, options[index], elementOption);
+							}
+						});
 						var $tbody = $('#tableDialogDeviceEditTileSettingsElementOptions table tbody').html('');
 						options.forEach(function(option, optionIndex){
 							option.optionIndex = optionIndex;
@@ -6462,7 +6484,13 @@ async function load(settings, onChange) {
 									var $select = $('<select></select>');
 									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
 									dialogDeviceEditStatesTable.forEach(function(deviceState){
-										$select.append(`<option value="${deviceState.state}" ${typeof option.value != 'undefined' && option.value == deviceState.state ? 'selected' : ''}>${deviceState.state}</option>`);
+										if(deviceState.commonType == 'array'){
+											deviceState.value && (deviceState.value.cols || []).forEach(function(col){
+												if(col.commonRoleFrom) $select.append(`<option value="${deviceState.state}.${col.col}" ${typeof option.value != 'undefined' && option.value == deviceState.state + '.' + col.col ? 'selected' : ''}>${deviceState.state}.${col.col}</option>`);
+											});
+										} else {
+											$select.append(`<option value="${deviceState.state}" ${typeof option.value != 'undefined' && option.value == deviceState.state ? 'selected' : ''}>${deviceState.state}</option>`);
+										}
 									});
 									$value = $(`<div class="input-field"></div>`).append($select);
 								break;
@@ -6482,10 +6510,6 @@ async function load(settings, onChange) {
 											$value = $(`<div class="input-field"></div>`).append($select);
 										break;
 											
-										case "position": //xxxx what to do with position... fixed, editable, hidden, ????
-											$value = $(`<span>{option.value}</span>`);
-										break;
-		
 										case "textarea":
 											var $value = $(`<textarea id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}">`).val(option.value || "");
 										break;
