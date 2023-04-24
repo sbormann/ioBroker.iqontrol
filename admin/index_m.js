@@ -2749,9 +2749,103 @@ var iQontrolRolesStandardDeviceStates = {
 			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
 	}
-}
+};
 
-//Extend iQontrolRoles with iQontrolRolesStandardOptions and iQontrolRolesStandardDeviceStates
+var iQontrolRolesStandardTileSettingElements = [
+    {
+        "commonType": "text",
+        "commonName": "Badge",
+        "stackIndex": "1",
+        "options": "",
+        "outside": true
+    },
+    {
+        "commonType": "icon",
+        "commonName": "Enlarge",
+        "stackIndex": "2",
+        "outside": false,
+        "options": ""
+    },
+    {
+        "commonType": "iconTextCombination",
+        "commonName": "Full Size State",
+        "stackIndex": "0",
+        "outside": false,
+        "options": ""
+    },
+    {
+        "commonType": "icon",
+        "commonName": "Icon on",
+        "stackIndex": "3",
+        "outside": false,
+        "options": ""
+    },
+    {
+        "commonType": "icon",
+        "commonName": "Icon off",
+        "stackIndex": "3",
+        "outside": false,
+        "options": ""
+    },
+    {
+        "commonType": "icon",
+        "commonName": "Loading",
+        "stackIndex": "4",
+        "outside": false,
+        "options": ""
+    },
+    {
+        "commonType": "icon",
+        "commonName": "ERROR",
+        "stackIndex": "5",
+        "outside": false,
+        "options": ""
+    },
+    {
+        "commonType": "icon",
+        "commonName": "UNREACH",
+        "stackIndex": "6",
+        "outside": false,
+        "options": ""
+    },
+    {
+        "commonType": "icon",
+        "commonName": "BATTERY",
+        "stackIndex": "7",
+        "outside": false,
+        "options": ""
+    },
+    {
+        "commonType": "iconTextCombination",
+        "commonName": "INFO_A",
+        "stackIndex": "8",
+        "outside": false,
+        "options": ""
+    },
+    {
+        "commonType": "iconTextCombination",
+        "commonName": "INFO_B",
+        "stackIndex": "9",
+        "outside": false,
+        "options": ""
+    },
+    {
+        "commonType": "icon",
+        "commonName": "Name",
+        "stackIndex": "10",
+        "outside": false,
+        "options": ""
+    },
+    {
+        "commonType": "text",
+        "commonName": "STATE",
+        "stackIndex": "11",
+        "outside": false,
+        "options": ""
+    }
+];
+
+//Extend iQontrolRoles with iQontrolRolesStandardOptions, iQontrolRolesStandardDeviceStates and iQontrolRolesStandardTileSettingElements
 for(iQontrolRole in iQontrolRoles){
 	//iQontrolRolesStandardOptions
 	var optionsObject = JSON.parse(JSON.stringify(iQontrolRolesStandardOptions));
@@ -2800,6 +2894,12 @@ for(iQontrolRole in iQontrolRoles){
 		}
 		iQontrolRoles[iQontrolRole].deviceStatesDisplaySequence.push(state);
 		iQontrolRoles[iQontrolRole].deviceStates[state] = deviceState;
+	});
+	//iQontrolRolesStandardTileSettingElements
+	if(!iQontrolRoles[iQontrolRole].tileSettings) iQontrolRoles[iQontrolRole].tileSettings = {};
+	iQontrolRoles[iQontrolRole].tileSettings.elements = Object.assign([], iQontrolRolesStandardTileSettingElements);
+	iQontrolRoles[iQontrolRole].deviceSpecificTileSettings && iQontrolRoles[iQontrolRole].deviceSpecificTileSettings.elements && iQontrolRoles[iQontrolRole].deviceSpecificTileSettings.elements.forEach(function(deviceSpecificElement, elementIndex){
+		iQontrolRoles[iQontrolRole].tileSettings.elements[elementIndex] = Object.assign({}, iQontrolRoles[iQontrolRole].tileSettings.elements[elementIndex] || {}, deviceSpecificElement);
 	});
 }
 
@@ -5164,7 +5264,6 @@ async function load(settings, onChange) {
 							dialogDeviceEditOptions = JSON.parse(JSON.stringify(views[_viewIndex].devices[_deviceIndex].options || []));
 							$('#dialogDeviceEditOptionsContent').empty();
 							dialogDeviceEditTileSettings = JSON.parse(JSON.stringify(views[_viewIndex].devices[_deviceIndex].tileSettings || {}));
-							dialogDeviceEditTileSettingsInit();
 							if (views[_viewIndex].devices[_deviceIndex].commonRole) {
 								$('#dialogDeviceEditCommonRole').val(views[_viewIndex].devices[_deviceIndex].commonRole).trigger('change');
 							} else {
@@ -5301,8 +5400,17 @@ async function load(settings, onChange) {
 		});
 		//Build options content
 		dialogDeviceEditOptionsBuildOptionsContent();
+		//TileSettings
+		dialogDeviceEditTileSettings.tileClass = dialogDeviceEditTileSettings.tileClass || iQontrolRoles[dialogDeviceEditCommonRole].tileSettings.tileClass || 0;
+		dialogDeviceEditTileSettings.tileClassEnlarged = dialogDeviceEditTileSettings.tileClassEnlarged || iQontrolRoles[dialogDeviceEditCommonRole].tileSettings.tileClassEnlarged || 0;
+		if(!dialogDeviceEditTileSettings.elements) dialogDeviceEditTileSettings.elements = [];
+		(iQontrolRoles[dialogDeviceEditCommonRole].tileSettings.elements || []).forEach(function(roleElement, elementIndex){
+			dialogDeviceEditTileSettings.elements[elementIndex] = Object.assign({}, roleElement, dialogDeviceEditTileSettings.elements[elementIndex] || {});
+		});
+		dialogDeviceEditTileSettingsInit();
 	});
 
+	//---------- Device Edit - States ----------
 	//Enhance tableDialogDeviceEditStates with functions
 	function ontableDialogDeviceEditStatesReady(){
 		$('#tableDialogDeviceEditStates td').css('vertical-align', 'top');
@@ -5599,313 +5707,7 @@ async function load(settings, onChange) {
 		});
 	}
 
-	//TileSettings
-	var dialogDeviceEditTileSettings = {};
-	$('#dialogDeviceEdit ul.tabs li.tab a[href="#tabdialogDeviceEditTileSettings"]').on('click', function(){ //Set Zoom-Level
-		setTimeout(function(){ $('.dialogDeviceEditTileSettingsDemoScale').val($('#dialogDeviceEditTileSettingsDemoBackground').width() * 0.0065).trigger('change'); }, 100);
-	});	
-	//Init TileSettings
-	function dialogDeviceEditTileSettingsInit(){
-		dialogDeviceEditTileSettings.tileClass = dialogDeviceEditTileSettings.tileClass || 0;
-		dialogDeviceEditTileSettings.tileClassEnlarged = dialogDeviceEditTileSettings.tileClassEnlarged || 0;
-		dialogDeviceEditTileSettings.elements = dialogDeviceEditTileSettings.elements || [];
-		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', false);
-		//Fill and select dialogDeviceEditTileSettingsTileClass selectbox 
-		$('.dialogDeviceEditTileSettingsTileClass').html("");
-		tileClasses.forEach(function(tileClass, tileClassIndex){
-			$('.dialogDeviceEditTileSettingsTileClass').append(`<option value="${tileClassIndex}">${tileClass.commonName || tileClassIndex}</option>`);
-		});
-		$('#dialogDeviceEditTileSettingsTileClass').val(dialogDeviceEditTileSettings.tileClass);
-		$('#dialogDeviceEditTileSettingsTileClassEnlarged').val(dialogDeviceEditTileSettings.tileClassEnlarged);
-		$('.dialogDeviceEditTileSettingsTileClass').select();
-		dialogDeviceEditTileSettingsUpdateDemo();
-		//Elements	
-		values2table('tabledialogDeviceEditTileSettingsElements', dialogDeviceEditTileSettings.elements || [], onChange, ontableDialogDeviceEditTileSettingsElementsReady);
-	}
-	//Enhance dialogDeviceEditTileSettingsTileClass
-	$('.dialogDeviceEditTileSettingsTileClass').on('change', function(){
-		dialogDeviceEditTileSettings[$(this).data('type')] = $(this).val() || 0;
-		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', $(this).data('type') == 'tileClassEnlarged').trigger('change');
-	});	
-	$('.dialogDeviceEditTileSettingsTileClassContainer').on('click', function(){
-		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', $(this).data('type') == 'tileClassEnlarged').trigger('change');
-	});
-	function dialogDeviceEditTileSettingsUpdateDemo(){
-		$('#dialogDeviceEditTileSettingsDemoTile').html('');
-		let enlarged = $('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked');
-		let tileClass = (enlarged ? dialogDeviceEditTileSettings.tileClassEnlarged : dialogDeviceEditTileSettings.tileClass) || 0;
-		$('.dialogDeviceEditTileSettingsTileClassContainer').removeClass('selected');
-		$(`.dialogDeviceEditTileSettingsTileClassContainer[data-type="${enlarged ? 'tileClassEnlarged' : 'tileClass'}"]`).addClass('selected');
-		//Tile Border radius
-		for(let tileOption in tileClasses[tileClass].value.tile || {}){
-			if(tileOption.indexOf('border-') == 0 && tileOption.endsWith('-radius')){
-				$('#dialogDeviceEditTileSettingsDemoTile').css(tileOption, tileClasses[tileClass].value.tile[tileOption] + (tileClasses[tileClass].value.tile[tileOption + "-unit"] || "px"));
-			}
-		}
-		tileClasses[tileClass].value.stacks.forEach(function(stack, stackIndex){
-			dialogDeviceEditTileSettingsAddStack(stackIndex, stack);
-		});
-	}
-	//Enance inputs on Demo tab
-	$('.dialogDeviceEditTileSettingsDemoSize').on('input change', function(){
-		$('#dialogDeviceEditTileSettingsDemoTile').css($(this).data('mode'), 110 * $(this).val());
-	});
-	$('.dialogDeviceEditTileSettingsDemoScale').on('input change', function(){
-		$('#dialogDeviceEditTileSettingsDemoTile').data('scale', $(this).val()).css('transform', `scale(${$(this).val()})`);
-	});
-	$('#dialogDeviceEditTileSettingsDemoShowEnlarged').on('change', function(){
-		dialogDeviceEditTileSettingsUpdateDemo();
-	});
-	//Add Stacks
-	function dialogDeviceEditTileSettingsAddStack(index, options){
-		index = typeof index == "number" ? index : tileClasses[dialogDeviceEditTileSettings.tileClass].value.stacks.length;
-		var defaultOptions = {
-			name: "Stack " + index,
-			horizontalMode: 'left',
-			horizontalValue: index * 10,
-			horizontalUnit: 'px',
-			widthMode: 'normal',
-			widthValue: 65,
-			widthUnit: 'px',
-			verticalMode: 'top',
-			verticalValue: index * 10,
-			verticalUnit: 'px',
-			heightMode: 'normal',
-			heightValue: 20,
-			heightUnit: 'px'
-		};
-		options = Object.assign({}, defaultOptions || {}, options);
-		//Demo
-		var $newStack = $(`<div id="dialogDeviceEditTileSettingsDemoStack_${index}" data-index="${index}" class="dialogDeviceEditTileSettingsDemoStack">${index}<span class="name small"></span></div>`);
-		if(index > 0) $newStack.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
-		$newStack.on('click', function(){
-			var _index = $(this).data('index');
-			$('#tabledialogDeviceEditTileSettingsElements tbody tr').removeClass('marked');
-			setTimeout(function(){ 
-				$(`#tabledialogDeviceEditTileSettingsElements tbody tr`).each(function(){
-					if($(this).find('input[data-name="stackIndex"]').val() == _index) $(this).addClass('marked');
-				});
-			}, 100);
-		});
-		$('#dialogDeviceEditTileSettingsDemoTile').append($newStack);
-		dialogDeviceEditTileSettingsStyleStack(index, options);
-	}
-	//Style Stack Demo
-	function dialogDeviceEditTileSettingsStyleStack(index, options){
-		options = Object.assign({}, options || {});
-		$element = $(`.dialogDeviceEditTileSettingsDemoStack[data-index="${index}"]`);
-		$element.find('span.name').html(options.name ? '&nbsp;' + options.name : '');
-		var cssArray = tileEditorCreateCssPositionsArrayFromOptions(options);
-		$element.data('css-array', cssArray);
-		(cssArray || []).forEach(function(css){
-			$element.css(css.attribute, css.value);
-		});
-	}
-	//Elements
-	function ontableDialogDeviceEditTileSettingsElementsReady(){
-		var $div = $('#tabledialogDeviceEditTileSettingsElements');
-		var $table = $div.find('.table-values');
-		var $lines = $table.find('.table-lines');
-		//Stack selectbox
-		let enlarged = $('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked');
-		let tileClass = (enlarged ? dialogDeviceEditTileSettings.tileClassEnlarged : dialogDeviceEditTileSettings.tileClass) || 0;
-		var stackOptions = [];
-		tileClasses[tileClass].value.stacks.forEach(function(stack, stackIndex){
-			stackOptions.push(stackIndex + "/" + stackIndex + " - " + stack.name);
-		});
-		enhanceTextInputToCombobox('#tabledialogDeviceEditTileSettingsElements tbody input[data-name="stackIndex"]', stackOptions.join(';'), false, function(value, $target){
-			if(!isNaN(value)) value = parseInt(value); else value = -1;
-			if(value > 0) $target.css('background-color', dialogTileEditorColors[value%dialogTileEditorColors.length])
-		});
-		$lines.find('input[data-name="stackIndex"]').on('change', function(){
-			let value = $(this).val();
-			if(!isNaN(value)) value = parseInt(value); else value = -1;
-			if(value > 0) $(this).css('background-color', dialogTileEditorColors[value%dialogTileEditorColors.length])
-		}).trigger('change');
-		//Button-Functions
-		$lines.find('a[data-command]').each(function () {
-			var command = $(this).data('command');
-			//Edit Element Entry
-			if (command === 'edit') {
-				var elementIndex = $(this).data('index');
-				$(this).on('click', function () {
-					var _elementIndex = $(this).data('index');
-					initDialog('dialogDeviceEditTileSettingsElementOptions', function(){ //save dialog
-						var _elementIndex = $('#dialogDeviceEditTileSettingsElementIndex').val();
-						var $tbody = $('#tableDialogDeviceEditTileSettingsElementOptions table tbody');
-						var options = [];
-						$tbody.find('tr').each(function(){
-							var option = $(this).data('option');
-							option.role = $(this).find('td[data-name="role"]').find('select').val();
-							var $tdValue = $(this).find('td[data-name="value"]');
-							var value;
-							switch(option.role){
-								case "deviceOption": case "deviceState":
-									option.value = $tdValue.find('select').val();
-								break;
-
-								case "const": default:
-									switch(option.type){
-										case "checkbox":
-											option.value = $tdValue.find('input').prop('checked');
-										break;
-	
-										case "select":
-											option.value = $tdValue.find('select').val();
-										break;
-											
-										case "position": //xxxx what to do with position... fixed, editable, hidden, ????
-											option.value = "";
-										break;
-	
-										case "textarea":
-											option.value = $tdValue.find('textarea').val();
-										break;
-	
-										case "deviceState": case "string": default:
-											option.value = $tdValue.find('input').val();
-										break;
-									}
-								break;	
-							}
-							options.push(option);
-						});
-						dialogDeviceEditTileSettings.elements[_elementIndex].options = options;
-					}, function(){ //init dialog function
-						$('#dialogDeviceEditTileSettingsElementOptionsName').html(_(dialogDeviceEditTileSettings.elements[_elementIndex].commonType) + ' ' + dialogDeviceEditTileSettings.elements[_elementIndex].commonName);
-						$('#dialogDeviceEditTileSettingsElementIndex').val(_elementIndex);
-						var options = Object.assign([], uiElementOptions[dialogDeviceEditTileSettings.elements[_elementIndex].commonType] || [], dialogDeviceEditTileSettings.elements[_elementIndex].options || []);
-						var $tbody = $('#tableDialogDeviceEditTileSettingsElementOptions table tbody').html('');
-						options.forEach(function(option, optionIndex){
-							option.optionIndex = optionIndex;
-							var $tr = $(`<tr data-optionName="${option.option}" data-type="${option.type}"></tr>`)
-							.data('option', option);
-							//Col 1: Option
-							$(`<td data-name="option"><pre>${option.option}</pre></td>`).appendTo($tr);
-							//Col 2: Role
-							var $role = $('<select></select>')
-							.on('change', function(){ //Role has changed - generate new $value
-								let option = $(this).parents('tr').data('option') || {};
-								let $targetTd = $(this).parents('tr').find('td[data-name="value"]');
-								let newValue;
-								if($targetTd.find('input[type="checkbox"]').length){
-									newValue = $targetTd.find('input[type="checkbox"]').prop('checked');
-								} else if($targetTd.find('input').length) {
-									newValue = $targetTd.find('input').val();
-								} else if($targetTd.find('select').length) {
-									newValue = $targetTd.find('select').val();
-								}
-								option.value = newValue;
-								option.role = $(this).val();
-								$targetTd.html(get$value(option));
-								$('#tableDialogDeviceEditTileSettingsElementOptions table tbody').find('select').select();
-								M.updateTextFields();
-							});
-							if(!option.roleOptions) option.roleOptions = "";
-							if(option.roleOptions.indexOf('-const') == -1) $role.append(`<option value="const" ${option.role == 'const' ? 'selected' : ''}>${_("Constant")}</option>`);
-							if(option.roleOptions.indexOf('+deviceState') > -1) $role.append(`<option value="deviceState" ${option.role == 'deviceState' ? 'selected' : ''}>${_("Device State")}</option>`);
-							if(option.roleOptions.indexOf('-deviceOption') == -1) $role.append(`<option value="deviceOption" ${option.role == 'deviceOption' ? 'selected' : ''}>${_("Device Option")}</option>`);
-							$(`<td data-name="role"></td>`).append($role).appendTo($tr);
-							//Col 3: Value
-							var $value = get$value(option);
-							$(`<td data-name="value"></td>`).append($value).appendTo($tr);
-							//Col 4: Description
-							$(`<td data-name="description"><span class='small'>${option.description || ''}</span></td>`).appendTo($tr);
-							$tbody.append($tr);
-						});
-						$tbody.find('select').select();
-						M.updateTextFields();
-						function get$value(option){
-							var $value;
-							switch(option.role){
-								case "deviceOption": 
-									var $select = $('<select></select>');
-									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
-									dialogDeviceEditOptions.forEach(function(deviceOption){
-										$select.append(`<option value="${deviceOption.option}" ${typeof option.value != 'undefined' && option.value == deviceOption.option ? 'selected' : ''}>${deviceOption.option}</option>`);
-									});
-									$value = $(`<div class="input-field"></div>`).append($select);
-								break;
-
-								case "deviceState":
-									var $select = $('<select></select>');
-									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
-									dialogDeviceEditStatesTable.forEach(function(deviceState){
-										$select.append(`<option value="${deviceState.state}" ${typeof option.value != 'undefined' && option.value == deviceState.state ? 'selected' : ''}>${deviceState.state}</option>`);
-									});
-									$value = $(`<div class="input-field"></div>`).append($select);
-								break;
-
-								case "const": default:
-									switch(option.type){
-										case "checkbox":
-											$value = $(`<label><input type="checkbox" class="filled-in" ${(option.value ? 'checked="checked" ' : '')}/><span>&nbsp;</span></label>`);
-										break;
-		
-										case "select":
-											var $select = $('<select></select>').data('select-options', option.selectOptions);
-											((option.selectOptions || "").split(';') || []).forEach(function(selectOption){
-												selectOption = selectOption.split('/');
-												$select.append(`<option value="${selectOption[0]}" ${typeof option.value != 'undefined' && option.value == selectOption[0] ? 'selected' : ''}>${_(selectOption[1] || selectOption[0])}</option>`);
-											});
-											$value = $(`<div class="input-field"></div>`).append($select);
-										break;
-											
-										case "position": //xxxx what to do with position... fixed, editable, hidden, ????
-											$value = $(`<span>{option.value}</span>`);
-										break;
-		
-										case "textarea":
-											var $value = $(`<textarea id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}">`).val(option.value || "");
-										break;
-		
-										case "deviceState": case "string": default:
-											var $input = $(`<input id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}" type="text" class="validate">`).val(option.value || "");
-											$value = $(`<div class="input-field"></div>`).append($input).append(`<label for="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}"></label>`);
-										break;
-									}
-								break;
-							}	
-							return $value;						
-						}
-					});
-				});
-			}
-			//Drag-Icon
-			if (command === 'drag_handle') {
-				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
-			}
-		});
-		//Make table sortable
-		$("#tabledialogDeviceEditTileSettingsElements tbody").sortable({
-			helper: fixHelper,
-			start: function(event, ui){
-				console.log("Drag started...");
-			},
-			stop: function( event, ui ) {
-				console.log("Drag ended, start resorting...");
-				$("#tabledialogDeviceEditTileSettingsElements tbody").sortable('disable');
-				var sequence = [];
-				$('#tabledialogDeviceEditTileSettingsElements').find('.table-values').find('.table-lines').find('tr').each(function(){
-					sequence.push($(this).data('index'));
-				});
-				var tableResorted = [];
-				for(var i = 0; i < sequence.length; i++){
-					tableResorted.push(dialogDeviceEditTileSettings.elements[sequence[i]]);
-				}
-				dialogDeviceEditTileSettings.elements = tableResorted;
-				onChange();
-				values2table('tabledialogDeviceEditTileSettingsElements', dialogDeviceEditTileSettings.elements, onChange, ontableDialogDeviceEditTileSettingsElementsReady);
-				$("#tabledialogDeviceEditTileSettingsElements tbody").sortable('enable');
-				console.log("resorted.");
-			},
-			axis: "y",
-			handle: "a[data-command='drag_handle']"
-		});		
-	}
-	
-
-	//---------- Device Edit - Array ----------
+	//---------- Device Edit - States - Array ----------
 	//Enhance TableDialogDeviceEditStateArrayReady
 	function ontableDialogDeviceEditStateArrayReady(){
 		var $div = $('#tableDialogDeviceEditStateArray');
@@ -6425,6 +6227,312 @@ async function load(settings, onChange) {
 			alert(_("Select Role first"));
 		}
 	});
+
+	//---------- Device Edit - TileSettings ----------
+	var dialogDeviceEditTileSettings = {};
+	$('#dialogDeviceEdit ul.tabs li.tab a[href="#tabdialogDeviceEditTileSettings"]').on('click', function(){ //Set Zoom-Level
+		setTimeout(function(){ $('.dialogDeviceEditTileSettingsDemoScale').val($('#dialogDeviceEditTileSettingsDemoBackground').width() * 0.0065).trigger('change'); }, 100);
+	});	
+	//Init TileSettings
+	function dialogDeviceEditTileSettingsInit(){
+		dialogDeviceEditTileSettings.tileClass = dialogDeviceEditTileSettings.tileClass || 0;
+		dialogDeviceEditTileSettings.tileClassEnlarged = dialogDeviceEditTileSettings.tileClassEnlarged || 0;
+		dialogDeviceEditTileSettings.elements = dialogDeviceEditTileSettings.elements || [];
+		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', false);
+		//Fill and select dialogDeviceEditTileSettingsTileClass selectbox 
+		$('.dialogDeviceEditTileSettingsTileClass').html("");
+		$('.dialogDeviceEditTileSettingsTileClass').append(`<option value="">${_('Default')}</option>`);
+		tileClasses.forEach(function(tileClass, tileClassIndex){
+			$('.dialogDeviceEditTileSettingsTileClass').append(`<option value="${tileClassIndex}">${tileClass.commonName || tileClassIndex}</option>`);
+		});
+		$('#dialogDeviceEditTileSettingsTileClass').val(dialogDeviceEditTileSettings.tileClass);
+		$('#dialogDeviceEditTileSettingsTileClassEnlarged').val(dialogDeviceEditTileSettings.tileClassEnlarged);
+		$('.dialogDeviceEditTileSettingsTileClass').select();
+		dialogDeviceEditTileSettingsUpdateDemo();
+		//Elements	
+		values2table('tabledialogDeviceEditTileSettingsElements', dialogDeviceEditTileSettings.elements || [], onChange, ontableDialogDeviceEditTileSettingsElementsReady);
+	}
+	//Enhance dialogDeviceEditTileSettingsTileClass
+	$('.dialogDeviceEditTileSettingsTileClass').on('change', function(){
+		dialogDeviceEditTileSettings[$(this).data('type')] = $(this).val() || 0;
+		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', $(this).data('type') == 'tileClassEnlarged').trigger('change');
+	});	
+	$('.dialogDeviceEditTileSettingsTileClassContainer').on('click', function(){
+		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', $(this).data('type') == 'tileClassEnlarged').trigger('change');
+	});
+	function dialogDeviceEditTileSettingsUpdateDemo(){
+		$('#dialogDeviceEditTileSettingsDemoTile').html('');
+		let enlarged = $('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked');
+		let tileClass = (enlarged ? dialogDeviceEditTileSettings.tileClassEnlarged : dialogDeviceEditTileSettings.tileClass) || 0;
+		$('.dialogDeviceEditTileSettingsTileClassContainer').removeClass('selected');
+		$(`.dialogDeviceEditTileSettingsTileClassContainer[data-type="${enlarged ? 'tileClassEnlarged' : 'tileClass'}"]`).addClass('selected');
+		//Tile Border radius
+		for(let tileOption in tileClasses[tileClass].value.tile || {}){
+			if(tileOption.indexOf('border-') == 0 && tileOption.endsWith('-radius')){
+				$('#dialogDeviceEditTileSettingsDemoTile').css(tileOption, tileClasses[tileClass].value.tile[tileOption] + (tileClasses[tileClass].value.tile[tileOption + "-unit"] || "px"));
+			}
+		}
+		tileClasses[tileClass].value.stacks.forEach(function(stack, stackIndex){
+			dialogDeviceEditTileSettingsAddStack(stackIndex, stack);
+		});
+	}
+	//Enance inputs on Demo tab
+	$('.dialogDeviceEditTileSettingsDemoSize').on('input change', function(){
+		$('#dialogDeviceEditTileSettingsDemoTile').css($(this).data('mode'), 110 * $(this).val());
+	});
+	$('.dialogDeviceEditTileSettingsDemoScale').on('input change', function(){
+		$('#dialogDeviceEditTileSettingsDemoTile').data('scale', $(this).val()).css('transform', `scale(${$(this).val()})`);
+	});
+	$('#dialogDeviceEditTileSettingsDemoShowEnlarged').on('change', function(){
+		dialogDeviceEditTileSettingsUpdateDemo();
+	});
+	//Add Stacks
+	function dialogDeviceEditTileSettingsAddStack(index, options){
+		index = typeof index == "number" ? index : tileClasses[dialogDeviceEditTileSettings.tileClass].value.stacks.length;
+		var defaultOptions = {
+			name: "Stack " + index,
+			horizontalMode: 'left',
+			horizontalValue: index * 10,
+			horizontalUnit: 'px',
+			widthMode: 'normal',
+			widthValue: 65,
+			widthUnit: 'px',
+			verticalMode: 'top',
+			verticalValue: index * 10,
+			verticalUnit: 'px',
+			heightMode: 'normal',
+			heightValue: 20,
+			heightUnit: 'px'
+		};
+		options = Object.assign({}, defaultOptions || {}, options);
+		//Demo
+		var $newStack = $(`<div id="dialogDeviceEditTileSettingsDemoStack_${index}" data-index="${index}" class="dialogDeviceEditTileSettingsDemoStack">${index}<span class="name small"></span></div>`);
+		if(index > 0) $newStack.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
+		$newStack.on('click', function(){
+			var _index = $(this).data('index');
+			$('#tabledialogDeviceEditTileSettingsElements tbody tr').removeClass('marked');
+			setTimeout(function(){ 
+				$(`#tabledialogDeviceEditTileSettingsElements tbody tr`).each(function(){
+					if($(this).find('input[data-name="stackIndex"]').val() == _index) $(this).addClass('marked');
+				});
+			}, 100);
+		});
+		$('#dialogDeviceEditTileSettingsDemoTile').append($newStack);
+		dialogDeviceEditTileSettingsStyleStack(index, options);
+	}
+	//Style Stack Demo
+	function dialogDeviceEditTileSettingsStyleStack(index, options){
+		options = Object.assign({}, options || {});
+		$element = $(`.dialogDeviceEditTileSettingsDemoStack[data-index="${index}"]`);
+		$element.find('span.name').html(options.name ? '&nbsp;' + options.name : '');
+		var cssArray = tileEditorCreateCssPositionsArrayFromOptions(options);
+		$element.data('css-array', cssArray);
+		(cssArray || []).forEach(function(css){
+			$element.css(css.attribute, css.value);
+		});
+	}
+	//Elements
+	function ontableDialogDeviceEditTileSettingsElementsReady(){
+		var $div = $('#tabledialogDeviceEditTileSettingsElements');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Stack selectbox
+		let enlarged = $('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked');
+		let tileClass = (enlarged ? dialogDeviceEditTileSettings.tileClassEnlarged : dialogDeviceEditTileSettings.tileClass) || 0;
+		var stackOptions = [];
+		tileClasses[tileClass].value.stacks.forEach(function(stack, stackIndex){
+			stackOptions.push(stackIndex + "/" + stackIndex + " - " + stack.name);
+		});
+		enhanceTextInputToCombobox('#tabledialogDeviceEditTileSettingsElements tbody input[data-name="stackIndex"]', stackOptions.join(';'), false, function(value, $target){
+			if(!isNaN(value)) value = parseInt(value); else value = -1;
+			if(value > 0) $target.css('background-color', dialogTileEditorColors[value%dialogTileEditorColors.length])
+		});
+		$lines.find('input[data-name="stackIndex"]').on('change', function(){
+			let value = $(this).val();
+			if(!isNaN(value)) value = parseInt(value); else value = -1;
+			if(value > 0) $(this).css('background-color', dialogTileEditorColors[value%dialogTileEditorColors.length])
+		}).trigger('change');
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit Element Entry
+			if (command === 'edit') {
+				var elementIndex = $(this).data('index');
+				$(this).on('click', function () {
+					var _elementIndex = $(this).data('index');
+					initDialog('dialogDeviceEditTileSettingsElementOptions', function(){ //save dialog
+						var _elementIndex = $('#dialogDeviceEditTileSettingsElementIndex').val();
+						var $tbody = $('#tableDialogDeviceEditTileSettingsElementOptions table tbody');
+						var options = [];
+						$tbody.find('tr').each(function(){
+							var option = $(this).data('option');
+							option.role = $(this).find('td[data-name="role"]').find('select').val();
+							var $tdValue = $(this).find('td[data-name="value"]');
+							var value;
+							switch(option.role){
+								case "deviceOption": case "deviceState":
+									option.value = $tdValue.find('select').val();
+								break;
+
+								case "const": default:
+									switch(option.type){
+										case "checkbox":
+											option.value = $tdValue.find('input').prop('checked');
+										break;
+	
+										case "select":
+											option.value = $tdValue.find('select').val();
+										break;
+											
+										case "position": //xxxx what to do with position... fixed, editable, hidden, ????
+											option.value = "";
+										break;
+	
+										case "textarea":
+											option.value = $tdValue.find('textarea').val();
+										break;
+	
+										case "deviceState": case "string": default:
+											option.value = $tdValue.find('input').val();
+										break;
+									}
+								break;	
+							}
+							options.push(option);
+						});
+						dialogDeviceEditTileSettings.elements[_elementIndex].options = options;
+					}, function(){ //init dialog function
+						$('#dialogDeviceEditTileSettingsElementOptionsName').html(_(dialogDeviceEditTileSettings.elements[_elementIndex].commonType) + ' ' + dialogDeviceEditTileSettings.elements[_elementIndex].commonName);
+						$('#dialogDeviceEditTileSettingsElementIndex').val(_elementIndex);
+						var options = Object.assign([], JSON.parse(JSON.stringify(uiElementOptions[dialogDeviceEditTileSettings.elements[_elementIndex].commonType] || [])), dialogDeviceEditTileSettings.elements[_elementIndex].options || []);
+						var $tbody = $('#tableDialogDeviceEditTileSettingsElementOptions table tbody').html('');
+						options.forEach(function(option, optionIndex){
+							option.optionIndex = optionIndex;
+							var $tr = $(`<tr data-optionName="${option.option}" data-type="${option.type}"></tr>`)
+							.data('option', option);
+							//Col 1: Option
+							$(`<td data-name="option"><pre>${option.option}</pre></td>`).appendTo($tr);
+							//Col 2: Role
+							var $role = $('<select></select>')
+							.on('change', function(){ //Role has changed - generate new $value
+								let option = $(this).parents('tr').data('option') || {};
+								let $targetTd = $(this).parents('tr').find('td[data-name="value"]');
+								let newValue;
+								if($targetTd.find('input[type="checkbox"]').length){
+									newValue = $targetTd.find('input[type="checkbox"]').prop('checked');
+								} else if($targetTd.find('input').length) {
+									newValue = $targetTd.find('input').val();
+								} else if($targetTd.find('select').length) {
+									newValue = $targetTd.find('select').val();
+								}
+								option.value = newValue;
+								option.role = $(this).val();
+								$targetTd.html(get$value(option));
+								$('#tableDialogDeviceEditTileSettingsElementOptions table tbody').find('select').select();
+								M.updateTextFields();
+							});
+							if(!option.roleOptions) option.roleOptions = "";
+							if(option.roleOptions.indexOf('-const') == -1) $role.append(`<option value="const" ${option.role == 'const' ? 'selected' : ''}>${_("Constant")}</option>`);
+							if(option.roleOptions.indexOf('+deviceState') > -1) $role.append(`<option value="deviceState" ${option.role == 'deviceState' ? 'selected' : ''}>${_("Device State")}</option>`);
+							if(option.roleOptions.indexOf('-deviceOption') == -1) $role.append(`<option value="deviceOption" ${option.role == 'deviceOption' ? 'selected' : ''}>${_("Device Option")}</option>`);
+							$(`<td data-name="role"></td>`).append($role).appendTo($tr);
+							//Col 3: Value
+							var $value = get$value(option);
+							$(`<td data-name="value"></td>`).append($value).appendTo($tr);
+							//Col 4: Description
+							$(`<td data-name="description"><span class='small'>${option.description || ''}</span></td>`).appendTo($tr);
+							$tbody.append($tr);
+						});
+						$tbody.find('select').select();
+						M.updateTextFields();
+						function get$value(option){
+							var $value;
+							switch(option.role){
+								case "deviceOption": 
+									var $select = $('<select></select>');
+									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
+									dialogDeviceEditOptions.forEach(function(deviceOption){
+										$select.append(`<option value="${deviceOption.option}" ${typeof option.value != 'undefined' && option.value == deviceOption.option ? 'selected' : ''}>${deviceOption.option}</option>`);
+									});
+									$value = $(`<div class="input-field"></div>`).append($select);
+								break;
+
+								case "deviceState":
+									var $select = $('<select></select>');
+									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
+									dialogDeviceEditStatesTable.forEach(function(deviceState){
+										$select.append(`<option value="${deviceState.state}" ${typeof option.value != 'undefined' && option.value == deviceState.state ? 'selected' : ''}>${deviceState.state}</option>`);
+									});
+									$value = $(`<div class="input-field"></div>`).append($select);
+								break;
+
+								case "const": default:
+									switch(option.type){
+										case "checkbox":
+											$value = $(`<label><input type="checkbox" class="filled-in" ${(option.value ? 'checked="checked" ' : '')}/><span>&nbsp;</span></label>`);
+										break;
+		
+										case "select":
+											var $select = $('<select></select>').data('select-options', option.selectOptions);
+											((option.selectOptions || "").split(';') || []).forEach(function(selectOption){
+												selectOption = selectOption.split('/');
+												$select.append(`<option value="${selectOption[0]}" ${typeof option.value != 'undefined' && option.value == selectOption[0] ? 'selected' : ''}>${_(selectOption[1] || selectOption[0])}</option>`);
+											});
+											$value = $(`<div class="input-field"></div>`).append($select);
+										break;
+											
+										case "position": //xxxx what to do with position... fixed, editable, hidden, ????
+											$value = $(`<span>{option.value}</span>`);
+										break;
+		
+										case "textarea":
+											var $value = $(`<textarea id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}">`).val(option.value || "");
+										break;
+		
+										case "deviceState": case "string": default:
+											var $input = $(`<input id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}" type="text" class="validate">`).val(option.value || "");
+											$value = $(`<div class="input-field"></div>`).append($input).append(`<label for="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}"></label>`);
+										break;
+									}
+								break;
+							}	
+							return $value;						
+						}
+					});
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Make table sortable
+		$("#tabledialogDeviceEditTileSettingsElements tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function( event, ui ) {
+				console.log("Drag ended, start resorting...");
+				$("#tabledialogDeviceEditTileSettingsElements tbody").sortable('disable');
+				var sequence = [];
+				$('#tabledialogDeviceEditTileSettingsElements').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogDeviceEditTileSettings.elements[sequence[i]]);
+				}
+				dialogDeviceEditTileSettings.elements = tableResorted;
+				onChange();
+				values2table('tabledialogDeviceEditTileSettingsElements', dialogDeviceEditTileSettings.elements, onChange, ontableDialogDeviceEditTileSettingsElementsReady);
+				$("#tabledialogDeviceEditTileSettingsElements tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});		
+	}
 
 	//---------- Autocreate ----------
 	//Enhance DeviceAutocreate with functions
