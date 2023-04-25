@@ -1079,10 +1079,10 @@ var standardTileClass = {
 		}, {	
 			name: "Name",
 			horizontalMode: 'left',
-			horizontalValue: 8,
+			horizontalValue: 5,
 			horizontalUnit: 'px',
 			widthMode: 'tileMinus',
-			widthValue: 8,
+			widthValue: 5,
 			widthUnit: 'px',
 			verticalMode: 'top',
 			verticalValue: 58,
@@ -1090,14 +1090,15 @@ var standardTileClass = {
 			heightMode: 'normal',
 			heightValue: 30,
 			heightUnit: 'px',
+			'styleFont-weight': 'bold',
 			default: true
 		}, {	
 			name: "State",
 			horizontalMode: 'left',
-			horizontalValue: 8,
+			horizontalValue: 5,
 			horizontalUnit: 'px',
 			widthMode: 'tileMinus',
-			widthValue: 8,
+			widthValue: 5,
 			widthUnit: 'px',
 			verticalMode: 'top',
 			verticalValue: 90,
@@ -6089,12 +6090,12 @@ async function load(settings, onChange) {
 					case "checkbox":
 					if (value == "true") value = true;
 					if (value == "false") value = false;
-					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m12 l12'>";
+					dialogDeviceEditOptionsContent += "<div class='row noMarginBottom'><div class='input-field col s12 m12 l12'>";
 					dialogDeviceEditOptionsContent += "    <p><label>";
 					dialogDeviceEditOptionsContent += "        <input class='value dialogDeviceEditOption filled-in' data-option='" + entry + "' data-type='checkbox' type='checkbox' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "' " + (value?"checked='checked'":"") + " />";
 					dialogDeviceEditOptionsContent += "        <span>" + _(name) + "</span>";
 					dialogDeviceEditOptionsContent += "    </label></p>";
-					dialogDeviceEditOptionsContent += "</div>";
+					dialogDeviceEditOptionsContent += "</div></div>";
 					break;
 
 
@@ -6414,7 +6415,7 @@ async function load(settings, onChange) {
 							var $tdValue = $(this).find('td[data-name="value"]');
 							var value;
 							switch(option.role){
-								case "deviceOption": case "deviceState":
+								case "deviceOption": case "deviceState": case "deviceSetting":
 									option.value = $tdValue.find('select').val();
 								break;
 
@@ -6481,6 +6482,7 @@ async function load(settings, onChange) {
 							if(option.roleOptions.indexOf('-const') == -1) $role.append(`<option value="const" ${option.role == 'const' ? 'selected' : ''}>${_("Constant")}</option>`);
 							if(option.roleOptions.indexOf('+deviceState') > -1) $role.append(`<option value="deviceState" ${option.role == 'deviceState' ? 'selected' : ''}>${_("Device State")}</option>`);
 							if(option.roleOptions.indexOf('-deviceOption') == -1) $role.append(`<option value="deviceOption" ${option.role == 'deviceOption' ? 'selected' : ''}>${_("Device Option")}</option>`);
+							if(option.roleOptions.indexOf('-deviceSetting') == -1) $role.append(`<option value="deviceSetting" ${option.role == 'deviceSetting' ? 'selected' : ''}>${_("Device Setting")}</option>`);
 							$(`<td data-name="role"></td>`).append($role).appendTo($tr);
 							//Col 3: Value
 							var $value = get$value(option);
@@ -6494,6 +6496,20 @@ async function load(settings, onChange) {
 						function get$value(option){
 							var $value;
 							switch(option.role){
+								case "deviceSetting": 
+									var $select = $('<select></select>');
+									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
+									$select.append(`<option value="commonName" ${typeof option.value != 'undefined' && option.value == 'commonName' ? 'selected' : ''}>Name</option>`);
+									$select.append(`<option value="nativeNewLine" ${typeof option.value != 'undefined' && option.value == 'nativeNewLine' ? 'selected' : ''}>New Line</option>`);
+									$select.append(`<option value="nativeHeading" ${typeof option.value != 'undefined' && option.value == 'nativeHeading' ? 'selected' : ''}>Heading</option>`);
+									$select.append(`<option value="nativeHeadingOptions" ${typeof option.value != 'undefined' && option.value == 'nativeHeadingOptions' ? 'selected' : ''}>Heading Options</option>`);
+									$select.append(`<option value="nativeLinkedView" ${typeof option.value != 'undefined' && option.value == 'nativeLinkedView' ? 'selected' : ''}>Linked View</option>`);
+									$select.append(`<option value="nativeBackgroundImage" ${typeof option.value != 'undefined' && option.value == 'nativeBackgroundImagex' ? 'selected' : ''}>Background Image</option>`);
+									$select.append(`<option value="nativeBackgroundImageActive" ${typeof option.value != 'undefined' && option.value == 'nativeBackgroundImageActive' ? 'selected' : ''}>Background Image Active</option>`);
+									$select.append(`<option value="nativeHide" ${typeof option.value != 'undefined' && option.value == 'nativeHide' ? 'selected' : ''}>Hide</option>`);
+									$value = $(`<div class="input-field"></div>`).append($select);
+								break;
+
 								case "deviceOption": 
 									var $select = $('<select></select>');
 									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
@@ -11365,10 +11381,10 @@ async function save(callback) {
 				});
 				//General Stack styles
 				if(stack['styleColor']) cssString += 'color: ' + stack['styleColor']+ '; ';
-				if(stack['font-family']) cssString += 'font-family: ' + stack['font-family'] + '; ';
-				if(stack['font-weight']) cssString += 'font-weight: ' + stack['font-weight'] + '; ';
-				if(stack['font-style']) cssString += 'font-style: ' + stack['font-style'] + '; ';
-				if(stack['font-size']) cssString += 'font-size: ' + stack['font-size'] + '; ';
+				if(stack['styleFont-family']) cssString += 'font-family: ' + stack['styleFont-family'] + '; ';
+				if(stack['styleFont-weight']) cssString += 'font-weight: ' + stack['styleFont-weight'] + '; ';
+				if(stack['styleFont-style']) cssString += 'font-style: ' + stack['styleFont-style'] + '; ';
+				if(stack['styleFont-size']) cssString += 'font-size: ' + stack['styleFont-size'] + '; ';
 				cssString += '} ';
 			}
 			//Stack Styles for other sub-selectors

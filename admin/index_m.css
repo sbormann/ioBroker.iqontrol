@@ -179,6 +179,10 @@ span.small {
     font-size: xx-small;
 }
 
+.noMarginBottom {
+    margin-bottom: 0 !important;
+}
+
 
 #dialogTileEditorDemoBackground, #dialogDeviceEditTileSettingsDemoBackground {
     width: 100%; 
