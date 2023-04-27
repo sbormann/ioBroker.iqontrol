@@ -1830,7 +1830,7 @@ function getDeviceOptionValue(device, option, nullForDefault){
         const deviceOption = device.options.find(function(element){ return element.option === option; });
         if(deviceOption && deviceOption.value !== udef) {
 			value = deviceOption.value;
-		} else if(option == "clickOnTileAction" && getDeviceOptionValue(device, "clickOnTileToggles") == "true") { //Backward-Compatibility
+		} else if(option == "clickOnTileAction" && getDeviceOptionValue(device, "clickOnTileToggles") == "true") { //Backward-Compatibility ######## add to conversion
 			value = "toggle";
 		} else if(option == "clickOnTileAction" && getDeviceOptionValue(device, "clickOnTileOpensDialog") == "true") { //Backward-Compatibility
 			value = "openDialog";
@@ -1845,6 +1845,15 @@ function getDeviceOptionValue(device, option, nullForDefault){
 		} else if(!nullForDefault && device.commonRole !== udef && typeof iQontrolRoles[device.commonRole] !== udef && typeof iQontrolRoles[device.commonRole].options[option] !== udef) {
 			value = iQontrolRoles[device.commonRole].options[option].default || "";
         }
+		if(!value && !nullForDefault && deviceOption && deviceOption.type && deviceOption.type == 'icon'){//find out default icon
+			let role = device.commonRole;
+			switch(option){
+				case "errorIcon_on": role = "ERROR"; break;
+				case "unreachIcon_on": role = "UNREACH"; break;
+				case "batteryIcon_on": role = "BATTERY"; break;
+			}
+			value = options.LayoutDefaultIcons && options.LayoutDefaultIcons[role] && options.LayoutDefaultIcons[role][option] || '';
+		}
     }
 	if(typeof value == "string" && device.commonRole !== udef && typeof iQontrolRoles[device.commonRole] !== udef && typeof iQontrolRoles[device.commonRole].options[option] !== udef && iQontrolRoles[device.commonRole].options[option].type == "multipleSelect") value = value.split(',');
     return value;
@@ -5136,7 +5145,7 @@ function renderView(viewId, triggeredByReconnection){
 						uiElements.addHtml(deviceContent);
 
 						//--tileActive xxxx so noch nicht ok
-						var tileActiveStateId = getDeviceOptionValue(device, 'tileActiveState');
+						var tileActiveStateId = getDeviceOptionValue(device, 'tileActiveStateId');
 						tileActiveStateId = (tileActiveStateId ? tileActiveStateId : getStateIdFromDeviceState(device, "STATE"));
 						tileActiveStateId = (tileActiveStateId ? tileActiveStateId : getStateIdFromDeviceState(device, "LEVEL"));
 						var tileActiveConditionValueId = getDeviceOptionValue(device, 'tileActiveConditionValue');
@@ -5147,6 +5156,7 @@ function renderView(viewId, triggeredByReconnection){
 							device.active = checkCondition(tileActiveState && tileActiveState.val || '', getDeviceOptionValue(device, 'tileActiveCondition') || 'eqt', tileActiveConditionValue && tileActiveConditionValue.val || null);
 							if(device.active) $(`.iQontrolDevice[data-iqontrol-device-id="${device.deviceIdEscaped}"], .iQontrolDevicePressureIndicator [data-iqontrol-device-id="${device.deviceIdEscaped}"]`).addClass('active'); else $(`.iQontrolDevice[data-iqontrol-device-id="${device.deviceIdEscaped}"], .iQontrolDevicePressureIndicator [data-iqontrol-device-id="${device.deviceIdEscaped}"]`).removeClass('active'); 
 						}
+						uiElements.addStatesToFetchAndUpdate([tileActiveStateId, tileActiveConditionValueId]);
 						uiElements.addUpdateFunction([tileActiveStateId, tileActiveConditionValueId], updateFunction);
 
 
@@ -13092,7 +13102,7 @@ function UIElements(initialUiElements) {
 	}
 
 	this.addUpdateFunction = function(stateIds, updateFunction, calledRecoursive){
-		if(!stateIds || typeof updateFunction != "function") return this;
+		if(typeof stateIds == udef || typeof updateFunction != "function") return this;
 		var validState = false;
 		var that = this;
 		if(typeof stateIds == "string" && stateIds != '' && stateIds != null){

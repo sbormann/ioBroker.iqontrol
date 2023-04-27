@@ -947,7 +947,7 @@ var standardTileClass = {
 			horizontalValue: -5,
 			horizontalUnit: 'px',
 			widthMode: 'normal',
-			widthValue: 61,
+			widthValue: 57,
 			widthUnit: 'px',
 			verticalMode: 'top',
 			verticalValue: -5,
@@ -6057,7 +6057,7 @@ async function load(settings, onChange) {
 					var max = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].max || 100;
 					var step = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].step || 1;
 					dialogDeviceEditOptionsContent += "<div class='row'><div class='input-field col s12 m12 l12'>";
-					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' step='" + step + "' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
+					dialogDeviceEditOptionsContent += "    <input class='dialogDeviceEditOption validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' step='" + step + "' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "    <span class='helper-text' data-error='" + min + " - " + max + "' data-success=''></span>";
 					dialogDeviceEditOptionsContent += "</div></div>";
@@ -6073,7 +6073,7 @@ async function load(settings, onChange) {
 						selectOptionsContent += "        <option value='" + parts[0] + "' " + (type == "multipleSelect" ? ((value.indexOf(parts[0]) > -1)?'selected':'') : ((parts[0] == value)?'selected':'') ) + " class='translate'>" + _(parts[1] || parts[0]) + "</option>";
 					});
 					dialogDeviceEditOptionsContent += "<div class='row'><div class='input-field col s12 m12 l12'>";
-					dialogDeviceEditOptionsContent += "    <select" + (type == "multipleSelect" ? " multiple" : "") + " class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='select' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'>" + selectOptionsContent + "</select>";
+					dialogDeviceEditOptionsContent += "    <select" + (type == "multipleSelect" ? " multiple" : "") + " class='dialogDeviceEditOption' data-option='" + entry + "' data-type='select' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'>" + selectOptionsContent + "</select>";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'></label>";
 					dialogDeviceEditOptionsContent += "    <span class='translate'>" + _(name) + "</span>";
 					dialogDeviceEditOptionsContent += "</div></div>";
@@ -6084,7 +6084,7 @@ async function load(settings, onChange) {
 					var iconsFromOption = (typeof iQontrolRoles[dialogDeviceEditCommonRole].options[entry].iconsFromOption != udef ? iQontrolRoles[dialogDeviceEditCommonRole].options[entry].iconsFromOption : false)
 					dialogDeviceEditOptionsComboboxes.push({id: 'dialogDeviceEditOption_' + entry, options: options, iconsFromOption: iconsFromOption});
 					dialogDeviceEditOptionsContent += "<div class='row'><div class='input-field col s12 m12 l12'>";
-					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='combobox' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' placeholder='' />";
+					dialogDeviceEditOptionsContent += "    <input class='dialogDeviceEditOption' data-option='" + entry + "' data-type='combobox' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' placeholder='' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "</div></div>";
 					break;
@@ -6094,7 +6094,7 @@ async function load(settings, onChange) {
 					if (value == "false") value = false;
 					dialogDeviceEditOptionsContent += "<div class='row noMarginBottom'><div class='input-field col s12 m12 l12'>";
 					dialogDeviceEditOptionsContent += "    <p><label>";
-					dialogDeviceEditOptionsContent += "        <input class='value dialogDeviceEditOption filled-in' data-option='" + entry + "' data-type='checkbox' type='checkbox' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "' " + (value?"checked='checked'":"") + " />";
+					dialogDeviceEditOptionsContent += "        <input class='dialogDeviceEditOption filled-in' data-option='" + entry + "' data-type='checkbox' type='checkbox' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "' " + (value?"checked='checked'":"") + " />";
 					dialogDeviceEditOptionsContent += "        <span>" + _(name) + "</span>";
 					dialogDeviceEditOptionsContent += "    </label></p>";
 					dialogDeviceEditOptionsContent += "</div></div>";
@@ -6103,7 +6103,7 @@ async function load(settings, onChange) {
 
 					case "color":
 					dialogDeviceEditOptionsContent += "<div class='row'><div class='input-field col s12 m12 l12'>";
-					dialogDeviceEditOptionsContent += "    <input class='value MaterializeColorPicker validate validateOnlyError dialogDeviceEditOption' data-option='" + entry + "' data-type='color' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' placeholder='rgb(0,0,0)' />";
+					dialogDeviceEditOptionsContent += "    <input class='MaterializeColorPicker validate validateOnlyError dialogDeviceEditOption' data-option='" + entry + "' data-type='color' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' placeholder='rgb(0,0,0)' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "    <span class='helper-text'></span>";
 					dialogDeviceEditOptionsContent += "</div></div>";
@@ -6168,14 +6168,14 @@ async function load(settings, onChange) {
 					//Icons Combobox
 					dialogDeviceEditOptionsComboboxes.push({id: 'dialogDeviceEditOption_' + entry, options: options});
 					dialogDeviceEditOptionsContent += "<div class='row'><div class='input-field col s12 m12 l12'>";
-					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' placeholder='" + _("(Default)") + "' />";
+					dialogDeviceEditOptionsContent += "    <input class='dialogDeviceEditOption icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' placeholder='" + _("(Default)") + "' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "</div></div>";
 					break;
 					
 					case "datapoint":
 					dialogDeviceEditOptionsContent += "<div class='row'><div class='input-field col s12 m12 l12'>";
-					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
+					dialogDeviceEditOptionsContent += "    <input class='dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "	<a class='dialogDeviceEditOptionButton inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogDeviceEditOption_" + entry + "'><i class='material-icons'>edit</i></a>";
 					dialogDeviceEditOptionsContent += "</div></div>";
@@ -6183,7 +6183,7 @@ async function load(settings, onChange) {
 
 					case "text": default:
 					dialogDeviceEditOptionsContent += "<div class='row'><div class='input-field col s12 m12 l12'>";
-					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
+					dialogDeviceEditOptionsContent += "    <input class='dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "</div></div>";
 					break;
@@ -6589,9 +6589,23 @@ async function load(settings, onChange) {
 			case "deviceOption": 
 				var $select = $('<select></select>');
 				$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
-				dialogDeviceEditOptions.forEach(function(deviceOption){
-					$select.append(`<option value="${deviceOption.option}" ${typeof option.value != 'undefined' && option.value == deviceOption.option ? 'selected' : ''}>${deviceOption.option}</option>`);
+				var optgroupOpen = false;
+				(iQontrolRoles[dialogDeviceEditCommonRole].optionsDisplaySequence || []).forEach(function(entry){
+					var name = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].name;
+					var type = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].type;
+					var value = (dialogDeviceEditOptions.find(function(element){ return element.option == entry;}) || {}).value || iQontrolRoles[dialogDeviceEditCommonRole].options[entry].default || "";
+					switch(type){
+						case "section":
+							if(optgroupOpen) $select.append('</div');
+							$select.append(`<optgroup label="${name}:">`);
+							optgroupOpen = true;
+							break;
+
+						default:
+							$select.append(`<option value="${entry}" ${typeof option.value != 'undefined' && option.value == entry ? 'selected' : ''}>${entry}</option>`);
+					}		
 				});
+				if(optgroupOpen) $select.append('</div');
 				$value = $(`<div class="input-field"></div>`).append($select);
 			break;
 
@@ -6668,8 +6682,18 @@ async function load(settings, onChange) {
 
 					case "deviceOption": 
 						var comboboxOptions = "";
-						dialogDeviceEditOptions.forEach(function(deviceOption){
-							comboboxOptions += ";" + deviceOption.option;
+						(iQontrolRoles[dialogDeviceEditCommonRole].optionsDisplaySequence || []).forEach(function(entry){
+							var name = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].name;
+							var type = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].type;
+							var value = (dialogDeviceEditOptions.find(function(element){ return element.option == entry;}) || {}).value || iQontrolRoles[dialogDeviceEditCommonRole].options[entry].default || "";
+							switch(type){
+								case "section":
+									comboboxOptions += ";[" + name + "]";
+									break;
+		
+								default:
+									comboboxOptions += ";" + entry;
+							}		
 						});
 						enhanceTextInputToCombobox(target, comboboxOptions, false);
 						$target.next("a.comboboxDropdownTrigger").prop('style','');
@@ -6695,7 +6719,7 @@ async function load(settings, onChange) {
 						$target.next("a.comboboxDropdownTrigger").prop('style','display: none !important;');
 					break;
 				}
-			});
+			}).trigger('change');
 		});
 		//Button functions
 		$lines.find('a[data-command]').each(function () {
