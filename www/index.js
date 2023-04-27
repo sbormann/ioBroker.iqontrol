@@ -5135,10 +5135,24 @@ function renderView(viewId, triggeredByReconnection){
 						//---------- TEST UI ELEMENTS ----------
 						uiElements.addHtml(deviceContent);
 
+						//--tileActive xxxx so noch nicht ok
+						var tileActiveStateId = getDeviceOptionValue(device, 'tileActiveState');
+						tileActiveStateId = (tileActiveStateId ? tileActiveStateId : getStateIdFromDeviceState(device, "STATE"));
+						tileActiveStateId = (tileActiveStateId ? tileActiveStateId : getStateIdFromDeviceState(device, "LEVEL"));
+						var tileActiveConditionValueId = getDeviceOptionValue(device, 'tileActiveConditionValue');
+						device.activeStateIds = [tileActiveStateId, tileActiveConditionValueId];
+						var updateFunction = function(){
+							var tileActiveState = getState(tileActiveStateId);
+							var tileActiveConditionValue = getState(tileActiveConditionValueId);
+							device.active = checkCondition(tileActiveState && tileActiveState.val || '', getDeviceOptionValue(device, 'tileActiveCondition') || 'eqt', tileActiveConditionValue && tileActiveConditionValue.val || null);
+							if(device.active) $(`.iQontrolDevice[data-iqontrol-device-id="${device.deviceIdEscaped}"], .iQontrolDevicePressureIndicator [data-iqontrol-device-id="${device.deviceIdEscaped}"]`).addClass('active'); else $(`.iQontrolDevice[data-iqontrol-device-id="${device.deviceIdEscaped}"], .iQontrolDevicePressureIndicator [data-iqontrol-device-id="${device.deviceIdEscaped}"]`).removeClass('active'); 
+						}
+						uiElements.addUpdateFunction([tileActiveStateId, tileActiveConditionValueId], updateFunction);
+
 
 						if(device.tileSettings && device.tileSettings.elements){
 							device.tileSettings.elements.filter(function(element){ return element.outside; }).forEach(function(element, elementIndex){ //Outside
-								//uiElements.addHtml(''); //Ouside-Container
+								//uiElements.addHtml(''); //Ouside-Container xxxxxxxxxxxxxxxxxxxx
 								//processElement(element, elementIndex);
 							});
 							device.tileSettings.elements.filter(function(element){ return !element.outside; }).forEach(function(element, elementIndex){ //Inside
@@ -5156,45 +5170,22 @@ function renderView(viewId, triggeredByReconnection){
 							switch(element.commonType){
 								case "icon": 
 									uiElements.addIcon(device, options);
-								break;
+									break;
 
 								case "text": 
 									uiElements.addText(device, options);
-								break;
+									break;
 
 								case "iconTextCombination": 
 									uiElements.addIconTextCombination(device, options);
-								break;
+									break;
+
+								case "loadingIcon":
+									uiElements.addLoadingIcon(device, options);
+									break;
 							}
 						}
 
-/*						uiElements.addIconTextCombination(device, {
-							stackId: "INFO_A",
-							stackCycles: true,
-							stackClasses: "stackClass_8",
-
-							iconClasses: "",
-							iconState: {role:"deviceState", value: "INFO_A.icon"},
-							iconActiveState: {role:"deviceState", value: "UNREACH"},
-							iconZoomOnHover: true,
-
-							textClasses: "",
-							textState: {role:"deviceState", value: "INFO_A.state"},
-							textActiveState: {role:"deviceState", value: "UNREACH"}
-						})
-						.addIconTextCombination(device, {
-							stackId: "INFO_B",
-							stackCycles: true,
-							
-							iconClasses: "iQontrolDeviceInfoBIcon",
-							iconState: "",
-							iconActiveState: {role:"deviceState", value: "UNREACH"},
-
-							textClasses: "iQontrolDeviceInfoBText",
-							textState: {role:"deviceState", value: "INFO_B.state"},
-							textActiveState: {role:"deviceState", value: "UNREACH"}
-						});
-*/
 
 						deviceContent = ""; //##### 
 
@@ -5461,95 +5452,6 @@ function renderView(viewId, triggeredByReconnection){
 						if(onclick !== "") viewDeviceContextMenu[deviceIdEscaped].toggle = {name: _("Toggle"), icon:'power', href: '', target: '', onclick: onclick + ' $("#ViewDeviceContextMenu").popup("close");'};
 */
 
-						//--IconLoading
-						deviceContent += "<image class='iQontrolDeviceLoading' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/loading.gif'/>";
-						//--IconError
-						var errorIcon_on = getDeviceOptionValue(device, "errorIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["ERROR"] && options.LayoutDefaultIcons["ERROR"]["errorIcon_on"]) || "./images/error.png";
-						var errorIcon_onIcon = encodeURI(errorIcon_on.split('|')[0]);
-						var errorIcon_onVariableSrc = encodeURI(errorIcon_on.split('|').slice(1).join('|'));
-						deviceContent += "<image class='iQontrolDeviceError" + ((getDeviceOptionValue(device, "hideIndicatorIfInactive") == "true") ? " hideIfInactive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfActive") == "true") ? " hideIfActive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfEnlarged") == "true") ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + errorIcon_onIcon + "' " + (errorIcon_onVariableSrc ? "data-variablesrc='" + errorIcon_onVariableSrc + "' " : "") + " />";
-						if(deviceLinkedStateIds["ERROR"]){
-							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-								var _deviceIdEscaped = deviceIdEscaped;
-								var _device = device;
-								var _linkedErrorId = deviceLinkedStateIds["ERROR"];
-								var updateFunction = function(){
-									var invertError = (getDeviceOptionValue(_device, "invertError") == "true");
-									var stateError = getState(_linkedErrorId);
-									if(typeof stateError !== udef && ((!invertError && stateError.val) || (invertError && !stateError.val))) {
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceError").addClass("active");
-									} else {
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceError").removeClass("active");
-									}
-								};
-                                uiElements.addUpdateFunction(_linkedErrorId, updateFunction);
-							})(); //<--End Closure
-						}
-						//--IconUnreach
-						var unreachIcon_on = getDeviceOptionValue(device, "unreachIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["UNREACH"] && options.LayoutDefaultIcons["UNREACH"]["unreachIcon_on"]) || "./images/unreach.png";
-						var unreachIcon_onIcon = encodeURI(unreachIcon_on.split('|')[0]);
-						var unreachIcon_onVariableSrc = encodeURI(unreachIcon_on.split('|').slice(1).join('|'));
-						deviceContent += "<image class='iQontrolDeviceUnreach" + ((getDeviceOptionValue(device, "hideIndicatorIfInactive") == "true") ? " hideIfInactive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfActive") == "true") ? " hideIfActive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfEnlarged") == "true") ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + unreachIcon_onIcon + "' " + (unreachIcon_onVariableSrc ? "data-variablesrc='" + unreachIcon_onVariableSrc + "' " : "") + " />";
-						if(deviceLinkedStateIds["UNREACH"]){
-							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-								var _deviceIdEscaped = deviceIdEscaped;
-								var _device = device;
-								var _linkedUnreachId = deviceLinkedStateIds["UNREACH"];
-								var updateFunction = function(){
-									var invertUnreach = (getDeviceOptionValue(_device, "invertUnreach") == "true");
-									var hideUnreachIfInactive = (getDeviceOptionValue(_device, "hideUnreachIfInactive") == "true");
-									if(hideUnreachIfInactive) {
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceUnreach").addClass("hideUnreachIfInactive");
-									}
-									var stateUnreach = getState(_linkedUnreachId);
-									if(typeof stateUnreach !== udef && ((!invertUnreach && stateUnreach.val) || (invertUnreach && !stateUnreach.val))) {
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceUnreach").addClass("active");
-									} else {
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceUnreach").removeClass("active");
-									}
-								};
-                                uiElements.addUpdateFunction(_linkedUnreachId, updateFunction);
-							})(); //<--End Closure
-						}
-						//--IconBattery
-						var batteryIcon_on = getDeviceOptionValue(device, "batteryIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["BATTERY"] && options.LayoutDefaultIcons["BATTERY"]["batteryIcon_on"]) || "./images/battery.png";
-						var batteryIcon_onIcon = encodeURI(batteryIcon_on.split('|')[0]);
-						var batteryIcon_onVariableSrc = encodeURI(batteryIcon_on.split('|').slice(1).join('|'));
-						deviceContent += "<image class='iQontrolDeviceBattery" + ((getDeviceOptionValue(device, "hideIndicatorIfInactive") == "true") ? " hideIfInactive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfActive") == "true") ? " hideIfActive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfEnlarged") == "true") ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + batteryIcon_onIcon + "' " + (batteryIcon_onVariableSrc ? "data-variablesrc='" + batteryIcon_onVariableSrc + "' " : "") + " />";
-						if(deviceLinkedStateIds["BATTERY"] && deviceLinkedStateIds["BATTERY"] !== ""){
-							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-								var _device = device;
-								var _deviceIdEscaped = deviceIdEscaped;
-								var _linkedBatteryId = deviceLinkedStateIds["BATTERY"];
-								var updateFunction = function(){
-									var stateBattery = getState(_linkedBatteryId);
-									if(typeof stateBattery !== udef){
-										var batteryActiveCondition = getDeviceOptionValue(_device, "batteryActiveCondition");
-										var batteryActiveConditionValue = getDeviceOptionValue(_device, "batteryActiveConditionValue");
-										var batteryActiveValue = stateBattery.val || 0;
-										var batteryActive = checkCondition(batteryActiveValue, batteryActiveCondition, batteryActiveConditionValue);
-										if(batteryActive == null){
-											batteryActive = false;
-											if(stateBattery.type == "level") {
-												var min = stateBattery.min || 0;
-												var max = stateBattery.max || 100;
-												if(typeof stateBattery.val !== udef && stateBattery.val <= (min + ((max-min) * 0.10)) && !(typeof stateBattery.min == udef && typeof stateBattery.max == udef && stateBattery.val == 0) ){ //<10%
-													batteryActive = true;
-												}
-											} else if(stateBattery.val) {
-												batteryActive = true;
-											}
-										}
-										if(batteryActive){
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBattery").addClass("active");
-										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBattery").removeClass("active");
-										}
-									}
-								};
-                                uiElements.addUpdateFunction(_linkedBatteryId, updateFunction);
-							})(); //<--End Closure
-						}
 						//--tileEnlargeButton
 						if(deviceLinkedStateIds["tileEnlarged"] || deviceLinkedStateIds["ENLARGE_TILE"]){
 							deviceContent += "<div class='iQontrolDeviceEnlargeButton" + ((getDeviceOptionValue(device, "tileEnlargeShowButtonActive") == "true") ? " showIfActive" : "") + ((getDeviceOptionValue(device, "tileEnlargeShowButtonInactive") == "true") ? " showIfInactive" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='event.stopPropagation(); toggleState(unescape(\"" + escape(deviceLinkedStateIds["tileEnlarged"]) + "\"), \"" + deviceIdEscaped + "\", null, 0);'></div>";
@@ -5600,509 +5502,7 @@ function renderView(viewId, triggeredByReconnection){
                                 } 
 							})(); //<--End Closure
 						}
-						//--Info A
-						var hideIfClasses = (getDeviceOptionValue(device, "hideInfoAIfInactive") == "true" ? " hideIfInactive" : "") + (getDeviceOptionValue(device, "hideInfoAIfActive") == "true" ? " hideIfActive" : "") + (getDeviceOptionValue(device, "hideInfoAIfEnlarged") == "true" ? " hideIfEnlarged" : "");
-						viewInfoASliderLength[deviceIdEscaped] = 0;
-						viewInfoASliderIndex[deviceIdEscaped] = 0;
-						deviceContent += "<div class='iQontrolDeviceInfoA' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
-						switch(device.commonRole){
-							case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolHomematicIpThermostat": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolPressure":
-							if(deviceLinkedStateIds["TEMPERATURE"]){
-								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
-								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["TEMPERATURE"] && options.LayoutDefaultSymbols["TEMPERATURE"]["temperatureIcon_on"] || "./images/symbols/temperature.png") + "'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
-								(function(){ //Closur (everything declared inside keeps its value as ist is at the time the function is created)
-									var _deviceIdEscaped = deviceIdEscaped;
-									var _device = device;
-									var _linkedTemperatureId = deviceLinkedStateIds["TEMPERATURE"];
-									var _sliderIndex = sliderIndex;
-									var updateFunction = function(){
-										var stateTemperature = getState(_linkedTemperatureId);
-										if(stateTemperature && typeof stateTemperature.val !== udef && stateTemperature.val !== ""){
-											var val = stateTemperature.plainText;
-											var unit = stateTemperature.unit;
-											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
-											if(!isNaN(val)) val = Math.round(stateTemperature.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
-											if(stateTemperature.plainText == stateTemperature.val) val = val + unit;
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
-										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").hide();
-										}
-									};
-                                    uiElements.addUpdateFunction(_linkedTemperatureId, updateFunction);
-								})(); //<--End Closure
-							}
-							break;
-
-							case "iQontrolBrightness": case "iQontrolMotion":
-							if(deviceLinkedStateIds["BRIGHTNESS"]){
-								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
-								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["BRIGHTNESS"] && options.LayoutDefaultSymbols["BRIGHTNESS"]["brightnessIcon_on"] || "./images/symbols/brightness.png") + "'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									var _deviceIdEscaped = deviceIdEscaped;
-									var _device = device;
-									var _linkedBrightnessId = deviceLinkedStateIds["BRIGHTNESS"];
-									var _sliderIndex = sliderIndex;
-									var updateFunction = function(){
-										var stateBrightness = getState(_linkedBrightnessId);
-										if(stateBrightness && typeof stateBrightness.val !== udef && stateBrightness.val !== ""){
-											var val = stateBrightness.plainText;
-											var unit = stateBrightness.unit;
-											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
-											if(!isNaN(val)) val = Math.round(stateBrightness.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
-											if(stateBrightness.plainText == stateBrightness.val) val = val + unit;
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
-										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").hide();
-										}
-									};
-                                    uiElements.addUpdateFunction(_linkedBrightnessId, updateFunction);
-								})(); //<--End Closure
-							}
-							break;
-
-							case "iQontrolBlind":
-							if(deviceLinkedStateIds["SLATS_LEVEL"]){
-								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
-								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["SLATS_LEVEL"] && options.LayoutDefaultSymbols["SLATS_LEVEL"]["slatsLevelIcon_on"] || "./images/symbols/slats.png") + "'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									var _deviceIdEscaped = deviceIdEscaped;
-									var _device = device;
-									var _linkedSlatsLevelId = deviceLinkedStateIds["SLATS_LEVEL"];
-									var _sliderIndex = sliderIndex;
-									var updateFunction = function(){
-										var stateSlatsLevel = getState(_linkedSlatsLevelId);
-										if(stateSlatsLevel && typeof stateSlatsLevel.val !== udef && stateSlatsLevel.val !== ""){
-											var val = stateSlatsLevel.plainText;
-											var unit = stateSlatsLevel.unit;
-											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
-											if(!isNaN(val)) val = Math.round(stateSlatsLevel.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
-											if(stateSlatsLevel.plainText == stateSlatsLevel.val) val = val + unit;
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
-										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").hide();
-										}
-									};
-                                    uiElements.addUpdateFunction(_linkedSlatsLevelId, updateFunction);
-								})(); //<--End Closure
-							}
-							break;
-
-							case "iQontrolBattery":
-							if(deviceLinkedStateIds["VOLTAGE"]) {
-								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
-								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["VOLTAGE"] && options.LayoutDefaultSymbols["VOLTAGE"]["voltageIcon_on"] || "./images/symbols/power.png") + "'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									var _deviceIdEscaped = deviceIdEscaped;
-									var _device = device;
-									var _linkedVoltageId = deviceLinkedStateIds["VOLTAGE"];
-									var _sliderIndex = sliderIndex;
-									var updateFunction = function(){
-										var stateVoltage = getState(_linkedVoltageId);
-										if(stateVoltage && typeof stateVoltage.val !== udef && stateVoltage.val !== ""){
-											var val = stateVoltage.plainText;
-											var unit = stateVoltage.unit;
-											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
-											if(!isNaN(val)) val = Math.round(stateVoltage.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
-											if(stateVoltage.plainText == stateVoltage.val) val = val + unit;
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
-										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").hide();
-										}
-									};
-                                    uiElements.addUpdateFunction(_linkedVoltageId, updateFunction);
-								})(); //<--End Closure
-							}
-							break;
-
-							case "iQontrolLight":
-							if(deviceLinkedStateIds["HUE"] || deviceLinkedStateIds["CT"] || deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]){
-								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
-								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display:none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["COLOR"] && options.LayoutDefaultSymbols["COLOR"]["colorIcon_on"] || "./images/symbols/color.png") + "'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'><div class='iQontrolDeviceInfoATextHue' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div><div class='iQontrolDeviceInfoATextCt' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div></div>";
-								//Create temp-datapoints for datapoints that are only mapped via alternative colorspace
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									var _deviceId = deviceId;
-									var _deviceIdEscaped = deviceIdEscaped;
-									var _device = device;
-									var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
-									var _linkedCtId = deviceLinkedStateIds["CT"];
-									var _linkedWhiteBrightnessId = deviceLinkedStateIds["WHITE_BRIGHTNESS"];
-									var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
-									var _linkedColorBrightnessId = deviceLinkedStateIds["COLOR_BRIGHTNESS"];
-									var _linkedHueId = deviceLinkedStateIds["HUE"];
-									var _alternativeColorspace = getDeviceOptionValue(_device, "alternativeColorspace") || "";
-									var _sliderIndex = sliderIndex;
-									var _deviceLinkedStateIdsToFetchAndUpdate = [];
-									if(_linkedAlternativeColorspaceValueId) switch(_alternativeColorspace){
-										case "RGBCWWW": case "#RGBCWWW": case "RGBWWCW": case "#RGBWWCW":
-										if(_linkedCtId == ""){
-											_linkedCtId = createTemporaryState(_deviceId + ".CT", "level", "state", _linkedAlternativeColorspaceValueId);
-										}
-
-										case "RGBW": case "#RGBW":
-										if(_linkedWhiteBrightnessId == ""){
-											_linkedWhiteBrightnessId = createTemporaryState(_deviceId + ".WHITE_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
-										}
-
-										case "RGB": case "#RGB": case "HHSSBB_TUYA":
-										if(_linkedSaturationId == ""){
-											_linkedSaturationId = createTemporaryState(_deviceId + ".SATURATION", "level", "state", _linkedAlternativeColorspaceValueId);
-										}
-										if(_linkedColorBrightnessId == ""){
-											_linkedColorBrightnessId = createTemporaryState(_deviceId + ".COLOR_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
-										}
-
-										case "RGB_HUEONLY": case "#RGB_HUEONLY": case "HUE_MILIGHT":
-										if(_linkedHueId == ""){
-											_linkedHueId = createTemporaryState(_deviceId + ".HUE", "level", "state", _linkedAlternativeColorspaceValueId);
-										}
-										_deviceLinkedStateIdsToFetchAndUpdate.push(_linkedAlternativeColorspaceValueId);
-										break;
-									}
-									uiElements.addStatesToFetchAndUpdate([_linkedCtId, _linkedWhiteBrightnessId, _linkedSaturationId, _linkedColorBrightnessId, _linkedHueId]);
-/*									[_linkedCtId, _linkedWhiteBrightnessId, _linkedSaturationId, _linkedColorBrightnessId, _linkedHueId].forEach(function(linkedId){
-										if(linkedId && linkedId != "" && linkedId != null) updateState(linkedId);
-									}); */
-									if(_linkedHueId){
-										var updateFunction = function(){
-											var stateHue = getState(_linkedHueId);
-											if(stateHue && stateHue.val !== "" && stateHue.valRaw !== null){
-												var hueMin = stateHue.min || 0;
-												var hueMax = stateHue.max || 359;
-												var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
-												var	saturation = 100;
-												var stateSaturation = getState(_linkedSaturationId);
-												if(stateSaturation && typeof stateSaturation.val != udef && stateSaturation.val != null) {
-													var saturationMin = stateSaturation.min || 0;
-													var saturationMax = stateSaturation.max || 100;
-													saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
-												}
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show()
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoATextHue").show().css("background-color", "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)");
-											}
-										};
-										uiElements.addUpdateFunction([_linkedHueId, _linkedSaturationId, _linkedAlternativeColorspaceValueId, "UPDATE_ONCE"], updateFunction);
-									}
-									if(_linkedCtId){
-										var updateFunction = function(){
-											var stateCt = getState(_linkedCtId);
-											if(stateCt  && typeof stateCt.val !== udef && stateCt.valRaw !== null){
-												var ctMin = stateCt.min || 0;
-												var ctMax = stateCt.max || 100;
-												var ct = stateCt.val;
-												var invertCt = false;
-												if(getDeviceOptionValue(_device, "invertCt") == "true") invertCt = !invertCt;
-												var rgb = colorTemperatureToRGB(ct, ctMin, ctMax, invertCt);
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show()
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoATextCt").show().css("background-color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
-											}
-										};
-										uiElements.addUpdateFunction(_linkedCtId, _linkedAlternativeColorspaceValueId, updateFunction);
-									}
-									if(_linkedAlternativeColorspaceValueId){
-										var updateFunction = function(callingStateId){ //ConvertToAlternativeColorspace
-											if(fetchedStates[_linkedAlternativeColorspaceValueId] && fetchedStates[callingStateId] && typeof fetchedStates[callingStateId].val !== udef && fetchedStates[callingStateId].val !== ""){
-												var ack = fetchedStates[callingStateId].ack;
-												var alternativeColorspace = getDeviceOptionValue(_device, "alternativeColorspace") || "";
-												var alternativeColorspaceValue = convertToAlternativeColorspace(_device, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId, _linkedAlternativeColorspaceValueId)
-												if(alternativeColorspaceValue) {
-													if((callingStateId == _linkedCtId || callingStateId == _linkedWhiteBrightnessId) && (alternativeColorspace == "RGB" || alternativeColorspace == "#RGB" || alternativeColorspace == "RGB_HUEONLY" || alternativeColorspace == "#RGB_HUEONLY" || alternativeColorspace == "HUE_MILIGHT")){
-														console.log("Not sending state, because a white value was changed, but AlternativeColorspace is without white");
-													} else {
-														if(typeof fetchedStates[_linkedAlternativeColorspaceValueId].val == "string" && fetchedStates[_linkedAlternativeColorspaceValueId].val == fetchedStates[_linkedAlternativeColorspaceValueId].val.toUpperCase()) alternativeColorspaceValue = alternativeColorspaceValue.toUpperCase();
-														setState(_linkedAlternativeColorspaceValueId, _deviceIdEscaped, alternativeColorspaceValue, ack);
-													}
-												}
-											}
-										};
-										uiElements.addUpdateFunction([_linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId], updateFunction);
-										var updateFunction = function(){ //ConvertFromAlternativeColorspace
-											if(fetchedStates[_linkedAlternativeColorspaceValueId]){
-												var ack = fetchedStates[_linkedAlternativeColorspaceValueId].ack;
-												var result = convertFromAlternativeColorspace(_device, _linkedAlternativeColorspaceValueId, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId);
-												if(typeof fetchedObjects[_linkedAlternativeColorspaceValueId] == udef) fetchedObjects[_linkedAlternativeColorspaceValueId] = {};
-												fetchedObjects[_linkedAlternativeColorspaceValueId].result = {};
-												//To avoid a converting-loop by rounding-differences the state is only updated, if difference between old an new value is > 1
-												if(result.hue != null){
-													if(_linkedHueId && _linkedHueId !== "" && (!fetchedStates[_linkedHueId] || (fetchedStates[_linkedHueId] && typeof fetchedStates[_linkedHueId].val != udef && Math.abs(fetchedStates[_linkedHueId].val - result.hue) > 1))) setState(_linkedHueId, _deviceIdEscaped, result.hue, ack, null, 100);
-												}
-												if(result.saturation != null){
-													if(_linkedSaturationId && _linkedSaturationId !== "" && (!fetchedStates[_linkedSaturationId] || (fetchedStates[_linkedSaturationId] && typeof fetchedStates[_linkedSaturationId].val != udef && Math.abs(fetchedStates[_linkedSaturationId].val - result.saturation) > 1))) setState(_linkedSaturationId, _deviceIdEscaped, result.saturation, ack, null, 100);
-												}
-												if(result.colorBrightness != null){
-													if(_linkedColorBrightnessId && _linkedColorBrightnessId !== "" && (!fetchedStates[_linkedColorBrightnessId] || (fetchedStates[_linkedColorBrightnessId] && typeof fetchedStates[_linkedColorBrightnessId].val != udef && Math.abs(fetchedStates[_linkedColorBrightnessId].val - result.colorBrightness) > 1))) setState(_linkedColorBrightnessId, _deviceIdEscaped, result.colorBrightness, ack, null, 100);
-												}
-												if(result.ct != null){
-													if(_linkedCtId && _linkedCtId !== "" && (!fetchedStates[_linkedCtId] || (fetchedStates[_linkedCtId] && typeof fetchedStates[_linkedCtId].val != udef && Math.abs(fetchedStates[_linkedCtId].val - result.ct) > 1))) setState(_linkedCtId, _deviceIdEscaped, result.ct, ack, null, 100);
-												}
-												if(result.whiteBrightness != null){
-													if(_linkedWhiteBrightnessId && _linkedWhiteBrightnessId !== "" && (!fetchedStates[_linkedWhiteBrightnessId] || (fetchedStates[_linkedWhiteBrightnessId] && typeof fetchedStates[_linkedWhiteBrightnessId].val != udef && Math.abs(fetchedStates[_linkedWhiteBrightnessId].val - result.whiteBrightness) > 1))) setState(_linkedWhiteBrightnessId, _deviceIdEscaped, result.whiteBrightness, ack, null, 100);
-												}
-											}
-										};
-										uiElements.addUpdateFunction(_linkedAlternativeColorspaceValueId, updateFunction);
-									}
-								})(); //<--End Closure
-							}
-							break;
-
-							case "iQontrolMedia":
-							if(deviceLinkedStateIds["VOLUME"]) {
-								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
-								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["VOLUME"] && options.LayoutDefaultSymbols["VOLUME"]["volumeIcon_on"] || "./images/symbols/volume.png") + "'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									var _deviceIdEscaped = deviceIdEscaped;
-									var _device = device;
-									var _linkedVolumeId = deviceLinkedStateIds["VOLUME"];
-									var _sliderIndex = sliderIndex;
-									var updateFunction = function(){
-										var stateVolume = getState(_linkedVolumeId);
-										if(stateVolume && typeof stateVolume.val !== udef && stateVolume.val !== ""){
-											var val = stateVolume.plainText;
-											var unit = stateVolume.unit;
-											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
-											if(!isNaN(val)) {
-												if(val < -100 || val > 100) val = Math.round(val); else val = Math.round(stateVolume.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
-											}
-											if(stateVolume.plainText == stateVolume.val) val = val + unit;
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
-										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").hide();
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html("");
-										}
-									};
-                                    uiElements.addUpdateFunction(_linkedVolumeId, updateFunction);
-								})(); //<--End Closure
-							}
-							break;
-
-							default:
-							//Do nothing
-						}
-						if(deviceLinkedStateIds["INFO_A"]) {
-							//Special: INFO_A is an Array: [{"type":"LinkedState", "value":"LinkedStateId", icon:"url"}, ...]
-							var stateInfoA = getState(deviceLinkedStateIds["INFO_A"]);
-							var infoAArray = tryParseJSON(stateInfoA && stateInfoA.val || "");
-							var infoAArrayValid = false;
-							if(Array.isArray(infoAArray) && typeof infoAArray == 'object') infoAArray.forEach(function(element){
-								if(typeof element.value !== udef && element.value !== udef){
-									infoAArrayValid = true;
-								}
-							});
-							if(infoAArrayValid){
-								infoAArray.forEach(function(element){
-									sliderIndex = viewInfoASliderLength[deviceIdEscaped];
-									viewInfoASliderLength[deviceIdEscaped]++;
-									deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (element.icon && element.icon !== "" ? element.icon : "./images/symbols/info.png") + "'>";
-									deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
-									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-										var _deviceIdEscaped = deviceIdEscaped;
-										var _device = device;
-										var _linkedElementId = element.value;
-										var _linkedElementCaption = (getDeviceOptionValue(device, "infoAShowName") == "true" ? element.name : "");
-										var _sliderIndex = sliderIndex;
-										var updateFunction = function(){
-											var stateElement = getState(_linkedElementId);
-											if(stateElement && typeof stateElement.val !== udef && stateElement.val !== ""){
-												var val = stateElement.plainText;
-												var unit = stateElement.unit;
-												var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
-												if(!isNaN(val)) {
-													if(val < -100 || val > 100) val = Math.round(val); else val = Math.round(stateElement.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
-												}
-												if(stateElement.plainText == stateElement.val) val = val + unit;
-												if(_linkedElementCaption) val = _linkedElementCaption + "&nbsp;" + val;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
-											} else {
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").hide();
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html("");
-											}
-										};
-                                        uiElements.addUpdateFunction(_linkedElementId, updateFunction);
-									})(); //<--End Closure
-//									viewLinkedStateIdsToFetchAndUpdate.push(element.value);
-								});
-							}
-						}
-						deviceContent += "</div>";
-
-						//--Info B
-						var hideIfClasses = (getDeviceOptionValue(device, "hideInfoBIfInactive") == "true" ? " hideIfInactive" : "") + (getDeviceOptionValue(device, "hideInfoBIfActive") == "true" ? " hideIfActive" : "") + (getDeviceOptionValue(device, "hideInfoBIfEnlarged") == "true" ? " hideIfEnlarged" : "");
-						viewInfoBSliderLength[deviceIdEscaped] = 0;
-						viewInfoBSliderIndex[deviceIdEscaped] = 0;
-						deviceContent += "<div class='iQontrolDeviceInfoB' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
-						switch(device.commonRole){
-							case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolHomematicIpThermostat": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolPressure":
-							if(deviceLinkedStateIds["HUMIDITY"]) {
-								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
-								viewInfoBSliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["HUMIDITY"] && options.LayoutDefaultSymbols["HUMIDITY"]["humidityIcon_on"] || "./images/symbols/humidity.png") + "'>";
-								deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									var _deviceIdEscaped = deviceIdEscaped;
-									var _device = device;
-									var _linkedHumidityId = deviceLinkedStateIds["HUMIDITY"];
-									var _sliderIndex = sliderIndex;
-									var updateFunction = function(){
-										var stateHumidity = getState(_linkedHumidityId);
-										if(stateHumidity && typeof stateHumidity.val !== udef && stateHumidity.val !== ""){
-											var val = stateHumidity.plainText;
-											var unit = stateHumidity.unit;
-											var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
-											if(!isNaN(val)) val = Math.round(stateHumidity.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
-											if(stateHumidity.plainText == stateHumidity.val) val = val + unit;
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBText").html(val);
-										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").hide();
-										}
-									};
-                                    uiElements.addUpdateFunction(_linkedHumidityId, updateFunction);
-								})(); //<--End Closure
-							}
-							break;
-
-							case "iQontrolSwitch": case "iQontrolFan": case "iQontrolLight": case "iQontrolBattery":
-							if(deviceLinkedStateIds["POWER"] && (getDeviceOptionValue(device, "showPowerAsState") != "true")) {
-								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
-								viewInfoBSliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["POWER"] && options.LayoutDefaultSymbols["POWER"]["powerIcon_on"] || "./images/symbols/power.png") + "'>";
-								deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									var _deviceIdEscaped = deviceIdEscaped;
-									var _device = device;
-									var _linkedPowerId = deviceLinkedStateIds["POWER"];
-									var _sliderIndex = sliderIndex;
-									var updateFunction = function(){
-										var statePower = getState(_linkedPowerId);
-										if(statePower && typeof statePower.val !== udef && statePower.val !== ""){
-											var val = statePower.plainText;
-											var unit = statePower.unit;
-											var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
-											if(!isNaN(val)) {
-												if(val < -100 || val > 100) val = Math.round(statePower.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
-											}
-											if(statePower.plainText == statePower.val) val = val + unit;
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBText").html(val);
-										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").hide();
-										}
-									};
-                                    uiElements.addUpdateFunction(_linkedPowerId, updateFunction);
-								})(); //<--End Closure
-							}
-							break;
-
-							case "iQontrolMedia":
-							if(deviceLinkedStateIds["ELAPSED"]) {
-								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
-								viewInfoBSliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["ELAPSED"] && options.LayoutDefaultSymbols["ELAPSED"]["elapsedIcon_on"] || "./images/symbols/time.png") + "'>";
-								deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									var _deviceIdEscaped = deviceIdEscaped;
-									var _device = device;
-									var _linkedStateId = deviceLinkedStateIds["STATE"];
-									var _linkedElapsedId = deviceLinkedStateIds["ELAPSED"];
-									var _linkedDurationId = deviceLinkedStateIds["DURATION"];
-									var _sliderIndex = sliderIndex;
-									var updateFunction = function(){
-										var stateElapsed = getState(_linkedElapsedId);
-										var stateDuration = getState(_linkedDurationId);
-										var active = $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").hasClass("active");
-										if(active && stateElapsed && typeof stateElapsed.val !== udef && stateElapsed.val !== "" && !isNaN(stateElapsed.val)){
-											var divider = (getDeviceOptionValue(_device, "durationIsMilliseconds") == "true" ? 1000 : 1);
-											var elapsedIsPercentage = (getDeviceOptionValue(_device, "elapsedIsPercentage") == "true");
-											if(elapsedIsPercentage){
-												let percentageDivider = (stateElapsed.val > 1 ? 100 : 1);
-												if(stateDuration && stateDuration.val && !isNaN(stateDuration.val)){
-													var val = secondsToHHMMSS(stateElapsed.val / percentageDivider * stateDuration.val / divider);
-												} else {
-													var val = (stateElapsed.val / percentageDivider) + "%";
-												}
-											} else {
-												var val = secondsToHHMMSS(stateElapsed.val / divider);
-											}
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBText").html(val);
-										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").hide();
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBText").html("");
-										}
-									};
-                                    uiElements.addUpdateFunction([_linkedElapsedId, _linkedStateId], updateFunction);
-								})(); //<--End Closure
-							}
-							break;
-
-							default:
-							//Do nothing
-						}
-						if(deviceLinkedStateIds["INFO_B"]) {
-							//Special: INFO_B is an Array: [{"type":"LinkedState", "value":"LinkedStateId", icon:"url"}, ...]
-							var stateInfoB = getState(deviceLinkedStateIds["INFO_B"]);
-							var infoBArray = tryParseJSON(stateInfoB && stateInfoB.val || "");
-							var infoBArrayValid = false;
-							if(Array.isArray(infoBArray) && typeof infoBArray == 'object') infoBArray.forEach(function(element){
-								if(typeof element.value !== udef && element.value !== udef){
-									infoBArrayValid = true;
-								}
-							});
-							if(infoBArrayValid){
-								infoBArray.forEach(function(element){
-									sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
-									viewInfoBSliderLength[deviceIdEscaped]++;
-									deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (element.icon && element.icon !== "" ? element.icon : "./images/symbols/info.png") + "'>";
-									deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
-									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-										var _deviceIdEscaped = deviceIdEscaped;
-										var _device = device;
-										var _linkedElementId = element.value;
-										var _linkedElementCaption = (getDeviceOptionValue(device, "infoBShowName") == "true" ? element.name : "");
-										var _sliderIndex = sliderIndex;
-										var updateFunction = function(){
-											var stateElement = getState(_linkedElementId);
-											if(stateElement && typeof stateElement.val !== udef && stateElement.val !== ""){
-												var val = stateElement.plainText;
-												var unit = stateElement.unit;
-												var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
-												if(!isNaN(val)) {
-													if(val < -100 || val > 100) val = Math.round(val); else val = Math.round(stateElement.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
-												}
-												if(stateElement.plainText == stateElement.val) val = val + unit;
-												if(_linkedElementCaption) val = _linkedElementCaption + "&nbsp;" + val;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBText").html(val);
-											} else {
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").hide();
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBText").html("");
-											}
-										};
-                                        uiElements.addUpdateFunction(_linkedElementId, updateFunction);
-									})(); //<--End Closure
-//									viewLinkedStateIdsToFetchAndUpdate.push(element.value);
-								});
-							}
-						}
-						deviceContent += "</div>";
+						
 						if(device.commonRole == "iQontrolExternalLink" && deviceLinkedStateIds["URL"]) { //.iQontrolDeviceLink was an external link and therefore an <a>
 							deviceContent += "</a>";
 						} else { //.iQontrolDeviceLink was not an external link and therefore a <div>
@@ -13300,7 +12700,7 @@ function getState(stateId){ //
 			} else if(parts.placeholder) {									//Replace by placeholder
 				replacement = parts.placeholder;
 			}
-			if(replacement != null) return replacement; else return p1;
+			if(replacement != null) return replacement; else return match;
 		});
 		function processVariable(variable){
 			var varResult = {};
@@ -13324,6 +12724,8 @@ function getState(stateId){ //
 				if(typeof calcResult == "number") result.type = "number"; 
 				else if(typeof calcResult == "boolean") result.type = "boolean"; 
 				else result.type = "string";
+			} else {
+				result.val = null;
 			}
 		}
 	}
@@ -13689,23 +13091,28 @@ function UIElements(initialUiElements) {
 		return this;
 	}
 
-	this.addUpdateFunction = function(stateIds, updateFunction){
+	this.addUpdateFunction = function(stateIds, updateFunction, calledRecoursive){
 		if(!stateIds || typeof updateFunction != "function") return this;
-		if(typeof stateIds == "string") stateIds = [stateIds];
-		var that = this;
 		var validState = false;
-		Array.isArray(stateIds) && stateIds.forEach(function(stateId){
-			if(stateId && stateId != "" && stateId != null){
-				validState = true;
-				if(!that.updateFunctions[stateId]) that.updateFunctions[stateId] = [];
-				that.updateFunctions[stateId].push(updateFunction);
-			}
-		});
-		if(!validState){
-			if(!that.updateFunctions["UPDATE_ONCE"]) that.updateFunctions["UPDATE_ONCE"] = [];
-			that.updateFunctions["UPDATE_ONCE"].push(updateFunction);
+		var that = this;
+		if(typeof stateIds == "string" && stateIds != '' && stateIds != null){
+			if(!this.updateFunctions[stateIds]) this.updateFunctions[stateIds] = [];
+			this.updateFunctions[stateIds].push(updateFunction);
+			validState = true;
+		} else if(Array.isArray(stateIds)){
+			stateIds.forEach(function(stateId){ 
+				validState = that.addUpdateFunction(stateId, updateFunction, true); 
+			});
 		}
-		return this;
+		if(calledRecoursive){
+			return validState;
+		} else {
+			if(!validState){
+				if(!this.updateFunctions["UPDATE_ONCE"]) this.updateFunctions["UPDATE_ONCE"] = [];
+				this.updateFunctions["UPDATE_ONCE"].push(updateFunction);
+			}
+			return this;	
+		}
 	}
 
 	this.addBindingFunction = function(bindingFunction){
@@ -13844,6 +13251,7 @@ function UIElements(initialUiElements) {
 	 * @param {string} uiElementOptions.iconActiveCondition
 	 * @param {string} uiElementOptions.iconActiveConditionValue
 	 * @param {boolean} uiElementOptions.iconZoomOnHover
+	 * @param {boolean} uiElementOptions.iconNoPointerEvents
 	 *
 	 * @param {string} uiElementOptions.textClasses
 	 * @param {string} uiElementOptions.textState
@@ -13872,72 +13280,64 @@ function UIElements(initialUiElements) {
 		this.newElementStackContainer(device, uiElementOptions);
 		var _uiElementIndex = this.uiElementIndex; //#####
 		var iconStateId = getUiOptionStateId(device, uiElementOptions.iconState, arrayIndex);
-		var iconActiveStateId = getUiOptionStateId(device, uiElementOptions.iconActiveState, arrayIndex);
+		var iconActiveStateIds = getUiOptionActiveStateIds(device, uiElementOptions.iconActive, arrayIndex);
 		var textStateId = getUiOptionStateId(device, uiElementOptions.textState, arrayIndex);
 		var textLevelStateId = getUiOptionStateId(device, uiElementOptions.textLevelState, arrayIndex);
-		var textActiveStateId = getUiOptionStateId(device, uiElementOptions.textActiveState), arrayIndex;
+		var textActiveStateIds = getUiOptionActiveStateIds(device, uiElementOptions.textActive, arrayIndex);
 		//--Icon
 		if(uiElementOptions.iconState){
-			this.addHtml(`<div 	
-				class="uiElement icon ${getUiOption(uiElementOptions.iconClasses) || ''} ${(getUiOption(uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')}"
+			this.addHtml(`<img 
+				class="uiElement icon ${getUiOption(uiElementOptions.iconClasses) || ''} ${(getUiOption(uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''}"
 				data-device-id="${device.deviceIdEscaped}" 
 				data-ui-element-index="${_uiElementIndex}" 
-				style="background-position: center; background-size: contain; background-repeat: no-repeat;" 
-				></div>`);
+				style="display: none;" 
+				>`);
 			var updateFunction = function(stateId, forceReloadOfImage){
-				var $iconElement = $(`div.uiElement.icon[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-
-				if ($iconElement.height() < $iconElement.width()) $iconElement.css('width', $iconElement.height() + 'px'); else $iconElement.css('height', $iconElement.width() + 'px'); //make it square
-
-/*
-<div class="c">
-<img class="i" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/PNG_Test.png/477px-PNG_Test.png">
-</div>
-.c{width: 200px; height: 100px; background: green;}
-.i{height: 90pt; max-height: 100%; width: auto;}
-*/
-
+				var $iconElement = $(`img.uiElement.icon[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				var $textElement = $(`div.uiElement.text[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
 				var iconState = getUiOptionState(device, uiElementOptions.iconState, arrayIndex);
-				var iconActiveState = getUiOptionState(device, uiElementOptions.iconActiveState, arrayIndex);
-				var iconActive = (iconActiveState && iconActiveState != '' ? checkCondition(iconActiveState.val, getUiOption(uiElementOptions.iconActiveCondition) || "eqt", getUiOption(uiElementOptions.iconActiveConditionValue)) : true);
+				var iconActive = getUiOptionActive(device, uiElementOptions.iconActive, arrayIndex);
 				var src = iconState && iconState.val || "";
 				if(src && forceReloadOfImage) src = src.replace(/(?<=\?|&)forcedReload=([^&]+)/, "forcedReload=" + Math.floor(new Date().getTime() / 100));
-				if(`url("${src}")` != $iconElement.css('background-image')){
-					var $newBackgroundimageFile = $(new Image());
-					$newBackgroundimageFile.on('load', function(){ //Preloading the image
-						if(src.substring(0, 5).toLowerCase() == "data:"){ //Bugfix for transition in background-size for SVGs
-							oldCssTransition = $iconElement.css('transition');
-							$iconElement.css('transition', 'background-size 0s');
-						}
-						let _src = $newBackgroundimageFile.attr('src');
-						$iconElement.css('background-image', _src ? `url("${_src}")` : '');
-						if(oldCssTransition !== null) setTimeout(function(){ $iconElement.css('transition', oldCssTransition); }, 10);
-					}).attr('src', src);
+				var oldSrc = $iconElement.attr('src') || '';
+				if(src != oldSrc){
+					if(oldSrc && oldSrc.substring(0, 5).toLowerCase() !== "data:") $iconElement.fadeTo(0, 0, function(){ $(this).css('opacity', '')});
+					setTimeout(function(){
+						$iconElement.off('load').on('load', function(){
+							if(iconActive){
+								$iconElement.fadeTo(0, 1, function(){ $(this).css('opacity', '')});
+								$textElement.css('left', `${$iconElement.width()}px`).css('width', `calc(100% - ${$iconElement.width()}px)`);
+							} else {
+								$iconElement.css('opacity', '');
+								$textElement.css('left', `0`).css('width', `100%`);
+							}		
+						}).attr('src', src).css('display', '');
+					}, oldSrc ? 250 : 10);
 				}
 				if(iconActive) $iconElement.addClass('active').css('opacity', ''); else $iconElement.removeClass('active');
 			}
-			this.addUpdateFunction([iconStateId, iconActiveStateId], updateFunction)
+			this.addUpdateFunction([iconStateId, iconActiveStateIds], updateFunction)
 		}
 		//--Text
 		if(uiElementOptions.textState || uiElementOptions.textLevelState){
 			this.addHtml(`<div 	
-				class="uiElement text ${getUiOption(uiElementOptions.textClasses) || ''}"
+				class="uiElement text ${getUiOption(uiElementOptions.textClasses) || ''} ${getUiOption(uiElementOptions.textNoPointerEvents) ? 'noPointerEvents' : ''}"
 				data-device-id="${device.deviceIdEscaped}"
 				data-ui-element-index="${_uiElementIndex}"
 				style="${getUiOption(uiElementOptions.textMultiline) ? 'white-space: break-word;' : 'white-space: nowrap;'}" 
 				></div>`);
 			var updateFunction = function(stateId){
 				var $textElement = $(`div.uiElement.text[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-				var $iconElement = $(`div.uiElement.icon[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				var $iconElement = $(`img.uiElement.icon[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
 				var textState = getUiOptionState(device, uiElementOptions.textState, arrayIndex);
 				var textLevelState = getUiOptionState(device, uiElementOptions.textLevelState, arrayIndex);
-				var textActiveState = getUiOptionState(device, uiElementOptions.textActiveState, arrayIndex);
 				var textResult = processText(textState, textLevelState, getUiOption(uiElementOptions.textProcessingOptions), getUiOption(uiElementOptions.textProcessingFunction));
-				var textActive = (textActiveState && textActiveState != '' ? checkCondition(textActiveState.val, getUiOption(uiElementOptions.textActiveCondition) || "eqt", getUiOption(uiElementOptions.textActiveConditionValue)) : true);
+				var textActive = getUiOptionActive(device, uiElementOptions.textActive, arrayIndex);
 				setTimeout(function(){
-					if(getUiOption(uiElementOptions.textAlwaysReservePlaceForIcon) || ($iconElement.hasClass('active') && $iconElement.css('background-image').indexOf('url(') == 0)){ //icon visible - reserve Place
-						$textElement.css('left', `${$iconElement.width()}px`);
-						$textElement.css('width', `calc(100% - ${$iconElement.width()}px)`);
+					if(getUiOption(uiElementOptions.textAlwaysReservePlaceForIcon) || ($iconElement.hasClass('active') && $iconElement.attr('src'))){ //icon visible - reserve Place
+						$textElement.css('left', `${$iconElement.width()}px`).css('width', `calc(100% - ${$iconElement.width()}px)`);
+					} else {
+						$textElement.css('left', `0`).css('width', `100%`);	
 					}
 					let fontSize = $textElement.height() / 1.2 + 'px';
 					if(!getUiOption(uiElementOptions.textMultiline)) $textElement.css('font-size', fontSize);
@@ -13945,7 +13345,7 @@ function UIElements(initialUiElements) {
 				$textElement.html(textResult);
 				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');
 			}
-			this.addUpdateFunction([textStateId, textLevelStateId, textActiveStateId, iconStateId, iconActiveStateId], updateFunction)
+			this.addUpdateFunction([textStateId, textLevelStateId, textActiveStateIds, iconStateId, iconActiveStateIds], updateFunction)
 		}
 		this.closeElementStackContainer();
 		this.uiElementIndex++;
@@ -13953,6 +13353,34 @@ function UIElements(initialUiElements) {
 	}
 	this.addIcon = this.addIconTextCombination;
 	this.addText = this.addIconTextCombination;
+
+	//---------- Loading Icon ----------
+	/** Adds a icon and text combination
+	 * @param {object} device 
+	 * @param {object} uiElementOptions 
+	 *
+	 * @param {string} uiElementOptions.stackId
+	 * @param {boolean} uiElementOptions.stackCycles
+	 *
+	 * @param {string} uiElementOptions.iconClasses
+	 * @param {boolean} uiElementOptions.iconZoomOnHover
+	 * @param {boolean} uiElementOptions.iconNoPointerEvents
+	 * 
+	 * @returns {UIElements}  
+	 */	this.addLoadingIcon = function(device, uiElementOptions){
+		if(typeof uiElementOptions != "object") uiElementOptions = {};
+		this.newElementStackContainer(device, uiElementOptions);
+		var _uiElementIndex = this.uiElementIndex; //#####
+		this.addHtml(`<img 
+			src='./images/loading.gif'
+			class="uiElement icon iQontrolDeviceLoading ${getUiOption(uiElementOptions.iconClasses) || ''} ${(getUiOption(uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''}"
+			data-device-id="${device.deviceIdEscaped}" 
+			data-ui-element-index="${_uiElementIndex}" 
+			>`);
+		this.closeElementStackContainer();
+		this.uiElementIndex++;
+		return this;
+	}
 
 	//---------- Helpers ----------
 	function getUiOption(uiElementOption){
@@ -13989,6 +13417,16 @@ function UIElements(initialUiElements) {
 				value = getDeviceOptionValue(device, uiElementOption.value || '');
 			} else if (uiElementOption.role == 'deviceSetting'){ //deviceSetting
 				value = device[uiElementOption.value || ''] || null;
+			} else if (uiElementOption.role == 'deviceCondition'){ //deviceCondition
+				switch(uiElementOption.value){
+					case "active": value = device.active || false; break;
+					case "inactive": value = !device.active; break;
+					case "enlarged": value = device.enlarged || false; break;
+					case "not-enlarged": value = !device.enlarged; break;
+					case "loading": value = device.loading || false; break;
+					case "not-loading": value = !device.loading; break;
+					default: value = false;
+				}
 			} else { //const
 				value = uiElementOption.value;
 			}
@@ -14004,6 +13442,43 @@ function UIElements(initialUiElements) {
 			};
 		}
 		return result;
+	}
+
+	function getUiOptionActiveStateIds(device, uiElementOption, arrayIndex){
+		var activeStateIds = [];
+		var activeArray = getUiOption(uiElementOption);
+		if(!Array.isArray(activeArray)) activeArray = tryParseJSON(activeArray) || [];
+		activeArray.forEach(function(active){
+			if(active.activeStateRole && active.activeStateRole == 'deviceState' && active.activeStateValue) activeStateIds.push(getStateIdFromDeviceState(device, active.activeStateValue + (active.activeStateValue.split('.').length < 3 && typeof arrayIndex != udef ? '.' + arrayIndex : '')));
+			if(active.activeConditionValueRole && active.activeConditionValueRole == 'deviceState' && active.activeConditionValueValue) activeStateIds.push(getStateIdFromDeviceState(device, active.activeConditionValueValue + (active.activeConditionValueValue.split('.').length < 3 && typeof arrayIndex != udef ? '.' + arrayIndex : '')));
+			if((active.activeStateRole && active.activeStateRole == 'deviceCondition' && active.activeStateValue && (active.activeStateValue == 'active' || active.activeStateValue == 'inactive'))
+			|| (active.activeConditionValueRole && active.activeConditionValueRole == 'deviceCondition' && active.activeConditionValueValue && (active.activeConditionValueValue == 'active' || active.activeConditionValueValue == 'inactive'))){
+				activeStateIds.push(device.activeStateIds);
+			}
+		});
+		if(activeStateIds.length < 1) activeStateIds = null;
+		return activeStateIds;
+	}
+
+	function getUiOptionActive(device, uiElementOption, arrayIndex){
+		var result = false;
+		var activeArray = getUiOption(uiElementOption);
+		if(!Array.isArray(activeArray)) activeArray = tryParseJSON(activeArray) || [];
+		if(activeArray.length){
+			activeArray.forEach(function(active){
+				if(active.modifier && active.modifier == "||"){ //New OR-Part
+					if(result) return true;
+					result = true;
+				} 
+				let activeState = getUiOptionState(device, {role: active.activeStateRole, value: active.activeStateValue}, arrayIndex);
+				let activeConditionValueState = getUiOptionState(device, {role: active.activeConditionValueRole, value: active.activeConditionValueValue}, arrayIndex);
+				let check = (activeState && activeState != '' ? checkCondition(activeState.val, active.activeCondition || "eqt", activeConditionValueState.val) : true);
+				result = result && check;
+			});
+		} else {
+			result = true;
+		}
+		return result;		
 	}
 
 	function getMaxArrayLengthOfUiOptions(device, uiElementOptions){

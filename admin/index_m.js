@@ -1112,47 +1112,49 @@ var standardTileClass = {
 }
 
 //types: string, textarea, checkbox, select with selectOptions, deviceState, position. roles: const,deviceState,deviceOption. roleOptions: "+deviceState;-deviceOption"
-//{option: "<name of option>", type: "string|textarea|checkbox|select", roleOptions: "+deviceState;-deviceOption", selectOptions: "value1/Caption1;value2/Caption2;...", value: "", description: ""}
+//{option: "<name of option>", type: "string|textarea|checkbox|select", roleOptions: "+deviceState;-deviceOption;-deviceSetting;-deviceCondition", selectOptions: "value1/Caption1;value2/Caption2;...", value: "", description: ""}
 var uiElementOptions = {
 	icon: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
 		{option: "iconClasses", type: "string", description: "Optional. Add these CSS-Classes to the icon."},
 		{option: "iconState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "The url of the icon."},
-		{option: "iconActiveState", type: "string", roleOptions: "+deviceState", description: "Optional. If given, this state will define, if the icon is visible."},
-		{option: "iconActiveCondition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", description: "Optional. This defines, under which conditions the icon is visible."},
-		{option: "iconActiveConditionValue", type: "string", roleOptions: "+deviceState", description: "Optional. The comparative value for the condition."},
-		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."}
+		{option: "iconActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
+		{option: "iconNoPointerEvents", type: "checkbox", description: "If true, the icon does not capture mouse or touch events. Default: false."}
 	],	
 	text: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
 		{option: "textClasses", type: "string", description: "Optional. Add these CSS-Classes to the text."},
 		{option: "textState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "STATE", description: "The text to display."},
 		{option: "textLevelState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "LEVEL", description: "Optional. The default textProcessing can combine two values, a state and a level. This ist the level."},
-		{option: "textActiveState", type: "string", role: "deviceState", roleOptions: "+deviceState", description: "Optional. If given, this state will define, if the text is visible."},
-		{option: "textActiveCondition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", value: "", description: "Optional. This defines, under which conditions the text is visible."},
-		{option: "textActiveConditionValue", type: "string", roleOptions: "+deviceState", description: "Optional. The comparative value for the condition."},
+		{option: "textActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
 		{option: "textProcessingFunction", type: "textarea", description: "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction"},
 		{option: "textProcessingOptions", type: "textarea", value: "{}", description: "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}."},
-		{option: "textMultiline", type: "checkbox", description: "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false."}
+		{option: "textMultiline", type: "checkbox", description: "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false."},
+		{option: "textNoPointerEvents", type: "checkbox", description: "If true, the text does not capture mouse or touch events. Default: false."}
 	],
 	iconTextCombination: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
 		{option: "iconClasses", type: "string", description: "Optional. Add these CSS-Classes to the icon."},
 		{option: "iconState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "The url of the icon."},
-		{option: "iconActiveState", type: "string", roleOptions: "+deviceState", description: "Optional. If given, this state will define, if the icon is visible."},
-		{option: "iconActiveCondition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", description: "Optional. This defines, under which conditions the icon is visible."},
-		{option: "iconActiveConditionValue", type: "string", roleOptions: "+deviceState", description: "Optional. The comparative value for the condition."},
+		{option: "iconActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
 		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
+		{option: "iconNoPointerEvents", type: "checkbox", description: "If true, the icon does not capture mouse or touch events. Default: false."},
 		{option: "textClasses", type: "string", description: "Optional. Add these CSS-Classes to the text."},
 		{option: "textState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "STATE", description: "The text to display."},
 		{option: "textLevelState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "LEVEL", description: "Optional. The default textProcessing can combine two values, a state and a level. This ist the level."},
-		{option: "textActiveState", type: "string", role: "deviceState", roleOptions: "+deviceState", description: "Optional. If given, this state will define, if the text is visible."},
-		{option: "textActiveCondition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", value: "", description: "Optional. This defines, under which conditions the text is visible."},
-		{option: "textActiveConditionValue", type: "string", roleOptions: "+deviceState", description: "Optional. The comparative value for the condition."},
+		{option: "textActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
 		{option: "textProcessingFunction", type: "textarea", description: "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction"},
 		{option: "textProcessingOptions", type: "textarea", value: "{}", description: "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}."},
 		{option: "textMultiline", type: "checkbox", description: "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false."},
+		{option: "textNoPointerEvents", type: "checkbox", description: "If true, the text does not capture mouse or touch events. Default: false."},
 		{option: "textAlwaysReservePlaceForIcon", type: "checkbox", description: "If true, the text will leave place for the icon, even if it is invisible. Default: false."}
+	],
+	loadingIcon: [
+		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
+		{option: "iconClasses", type: "string", description: "Optional. Add these CSS-Classes to the icon."},
+		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
+		{option: "iconNoPointerEvents", type: "checkbox", description: "If true, the icon does not capture mouse or touch events. Default: false."}
 	]
 }
 
@@ -2829,7 +2831,7 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": ""
     },
     {
-        "commonType": "icon",
+        "commonType": "loadingIcon",
         "commonName": "Loading",
         "stackIndex": "4",
         "outside": false,
@@ -5750,7 +5752,7 @@ async function load(settings, onChange) {
 	}
 
 	//---------- Device Edit - States - Array ----------
-	//Enhance TableDialogDeviceEditStateArrayReady
+	//Enhance tableDialogDeviceEditStateArrayReady
 	function ontableDialogDeviceEditStateArrayReady(){
 		var $div = $('#tableDialogDeviceEditStateArray');
 		var $table = $div.find('.table-values');
@@ -6292,7 +6294,7 @@ async function load(settings, onChange) {
 		$('.dialogDeviceEditTileSettingsTileClass').select();
 		dialogDeviceEditTileSettingsUpdateDemo();
 		//Elements	
-		values2table('tabledialogDeviceEditTileSettingsElements', dialogDeviceEditTileSettings.elements || [], onChange, ontableDialogDeviceEditTileSettingsElementsReady);
+		values2table('tableDialogDeviceEditTileSettingsElements', dialogDeviceEditTileSettings.elements || [], onChange, ontableDialogDeviceEditTileSettingsElementsReady);
 	}
 	//Enhance dialogDeviceEditTileSettingsTileClass
 	$('.dialogDeviceEditTileSettingsTileClass').on('change', function(){
@@ -6352,9 +6354,10 @@ async function load(settings, onChange) {
 		if(index > 0) $newStack.css('background', dialogTileEditorColors[index%dialogTileEditorColors.length]);
 		$newStack.on('click', function(){
 			var _index = $(this).data('index');
-			$('#tabledialogDeviceEditTileSettingsElements tbody tr').removeClass('marked');			
+			M.Tabs.getInstance($('#tabdialogDeviceEditTileSettings ul.tabs')).select('tabdialogDeviceEditTileSettingsElementEdit');
+			$('#tableDialogDeviceEditTileSettingsElements tbody tr').removeClass('marked');			
 			setTimeout(function(){ 
-				$(`#tabledialogDeviceEditTileSettingsElements tbody tr`).each(function(){
+				$(`#tableDialogDeviceEditTileSettingsElements tbody tr`).each(function(){
 					if($(this).find('input[data-name="stackIndex"]').val() == _index){
 						$(this).addClass('marked');
 						scrollTo(this, $(this).parents('.tabcontainer'));
@@ -6378,7 +6381,7 @@ async function load(settings, onChange) {
 	}
 	//Elements
 	function ontableDialogDeviceEditTileSettingsElementsReady(){
-		var $div = $('#tabledialogDeviceEditTileSettingsElements');
+		var $div = $('#tableDialogDeviceEditTileSettingsElements');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
 		//Stack selectbox
@@ -6388,7 +6391,7 @@ async function load(settings, onChange) {
 		tileClasses[tileClass].value.stacks.forEach(function(stack, stackIndex){
 			stackOptions.push(stackIndex + "/" + stackIndex + " - " + stack.name);
 		});
-		enhanceTextInputToCombobox('#tabledialogDeviceEditTileSettingsElements tbody input[data-name="stackIndex"]', stackOptions.join(';'), false, function(value, $target){
+		enhanceTextInputToCombobox('#tableDialogDeviceEditTileSettingsElements tbody input[data-name="stackIndex"]', stackOptions.join(';'), false, function(value, $target){
 			if(!isNaN(value)) value = parseInt(value); else value = -1;
 			if(value > 0) $target.css('background-color', dialogTileEditorColors[value%dialogTileEditorColors.length])
 		});
@@ -6415,7 +6418,7 @@ async function load(settings, onChange) {
 							var $tdValue = $(this).find('td[data-name="value"]');
 							var value;
 							switch(option.role){
-								case "deviceOption": case "deviceState": case "deviceSetting":
+								case "deviceOption": case "deviceState": case "deviceSetting": case "deviceCondition":
 									option.value = $tdValue.find('select').val();
 								break;
 
@@ -6442,6 +6445,7 @@ async function load(settings, onChange) {
 							options.push(option);
 						});
 						dialogDeviceEditTileSettings.elements[_elementIndex].options = JSON.parse(JSON.stringify(options));
+						onChange();
 					}, function(){ //init dialog function
 						$('#dialogDeviceEditTileSettingsElementOptionsName').html(_(dialogDeviceEditTileSettings.elements[_elementIndex].commonType) + ' ' + dialogDeviceEditTileSettings.elements[_elementIndex].commonName);
 						$('#dialogDeviceEditTileSettingsElementIndex').val(_elementIndex);
@@ -6474,18 +6478,20 @@ async function load(settings, onChange) {
 								}
 								option.value = newValue;
 								option.role = $(this).val();
-								$targetTd.html(get$value(option));
+								$targetTd.html(tableDialogDeviceEditTileSettingsElementOptionsCreate$ValueField (option));
 								$('#tableDialogDeviceEditTileSettingsElementOptions table tbody').find('select').select();
 								M.updateTextFields();
 							});
 							if(!option.roleOptions) option.roleOptions = "";
 							if(option.roleOptions.indexOf('-const') == -1) $role.append(`<option value="const" ${option.role == 'const' ? 'selected' : ''}>${_("Constant")}</option>`);
+							if(option.roleOptions.indexOf('+array') > -1) $role.append(`<option value="array" ${option.role == 'array' ? 'selected' : ''}>${_("Array")}</option>`);
 							if(option.roleOptions.indexOf('+deviceState') > -1) $role.append(`<option value="deviceState" ${option.role == 'deviceState' ? 'selected' : ''}>${_("Device State")}</option>`);
 							if(option.roleOptions.indexOf('-deviceOption') == -1) $role.append(`<option value="deviceOption" ${option.role == 'deviceOption' ? 'selected' : ''}>${_("Device Option")}</option>`);
 							if(option.roleOptions.indexOf('-deviceSetting') == -1) $role.append(`<option value="deviceSetting" ${option.role == 'deviceSetting' ? 'selected' : ''}>${_("Device Setting")}</option>`);
+							if(option.roleOptions.indexOf('-deviceCondition') == -1) $role.append(`<option value="deviceCondition" ${option.role == 'deviceCondition' ? 'selected' : ''}>${_("Device Condition")}</option>`);
 							$(`<td data-name="role"></td>`).append($role).appendTo($tr);
 							//Col 3: Value
-							var $value = get$value(option);
+							var $value = tableDialogDeviceEditTileSettingsElementOptionsCreate$ValueField (option);
 							$(`<td data-name="value"></td>`).append($value).appendTo($tr);
 							//Col 4: Description
 							$(`<td data-name="description"><span class='small'>${option.description || ''}</span></td>`).appendTo($tr);
@@ -6493,75 +6499,6 @@ async function load(settings, onChange) {
 						});
 						$tbody.find('select').select();
 						M.updateTextFields();
-						function get$value(option){
-							var $value;
-							switch(option.role){
-								case "deviceSetting": 
-									var $select = $('<select></select>');
-									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
-									$select.append(`<option value="commonName" ${typeof option.value != 'undefined' && option.value == 'commonName' ? 'selected' : ''}>Name</option>`);
-									$select.append(`<option value="nativeNewLine" ${typeof option.value != 'undefined' && option.value == 'nativeNewLine' ? 'selected' : ''}>New Line</option>`);
-									$select.append(`<option value="nativeHeading" ${typeof option.value != 'undefined' && option.value == 'nativeHeading' ? 'selected' : ''}>Heading</option>`);
-									$select.append(`<option value="nativeHeadingOptions" ${typeof option.value != 'undefined' && option.value == 'nativeHeadingOptions' ? 'selected' : ''}>Heading Options</option>`);
-									$select.append(`<option value="nativeLinkedView" ${typeof option.value != 'undefined' && option.value == 'nativeLinkedView' ? 'selected' : ''}>Linked View</option>`);
-									$select.append(`<option value="nativeBackgroundImage" ${typeof option.value != 'undefined' && option.value == 'nativeBackgroundImagex' ? 'selected' : ''}>Background Image</option>`);
-									$select.append(`<option value="nativeBackgroundImageActive" ${typeof option.value != 'undefined' && option.value == 'nativeBackgroundImageActive' ? 'selected' : ''}>Background Image Active</option>`);
-									$select.append(`<option value="nativeHide" ${typeof option.value != 'undefined' && option.value == 'nativeHide' ? 'selected' : ''}>Hide</option>`);
-									$value = $(`<div class="input-field"></div>`).append($select);
-								break;
-
-								case "deviceOption": 
-									var $select = $('<select></select>');
-									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
-									dialogDeviceEditOptions.forEach(function(deviceOption){
-										$select.append(`<option value="${deviceOption.option}" ${typeof option.value != 'undefined' && option.value == deviceOption.option ? 'selected' : ''}>${deviceOption.option}</option>`);
-									});
-									$value = $(`<div class="input-field"></div>`).append($select);
-								break;
-
-								case "deviceState":
-									var $select = $('<select></select>');
-									$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
-									dialogDeviceEditStatesTable.forEach(function(deviceState){
-										if(deviceState.commonType == 'array'){
-											deviceState.value && (deviceState.value.cols || []).forEach(function(col){
-												if(col.commonRoleFrom) $select.append(`<option value="${deviceState.state}.${col.col}" ${typeof option.value != 'undefined' && option.value == deviceState.state + '.' + col.col ? 'selected' : ''}>${deviceState.state}.${col.col}</option>`);
-											});
-										} else {
-											$select.append(`<option value="${deviceState.state}" ${typeof option.value != 'undefined' && option.value == deviceState.state ? 'selected' : ''}>${deviceState.state}</option>`);
-										}
-									});
-									$value = $(`<div class="input-field"></div>`).append($select);
-								break;
-
-								case "const": default:
-									switch(option.type){
-										case "checkbox":
-											$value = $(`<label><input type="checkbox" class="filled-in" ${(option.value ? 'checked="checked" ' : '')}/><span>&nbsp;</span></label>`);
-										break;
-		
-										case "select":
-											var $select = $('<select></select>').data('select-options', option.selectOptions);
-											((option.selectOptions || "").split(';') || []).forEach(function(selectOption){
-												selectOption = selectOption.split('/');
-												$select.append(`<option value="${selectOption[0]}" ${typeof option.value != 'undefined' && option.value == selectOption[0] ? 'selected' : ''}>${_(selectOption[1] || selectOption[0])}</option>`);
-											});
-											$value = $(`<div class="input-field"></div>`).append($select);
-										break;
-											
-										case "textarea":
-											var $value = $(`<textarea id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}">`).val(option.value || "");
-										break;
-		
-										case "deviceState": case "string": default:
-											var $input = $(`<input id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}" type="text" class="validate">`).val(option.value || "");
-											$value = $(`<div class="input-field"></div>`).append($input).append(`<label for="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}"></label>`);
-										break;
-									}
-								break;
-							}	
-							return $value;						
-						}
 					});
 				});
 			}
@@ -6571,16 +6508,16 @@ async function load(settings, onChange) {
 			}
 		});
 		//Make table sortable
-		$("#tabledialogDeviceEditTileSettingsElements tbody").sortable({
+		$("#tableDialogDeviceEditTileSettingsElements tbody").sortable({
 			helper: fixHelper,
 			start: function(event, ui){
 				console.log("Drag started...");
 			},
 			stop: function( event, ui ) {
 				console.log("Drag ended, start resorting...");
-				$("#tabledialogDeviceEditTileSettingsElements tbody").sortable('disable');
+				$("#tableDialogDeviceEditTileSettingsElements tbody").sortable('disable');
 				var sequence = [];
-				$('#tabledialogDeviceEditTileSettingsElements').find('.table-values').find('.table-lines').find('tr').each(function(){
+				$('#tableDialogDeviceEditTileSettingsElements').find('.table-values').find('.table-lines').find('tr').each(function(){
 					sequence.push($(this).data('index'));
 				});
 				var tableResorted = [];
@@ -6589,13 +6526,212 @@ async function load(settings, onChange) {
 				}
 				dialogDeviceEditTileSettings.elements = tableResorted;
 				onChange();
-				values2table('tabledialogDeviceEditTileSettingsElements', dialogDeviceEditTileSettings.elements, onChange, ontableDialogDeviceEditTileSettingsElementsReady);
-				$("#tabledialogDeviceEditTileSettingsElements tbody").sortable('enable');
+				values2table('tableDialogDeviceEditTileSettingsElements', dialogDeviceEditTileSettings.elements, onChange, ontableDialogDeviceEditTileSettingsElementsReady);
+				$("#tableDialogDeviceEditTileSettingsElements tbody").sortable('enable');
 				console.log("resorted.");
 			},
 			axis: "y",
 			handle: "a[data-command='drag_handle']"
 		});		
+	}
+
+	var dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable;
+	function tableDialogDeviceEditTileSettingsElementOptionsCreate$ValueField (option){
+		var $value;
+		switch(option.role){
+			case "array":
+				switch(option.type){
+					case "activeConditionArray":
+						var $input = $(`<input disabled id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}" type="text" class="validate" style="width: calc(100% - 40px)">`).val(option.value || "");
+						var $editButton = $(`<a data-index="${option.optionIndex}" data-command="edit" class="values-buttons btn-floating btn-small waves-effect waves-light"><i class="material-icons">edit</i></a>`).on('click', function(){
+							var _optionIndex = $(this).data('index');
+							dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable = tryParseJSON($(`#tableDialogDeviceEditTileSettingsElementOptions_${_optionIndex}`).val() || '') || [];
+							initDialog('dialogDeviceEditTileSettingsElementOptionsActiveContidionArray', function(){ //save dialog
+								var _optionIndex = $('#dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayIndex').val();
+								$(`#tableDialogDeviceEditTileSettingsElementOptions_${_optionIndex}`).val(JSON.stringify(dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable));
+							}, function(){ //init dialog function
+								$('#dialogDeviceEditTileSettingsElementOptionsActiveConditionArrayName').html(option.option);
+								$('#dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayIndex').val(_optionIndex);
+								values2table('tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray', dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable, onChange, ontableDialogDeviceEditTileSettingsElementOptionsActiveConditionArrayReady);
+							});
+						});
+						$value = $(`<div class="input-field"></div>`).append($input).append($editButton).append(`<label for="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}"></label>`);
+					break;
+				}
+			break;
+
+			case "deviceCondition": 
+				var $select = $('<select></select>');
+				$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
+				$select.append(`<option value="active" ${typeof option.value != 'undefined' && option.value == 'active' ? 'selected' : ''}>Active</option>`);
+				$select.append(`<option value="inactive" ${typeof option.value != 'undefined' && option.value == 'inactive' ? 'selected' : ''}>Inactive</option>`);
+				$select.append(`<option value="enlarged" ${typeof option.value != 'undefined' && option.value == 'enlarged' ? 'selected' : ''}>Enlarged</option>`);
+				$select.append(`<option value="not-enlarged" ${typeof option.value != 'undefined' && option.value == 'not-enlarged' ? 'selected' : ''}>Not Enlarged</option>`);
+				$select.append(`<option value="loading" ${typeof option.value != 'undefined' && option.value == 'loading' ? 'selected' : ''}>Loading</option>`);
+				$select.append(`<option value="not-loading" ${typeof option.value != 'undefined' && option.value == 'not-loading' ? 'selected' : ''}>Not Loading</option>`);
+				$value = $(`<div class="input-field"></div>`).append($select);
+			break;
+
+			case "deviceSetting": 
+				var $select = $('<select></select>');
+				$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
+				$select.append(`<option value="commonName" ${typeof option.value != 'undefined' && option.value == 'commonName' ? 'selected' : ''}>Name</option>`);
+				$select.append(`<option value="nativeNewLine" ${typeof option.value != 'undefined' && option.value == 'nativeNewLine' ? 'selected' : ''}>New Line</option>`);
+				$select.append(`<option value="nativeHeading" ${typeof option.value != 'undefined' && option.value == 'nativeHeading' ? 'selected' : ''}>Heading</option>`);
+				$select.append(`<option value="nativeHeadingOptions" ${typeof option.value != 'undefined' && option.value == 'nativeHeadingOptions' ? 'selected' : ''}>Heading Options</option>`);
+				$select.append(`<option value="nativeLinkedView" ${typeof option.value != 'undefined' && option.value == 'nativeLinkedView' ? 'selected' : ''}>Linked View</option>`);
+				$select.append(`<option value="nativeBackgroundImage" ${typeof option.value != 'undefined' && option.value == 'nativeBackgroundImage' ? 'selected' : ''}>Background Image</option>`);
+				$select.append(`<option value="nativeBackgroundImageActive" ${typeof option.value != 'undefined' && option.value == 'nativeBackgroundImageActive' ? 'selected' : ''}>Background Image Active</option>`);
+				$select.append(`<option value="nativeHide" ${typeof option.value != 'undefined' && option.value == 'nativeHide' ? 'selected' : ''}>Hide</option>`);
+				$value = $(`<div class="input-field"></div>`).append($select);
+			break;
+
+			case "deviceOption": 
+				var $select = $('<select></select>');
+				$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
+				dialogDeviceEditOptions.forEach(function(deviceOption){
+					$select.append(`<option value="${deviceOption.option}" ${typeof option.value != 'undefined' && option.value == deviceOption.option ? 'selected' : ''}>${deviceOption.option}</option>`);
+				});
+				$value = $(`<div class="input-field"></div>`).append($select);
+			break;
+
+			case "deviceState":
+				var $select = $('<select></select>');
+				$select.append(`<option value="" ${typeof option.value != 'undefined' && option.value == '' ? 'selected' : ''}></option>`);
+				dialogDeviceEditStatesTable.forEach(function(deviceState){
+					if(deviceState.commonType == 'array'){
+						deviceState.value && (deviceState.value.cols || []).forEach(function(col){
+							if(col.commonRoleFrom) $select.append(`<option value="${deviceState.state}.${col.col}" ${typeof option.value != 'undefined' && option.value == deviceState.state + '.' + col.col ? 'selected' : ''}>${deviceState.state}.${col.col}</option>`);
+						});
+					} else {
+						$select.append(`<option value="${deviceState.state}" ${typeof option.value != 'undefined' && option.value == deviceState.state ? 'selected' : ''}>${deviceState.state}</option>`);
+					}
+				});
+				$value = $(`<div class="input-field"></div>`).append($select);
+			break;
+
+			case "const": default:
+				switch(option.type){
+					case "checkbox":
+						$value = $(`<label><input type="checkbox" class="filled-in" ${(option.value ? 'checked="checked" ' : '')}/><span>&nbsp;</span></label>`);
+					break;
+
+					case "select":
+						var $select = $('<select></select>').data('select-options', option.selectOptions);
+						((option.selectOptions || "").split(';') || []).forEach(function(selectOption){
+							selectOption = selectOption.split('/');
+							$select.append(`<option value="${selectOption[0]}" ${typeof option.value != 'undefined' && option.value == selectOption[0] ? 'selected' : ''}>${_(selectOption[1] || selectOption[0])}</option>`);
+						});
+						$value = $(`<div class="input-field"></div>`).append($select);
+					break;
+						
+					case "textarea":
+						var $value = $(`<textarea id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}">`).val(option.value || "");
+					break;
+
+					case "deviceState": case "string": default:
+						var $input = $(`<input id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}" type="text" class="validate">`).val(option.value || "");
+						$value = $(`<div class="input-field"></div>`).append($input).append(`<label for="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}"></label>`);
+					break;
+				}
+			break;
+		}	
+		return $value;						
+	}
+
+	function ontableDialogDeviceEditTileSettingsElementOptionsActiveConditionArrayReady(){
+		var $div = $('#tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Hide first modificator and set it to "and"
+		$lines.find('tr[data-index="0"] select[data-name="modifier"]').prop('disabled', 'disabled').val('||').select().trigger('change');
+		//Modify values fields depending on role
+		$lines.find('select[data-name="activeStateRole"], select[data-name="activeConditionValueRole"]').each(function(){
+			$(this).on('change', function(){
+				var index = $(this).data('index');
+				var val = $(this).val();
+				var targetName = $(this).data('name') == "activeStateRole" ? 'activeStateValue' : 'activeConditionValueValue';
+				var target = `#tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray tbody input[data-index="${index}"][data-name="${targetName}"]`;
+				var $target = $(target);
+				switch(val){
+					case "deviceCondition": 
+						var comboboxOptions = ";active/Active;inactive/Inactive;enlarged/Enlarged;not-enlarged/Not Enlarged;loading/Loading;not-loading/Not Loading";
+						enhanceTextInputToCombobox(target, comboboxOptions, false);
+						$target.next("a.comboboxDropdownTrigger").prop('style','');
+					break;
+
+					case "deviceSetting": 
+						var comboboxOptions = ";commonName/Name;nativeNewLine/New Line;nativeHeading/Heading;nativeHeadingOptions/Heading Options;nativeLinkedView/Linked View;nativeBackgroundImage/Background Image;nativeBackgroundImageActive/Background Image Active;nativeHide/Hide";
+						enhanceTextInputToCombobox(target, comboboxOptions, false);
+						$target.next("a.comboboxDropdownTrigger").prop('style','');
+					break;
+
+					case "deviceOption": 
+						var comboboxOptions = "";
+						dialogDeviceEditOptions.forEach(function(deviceOption){
+							comboboxOptions += ";" + deviceOption.option;
+						});
+						enhanceTextInputToCombobox(target, comboboxOptions, false);
+						$target.next("a.comboboxDropdownTrigger").prop('style','');
+					break;
+
+					case "deviceState":
+						var comboboxOptions = "";
+						dialogDeviceEditStatesTable.forEach(function(deviceState){
+							if(deviceState.commonType == 'array'){
+								deviceState.value && (deviceState.value.cols || []).forEach(function(col){
+									if(col.commonRoleFrom) comboboxOptions += ";" + deviceState.state + "." + col.col;
+								});
+							} else {
+								comboboxOptions += ";" + deviceState.state;
+							}
+						});
+						enhanceTextInputToCombobox(target, comboboxOptions, false);
+						$target.next("a.comboboxDropdownTrigger").prop('style','');
+						break;
+
+					case "const": default:
+						//Hide selectbox handle
+						$target.next("a.comboboxDropdownTrigger").prop('style','display: none !important;');
+					break;
+				}
+			});
+		});
+		//Button functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Make table sortable
+		$("#tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function( event, ui ) {
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable[sequence[i]]);
+				}
+				dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable = tableResorted;
+				onChange();
+				values2table('tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray', dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable, onChange, ontableDialogDeviceEditTileSettingsElementOptionsActiveConditionArrayReady);
+				$("#tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+
 	}
 
 	//---------- Autocreate ----------
@@ -8652,7 +8788,7 @@ async function load(settings, onChange) {
 						$('#dialogListEditName').html(lists[listIndex].name || "");
 						$('#dialogListEditListIndex').val(listIndex);
 						dialogListEditSelectors = JSON.parse(JSON.stringify(lists[listIndex].selectors || []));
-						values2table('tableDialogListEditSelectors', dialogListEditSelectors, onChange, onTableDialogListsEditSelectorsReady);
+						values2table('tableDialogListEditSelectors', dialogListEditSelectors, onChange, ontableDialogListsEditSelectorsReady);
 						$('#dialogListEditListFilterAliases').prop('checked', (lists[listIndex].filterAliases == true));
 						$('#dialogListEditSorting').val(lists[listIndex].sorting || "parentNames asc").select();
 						$('#dialogListEditListSeparator').val(lists[listIndex].separator || ", ");
@@ -8661,14 +8797,14 @@ async function load(settings, onChange) {
 						$('#dialogListEditCreateParentNamesListMode').val(lists[listIndex].createParentNamesListMode || "parentName").select();
 						$('#dialogListEditCreateValuesList').prop('checked', (lists[listIndex].createValuesList == true));
 						dialogListEditCounters = JSON.parse(JSON.stringify(lists[listIndex].counters || []));
-						values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, onTableDialogListsEditCountersReady);
+						values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, ontableDialogListsEditCountersReady);
 						$('#dialogListEditListTriggerIntervall').val(lists[listIndex].triggerInterval || "");
 						dialogListEditCalculations = JSON.parse(JSON.stringify(lists[listIndex].calculations || []));
-						values2table('tableDialogListEditCalculations', dialogListEditCalculations, onChange, onTableDialogListsEditCalculationsReady);
+						values2table('tableDialogListEditCalculations', dialogListEditCalculations, onChange, ontableDialogListsEditCalculationsReady);
 						dialogListEditCombinations = JSON.parse(JSON.stringify(lists[listIndex].combinations || []));
-						values2table('tableDialogListEditCombinations', dialogListEditCombinations, onChange, onTableDialogListsEditCombinationsReady);
+						values2table('tableDialogListEditCombinations', dialogListEditCombinations, onChange, ontableDialogListsEditCombinationsReady);
 						dialogListEditLogs = JSON.parse(JSON.stringify(lists[listIndex].logs || []));
-						values2table('tableDialogListEditLogs', dialogListEditLogs, onChange, onTableDialogListsEditLogsReady);
+						values2table('tableDialogListEditLogs', dialogListEditLogs, onChange, ontableDialogListsEditLogsReady);
 					});
 				});
 			}
@@ -8780,7 +8916,7 @@ async function load(settings, onChange) {
 	}
 	
 	//Enhance tableDialogListsEditSelectors with functions
-	function onTableDialogListsEditSelectorsReady(){
+	function ontableDialogListsEditSelectorsReady(){
 		var $div = $('#tableDialogListEditSelectors');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
@@ -8888,7 +9024,7 @@ async function load(settings, onChange) {
 				}
 				dialogListEditSelectors = tableResorted;
 				onChange();
-				values2table('tableDialogListEditSelectors', dialogListEditSelectors, onChange, onTableDialogListsEditSelectorsReady);
+				values2table('tableDialogListEditSelectors', dialogListEditSelectors, onChange, ontableDialogListsEditSelectorsReady);
 				$("#tableDialogListEditSelectors tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -8899,7 +9035,7 @@ async function load(settings, onChange) {
 
 	//Enhance tableDialogListsEditCounters with functions
 	var dialogListEditCounterConditions;
-	function onTableDialogListsEditCountersReady(){
+	function ontableDialogListsEditCountersReady(){
 		var $div = $('#tableDialogListEditCounters');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
@@ -8913,12 +9049,12 @@ async function load(settings, onChange) {
 					initDialog('dialogListEditCounter', function(){ //save dialog
 						var counterIndex = $('#dialogListEditCounterIndex').val();
 						dialogListEditCounters[counterIndex].conditions = dialogListEditCounterConditions;
-						onTableDialogListsEditCountersReady();
+						ontableDialogListsEditCountersReady();
 					}, function(){ //init dialog function 
 						$('#dialogListEditCounterName').html(dialogListEditCounters[counterIndex].name || "");
 						$('#dialogListEditCounterIndex').val(counterIndex);
 						dialogListEditCounterConditions = JSON.parse(JSON.stringify(dialogListEditCounters[counterIndex].conditions || []));
-						values2table('tableDialogListEditCounterConditions', dialogListEditCounterConditions, onChange, onTableDialogListsEditCounterConditionsReady);
+						values2table('tableDialogListEditCounterConditions', dialogListEditCounterConditions, onChange, ontableDialogListsEditCounterConditionsReady);
 					});
 				});
 			}
@@ -8958,7 +9094,7 @@ async function load(settings, onChange) {
 				}
 				dialogListEditCounters = tableResorted;
 				onChange();
-				values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, onTableDialogListsEditCountersReady);
+				values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, ontableDialogListsEditCountersReady);
 				$("#tableDialogListEditCounters tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -8968,7 +9104,7 @@ async function load(settings, onChange) {
 	}
 
 	//Enhance tableDialogListsEditCounterConditions with functions	
-	function onTableDialogListsEditCounterConditionsReady(){
+	function ontableDialogListsEditCounterConditionsReady(){
 		var $div = $('#tableDialogListEditCounterConditions');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
@@ -9012,7 +9148,7 @@ async function load(settings, onChange) {
 				}
 				dialogListEditCounterConditions = tableResorted;
 				onChange();
-				values2table('tableDialogListEditCounterConditions', dialogListEditCounterConditions, onChange, onTableDialogListsEditCounterConditionsReady);
+				values2table('tableDialogListEditCounterConditions', dialogListEditCounterConditions, onChange, ontableDialogListsEditCounterConditionsReady);
 				$("#tableDialogListEditCounterConditions tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -9023,7 +9159,7 @@ async function load(settings, onChange) {
 
 	//Enhance tableDialogListsEditCalculations with functions	
 	var dialogListEditCalculationSteps;
-	function onTableDialogListsEditCalculationsReady(){
+	function ontableDialogListsEditCalculationsReady(){
 		var $div = $('#tableDialogListEditCalculations');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
@@ -9037,12 +9173,12 @@ async function load(settings, onChange) {
 					initDialog('dialogListEditCalculation', function(){ //save dialog
 						var calculationIndex = $('#dialogListEditCalculationIndex').val();
 						dialogListEditCalculations[calculationIndex].calculationSteps = dialogListEditCalculationSteps;
-						onTableDialogListsEditCalculationsReady();
+						ontableDialogListsEditCalculationsReady();
 					}, function(){ //init dialog function 
 						$('#dialogListEditCalculationName').html(dialogListEditCalculations[calculationIndex].name || "");
 						$('#dialogListEditCalculationIndex').val(calculationIndex);
 						dialogListEditCalculationSteps = JSON.parse(JSON.stringify(dialogListEditCalculations[calculationIndex].calculationSteps || []));
-						values2table('tableDialogListEditCalculationSteps', dialogListEditCalculationSteps, onChange, onTableDialogListsEditCalculationStepsReady);
+						values2table('tableDialogListEditCalculationSteps', dialogListEditCalculationSteps, onChange, ontableDialogListsEditCalculationStepsReady);
 					});
 				});
 			}
@@ -9082,7 +9218,7 @@ async function load(settings, onChange) {
 				}
 				dialogListEditCalculations = tableResorted;
 				onChange();
-				values2table('tableDialogListEditCalculations', dialogListEditCalculations, onChange, onTableDialogListsEditCalculationsReady);
+				values2table('tableDialogListEditCalculations', dialogListEditCalculations, onChange, ontableDialogListsEditCalculationsReady);
 				$("#tableDialogListEditCalculations tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -9092,7 +9228,7 @@ async function load(settings, onChange) {
 	}
 
 	//Enhance tableDialogListsEditCalculationSteps with functions	
-	function onTableDialogListsEditCalculationStepsReady(){
+	function ontableDialogListsEditCalculationStepsReady(){
 		var $div = $('#tableDialogListEditCalculationSteps');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
@@ -9146,7 +9282,7 @@ async function load(settings, onChange) {
 				}
 				dialogListEditCalculationSteps = tableResorted;
 				onChange();
-				values2table('tableDialogListEditCalculationSteps', dialogListEditCalculationSteps, onChange, onTableDialogListsEditCalculationStepsReady);
+				values2table('tableDialogListEditCalculationSteps', dialogListEditCalculationSteps, onChange, ontableDialogListsEditCalculationStepsReady);
 				$("#tableDialogListEditCalculationSteps tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -9157,7 +9293,7 @@ async function load(settings, onChange) {
 
 	//Enhance tableDialogListsEditCombinations with functions	
 	var dialogListEditCombinationSteps;
-	function onTableDialogListsEditCombinationsReady(){
+	function ontableDialogListsEditCombinationsReady(){
 		var $div = $('#tableDialogListEditCombinations');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
@@ -9171,12 +9307,12 @@ async function load(settings, onChange) {
 					initDialog('dialogListEditCombination', function(){ //save dialog
 						var combinationIndex = $('#dialogListEditCombinationIndex').val();
 						dialogListEditCombinations[combinationIndex].combinationSteps = dialogListEditCombinationSteps;
-						onTableDialogListsEditCombinationsReady();
+						ontableDialogListsEditCombinationsReady();
 					}, function(){ //init dialog function 
 						$('#dialogListEditCombinationName').html(dialogListEditCombinations[combinationIndex].name || "");
 						$('#dialogListEditCombinationIndex').val(combinationIndex);
 						dialogListEditCombinationSteps = JSON.parse(JSON.stringify(dialogListEditCombinations[combinationIndex].combinationSteps || []));
-						values2table('tableDialogListEditCombinationSteps', dialogListEditCombinationSteps, onChange, onTableDialogListsEditCombinationStepsReady);
+						values2table('tableDialogListEditCombinationSteps', dialogListEditCombinationSteps, onChange, ontableDialogListsEditCombinationStepsReady);
 					});
 				});
 			}
@@ -9216,7 +9352,7 @@ async function load(settings, onChange) {
 				}
 				dialogListEditCombinations = tableResorted;
 				onChange();
-				values2table('tableDialogListEditCombinations', dialogListEditCombinations, onChange, onTableDialogListsEditCombinationsReady);
+				values2table('tableDialogListEditCombinations', dialogListEditCombinations, onChange, ontableDialogListsEditCombinationsReady);
 				$("#tableDialogListEditCombinations tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -9226,7 +9362,7 @@ async function load(settings, onChange) {
 	}
 
 	//Enhance tableDialogListsEditCombinationSteps with functions	
-	function onTableDialogListsEditCombinationStepsReady(){
+	function ontableDialogListsEditCombinationStepsReady(){
 		var $div = $('#tableDialogListEditCombinationSteps');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
@@ -9280,7 +9416,7 @@ async function load(settings, onChange) {
 				}
 				dialogListEditCombinationSteps = tableResorted;
 				onChange();
-				values2table('tableDialogListEditCombinationSteps', dialogListEditCombinationSteps, onChange, onTableDialogListsEditCombinationStepsReady);
+				values2table('tableDialogListEditCombinationSteps', dialogListEditCombinationSteps, onChange, ontableDialogListsEditCombinationStepsReady);
 				$("#tableDialogListEditCombinationSteps tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -9292,7 +9428,7 @@ async function load(settings, onChange) {
 	//Enhance tableDialogListEditLogs with functions	
 	var dialogListEditLogOnChangeIds;
 	var dialogListEditLogSteps;
-	function onTableDialogListsEditLogsReady(){
+	function ontableDialogListsEditLogsReady(){
 		var $div = $('#tableDialogListEditLogs');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
@@ -9310,15 +9446,15 @@ async function load(settings, onChange) {
 						dialogListEditLogs[logIndex].logSteps = dialogListEditLogSteps;
 						dialogListEditLogs[logIndex].onChangeAddAllLogStepIds = $('#dialogListEditOnChangeAddAllLogStepIds').prop('checked');
 						dialogListEditLogs[logIndex].addTo = $('#dialogListEditLogAddTo').val();
-						onTableDialogListsEditLogsReady();
+						ontableDialogListsEditLogsReady();
 					}, function(){ //init dialog function 
 					$('#dialogListEditLogName').html(dialogListEditLogs[logIndex].name || "");
 					$('#dialogListEditLogIndex').val(logIndex);
 					dialogListEditLogOnChangeIds = JSON.parse(JSON.stringify(dialogListEditLogs[logIndex].onChangeIds || []));
-					values2table('tableDialogListEditLogOnChangeIDs', dialogListEditLogOnChangeIds, onChange, onTableDialogListsEditLogOnChangeIDsReady);
+					values2table('tableDialogListEditLogOnChangeIDs', dialogListEditLogOnChangeIds, onChange, ontableDialogListsEditLogOnChangeIDsReady);
 					$('#dialogListEditLogOnChangeDebounce').val(dialogListEditLogs[logIndex].onChangeDebounce);
 					dialogListEditLogSteps = JSON.parse(JSON.stringify(dialogListEditLogs[logIndex].logSteps || []));
-					values2table('tableDialogListEditLogSteps', dialogListEditLogSteps, onChange, onTableDialogListsEditLogStepsReady);
+					values2table('tableDialogListEditLogSteps', dialogListEditLogSteps, onChange, ontableDialogListsEditLogStepsReady);
 					$('#dialogListEditOnChangeAddAllLogStepIds').prop('checked', (dialogListEditLogs[logIndex].onChangeAddAllLogStepIds == true));
 					$('#dialogListEditLogAddTo').val(dialogListEditLogs[logIndex].addTo || "top").select();
 					});
@@ -9360,7 +9496,7 @@ async function load(settings, onChange) {
 				}
 				dialogListEditLogs = tableResorted;
 				onChange();
-				values2table('tableDialogListEditLogs', dialogListEditLogs, onChange, onTableDialogListsEditLogsReady);
+				values2table('tableDialogListEditLogs', dialogListEditLogs, onChange, ontableDialogListsEditLogsReady);
 				$("#tableDialogListEditLogs tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -9370,7 +9506,7 @@ async function load(settings, onChange) {
 	}
 
 	//Enhance tableDialogListsEditLogOnChangeIDs with functions	
-	function onTableDialogListsEditLogOnChangeIDsReady(){
+	function ontableDialogListsEditLogOnChangeIDsReady(){
 		var $div = $('#tableDialogListEditLogOnChangeIDs');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
@@ -9424,7 +9560,7 @@ async function load(settings, onChange) {
 				}
 				dialogListEditLogOnChangeIds = tableResorted;
 				onChange();
-				values2table('tableDialogListEditLogOnChangeIDs', dialogListEditLogOnChangeIds, onChange, onTableDialogListsEditLogOnChangeIDsReady);
+				values2table('tableDialogListEditLogOnChangeIDs', dialogListEditLogOnChangeIds, onChange, ontableDialogListsEditLogOnChangeIDsReady);
 				$("#tableDialogListEditLogOnChangeIDs tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -9434,7 +9570,7 @@ async function load(settings, onChange) {
 	}
 
 	//Enhance tableDialogListsEditLogSteps with functions	
-	function onTableDialogListsEditLogStepsReady(){
+	function ontableDialogListsEditLogStepsReady(){
 		var $div = $('#tableDialogListEditLogSteps');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
@@ -9518,7 +9654,7 @@ async function load(settings, onChange) {
 				}
 				dialogListEditLogSteps = tableResorted;
 				onChange();
-				values2table('tableDialogListEditLogSteps', dialogListEditLogSteps, onChange, onTableDialogListsEditLogStepsReady);
+				values2table('tableDialogListEditLogSteps', dialogListEditLogSteps, onChange, ontableDialogListsEditLogStepsReady);
 				$("#tableDialogListEditLogSteps tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -11407,6 +11543,12 @@ async function save(callback) {
 						let cssSelector = cssPrefixes.map(function(cssPrefix){ return `${cssPrefix}${cssPostfix}`; }).join(', ');
 						cssString += cssSelector + ' { /* ' + tileClass.commonName + ' - ' + stack.name + ' */ ';
 						cssString += 'color: ' + stack[key] + '; ';
+						cssString += '} ';
+					} else if (key == 'styleIcon-height'){
+						let cssPostfix = ' .stackClass_' + stackIndex + ' .uiElement.icon';
+						let cssSelector = cssPrefixes.map(function(cssPrefix){ return `${cssPrefix}${cssPostfix}`; }).join(', ');
+						cssString += cssSelector + ' { /* ' + tileClass.commonName + ' - ' + stack.name + ' */ ';
+						cssString += 'height: ' + stack[key] + '; ';
 						cssString += '} ';
 					}
 				}
