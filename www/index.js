@@ -5165,11 +5165,11 @@ function renderView(viewId, triggeredByReconnection){
 						//--uiElements
 						if(device.tileSettings && device.tileSettings.elements){
 							device.tileSettings.elements.filter(function(element){ return element.outside; }).forEach(function(element, elementIndex){ //Outside
-								//uiElements.addHtml(''); //Ouside-Container xxxxxxxxxxxxxxxxxxxx
+								//uiElements.addHtml(''); //Ouside-Container xxxxxxxxxxxxxxxxxxxx #####
 								//processElement(element, elementIndex);
 							});
 							device.tileSettings.elements.filter(function(element){ return !element.outside; }).forEach(function(element, elementIndex){ //Inside
-								//uiElements.addHtml(''); //Inside-Container
+								//uiElements.addHtml(''); //Inside-Container xxxxxxxxxxxxxxxxxx #####
 								processElement(element, elementIndex);
 							});		
 						}
@@ -5941,43 +5941,38 @@ function applyViewAdaptHeightOrMarqueeObserver(){
 			}
 		});
 	}
-	$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText, .iQontrolDeviceBadge').each(function(){ //######
+	$('.uiElement.text').each(function(){
 		viewAdaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
 		adaptHeightOrStartMarqueeOnOverflow($(this));
 	});
-	if(!options.LayoutViewMarqueeDisabled && options.LayoutViewMarqueeNamesEnabled){
-		$('.iQontrolDeviceName').each(function(){ //######
-			viewAdaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
-			adaptHeightOrStartMarqueeOnOverflow($(this));
-		});
-	}
 }
 
-function adaptHeightOrStartMarqueeOnOverflow($element){
+function adaptHeightOrStartMarqueeOnOverflow($element, noDelay){
 	if(!$element) return;
-	var element = $element.get(0);
+	var element = $element.get(0) || $element;
 	if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
 	if($element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfInactive') || $element.hasClass('adaptsHeightIfActive')){ //adapt height
 		console.log("adaptHeight: " + element.className + JSON.stringify(element.dataset));
 		//Shuffle two times
 		viewShuffleReshuffle([100, 1250]);
-	} else if(!options.LayoutViewMarqueeDisabled && (element.scrollHeight > $element.innerHeight() || element.scrollWidth > $element.innerWidth())) { //element has overflowing content
+	} else if(!options.LayoutViewMarqueeDisabled && (options.LayoutViewMarqueeNamesEnabled || $element.parent('.uiElementStack').data('ui-element-stack-name') != "Name") && (element.scrollHeight > $element.innerHeight() || element.scrollWidth > $element.innerWidth())) { //element has overflowing content
 		var direction = 'left';
 		var speed = (Number(options.LayoutViewMarqueeSpeed) || 40);
 		if($element.innerHeight() > 2 * (parseInt($element.css('line-height'), 10) || 25)){
 			direction = 'up';
 			speed /= 2;
 		}
-		$element.marquee('destroy');
-		$element.marquee({
+		let marqueeOptions = {
 			speed: speed,
 			gap: 40,
-			delayBeforeStart: 2000,
+			delayBeforeStart: noDelay ? 0 : 2000,
 			direction: direction,
 			duplicated: true,
 			pauseOnHover: true,
 			startVisible: true
-		});
+		};
+		$element.marquee('destroy');
+		$element.data('marquee-options', marqueeOptions).marquee(marqueeOptions);
 	}
 }
 
@@ -12148,7 +12143,7 @@ function extendDevice(device, deviceId){ // #####
 			}
 		}
 		//--Special: for tileEnlarge create a VIRTUAL DP
-		if(state == "enlargeTile"){
+		if(state == "tileEnlarged"){
 			var deviceStateIndex = device.states.findIndex(function(element){ return (element.state == state);})
 			if(deviceStateIndex == -1){
 				device.states.push({state: 'tileEnlarged', commonRole: 'linkedState', value: 'VIRTUAL:boolean,switch,' + ((getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true") ? "true" : "false")});
@@ -12893,13 +12888,15 @@ function UIElements(initialUiElements) {
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
 		if(!this.uiElementStacks.stacks) this.uiElementStacks.stacks = {};
 		if(uiElementOptions.stackId){
-			var deviceStackId = device.deviceIdEscaped + "#" + getUiOptionValue(uiElementOptions.stackId);
+			var stackName = getUiOptionValue(uiElementOptions.stackId);
+			var deviceStackId = device.deviceIdEscaped + "#" + stackName;
 			if(!this.uiElementStacks.stacks[deviceStackId]) this.uiElementStacks.stacks[deviceStackId] = {count: 0, index: 0};
 			this.uiElementStacks.stacks[deviceStackId].count = this.uiElementStacks.stacks[deviceStackId].count || 0;
 			if(this.uiElementStacks.open) this.closeElementStackContainer();
 			let index = getUiOptionValue(uiElementOptions.stackCycles) ? this.uiElementStacks.stacks[deviceStackId].count : -1;
 			this.addHtml(`<div
 				class="uiElementStack container ${getUiOptionValue(uiElementOptions.stackClasses) || ""}"
+				data-ui-element-stack-name="${stackName}"
 				data-ui-element-stack-id="${deviceStackId}"
 				data-ui-element-stack-index="${index}"
 				style="${(this.uiElementStacks.stacks[deviceStackId].count > 0 ? 'opacity: 0;' : 'opacity: 1;')}"
@@ -13163,8 +13160,20 @@ function UIElements(initialUiElements) {
 					let fontSize = $textElement.height() / 1.2 + 'px';
 					if(!getUiOption(device, uiElementOptions.textMultiline)) $textElement.css('font-size', fontSize);
 				}, 50);
-				$textElement.html(textResult);
-				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');
+				if(textResult != $textElement.data('old-text') || textResult != $textElement.data('marquee-finished-new-text')){
+					if($textElement.data('marquee-options')){ //marquee active
+						$textElement.data('marquee-finished-new-text', textResult).bind('finished', function(){
+							let newText = $textElement.data('marquee-finished-new-text');
+							$textElement.marquee('destroy');
+							$textElement.html(newText).data('old-text', newText);
+							adaptHeightOrStartMarqueeOnOverflow($textElement, true);
+						});
+					} else {
+						$textElement.html(textResult).data('old-text', textResult);
+						adaptHeightOrStartMarqueeOnOverflow($textElement);	
+					}
+				}
+				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');	
 			}
 			this.addUpdateFunction([textStateId, textLevelStateId, textActiveStateIds, iconStateId, iconActiveStateIds], updateFunction);
 		}

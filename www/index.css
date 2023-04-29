@@ -1814,14 +1814,16 @@ html.adjustHeightToBackgroundView {
 	text-align: left;
 	font-weight: normal;
 	font-size: 9pt;
+	line-height: 1.2;
 }
 .uiElement{
 	position: absolute; left:0; top:0; width: 100%; height: 100%;
+	overflow: hidden;
 	opacity: 0;
 	pointer-events: none;
-	-webkit-transition: all 0.5s, opacity 0.5s;
-	   -moz-transition: all 0.5s, opacity 0.5s;
-			transition: all 0,5s, opacity 0.5s;
+	-webkit-transition: all 0s, transform 1s, opacity 1s;
+	   -moz-transition: all 0s, transform 1s, opacity 1s;
+			transition: all 0s, transform 1s, opacity 1s;
 }
 .uiElement.uiElement.active{
 	opacity: 0.99;
@@ -1830,7 +1832,6 @@ html.adjustHeightToBackgroundView {
 .uiElement.noPointerEvents{
 	pointer-events: none !important;
 }
-
 .uiElement.zoomOnHover{
 	transform: scale3d(1.0001,1.0001,1);
 }
@@ -1874,4 +1875,3 @@ html.bigMode #View .ui-panel-wrapper {
 	   -moz-transform: scale3d(1.5,1.5,1);
 			transform: scale3d(1.5,1.5,1);
 }
-
