@@ -1818,16 +1818,24 @@ html.adjustHeightToBackgroundView {
 .uiElement{
 	position: absolute; left:0; top:0; width: 100%; height: 100%;
 	opacity: 0;
-	pointer-events: all;
+	pointer-events: none;
 	-webkit-transition: all 0.5s, opacity 0.5s;
 	   -moz-transition: all 0.5s, opacity 0.5s;
 			transition: all 0,5s, opacity 0.5s;
 }
-.uiElement.noPointerEvents{
-	pointer-events: none;
-}
 .uiElement.uiElement.active{
 	opacity: 0.99;
+	pointer-events: all;
+}
+.uiElement.noPointerEvents{
+	pointer-events: none !important;
+}
+
+.uiElement.zoomOnHover{
+	transform: scale3d(1.0001,1.0001,1);
+}
+.uiElement.zoomOnHover:hover{
+	transform: scale3d(1.2,1.2,1);
 }
 .uiElement.icon {
 	height: 100%;
@@ -1835,13 +1843,24 @@ html.adjustHeightToBackgroundView {
 	width: auto;
 	max-width: 100%;
 }
-.uiElement.zoomOnHover {
-	transform: scale3d(1.0001,1.0001,1);
+.uiElement.icon.iconLinkToggle{
+	cursor: pointer;
 }
-.uiElement.zoomOnHover:hover {
-	transform: scale3d(1.2,1.2,1);
+.uiElement.icon.iconLinkOpenDialog{
+	cursor: default;
 }
-
+.uiElement.icon.iconLinkEnlarge{
+	cursor: zoom-in;
+}
+.iQontrolDevice.enlarged .uiElement.icon.iconLinkEnlarge{ /* ##### iQontrolDevice noch akutell? */
+	cursor: zoom-out;
+}
+.uiElement.icon.iconLinkOpenURLExternal{
+	cursor: copy;
+}
+.uiElement.icon.iconLinkOpenLinkToOtherView{
+	cursor: alias;
+}
 #View .ui-panel-wrapper {
 	-webkit-transform-origin: left top;
 	   -moz-transform-origin: left top;
