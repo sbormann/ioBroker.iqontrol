@@ -1273,7 +1273,7 @@ var viewTimestampElapsedTimer = false; 			//Containes the timer that updates tim
 var viewTimestampElapsedTimerStates = []; 		//Containes the stateIds that need to be updated periodically because they display a timestamp with elapsed time
 var viewShuffleInstances = [];					//Instances of shuffle-Objects
 var viewShuffleReshuffleTimeouts = {};			//Contains timouts to reshuffle
-var viewShuffleResizeObserver;					//Contains MutationObserver for class changes in Devices to trigger shuffle-update
+var viewTileResizeObserver;						//Contains MutationObserver for class changes in Devices to trigger shuffle-update
 var viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled = []; //Timeouts for disabling Marquee-Observer while resizing
 var viewScrollToDeviceTimeout1 = false;			//Contains timeout for scrollToDevice
 var viewScrollToDeviceTimeout2 = false;			//Contains timeout for scrollToDevice
@@ -4647,7 +4647,7 @@ function applyToolbarAdaptHeightOrMarqueeObserver(){
 	} else {
 		toolbarAdaptHeightOrMarqueeObserver = new MutationObserver(function(mutationList){
 			if(typeof mutationList[0] == udef || typeof mutationList[0].addedNodes[0] == udef || typeof mutationList[0].addedNodes[0].className == udef || mutationList[0].addedNodes[0].className != "js-marquee"){ //check if the mutation is fired by marquee itself
-				if(!($(mutationList[0].target).data('marquee-disabled') == "true")) adaptHeightOrStartMarqueeOnOverflow($(mutationList[0].target));
+				if(!($(mutationList[0].target).data('marquee-disabled') == true)) adaptHeightOrStartMarqueeOnOverflow($(mutationList[0].target));
 			}
 		});
 	}
@@ -5289,10 +5289,8 @@ function renderView(viewId, triggeredByReconnection){
 						});
 					};
 					viewShuffleFilterHideDeviceIfInactive();
-					viewShuffleApplyShuffleResizeObserver();
+					applyViewTileResizeObserver();
 				}
-				//ApplyMarqueeObserver
-				applyViewAdaptHeightOrMarqueeObserver();
 				//scroll to device or heading if anchor present in viewId
 				if(viewScrollToDeviceTimeout1) clearTimeout(viewScrollToDeviceTimeout1);
 				if(viewScrollToDeviceTimeout2) clearTimeout(viewScrollToDeviceTimeout2);
@@ -5636,171 +5634,6 @@ function viewShuffleFilterHideDeviceIfInactive(){
 	});
 }
 
-function viewShuffleApplyShuffleResizeObserver(){
-	console.log("Starting shuffle resize observer");
-	var viewShuffleApplyShuffleResizeObserverTimeout1 = false;
-	var viewShuffleApplyShuffleResizeObserverTimeout2 = false;
-	if(viewShuffleResizeObserver){
-		viewShuffleResizeObserver.disconnect();
-	} else {
-		viewShuffleResizeObserver = new MutationObserver(function(mutationList){
-			mutationList.forEach(function(mutation){
-				if(mutation.attributeName === 'class'){
-					var oldClasses = mutation.oldValue.split(' ');
-					var newClasses = mutation.target.className.split(' ');
-					var added = newClasses.filter(function(x){ return oldClasses.indexOf(x) == -1;});
-					var removed = oldClasses.filter(function(x){ return newClasses.indexOf(x) == -1;});
-					var changed = added.concat(removed);
-					var oldAndNew = oldClasses.concat(newClasses);
-					if(
-						(changed.indexOf('narrow') != -1 || changed.indexOf('wide') != -1 || changed.indexOf('xwide') != -1 || changed.indexOf('fullWidth') != -1 || changed.indexOf('short') != -1 || changed.indexOf('high') != -1 || changed.indexOf('xhigh') != -1 || changed.indexOf('fullHeight') != -1)
-						|| (changed.indexOf('active') != -1 && (oldAndNew.indexOf('narrowIfInactive') != -1 || oldAndNew.indexOf('wideIfInactive') != -1 || oldAndNew.indexOf('xwideIfInactive') != -1 || oldAndNew.indexOf('fullWidthIfInactive') != -1 || oldAndNew.indexOf('shortIfInactive') != -1 || oldAndNew.indexOf('highIfInactive') != -1 || oldAndNew.indexOf('xhighIfInactive') != -1 || oldAndNew.indexOf('fullHeightIfInactive') != -1
-																||  oldAndNew.indexOf('narrowIfActive') != -1 || oldAndNew.indexOf('wideIfActive') != -1 || oldAndNew.indexOf('xwideIfActive') != -1 || oldAndNew.indexOf('fullWidthIfActive') != -1 || oldAndNew.indexOf('shortIfActive') != -1 || oldAndNew.indexOf('highIfActive') != -1 || oldAndNew.indexOf('xhighIfActive') != -1 || oldAndNew.indexOf('fullHeightIfActive') != -1 ))
-						|| (changed.indexOf('enlarged') != -1 && (oldAndNew.indexOf('narrowIfEnlarged') != -1 || oldAndNew.indexOf('wideIfEnlarged') != -1 || oldAndNew.indexOf('xwideIfEnlarged') != -1 || oldAndNew.indexOf('fullWidthIfEnlarged') != -1 || oldAndNew.indexOf('shortIfEnlarged') != -1 || oldAndNew.indexOf('highIfEnlarged') != -1 || oldAndNew.indexOf('xhighIfEnlarged') != -1 || oldAndNew.indexOf('fullHeightIfEnlarged') != -1 || oldAndNew.indexOf('normalIfEnlarged') != -1 ))
-					){ //height or width changed
-						console.log(changed);
-						dynamicIframeZoom();
-						stateFillsDeviceCheckForIconToFloat($(mutation.target).find('.iQontrolDeviceState'));
-						//Disable Marquee and re-enable it after change-animation
-						if(!options.LayoutViewMarqueeDisabled ){
-							var deviceID = $(mutation.target).find('.iQontrolDeviceState').data('iqontrolDeviceId');
-							var $marqueeObjects = $(mutation.target).find('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText');
-							if(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]);
-							$marqueeObjects.data('marquee-disabled', 'true').marquee('destroy').attr('style', '');
-							viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID] = setTimeout(function(){
-								var _$marqueeObjects = $marqueeObjects;
-								if(!options.LayoutViewMarqueeDisabled ){
-									_$marqueeObjects.data('marquee-disabled', 'false');
-									adaptHeightOrStartMarqueeOnOverflow(_$marqueeObjects);
-								}
-							}, 1500);
-						}
-						//Shuffle two times
-						viewShuffleReshuffle([100, 1250]);
-						if(
-							added.indexOf('fullHeight') != -1
-							|| (added.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfActive') != -1)
-							|| (removed.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfInactive') != -1)
-							|| (added.indexOf('enlarged') != -1 && oldAndNew.indexOf('fullHeightIfEnlarged') != -1)
-						){ //fullHeight activated
-							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-								console.log("fullHeight activated");
-								addCustomCSS("#ViewContent { padding-bottom: 100vh; }", "addViewPaddingBottomAfterMinimizingTile");
-								var _$target = $(mutation.target);
-								var _targetDeviceId = _$target.parent('.iQontrolDevicePressureIndicator').data('iqontrolDeviceId');
-								var _targetShuffleInstanceIndex = null;
-								var _targetShuffleItemIndex = null;
-								for(var i = 0; i < viewShuffleInstances.length; i++){
-									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
-										if(viewShuffleInstances[i].items[j].element.dataset.iqontrolDeviceId == _targetDeviceId){
-											_targetShuffleInstanceIndex = i;
-											_targetShuffleItemIndex = j;
-											break;
-										}
-									}
-									if(_targetShuffleInstanceIndex != null) break;
-								}
-								if(_targetShuffleInstanceIndex != null){
-									console.log("fullHeight activated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
-									if(viewShuffleApplyShuffleResizeObserverTimeout1) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout1);
-									if(viewShuffleApplyShuffleResizeObserverTimeout2) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout2);
-									viewShuffleApplyShuffleResizeObserverTimeout2 = setTimeout(function(){
-										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
-										console.log("fullHeight activated - scroll to " + scrollTop);
-										$('html,body').animate({
-											scrollTop: scrollTop
-										}, 1000);
-									}, 1300);
-									viewShuffleApplyShuffleResizeObserverTimeout1 = setTimeout(function(){
-										resizeDevicesToFitScreen();
-										removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
-									}, 2300);
-								}
-							})(); //<--End Closure
-						} else if(
-							removed.indexOf('fullHeight') != -1
-							|| (removed.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfActive') != -1)
-							|| (added.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfInactive') != -1)
-							|| (removed.indexOf('enlarged') != -1 && oldAndNew.indexOf('fullHeightIfEnlarged') != -1)
-						){ //fullHeight deactivated
-							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-								console.log("fullHeight deactivated");
-								removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
-								addCustomCSS("#ViewContent { padding-bottom: 90vh; padding-bottom: calc(100vh - 200px); }", "addViewPaddingBottomAfterMinimizingTile");
-								var _$target = $(mutation.target);
-								var _targetDeviceId = _$target.parent('.iQontrolDevicePressureIndicator').data('iqontrolDeviceId');
-								var _targetShuffleInstanceIndex = null;
-								var _targetShuffleItemIndex = null;
-								for(var i = 0; i < viewShuffleInstances.length; i++){
-									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
-										if(viewShuffleInstances[i].items[j].element.dataset.iqontrolDeviceId == _targetDeviceId){
-											_targetShuffleInstanceIndex = i;
-											_targetShuffleItemIndex = j;
-											break;
-										}
-									}
-									if(_targetShuffleInstanceIndex != null) break;
-								}
-								if(_targetShuffleInstanceIndex != null){
-									console.log("fullHeight deactivated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
-									if(viewShuffleApplyShuffleResizeObserverTimeout1) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout1);
-									if(viewShuffleApplyShuffleResizeObserverTimeout2) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout2);
-									viewShuffleApplyShuffleResizeObserverTimeout1 = setTimeout(function(){
-										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
-										console.log("fullHeight deactivated - scroll to " + scrollTop);
-										$('html,body').animate({
-											scrollTop: scrollTop
-										}, 1000);
-									}, 1300);
-								}
-							})(); //<--End Closure
-						}
-					}
-				}
-			});
-		});
-	}
-	$('.iQontrolDevice').each(function(){
-		viewShuffleResizeObserver.observe(this, {attributes: true, attributeOldValue: true, childList: false, subtree: false});
-	});
-}
-
-function viewShuffleReshuffle(delays){
-	console.log("viewShuffleReshuffle " + JSON.stringify(viewShuffleReshuffleTimeouts));
-	if(options.LayoutViewShuffleDisabled) return;
-	if(!Array.isArray(delays)) delays = [(delays || 0)];
-	var delay = delays.shift();
-	var now = new Date().getTime();
-	var destinationTime = now + delay;
-	var nearbyTimer = false;
-	for(id in viewShuffleReshuffleTimeouts){
-		var diff = viewShuffleReshuffleTimeouts[id].destinationTime - destinationTime;
-		console.log("viewShuffleReshuffle: searching for nearby ReshuffleTimers - id: " + id + " - diff: " + diff);			
-		if(diff >= 0 && diff < 500) {
-			console.log("viewShuffleReshuffle: Found nearby ReshuffleTimer in future (id " + id + " - setting of the new timer is ignored");
-			nearbyTimer = true;
-		} else if(diff < 0 && diff > -500) {
-			console.log("viewShuffleReshuffle: Found nearby ReshuffleTimer in past - deleting found timer id " + id);
-			clearInterval(id);
-			delete viewShuffleReshuffleTimeouts[id];
-		}
-	}	
-	if(!nearbyTimer){
-		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-			var _id = setTimeout(function(){ 
-				console.log("viewShuffleReshuffle: Shuffle! id: " + _id); 
-				viewShuffleInstances.forEach(function(shuffleInstance, i){ 
-					if(shuffleInstance.isEnabled) shuffleInstance.update(); else shuffleInstance.enable(); 
-				}); 
-				delete viewShuffleReshuffleTimeouts[_id]; 
-			}, delay);
-			viewShuffleReshuffleTimeouts[_id] = {destinationTime: destinationTime};
-			console.log("viewShuffleReshuffle: set timer id " + _id + " to destinationTime " + destinationTime);
-		})(); //<--End Closure
-	}
-	if(delays.length > 0) viewShuffleReshuffle(delays);
-}
-
 function addTimestamp(stateString, states, linkedStates, device, active){
 	//console.log("Add timestamp to " + device.commonName + " with value " + stateString);
 	var addTimestampToState = getDeviceOptionValue(device, "addTimestampToState");
@@ -5930,50 +5763,204 @@ function addTimestamp(stateString, states, linkedStates, device, active){
 	return stateString;
 }
 
-function applyViewAdaptHeightOrMarqueeObserver(){
-	console.log("Starting viewAdaptHeightOrMarqueeObserver");
-	if(viewAdaptHeightOrMarqueeObserver){
-		viewAdaptHeightOrMarqueeObserver.disconnect();
+
+function applyViewTileResizeObserver(){ 
+	console.log("Starting shuffle resize observer");
+	var viewTileResizeObserverTimeout1 = false;
+	var viewTileResizeObserverTimeout2 = false;
+	if(viewTileResizeObserver){
+		viewTileResizeObserver.disconnect();
 	} else {
-		viewAdaptHeightOrMarqueeObserver = new MutationObserver(function(mutationList){
-			if(typeof mutationList[0] == udef || typeof mutationList[0].addedNodes[0] == udef || typeof mutationList[0].addedNodes[0].className == udef || mutationList[0].addedNodes[0].className != "js-marquee"){ //check if the mutation is fired by marquee itself
-				if(!($(mutationList[0].target).data('marquee-disabled') == "true")) adaptHeightOrStartMarqueeOnOverflow($(mutationList[0].target));
-			}
+		viewTileResizeObserver = new MutationObserver(function(mutationList){
+			mutationList.forEach(function(mutation){
+				if(mutation.attributeName === 'class'){
+					var oldClasses = mutation.oldValue.split(' ');
+					var newClasses = mutation.target.className.split(' ');
+					var added = newClasses.filter(function(x){ return oldClasses.indexOf(x) == -1;});
+					var removed = oldClasses.filter(function(x){ return newClasses.indexOf(x) == -1;});
+					var changed = added.concat(removed);
+					var oldAndNew = oldClasses.concat(newClasses);
+					if(
+						(changed.indexOf('narrow') != -1 || changed.indexOf('wide') != -1 || changed.indexOf('xwide') != -1 || changed.indexOf('fullWidth') != -1 || changed.indexOf('short') != -1 || changed.indexOf('high') != -1 || changed.indexOf('xhigh') != -1 || changed.indexOf('fullHeight') != -1)
+						|| (changed.indexOf('active') != -1 && (oldAndNew.indexOf('narrowIfInactive') != -1 || oldAndNew.indexOf('wideIfInactive') != -1 || oldAndNew.indexOf('xwideIfInactive') != -1 || oldAndNew.indexOf('fullWidthIfInactive') != -1 || oldAndNew.indexOf('shortIfInactive') != -1 || oldAndNew.indexOf('highIfInactive') != -1 || oldAndNew.indexOf('xhighIfInactive') != -1 || oldAndNew.indexOf('fullHeightIfInactive') != -1
+																||  oldAndNew.indexOf('narrowIfActive') != -1 || oldAndNew.indexOf('wideIfActive') != -1 || oldAndNew.indexOf('xwideIfActive') != -1 || oldAndNew.indexOf('fullWidthIfActive') != -1 || oldAndNew.indexOf('shortIfActive') != -1 || oldAndNew.indexOf('highIfActive') != -1 || oldAndNew.indexOf('xhighIfActive') != -1 || oldAndNew.indexOf('fullHeightIfActive') != -1 ))
+						|| (changed.indexOf('enlarged') != -1 && (oldAndNew.indexOf('narrowIfEnlarged') != -1 || oldAndNew.indexOf('wideIfEnlarged') != -1 || oldAndNew.indexOf('xwideIfEnlarged') != -1 || oldAndNew.indexOf('fullWidthIfEnlarged') != -1 || oldAndNew.indexOf('shortIfEnlarged') != -1 || oldAndNew.indexOf('highIfEnlarged') != -1 || oldAndNew.indexOf('xhighIfEnlarged') != -1 || oldAndNew.indexOf('fullHeightIfEnlarged') != -1 || oldAndNew.indexOf('normalIfEnlarged') != -1 ))
+					){ //height or width changed ##### if new concept allows 4 states (active/inactive-normal/enlarged) this needs to be added here
+						console.log(changed);
+						dynamicIframeZoom();
+						//stateFillsDeviceCheckForIconToFloat($(mutation.target).find('.iQontrolDeviceState')); //###### not longer necessary? becaus of new full-size-state?
+						//Disable Marquee and re-enable it after change-animation
+						if(!options.LayoutViewMarqueeDisabled ){
+							var deviceID = $(mutation.target).find('.iQontrolDeviceState').data('iqontrolDeviceId');
+							var $marqueeObjects = $(mutation.target).find('.uiElement.text');
+							if(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]);
+							$marqueeObjects.data('marquee-disabled', true).marquee('destroy'); //##### .attr('style', '')
+							viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID] = setTimeout(function(){
+								var _$marqueeObjects = $marqueeObjects;
+								if(!options.LayoutViewMarqueeDisabled ){
+									_$marqueeObjects.data('marquee-disabled', false);
+									adaptHeightOrStartMarqueeOnOverflow(_$marqueeObjects);
+								}
+							}, 1500);
+						}
+						//Shuffle two times
+						viewShuffleReshuffle([100, 1250]);
+						if(
+							added.indexOf('fullHeight') != -1
+							|| (added.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfActive') != -1)
+							|| (removed.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfInactive') != -1)
+							|| (added.indexOf('enlarged') != -1 && oldAndNew.indexOf('fullHeightIfEnlarged') != -1)
+						){ //fullHeight activated
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								console.log("fullHeight activated");
+								addCustomCSS("#ViewContent { padding-bottom: 100vh; }", "addViewPaddingBottomAfterMinimizingTile");
+								var _$target = $(mutation.target);
+								var _targetDeviceId = _$target.parent('.iQontrolDevicePressureIndicator').data('iqontrolDeviceId');
+								var _targetShuffleInstanceIndex = null;
+								var _targetShuffleItemIndex = null;
+								for(var i = 0; i < viewShuffleInstances.length; i++){
+									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
+										if(viewShuffleInstances[i].items[j].element.dataset.iqontrolDeviceId == _targetDeviceId){
+											_targetShuffleInstanceIndex = i;
+											_targetShuffleItemIndex = j;
+											break;
+										}
+									}
+									if(_targetShuffleInstanceIndex != null) break;
+								}
+								if(_targetShuffleInstanceIndex != null){
+									console.log("fullHeight activated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
+									if(viewTileResizeObserverTimeout1) clearTimeout(viewTileResizeObserverTimeout1);
+									if(viewTileResizeObserverTimeout2) clearTimeout(viewTileResizeObserverTimeout2);
+									viewTileResizeObserverTimeout2 = setTimeout(function(){
+										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
+										console.log("fullHeight activated - scroll to " + scrollTop);
+										$('html,body').animate({
+											scrollTop: scrollTop
+										}, 1000);
+									}, 1300);
+									viewTileResizeObserverTimeout1 = setTimeout(function(){
+										resizeDevicesToFitScreen();
+										removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
+									}, 2300);
+								}
+							})(); //<--End Closure
+						} else if(
+							removed.indexOf('fullHeight') != -1
+							|| (removed.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfActive') != -1)
+							|| (added.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfInactive') != -1)
+							|| (removed.indexOf('enlarged') != -1 && oldAndNew.indexOf('fullHeightIfEnlarged') != -1)
+						){ //fullHeight deactivated
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								console.log("fullHeight deactivated");
+								removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
+								addCustomCSS("#ViewContent { padding-bottom: 90vh; padding-bottom: calc(100vh - 200px); }", "addViewPaddingBottomAfterMinimizingTile");
+								var _$target = $(mutation.target);
+								var _targetDeviceId = _$target.parent('.iQontrolDevicePressureIndicator').data('iqontrolDeviceId');
+								var _targetShuffleInstanceIndex = null;
+								var _targetShuffleItemIndex = null;
+								for(var i = 0; i < viewShuffleInstances.length; i++){
+									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
+										if(viewShuffleInstances[i].items[j].element.dataset.iqontrolDeviceId == _targetDeviceId){
+											_targetShuffleInstanceIndex = i;
+											_targetShuffleItemIndex = j;
+											break;
+										}
+									}
+									if(_targetShuffleInstanceIndex != null) break;
+								}
+								if(_targetShuffleInstanceIndex != null){
+									console.log("fullHeight deactivated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
+									if(viewTileResizeObserverTimeout1) clearTimeout(viewTileResizeObserverTimeout1);
+									if(viewTileResizeObserverTimeout2) clearTimeout(viewTileResizeObserverTimeout2);
+									viewTileResizeObserverTimeout1 = setTimeout(function(){
+										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
+										console.log("fullHeight deactivated - scroll to " + scrollTop);
+										$('html,body').animate({
+											scrollTop: scrollTop
+										}, 1000);
+									}, 1300);
+								}
+							})(); //<--End Closure
+						}
+					}
+				}
+			});
 		});
 	}
-	$('.uiElement.text').each(function(){
-		viewAdaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
-		adaptHeightOrStartMarqueeOnOverflow($(this));
+	$('.iQontrolDevice').each(function(){
+		viewTileResizeObserver.observe(this, {attributes: true, attributeOldValue: true, childList: false, subtree: false});
 	});
 }
 
-function adaptHeightOrStartMarqueeOnOverflow($element, noDelay){
-	if(!$element) return;
-	var element = $element.get(0) || $element;
-	if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
-	if($element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfInactive') || $element.hasClass('adaptsHeightIfActive')){ //adapt height
-		console.log("adaptHeight: " + element.className + JSON.stringify(element.dataset));
-		//Shuffle two times
-		viewShuffleReshuffle([100, 1250]);
-	} else if(!options.LayoutViewMarqueeDisabled && (options.LayoutViewMarqueeNamesEnabled || $element.parent('.uiElementStack').data('ui-element-stack-name') != "Name") && (element.scrollHeight > $element.innerHeight() || element.scrollWidth > $element.innerWidth())) { //element has overflowing content
-		var direction = 'left';
-		var speed = (Number(options.LayoutViewMarqueeSpeed) || 40);
-		if($element.innerHeight() > 2 * (parseInt($element.css('line-height'), 10) || 25)){
-			direction = 'up';
-			speed /= 2;
+function viewShuffleReshuffle(delays){
+	console.log("viewShuffleReshuffle " + JSON.stringify(viewShuffleReshuffleTimeouts));
+	if(options.LayoutViewShuffleDisabled) return;
+	if(!Array.isArray(delays)) delays = [(delays || 0)];
+	var delay = delays.shift();
+	var now = new Date().getTime();
+	var destinationTime = now + delay;
+	var nearbyTimer = false;
+	for(id in viewShuffleReshuffleTimeouts){
+		var diff = viewShuffleReshuffleTimeouts[id].destinationTime - destinationTime;
+		console.log("viewShuffleReshuffle: searching for nearby ReshuffleTimers - id: " + id + " - diff: " + diff);			
+		if(diff >= 0 && diff < 500) {
+			console.log("viewShuffleReshuffle: Found nearby ReshuffleTimer in future (id " + id + " - setting of the new timer is ignored");
+			nearbyTimer = true;
+		} else if(diff < 0 && diff > -500) {
+			console.log("viewShuffleReshuffle: Found nearby ReshuffleTimer in past - deleting found timer id " + id);
+			clearInterval(id);
+			delete viewShuffleReshuffleTimeouts[id];
 		}
-		let marqueeOptions = {
-			speed: speed,
-			gap: 40,
-			delayBeforeStart: noDelay ? 0 : 2000,
-			direction: direction,
-			duplicated: true,
-			pauseOnHover: true,
-			startVisible: true
-		};
-		$element.marquee('destroy');
-		$element.data('marquee-options', marqueeOptions).marquee(marqueeOptions);
+	}	
+	if(!nearbyTimer){
+		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+			var _id = setTimeout(function(){ 
+				console.log("viewShuffleReshuffle: Shuffle! id: " + _id); 
+				viewShuffleInstances.forEach(function(shuffleInstance, i){ 
+					if(shuffleInstance.isEnabled) shuffleInstance.update(); else shuffleInstance.enable(); 
+				}); 
+				delete viewShuffleReshuffleTimeouts[_id]; 
+			}, delay);
+			viewShuffleReshuffleTimeouts[_id] = {destinationTime: destinationTime};
+			console.log("viewShuffleReshuffle: set timer id " + _id + " to destinationTime " + destinationTime);
+		})(); //<--End Closure
 	}
+	if(delays.length > 0) viewShuffleReshuffle(delays);
+}
+
+function adaptHeightOrStartMarqueeOnOverflow($elements, noDelay){  
+	if(!$elements) return;
+	$elements.each(function(){
+		$element = $(this);
+		var element = $element.get(0) || $element;
+		if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
+		if($element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfInactive') || $element.hasClass('adaptsHeightIfActive')){ //adapt height ##### ??
+			console.log("adaptHeight: " + element.className + JSON.stringify(element.dataset));
+			//Shuffle two times
+			viewShuffleReshuffle([100, 1250]);
+		} else if(!$element.data('marquee-disabled') && !options.LayoutViewMarqueeDisabled && (options.LayoutViewMarqueeNamesEnabled || $element.parent('.uiElementStack').data('ui-element-stack-name') != "Name") && (element.scrollHeight > $element.innerHeight() || element.scrollWidth > $element.innerWidth())) { //element has overflowing content
+			var direction = 'left';
+			var speed = (Number(options.LayoutViewMarqueeSpeed) || 40);
+			if($element.innerHeight() > 2 * (parseInt($element.css('line-height'), 10) || 25)){
+				direction = 'up';
+				speed /= 2;
+			}
+			let marqueeOptions = {
+				speed: speed,
+				gap: 40,
+				delayBeforeStart: noDelay ? 0 : 2000,
+				direction: direction,
+				duplicated: true,
+				pauseOnHover: true,
+				startVisible: true
+			};
+			$element.marquee('destroy');
+			$element.marquee(marqueeOptions);
+		} else {
+			$element.marquee('destroy');
+		}	
+	});
 }
 
 function viewScrollToDevice(scrollToDeviceId){ //add "h" to scrollToDeviceId to scroll to the corresponding heading
@@ -11367,11 +11354,11 @@ $(window).on('orientationchange resize', function(){
 			var $state = $(this);
 			if(toolbarMarqueeDisabledTimeouts[deviceID]) clearTimeout(toolbarMarqueeDisabledTimeouts[deviceID]);
 			var $stateBGColor = $state.css('background-color');
-			$state.data('marquee-disabled', 'true').marquee('destroy').attr('style', '').css('background-color', $stateBGColor);
+			$state.data('marquee-disabled', true).marquee('destroy').attr('style', '').css('background-color', $stateBGColor);
 			toolbarMarqueeDisabledTimeouts[deviceID] = setTimeout(function(){
 				var _$state = $state;
 				if(!options.LayoutViewMarqueeDisabled ){
-					_$state.data('marquee-disabled', 'false');
+					_$state.data('marquee-disabled', false);
 					adaptHeightOrStartMarqueeOnOverflow(_$state);
 				}
 			}, 100);
@@ -11487,11 +11474,11 @@ function resizeFullWidthDevicesToFitScreen(){
 			var deviceID = $(this).find('.iQontrolDeviceState').data('iqontrolDeviceId');
 			var $state = $(this).find('.iQontrolDeviceState');
 			if(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]);
-			$state.data('marquee-disabled', 'true').marquee('destroy').attr('style', '');
+			$state.data('marquee-disabled', true).marquee('destroy');
 			viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID] = setTimeout(function(){
 				var _$state = $state;
 				if(!options.LayoutViewMarqueeDisabled ){
-					_$state.data('marquee-disabled', 'false');
+					_$state.data('marquee-disabled', false);
 					adaptHeightOrStartMarqueeOnOverflow(_$state);
 				}
 			}, 1500);
@@ -13161,8 +13148,8 @@ function UIElements(initialUiElements) {
 					if(!getUiOption(device, uiElementOptions.textMultiline)) $textElement.css('font-size', fontSize);
 				}, 50);
 				if(textResult != $textElement.data('old-text') || textResult != $textElement.data('marquee-finished-new-text')){
-					if($textElement.data('marquee-options')){ //marquee active
-						$textElement.data('marquee-finished-new-text', textResult).bind('finished', function(){
+					if($textElement.find('.js-marquee-wrapper').length){ //marquee active
+						$textElement.data('marquee-finished-new-text', textResult).unbind('finished').bind('finished', function(){
 							let newText = $textElement.data('marquee-finished-new-text');
 							$textElement.marquee('destroy');
 							$textElement.html(newText).data('old-text', newText);
