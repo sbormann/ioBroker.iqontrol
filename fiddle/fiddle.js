@@ -7,7 +7,7 @@ $(document).ready(function () {
     });       
     $('.main').on('click', function(){ 
         var rnd = Math.floor(Math.random() * 3);
-        $('.isotope-grid').isotope({
+        $('.viewIsotopeContainer').isotope({
             filter: rnd == 0 ? '*' : rnd == 1 ? '#testTile' : '#testTile2'
         });
     });
@@ -15,7 +15,7 @@ $(document).ready(function () {
         e.stopPropagation();
         var enlarged = $(this).hasClass('enlarged');
         if(enlarged) $(this).removeClass('enlarged'); else $(this).addClass('enlarged');
-        $('.isotope-grid').isotope('layout');
+        $('.viewIsotopeContainer').isotope('layout');
     });
 });
 

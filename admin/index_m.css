@@ -197,8 +197,8 @@ span.small {
 
 #dialogTileEditorDemoTile, #dialogDeviceEditTileSettingsDemoTile {
     position: relative; 
-    width: 110px; 
-    height: 110px; 
+    width: 100px; 
+    height: 100px; 
     background:rgba(255, 255, 255, 0.8); 
     transform-origin: top left;
     transition: all 0.5s;

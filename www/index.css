@@ -652,37 +652,8 @@ html.noscroll body {
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
-.iQontrolDeviceGlow {
-	-webkit-user-select: none !important;
-	   -moz-user-select: none !important; 
-	        user-select: none !important;
-	-webkit-touch-callout: none !important;
-	pointer-events: none !important;
-	display: inline-block;
-	position: absolute;
-	top: 0; left: 0;
-	width: 100%; height: 100%;
-	margin: 0px;
-	padding: 0px;
-	background: transparent;
-	-webkit-border-radius: 15px;
-	   -moz-border-radius: 15px;
-			border-radius: 15px;
-	text-align: left;
-	overflow: visible;
-	-webkit-box-shadow: none;
-	   -moz-box-shadow: none;
-	        box-shadow: none;
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
-}
-.pressureIndicator.active .iQontrolDeviceGlow:not(.active) {
-	opacity: 0 !important;
-}
-.pressureIndicator:not(.active) .iQontrolDeviceGlow.active {
-	opacity: 0 !important;
-}
+
+
 .iQontrolDevice {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -712,81 +683,7 @@ html.noscroll body {
 	text-align: left;
 	overflow: hidden;
 }
-.iQontrolDevice.narrow, .iQontrolDevice:not(.active).narrowIfInactive, .iQontrolDevice.active.narrowIfActive, .iQontrolDevice.enlarged.narrowIfEnlarged {
-	width: 43px; max-width: 43px;
-}
-.iQontrolDevice.enlarged.normalIfEnlarged {
-	width: 104px; max-width: 104px;
-}
-.iQontrolDevice.wide, .iQontrolDevice:not(.active).wideIfInactive, .iQontrolDevice.active.wideIfActive, .iQontrolDevice.enlarged.wideIfEnlarged {
-	width: 226px; max-width: 226px;
-}
-.iQontrolDevice.xwide, .iQontrolDevice:not(.active).xwideIfInactive, .iQontrolDevice.active.xwideIfActive, .iQontrolDevice.enlarged.xwideIfEnlarged {
-	width: 348px; max-width: 348px;
-}
-.iQontrolDevice.short, .iQontrolDevice:not(.active).shortIfInactive, .iQontrolDevice.active.shortIfActive, .iQontrolDevice.enlarged.shortIfEnlarged {
-	height: 43px; max-height: 43px; min-height: 43px;
-}
-.iQontrolDevice.enlarged.normalIfEnlarged {
-	height: 104px; max-height: 104px; min-height: 104px;
-}
-.iQontrolDevice.high, .iQontrolDevice:not(.active).highIfInactive, .iQontrolDevice.active.highIfActive, .iQontrolDevice.enlarged.highIfEnlarged {
-	height: 226px; max-height: 226px; min-height: 226px;
-}
-.iQontrolDevice.xhigh, .iQontrolDevice:not(.active).xhighIfInactive, .iQontrolDevice.active.xhighIfActive, .iQontrolDevice.enlarged.xhighIfEnlarged {
-	height: 348px; max-height: 348px; min-height: 348px;
-}
-.iQontrolDevice.fullWidth, .iQontrolDevice:not(.active).fullWidthIfInactive, .iQontrolDevice.active.fullWidthIfActive, .iQontrolDevice.enlarged.fullWidthIfEnlarged {
-	width: 95vw; width: calc(100vw - 40px); max-width: 95vw; max-width: calc(100vw - 40px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
-}
-.iQontrolDevice.aspect-1-1, .iQontrolDevice:not(.active).aspect-1-1IfInactive, .iQontrolDevice.active.aspect-1-1IfActive, .iQontrolDevice.enlarged.aspect-1-1IfEnlarged {
-	padding-bottom: 100%; padding-bottom: calc(100% - 104px);
-}
-.iQontrolDevice.aspect-4-3, .iQontrolDevice:not(.active).aspect-4-3IfInactive, .iQontrolDevice.active.aspect-4-3IfActive, .iQontrolDevice.enlarged.aspect-4-3IfEnlarged {
-	padding-bottom: 75%; padding-bottom: calc(75% - 104px);
-}
-.iQontrolDevice.aspect-3-2, .iQontrolDevice:not(.active).aspect-3-2IfInactive, .iQontrolDevice.active.aspect-3-2IfActive, .iQontrolDevice.enlarged.aspect-3-3IfEnlarged {
-	padding-bottom: 66.66%; padding-bottom: calc(66.66% - 104px);
-}
-.iQontrolDevice.aspect-16-9, .iQontrolDevice:not(.active).aspect-16-9IfInactive, .iQontrolDevice.active.aspect-16-9IfActive, .iQontrolDevice.enlarged.aspect-16-9IfEnlarged {
-	padding-bottom: 56.25%; padding-bottom: calc(56.25% - 104px);
-}
-.iQontrolDevice.aspect-21-9, .iQontrolDevice:not(.active).aspect-21-9IfInactive, .iQontrolDevice.active.aspect-21-9IfActive, .iQontrolDevice.enlarged.aspect-21-9IfEnlarged {
-	padding-bottom: 42.86%; padding-bottom: calc(42.86% - 104px);
-}
-.iQontrolDevice.aspect-1-1-limited, .iQontrolDevice:not(.active).aspect-1-1-limitedIfInactive, .iQontrolDevice.active.aspect-1-1-limitedIfActive, .iQontrolDevice.enlarged.aspect-1-1-limitedIfEnlarged {
-	padding-bottom: 100%; padding-bottom: calc(100% - 104px); padding-bottom: min(calc(100% - 104px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
-}
-.iQontrolDevice.aspect-4-3-limited, .iQontrolDevice:not(.active).aspect-4-3-limitedIfInactive, .iQontrolDevice.active.aspect-4-3-limitedIfActive, .iQontrolDevice.enlarged.aspect-4-3-limitedIfEnlarged {
-	padding-bottom: 75%; padding-bottom: calc(75% - 104px); padding-bottom: min(calc(75% - 104px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
-}
-.iQontrolDevice.aspect-3-2-limited, .iQontrolDevice:not(.active).aspect-3-2-limitedIfInactive, .iQontrolDevice.active.aspect-3-2-limitedIfActive, .iQontrolDevice.enlarged.aspect-3-3-limitedIfEnlarged {
-	padding-bottom: 66.66%; padding-bottom: calc(66.66% - 104px); padding-bottom: min(calc(66.66% - 104px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
-}
-.iQontrolDevice.aspect-16-9-limited, .iQontrolDevice:not(.active).aspect-16-9-limitedIfInactive, .iQontrolDevice.active.aspect-16-9-limitedIfActive, .iQontrolDevice.enlarged.aspect-16-9-limitedIfEnlarged {
-	padding-bottom: 56.25%; padding-bottom: calc(56.25% - 104px); padding-bottom: min(calc(56.25% - 104px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
-}
-.iQontrolDevice.aspect-21-9-limited, .iQontrolDevice:not(.active).aspect-21-9-limitedIfInactive, .iQontrolDevice.active.aspect-21-9-limitedIfActive, .iQontrolDevice.enlarged.aspect-21-9-limitedIfEnlarged {
-	padding-bottom: 42.86%; padding-bottom: calc(42.86% - 104px); padding-bottom: min(calc(42.86% - 104px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
-}
-.iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged {
-	height: 85vh; height: calc(100vh - 70px); max-height: 85vh; max-height: calc(100vh - 70px); min-height: 85vh; min-height: calc(100vh - 70px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
-	padding-bottom: unset !important;
-}
-.iQontrolDevice.adaptsHeight, .iQontrolDevice:not(.active).adaptsHeightIfInactive, .iQontrolDevice.active.adaptsHeightIfActive, .iQontrolDevice.enlarged.adaptsHeightIfEnlarged {
-	height: unset; max-height: 85vh; max-height: calc(100vh - 70px);
-}
-.iQontrolDevice:hover {
-	border: 0px solid rgba(255, 255, 255, 0.8);
-	-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
-	   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
-			box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
-}
-.iQontrolDevice:not(.active).transparentIfInactive, .iQontrolDevice.active.transparentIfActive, .iQontrolDevice.enlarged.transparentIfEnlarged {
-	-webkit-box-shadow: none !important;
-	   -moz-box-shadow: none !important;
-			box-shadow: none !important;
-} 
+
 .iQontrolDeviceBadge {
 	pointer-events:none !important;
 	position: absolute;	left: -5px;	top: -5px;
@@ -860,142 +757,8 @@ html.noscroll body {
 .iQontrolDevice.enlarged .iQontrolDeviceLinkToToggle.enlarge {
 	cursor: zoom-out;
 }
-.iQontrolDeviceBackgroundIframeWrapper {
-	-webkit-user-select: none !important;
-	   -moz-user-select: none !important; 
-	        user-select: none !important;
-	-webkit-touch-callout: none !important;
-	position: absolute;	top:0px; left:0px; width:100%; height:100%;
-	display: block;
-	border: none; 
-	-webkit-border-radius: 15px;
-	   -moz-border-radius: 15px;
-			border-radius: 15px;
-	-webkit-transform: scale3d(1.0,1.0,1);
-	   -moz-transform: scale3d(1.0,1.0,1);
-			transform: scale3d(1.0,1.0,1);
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
-	overflow: hidden;
-}
-.iQontrolDeviceBackgroundIframeWrapper:hover {
-	-webkit-transform: scale3d(1.05,1.05,1);
-	   -moz-transform: scale3d(1.05,1.05,1);
-			transform: scale3d(1.05,1.05,1);
-}
-.iQontrolDeviceBackgroundIframeWrapper.noZoomOnHover:hover {
-	-webkit-transform: scale3d(1.0,1.0,1);
-	   -moz-transform: scale3d(1.0,1.0,1);
-			transform: scale3d(1.0,1.0,1);
-}
-.iQontrolDeviceBackgroundIframe {
-	width: 100%;
-	min-height: 100%;
-	height: 100%;
-	border: none;
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
-}
-.iQontrolDeviceBackgroundImage {
-	-webkit-user-select: none !important;
-	   -moz-user-select: none !important; 
-	        user-select: none !important;
-	-webkit-touch-callout: none !important;
-	position: absolute;	top:0px; left:0px; width:100%; height:100%;
-	display: block;
-	background-size:cover; background-position:center;	
-	border: none; 
-	-webkit-border-radius: 15px;
-	   -moz-border-radius: 15px;
-			border-radius: 15px;
-	-webkit-transform: scale3d(1.0,1.0,1);
-	   -moz-transform: scale3d(1.0,1.0,1);
-			transform: scale3d(1.0,1.0,1);
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
-	overflow: hidden;
-}
-.iQontrolDeviceBackgroundImage:hover {
-	-webkit-transform: scale3d(1.05,1.05,1);
-	   -moz-transform: scale3d(1.05,1.05,1);
-			transform: scale3d(1.05,1.05,1);
-}
-.iQontrolDeviceBackgroundImage.noZoomOnHover:hover {
-	-webkit-transform: scale3d(1.0,1.0,1);
-	   -moz-transform: scale3d(1.0,1.0,1);
-			transform: scale3d(1.0,1.0,1);
-}
-.iQontrolDevice.active .iQontrolDeviceBackgroundImage:not(.active), .iQontrolDevice:not(.active) .iQontrolDeviceBackgroundImage.active {
-	pointer-events:none !important;
-	opacity: 0 !important;
-	-webkit-transition: opacity 1.25s ease-in;
-	   -moz-transition: opacity 1.25s ease-in;
-			transition: opacity 1.25s ease-in;
-}
-.iQontrolDeviceBackgroundImage:not(.active) {
-	background-color: rgba(255, 255, 255, 0.6);
-	opacity: 0.99;
-}
-.iQontrolDeviceBackgroundImage:not(.active):hover {
-	background-color: rgba(255, 255, 255, 0.6);
-	opacity: 0.99;
-}
-.iQontrolDeviceBackgroundImage.active {
-	background-color: rgba(255, 255, 255, 0.6);
-	opacity: 0.99;
-}
-.iQontrolDeviceBackgroundImage.active:hover {
-	background-color: rgba(255, 255, 255, 0.6);
-	opacity: 0.99;
-}
-.iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceBackgroundImage, .iQontrolDevice.active.transparentIfActive .iQontrolDeviceBackgroundImage, .iQontrolDevice.enlarged.transparentIfEnlarged .iQontrolDeviceBackgroundImage {
-	background-color: transparent !important;
-} 
-.iQontrolDeviceBackground {
-	pointer-events: none !important;	
-	-webkit-user-select: none !important;
-	   -moz-user-select: none !important; 
-	        user-select: none !important;
-	-webkit-touch-callout: none !important;
-	position: absolute;	top:0px; left:0px; width:100%; height:100%;
-	display: block;
-	border: none;
-	-webkit-transform: scale3d(1.1,1.1,2);
-	   -moz-transform: scale3d(1.1,1.1,2);
-			transform: scale3d(1.1,1.1,2);
-	-webkit-border-radius: 15px;
-	   -moz-border-radius: 15px;
-			border-radius: 15px;
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
-	overflow: hidden;
-}
-.iQontrolDevice.active .iQontrolDeviceBackground:not(.active), .iQontrolDevice:not(.active) .iQontrolDeviceBackground.active {
-	opacity: 0 !important;
-}
-.iQontrolDevice.enlarged .iQontrolDeviceBackground.hideIfEnlarged {
-	opacity: 0 !important;
-}
-.iQontrolDeviceBackground:not(.active) {
-	background-color: rgb(180, 180, 180);
-	opacity: 0.5;
-}
-.iQontrolDevice:hover .iQontrolDeviceBackground:not(.active) {
-	background-color: rgb(190, 190, 190);
-	opacity: 0.9;
-}
-.iQontrolDeviceBackground.active {
-	background-color: rgb(255, 255, 255);
-	opacity: 0.82;
-}
-.iQontrolDevice:hover .iQontrolDeviceBackground.active {
-	background-color: rgb(255, 255, 255);
-	opacity: 0.95;
-}
+
+
 .iQontrolDeviceIcon {
 	pointer-events:none !important;
 	position:absolute; left: 5px; top: 5px; width: 38px; height: 38px;
@@ -1619,7 +1382,7 @@ html.color-mode-dark .iQontrolDevice{
 html.color-mode-dark .iQontrolDeviceBadge{
 	filter: brightness(80%);
 }
-html.color-mode-dark .iQontrolDeviceBackgroundIframe.isBackgroundView {
+html.color-mode-dark .tileBackgroundIframe.isBackgroundView {
 	filter: brightness(125%);
 }
 html.color-mode-dark #ToolbarContextMenu {
@@ -1777,13 +1540,13 @@ html.adjustHeightToBackgroundView {
 .adjustHeightToBackgroundView #ViewMainBottomSpacer {
 	display: none;
 }
-.iQontrolDeviceBackgroundIframe.adjustHeight {
+.tileBackgroundIframe.adjustHeight {
 	transition: none;
 }
-.iQontrolDeviceBackgroundIframe.limitAdjustHeightToScreen:not(.isBackgroundView) {
+.tileBackgroundIframe.limitAdjustHeightToScreen:not(.isBackgroundView) {
 	max-height: 85vh; max-height: calc(100vh - 70px);
 }
-.iQontrolDeviceBackgroundIframeWrapper.adjustHeight {
+.tileBackgroundIframeWrapper.adjustHeight {
 	height: unset !important;
 	position: relative !important;
 	left: -3px;
@@ -1802,6 +1565,282 @@ html.adjustHeightToBackgroundView {
 
 /* ++++++++++ V3 DEVELOPMENT +++++++++ */
 
+/* ---------- Big Mode ---------- */
+#View .ui-panel-wrapper {
+	-webkit-transform-origin: left top;
+	   -moz-transform-origin: left top;
+		transform-origin: left top;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+ }
+html.bigMode #View .ui-panel-wrapper {
+	-webkit-transform: scale3d(1.5,1.5,1);
+	   -moz-transform: scale3d(1.5,1.5,1);
+			transform: scale3d(1.5,1.5,1);
+}
+
+/* ---------- Tiles ---------- */
+.tile{
+	position: absolute; /* wil be set to absolute by isotope anyway */
+	margin: 6px;
+	padding: 0; border: none;
+	overflow: visible;
+}
+.tile .setTileSize{
+	width: 100px; max-width: 100px;
+	height: 100px; max-height: 100px; min-height: 100px;
+	margin: 0; padding: 0; border: none;
+    transition: all 0.4s;
+}
+.tile.narrow .setTileSize, .tile:not(.active).narrowIfInactive .setTileSize, .tile.active.narrowIfActive .setTileSize, .tile.enlarged.narrowIfEnlarged .setTileSize{
+	width: 44px; max-width: 44px;
+}
+.tile.enlarged.normalIfEnlarged .setTileSize{
+	width: 100px; max-width: 100px;
+}
+.tile.wide .setTileSize, .tile:not(.active).wideIfInactive .setTileSize, .tile.active.wideIfActive .setTileSize, .tile.enlarged.wideIfEnlarged .setTileSize{
+	width: 212px; max-width: 212px;
+}
+.tile.xwide .setTileSize, .tile:not(.active).xwideIfInactive .setTileSize, .tile.active.xwideIfActive .setTileSize, .tile.enlarged.xwideIfEnlarged .setTileSize{
+	width: 324px; max-width: 324px;
+}
+.tile.short .setTileSize, .tile:not(.active).shortIfInactive .setTileSize, .tile.active.shortIfActive .setTileSize, .tile.enlarged.shortIfEnlarged .setTileSize{
+	height: 44px; max-height: 44px; min-height: 44px;
+}
+.tile.enlarged.normalIfEnlarged .setTileSize{
+	height: 100px; max-height: 100px; min-height: 100px;
+}
+.tile.high .setTileSize, .tile:not(.active).highIfInactive .setTileSize, .tile.active.highIfActive .setTileSize, .tile.enlarged.highIfEnlarged .setTileSize{
+	height: 212px; max-height: 212px; min-height: 212px;
+}
+.tile.xhigh .setTileSize, .tile:not(.active).xhighIfInactive .setTileSize, .tile.active.xhighIfActive .setTileSize, .tile.enlarged.xhighIfEnlarged .setTileSize{
+	height: 324px; max-height: 324px; min-height: 324px;
+}
+.tile.fullWidth .setTileSize, .tile:not(.active).fullWidthIfInactive .setTileSize, .tile.active.fullWidthIfActive .setTileSize, .tile.enlarged.fullWidthIfEnlarged .setTileSize{
+	width: 95vw; width: calc(100vw - 40px); max-width: 95vw; max-width: calc(100vw - 40px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
+.tile.aspect-1-1 .setTileSize, .tile:not(.active).aspect-1-1IfInactive .setTileSize, .tile.active.aspect-1-1IfActive .setTileSize, .tile.enlarged.aspect-1-1IfEnlarged .setTileSize{
+	padding-bottom: 100%; padding-bottom: calc(100% - 100px);
+}
+.tile.aspect-4-3 .setTileSize, .tile:not(.active).aspect-4-3IfInactive .setTileSize, .tile.active.aspect-4-3IfActive .setTileSize, .tile.enlarged.aspect-4-3IfEnlarged .setTileSize{
+	padding-bottom: 75%; padding-bottom: calc(75% - 100px);
+}
+.tile.aspect-3-2 .setTileSize, .tile:not(.active).aspect-3-2IfInactive .setTileSize, .tile.active.aspect-3-2IfActive .setTileSize, .tile.enlarged.aspect-3-3IfEnlarged .setTileSize{
+	padding-bottom: 66.66%; padding-bottom: calc(66.66% - 100px);
+}
+.tile.aspect-16-9 .setTileSize, .tile:not(.active).aspect-16-9IfInactive .setTileSize, .tile.active.aspect-16-9IfActive .setTileSize, .tile.enlarged.aspect-16-9IfEnlarged .setTileSize{
+	padding-bottom: 56.25%; padding-bottom: calc(56.25% - 100px);
+}
+.tile.aspect-21-9 .setTileSize, .tile:not(.active).aspect-21-9IfInactive .setTileSize, .tile.active.aspect-21-9IfActive .setTileSize, .tile.enlarged.aspect-21-9IfEnlarged .setTileSize{
+	padding-bottom: 42.86%; padding-bottom: calc(42.86% - 100px);
+}
+.tile.aspect-1-1-limited .setTileSize, .tile:not(.active).aspect-1-1-limitedIfInactive .setTileSize, .tile.active.aspect-1-1-limitedIfActive .setTileSize, .tile.enlarged.aspect-1-1-limitedIfEnlarged .setTileSize{
+	padding-bottom: 100%; padding-bottom: calc(100% - 100px); padding-bottom: min(calc(100% - 100px) .setTileSize, calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
+.tile.aspect-4-3-limited .setTileSize, .tile:not(.active).aspect-4-3-limitedIfInactive .setTileSize, .tile.active.aspect-4-3-limitedIfActive .setTileSize, .tile.enlarged.aspect-4-3-limitedIfEnlarged .setTileSize{
+	padding-bottom: 75%; padding-bottom: calc(75% - 100px); padding-bottom: min(calc(75% - 100px) .setTileSize, calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
+.tile.aspect-3-2-limited .setTileSize, .tile:not(.active).aspect-3-2-limitedIfInactive .setTileSize, .tile.active.aspect-3-2-limitedIfActive .setTileSize, .tile.enlarged.aspect-3-3-limitedIfEnlarged .setTileSize{
+	padding-bottom: 66.66%; padding-bottom: calc(66.66% - 100px); padding-bottom: min(calc(66.66% - 100px) .setTileSize, calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
+.tile.aspect-16-9-limited .setTileSize, .tile:not(.active).aspect-16-9-limitedIfInactive .setTileSize, .tile.active.aspect-16-9-limitedIfActive .setTileSize, .tile.enlarged.aspect-16-9-limitedIfEnlarged .setTileSize{
+	padding-bottom: 56.25%; padding-bottom: calc(56.25% - 100px); padding-bottom: min(calc(56.25% - 100px) .setTileSize, calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
+.tile.aspect-21-9-limited .setTileSize, .tile:not(.active).aspect-21-9-limitedIfInactive .setTileSize, .tile.active.aspect-21-9-limitedIfActive .setTileSize, .tile.enlarged.aspect-21-9-limitedIfEnlarged .setTileSize{
+	padding-bottom: 42.86%; padding-bottom: calc(42.86% - 100px); padding-bottom: min(calc(42.86% - 100px) .setTileSize, calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
+.tile.fullHeight .setTileSize, .tile:not(.active).fullHeightIfInactive .setTileSize, .tile.active.fullHeightIfActive .setTileSize, .tile.enlarged.fullHeightIfEnlarged .setTileSize{
+	height: 85vh; height: calc(100vh - 70px); max-height: 85vh; max-height: calc(100vh - 70px); min-height: 85vh; min-height: calc(100vh - 70px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	padding-bottom: unset !important;
+}
+.tile.adaptsHeight .setTileSize, .tile:not(.active).adaptsHeightIfInactive .setTileSize, .tile.active.adaptsHeightIfActive .setTileSize, .tile.enlarged.adaptsHeightIfEnlarged .setTileSize{
+	height: unset; max-height: 85vh; max-height: calc(100vh - 70px);
+}
+
+.tileSizer{ background-color: #28d93152;
+	position: relative;
+    transition: all 0s !important;
+}
+
+.tileExtraContainer{
+	position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+	margin: 0; padding: 0; border: none;
+	background: transparent;
+    overflow:visible;
+}
+
+.tileIntraContainer{
+	position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+	margin: 0; padding: 0; border: none;
+	background: transparent;
+    overflow:hidden;
+	-webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+	   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+			box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+}
+.tileIntraContainer:hover {
+	border: 0px solid rgba(255, 255, 255, 0.8);
+	-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+	   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+			box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+}
+.tile:not(.active).transparentIfInactive .tileIntraContainer, .tile.active.transparentIfActive .tileIntraContainer, .tile.enlarged.transparentIfEnlarged .tileIntraContainer{
+	-webkit-box-shadow: none !important;
+	   -moz-box-shadow: none !important;
+			box-shadow: none !important;
+} 
+
+.tileGlow {
+	position: absolute;	top: 0; left: 0; width: 100%; height: 100%;
+	margin: 0; padding: 0; border: none;
+	background: transparent;
+	overflow: visible;
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+}
+.tile.active .tileGlow:not(.active) {
+	opacity: 0 !important;
+}
+.tile:not(.active) .tileGlow.active {
+	opacity: 0 !important;
+}
+
+.tileBackgroundImage {
+	position: absolute;	top:0px; left:0px; width:100%; height:100%;
+	margin: 0; padding: 0; border: none;
+	background-size:cover; background-position:center;	
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+}
+.tile:hover .tileBackgroundImage {
+	-webkit-transform: scale3d(1.05,1.05,1);
+	   -moz-transform: scale3d(1.05,1.05,1);
+			transform: scale3d(1.05,1.05,1);
+}
+.tile:hover .tileBackgroundImage.noZoomOnHover {
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+}
+.tile.active .tileBackgroundImage:not(.active), .tile:not(.active) .tileBackgroundImage.active {
+	pointer-events:none !important;
+	opacity: 0 !important;
+	-webkit-transition: opacity 1.25s ease-in;
+	   -moz-transition: opacity 1.25s ease-in;
+			transition: opacity 1.25s ease-in;
+}
+.tileBackgroundImage:not(.active) {
+	background-color: rgba(255, 255, 255, 0.6);
+	opacity: 0.99;
+}
+.tileBackgroundImage:not(.active):hover {
+	background-color: rgba(255, 255, 255, 0.6);
+	opacity: 0.99;
+}
+.tileBackgroundImage.active {
+	background-color: rgba(255, 255, 255, 0.6);
+	opacity: 0.99;
+}
+.tileBackgroundImage.active:hover {
+	background-color: rgba(255, 255, 255, 0.6);
+	opacity: 0.99;
+}
+.tile:not(.active).transparentIfInactive .tileBackgroundImage, .tile.active.transparentIfActive .tileBackgroundImage, .tile.enlarged.transparentIfEnlarged .tileBackgroundImage {
+	background-color: transparent !important;
+} 
+
+.tileBackgroundIframeWrapper {
+	position: absolute;	top:0px; left:0px; width:100%; height:100%;
+	margin: 0; padding: 0; border: none;
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+	overflow: hidden;
+}
+.tileBackgroundIframeWrapper:hover {
+	-webkit-transform: scale3d(1.05,1.05,1);
+	   -moz-transform: scale3d(1.05,1.05,1);
+			transform: scale3d(1.05,1.05,1);
+}
+.tileBackgroundIframeWrapper.noZoomOnHover:hover {
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+}
+.tileBackgroundIframe {
+	width: 100%;
+	min-height: 100%;
+	height: 100%;
+	margin: 0; padding: 0; border: none;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+}
+
+.tileOverlay {
+	position: absolute;	top:0px; left:0px; width:100%; height:100%;
+	margin: 0; padding: 0; border: none;
+	-webkit-transform: scale3d(1.1,1.1,2);
+	   -moz-transform: scale3d(1.1,1.1,2);
+			transform: scale3d(1.1,1.1,2);
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+	overflow: hidden;
+}
+.tile.active .tileOverlay:not(.active), .tile:not(.active) .tileOverlay.active {
+	opacity: 0 !important;
+}
+.tile.enlarged .tileOverlay.hideIfEnlarged {
+	opacity: 0 !important;
+}
+.tileOverlay:not(.active) {
+	background-color: rgb(180, 180, 180);
+	opacity: 0.5;
+}
+.tile:hover .tileOverlay:not(.active) {
+	background-color: rgb(190, 190, 190);
+	opacity: 0.9;
+}
+.tileOverlay.active {
+	background-color: rgb(255, 255, 255);
+	opacity: 0.82;
+}
+.tile:hover .tileOverlay.active {
+	background-color: rgb(255, 255, 255);
+	opacity: 0.95;
+}
+
+
+
+
+
+/*
+	display: inline-block;
+ 	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
+	pointer-events: none !important;
+*/
+
+
+
+
+
+/* ---------- uiElements ---------- */
 .uiElementStack.container{
 	position: absolute;
 	overflow: visible;
@@ -1862,16 +1901,6 @@ html.adjustHeightToBackgroundView {
 .uiElement.icon.iconLinkOpenLinkToOtherView{
 	cursor: alias;
 }
-#View .ui-panel-wrapper {
-	-webkit-transform-origin: left top;
-	   -moz-transform-origin: left top;
-		transform-origin: left top;
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
- }
-html.bigMode #View .ui-panel-wrapper {
-	-webkit-transform: scale3d(1.5,1.5,1);
-	   -moz-transform: scale3d(1.5,1.5,1);
-			transform: scale3d(1.5,1.5,1);
-}
+
+
+

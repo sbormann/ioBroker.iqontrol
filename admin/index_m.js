@@ -12228,17 +12228,20 @@ async function save(callback) {
 		obj.tileClassesCssString += createCssStringFromTileClass(tileClass, tileClassIndex) + " ";
 	});
 	function createCssStringFromTileClass(tileClass, tileClassIndex){
-		const cssPrefixes = ['.iQontrolDevice:not(.enlarged).tileClass_' + tileClassIndex, '.iQontrolDevice.enlarged.tileClass_' + tileClassIndex + '_ifEnlarged'];
+		let cssPrefixes = ['.tile:not(.enlarged).tileClass_' + tileClassIndex, '.tile.enlarged.tileClass_' + tileClassIndex + '_ifEnlarged'];
 		let cssString = '';
+		let borderRadiusCssString = '';
 		if(!tileClass.value) tileClass.value = {};
 		//Tile
 		cssString += cssPrefixes.join(', ') + ' { /* ' + tileClass.commonName + ' */ ';
 		for(let tileOption in tileClass.value.tile || {}){
 			if(tileOption.indexOf('border-') == 0 && tileOption.endsWith('-radius')){
-				cssString += tileOption + ': ' + tileClass.value.tile[tileOption] + (tileClass.value.tile[tileOption + '-unit'] || 'px') + '; ';
+				borderRadiusCssString += tileOption + ': ' + tileClass.value.tile[tileOption] + (tileClass.value.tile[tileOption + '-unit'] || 'px') + '; ';
 			}
 		}
 		cssString += ' } ';
+		let borderRadiusCssPrefixes = cssPrefixes.map(function(entry){return entry + ' .setTileSize'; });
+		cssString += borderRadiusCssPrefixes.join(', ') + ' { /* ' + tileClass.commonName + ' */ ' + borderRadiusCssString + ' } ';
 		//Stacks
 		(tileClass.value.stacks || []).forEach(function(stack, stackIndex){
 			//Stack Positions

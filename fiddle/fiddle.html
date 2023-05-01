@@ -1,52 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Fiddle</title>
-    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>       
-    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-    <link rel="stylesheet" href="fiddle.css">
-	<script src="fiddle.js"></script>
-  </head>
-  <body>
-    <main>
-        <h1>Welcome to the Fiddle!</h1>  
-        <div class="main">
 
-          <div class="viewIsotopeContainer">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Fiddle</title>
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+  <link rel="stylesheet" href="fiddle.css">
+  <script src="fiddle.js"></script>
+</head>
 
-            <div id="testTile" class="tile tileClass_0 tileSize">
-              <div class="tileExtraContainer tileSize pressureIndicator">
-                <div class="element extra one">EL 1 (extra)</div>
-                <div class="element extra four">EL 4 (extra)</div>
-                <div class="tileIntraContainer tileSize">
-                  <div class="element intra two">EL 2</div>
-                  <div class="element intra three">EL 3</div>
-                </div>
+<body>
+  <main>
+    <h1>Welcome to the Fiddle!</h1>
+    <div class="main">
+
+      <div class="viewIsotopeContainer">
+
+        <div id="testTile" class="tile tileClass_0">
+          <div class="tileSizer setTileSize">
+            <div class="tileExtraContainer setTileSize pressureIndicator">
+              <div class="element extra one">EL 1 (extra)</div>
+              <div class="element extra four">EL 4 (extra)</div>
+              <div class="tileIntraContainer setTileSize">
+                <div class="element intra two">EL 2</div>
+                <div class="element intra three">EL 3</div>
               </div>
             </div>
-
-            <div id="testTile2" class="tile tileClass_0 tileSize">
-              <div class="tileExtraContainer tileSize pressureIndicator">
-                <div class="element extra one">EL 1 (extra)</div>
-                <div class="element extra four">EL 4 (extra)</div>
-                <div class="tileIntraContainer tileSize">
-                  <div class="element intra two">EL 2</div>
-                  <div class="element intra three">EL 3</div>
-                </div>
-              </div>
-            </div>
-
-
           </div>
-
         </div>
-    </main>
-  </body>
+
+        <div id="testTile2" class="tile tileClass_0">
+          <div class="tileSizer setTileSize">
+            <div class="tileExtraContainer setTileSize pressureIndicator">
+              <div class="element extra one">EL 1 (extra)</div>
+              <div class="element extra four">EL 4 (extra)</div>
+              <div class="tileIntraContainer setTileSize">
+                <div class="element intra two">EL 2</div>
+                <div class="element intra three">EL 3</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+  </main>
+</body>
+
 </html>
