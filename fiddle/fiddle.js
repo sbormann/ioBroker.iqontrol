@@ -1,5 +1,22 @@
 $(document).ready(function () {
     $('h1').css('background', 'red');
+    $('.viewIsotopeContainer').isotope({
+        // options
+        itemSelector: '.tile',
+        layoutMode: 'fitRows'
+    });       
+    $('.main').on('click', function(){ 
+        var rnd = Math.floor(Math.random() * 3);
+        $('.isotope-grid').isotope({
+            filter: rnd == 0 ? '*' : rnd == 1 ? '#testTile' : '#testTile2'
+        });
+    });
+    $('.tile').on('click', function(e){
+        e.stopPropagation();
+        var enlarged = $(this).hasClass('enlarged');
+        if(enlarged) $(this).removeClass('enlarged'); else $(this).addClass('enlarged');
+        $('.isotope-grid').isotope('layout');
+    });
 });
 
 function getFreeSpace(containerSelector, childsSelector) {

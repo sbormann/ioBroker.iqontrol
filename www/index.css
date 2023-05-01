@@ -556,19 +556,19 @@ html.noscroll body {
 	width: 0;
 	height: 0;
 }
-.viewShuffleContainer {
+.viewIsotopeContainer {
 	pointer-events:none;
 	overflow: visible !important;
 	margin: 0;
 	width: 100%;
 }
-.viewShuffleContainer.collapsibleAnimationRunning{
+.viewIsotopeContainer.collapsibleAnimationRunning{
 	overflow: hidden !important;
 }
-.viewShuffleContainer.collapsibleContentClosed{
+.viewIsotopeContainer.collapsibleContentClosed{
 	display: none;
 }
-.iQontrolSubheaderCollapsible .iQontrolSubheadingCollapsibleIcon{
+.subheaderCollapsible .subheaderCollapsibleIcon{
 	position: absolute; 
 	right: 0; 
 	top: 50%; 
@@ -577,13 +577,13 @@ html.noscroll body {
 	transition: all 0.15s;
 	opacity: 1;
 }
-.iQontrolSubheaderCollapsible.collapsibleClosed .iQontrolSubheadingCollapsibleIcon.minus{
+.subheaderCollapsible.collapsibleClosed .subheaderCollapsibleIcon.minus{
 	opacity: 0;
 }
-.iQontrolSubheaderCollapsible:not(.collapsibleClosed) .iQontrolSubheadingCollapsibleIcon.plus{
+.subheaderCollapsible:not(.collapsibleClosed) .subheaderCollapsibleIcon.plus{
 	opacity: 0;
 }
-.iQontrolSubheaderCollapsible .iQontrolSubheadingCollapsibleIcon img, .iQontrolSubheaderCollapsible  .iQontrolSubheadingCollapsibleIcon span{
+.subheaderCollapsible .subheaderCollapsibleIcon img, .subheaderCollapsible  .subheaderCollapsibleIcon span{
 	position: relative; 
     margin: 0;
     padding: 0 2px;;
@@ -597,7 +597,7 @@ html.noscroll body {
     transition: all 500ms;
 	width: 100%;
 }
-.viewShuffleContainer.collapsibleClosed + .viewNewSectionSpacer{
+.viewIsotopeContainer.collapsibleClosed + .viewNewSectionSpacer{
 	height: 0.01em;	margin-top: -20px; /* workaround for quirky animation */
     transition: all 500ms linear;
     transition-delay: 250ms;
@@ -618,7 +618,7 @@ html.noscroll body {
 	   -moz-transition: all 0s;
 			transition: all 0s;
 }
-.iQontrolDevicePressureIndicator {
+.pressureIndicator {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
@@ -638,14 +638,14 @@ html.noscroll body {
 	   -moz-box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
 	        box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
 }
-.iQontrolDevicePressureIndicator.hideDeviceIfInactive:not(.active), .iQontrolDevicePressureIndicator.hideDeviceIfActive.active {
+.pressureIndicator.hideDeviceIfInactive:not(.active), .pressureIndicator.hideDeviceIfActive.active {
 	visibility: hidden !important; 
 	height: 0 !important;
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
-.iQontrolDevicePressureIndicator.hideDeviceIfInactive.active, .iQontrolDevicePressureIndicator.hideDeviceIfActive:not(.active) {
+.pressureIndicator.hideDeviceIfInactive.active, .pressureIndicator.hideDeviceIfActive:not(.active) {
 	visibility: visible !important; 
 	height: unset !important;
 	-webkit-transition: all 1s;
@@ -677,10 +677,10 @@ html.noscroll body {
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
-.iQontrolDevicePressureIndicator.active .iQontrolDeviceGlow:not(.active) {
+.pressureIndicator.active .iQontrolDeviceGlow:not(.active) {
 	opacity: 0 !important;
 }
-.iQontrolDevicePressureIndicator:not(.active) .iQontrolDeviceGlow.active {
+.pressureIndicator:not(.active) .iQontrolDeviceGlow.active {
 	opacity: 0 !important;
 }
 .iQontrolDevice {

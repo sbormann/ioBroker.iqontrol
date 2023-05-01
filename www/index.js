@@ -3576,7 +3576,7 @@ function handleOptions(){
 		customCSS += "#ViewContent h4{";
 		customCSS += "	margin-bottom: " + options.LayoutViewSubHeaderMarginBottom + "px;";
 		customCSS += "}";
-		customCSS += ".viewShuffleContainer.collapsibleClosed ~ .viewNewSectionSpacer{";
+		customCSS += ".viewIsotopeContainer.collapsibleClosed ~ .viewNewSectionSpacer{";
 		customCSS += "	margin-top: -" + options.LayoutViewSubHeaderMarginBottom + "px;";
 		customCSS += "}";
 	};
@@ -3618,14 +3618,14 @@ function handleOptions(){
 		customCSS += "}";
 	};
 	if(options.LayoutViewDeviceBorderRadius) {
-		customCSS += ".iQontrolDevicePressureIndicator, .iQontrolDeviceGlow, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
+		customCSS += ".pressureIndicator, .iQontrolDeviceGlow, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
 		customCSS += "	 -webkit-border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
 		customCSS += "   	-moz-border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
 		customCSS += "			 border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
 		customCSS += "}";
 	};
 	if(options.LayoutViewDeviceBorderRadiusLargeScreen) {
-		customCSS += "html.bigMode .iQontrolDevicePressureIndicator, html.bigMode .iQontrolDeviceGlow, html.bigMode .iQontrolDevice, html.bigMode .iQontrolDeviceBackgroundIframeWrapper, html.bigMode .iQontrolDeviceBackgroundImage, html.bigMode .iQontrolDeviceBackground {";
+		customCSS += "html.bigMode .pressureIndicator, html.bigMode .iQontrolDeviceGlow, html.bigMode .iQontrolDevice, html.bigMode .iQontrolDeviceBackgroundIframeWrapper, html.bigMode .iQontrolDeviceBackgroundImage, html.bigMode .iQontrolDeviceBackground {";
 		customCSS += "		 -webkit-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
 		customCSS += "	   		-moz-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
 		customCSS += "				 border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
@@ -4715,54 +4715,56 @@ function renderView(viewId, triggeredByReconnection){
 		addDeviceCollection('view', '#ViewContent', viewId, view.devices, {
 			replaceContent: true,
 			beforeAddDeviceFunction: function(uiElements){ 
-				uiElements.addHtml("<div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>");
+				uiElements.addHtml("<div class='viewIsotopeContainer'><div class='iQontrolDeviceShuffleSizer'></div>");
 				return uiElements; 
 			}, 
 			addDeviceFunction: function(device, deviceIndex, uiElements){ 
+				//---------- addDeviceFunction ----------
 				var deviceId = device.deviceId;
 				var deviceIdEscaped = device.deviceIdEscaped;
+				//--some old stuff #######
 				var viewContent = ""; //##### rename
+				var deviceContent = ""; //###### remove
 				var viewUpdateFunctions = {}; ///##### rename
 				viewUpdateFunctions["UPDATE_ONCE"] = []; //##### rename
 				var viewLinkedStateIdsToFetchAndUpdate = []; //##### rename
-				//New Line & Heading
-				if(device.nativeHeading) {
-					var variablename = encodeURI(device.nativeHeading.split('|').slice(1).join('|'));
-					viewContent += "</div>" + (deviceIndex > 0 ? "<div class='viewNewSectionSpacer'></div>" : "") + "<h4>";
-					if(device.nativeHeadingOptions && (device.nativeHeadingOptions == "CO" || device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "COC" || device.nativeHeadingOptions == "CCC")) {
-						viewContent += "<div class='iQontrolSubheaderCollapsible fullScreenWidth" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed" : "") + (device.nativeHeadingOptions == "COC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosesWhenOthersOpen" : "") + "' style='position: absolute; top:0; padding-top: inherit; height: 100%;' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
-						viewContent += "	<div class='iQontrolSubheadingCollapsibleIcon plus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelPlus || "&plus;") + "</span></div>";
-						viewContent += "	<div class='iQontrolSubheadingCollapsibleIcon minus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelMinus || "&minus;") + "</span></div>";
-						viewContent += "</div>";
-					}
-					viewContent += "<div class='subHeaderText fullScreenWidth'" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading.split('|')[0] + "</div></h4><div class='viewShuffleContainer" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed collapsibleContentClosed" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
-				} else if(device.nativeNewLine) {
-					viewContent += "</div><div class='viewNewLineSpacer'></div><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
-				} else if(deviceIndex == 0) {
-					viewContent += "</div><div class='viewFirstLineNoHeadingSpacer'></div><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
-				}	
-				//Render Device
-				if(device.nativeHide){
-					uiElements.addHtml(viewContent);
-					return uiElements; 
-				}
-				viewContent = "";
-				var deviceContent = "";
 				var deviceLinkedStateIds = {}; //##### remove this, when all parts are converted to uiElements
 				Object.keys(device.deviceStates || {}).forEach(function(deviceStateName){
 					deviceLinkedStateIds[deviceStateName] = device.deviceStates[deviceStateName].stateId;
 				});
-/*				//--Special: the option tileActiveStateId is transferred to deviceLinkedStateIds["tileActiveStateId"] and fetched
+/*				//Special: the option tileActiveStateId is transferred to deviceLinkedStateIds["tileActiveStateId"] and fetched
 				var linkedTileActiveStateId = getDeviceOptionValue(device, "tileActiveStateId");
 				if(linkedTileActiveStateId) { //Call updateFunction after rendering View
 					if(!viewUpdateFunctions[linkedTileActiveStateId]) viewUpdateFunctions[linkedTileActiveStateId] = [];
 					viewLinkedStateIdsToFetchAndUpdate.push(linkedTileActiveStateId);
 				}
 				deviceLinkedStateIds["tileActiveStateId"] = linkedTileActiveStateId; */
+
+				//--New Line & Heading
+				if(device.nativeHeading) {
+					var variablename = encodeURI(device.nativeHeading.split('|').slice(1).join('|')); //#####
+					deviceContent = "</div>" + (deviceIndex > 0 ? "<div class='viewNewSectionSpacer'></div>" : "") + "<h4>";
+					if(device.nativeHeadingOptions && (device.nativeHeadingOptions == "CO" || device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "COC" || device.nativeHeadingOptions == "CCC")) {
+						deviceContent += "<div class='subheaderCollapsible fullScreenWidth" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed" : "") + (device.nativeHeadingOptions == "COC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosesWhenOthersOpen" : "") + "' style='position: absolute; top:0; padding-top: inherit; height: 100%;' data-device-id-escaped='" + deviceIdEscaped + "'>";
+						deviceContent += "	<div class='subheaderCollapsibleIcon plus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelPlus || "&plus;") + "</span></div>";
+						deviceContent += "	<div class='subheaderCollapsibleIcon minus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelMinus || "&minus;") + "</span></div>";
+						deviceContent += "</div>";
+					}
+					deviceContent += "<div class='subHeaderText fullScreenWidth'" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading.split('|')[0] + "</div></h4><div class='viewIsotopeContainer" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed collapsibleContentClosed" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
+				} else if(device.nativeNewLine) {
+					deviceContent += "</div><div class='viewNewLineSpacer'></div><div class='viewIsotopeContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
+				} else if(deviceIndex == 0) {
+					deviceContent += "</div><div class='viewFirstLineNoHeadingSpacer'></div><div class='viewIsotopeContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
+				}	
+				uiElements.addHtml(deviceContent);
+
+				//--Device nativeHide
+				if(device.nativeHide) return uiElements; 
+
 				//--viewDeviceContextMenu
 				viewDeviceContextMenu[deviceIdEscaped] = {};
 				viewDeviceContextMenu[deviceIdEscaped].dialog = {name: _("Properties..."), icon: 'comment', href: '', target: '', onclick: '$("#ViewDeviceContextMenu").popup("close"); setTimeout(function(){renderDialog("' + deviceIdEscaped + '"); $("#Dialog").popup("open", {transition: "pop", positionTo: "window"});}, 400);'};
-				var onclick = "$(\"#ViewDeviceContextMenu\").popup(\"close\"); toggleState(unescape(\"" + escape(deviceLinkedStateIds["tileEnlarged"]) + "\"), \"" + deviceIdEscaped + "\");";
+				var onclick = "$(\"#ViewDeviceContextMenu\").popup(\"close\"); toggleState(unescape(\"" + escape(device.deviceStates["tileEnlarged"].stateId) + "\"), \"" + deviceIdEscaped + "\");";
 				viewDeviceContextMenu[deviceIdEscaped].enlarge = {name: _("Enlarge"), icon:'arrow-u-r', href: '', target: '', onclick: onclick, hidden: true};
 				viewDeviceContextMenu[deviceIdEscaped].reduce = {name: _("Reduce"), icon:'arrow-d-l', href: '', target: '', onclick: onclick, hidden: true};
 				//--Get viewLinksToOtherViews
@@ -4779,373 +4781,96 @@ function renderView(viewId, triggeredByReconnection){
 						}
 					}
 				}
-				//--PressureIndicator
-				viewContent += "<div data-groups='" + device.commonRole + "' class='viewShuffleTile iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + ((getDeviceOptionValue(device, "hideDeviceIfActive") == "true")?" hideDeviceIfActive":"") + "' " + (((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true") || (getDeviceOptionValue(device, "hideDeviceIfActive") == "true"))?"style='visibility: hidden; height:0px;' ":"") + "data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
-					//--Hide
-					/* if(deviceLinkedStateIds["HIDE"]){
-						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-							var _device = device;
-							var _deviceIdEscaped = deviceIdEscaped;
-							var _linkedHideId = deviceLinkedStateIds["HIDE"];
-							var updateFunction = function(){
-								var stateHide = getStateObject(_linkedGlowHideId);
-								var invertHide = (getDeviceOptionValue(_device, "invertHide") == "true");
-								var hide = !(stateHide && stateHide.val || false);
-								if(invertHide) hide = !hide;
-								if(hide){
-									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("hideDevice");
-								} else {
-									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("hideDevice");
-								}
-							};
-                            uiElements.addUpdateFunction(_linkedHideId, updateFunction);
-						})(); //<--End Closure
-					} */
-					//--Glow
-					if(deviceLinkedStateIds["GLOW_INACTIVE_COLOR"]){
-						viewContent += "<div class='iQontrolDeviceGlow' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
-						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-							var _device = device;
-							var _deviceIdEscaped = deviceIdEscaped;
-							var _linkedGlowInactiveColorId = deviceLinkedStateIds["GLOW_INACTIVE_COLOR"];
-							var _linkedGlowHideId = deviceLinkedStateIds["GLOW_HIDE"];
-							var updateFunction = function(){
-								var stateGlowInactiveColor = getState(_linkedGlowInactiveColorId);
-								var stateGlowHide = getState(_linkedGlowHideId);
-								var invertGlowHide = (getDeviceOptionValue(_device, "invertGlowHide") == "true");
-								var glow = !(stateGlowHide && stateGlowHide.val || false);
-								if(invertGlowHide) glow = !glow;
-								var colorString = stateGlowInactiveColor && isValidColorString(stateGlowInactiveColor.val) && stateGlowInactiveColor.val || null;
-								if(glow && colorString){
-									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow:not(.active)").css('box-shadow', colorString + " 0 0 10px 2px");
-								} else {
-									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow:not(.active)").css('box-shadow', "none");
-								}
-							};
-                            uiElements.addUpdateFunction([_linkedGlowInactiveColorId, _linkedGlowHideId], updateFunction);
-						})(); //<--End Closure
-					}
-					//--Glow active
-					var linkGlowActiveColorToHue = (getDeviceOptionValue(device, "linkGlowActiveColorToHue") == "true");
-					if(deviceLinkedStateIds["GLOW_ACTIVE_COLOR"] || linkGlowActiveColorToHue){
-						viewContent += "<div class='iQontrolDeviceGlow active' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
-						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-							var _device = device;
-							var _deviceId = deviceId;
-							var _deviceIdEscaped = deviceIdEscaped;
-							var _linkedGlowActiveColorId = deviceLinkedStateIds["GLOW_ACTIVE_COLOR"];
-							var _linkedGlowHideId = deviceLinkedStateIds["GLOW_HIDE"];
-							var _linkGlowActiveColorToHue = linkGlowActiveColorToHue;
-							var _linkedHueId = deviceLinkedStateIds["HUE"];
-							var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
-							var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
-							if(!_linkedHueId && _linkedAlternativeColorspaceValueId) _linkedHueId = "TEMP:" + _deviceId + ".HUE";
-							var updateFunction = function(){
-								var stateGlowActiveColor = getState(_linkedGlowActiveColorId);
-								var stateGlowHide = getState(_linkedGlowHideId);
-								var invertGlowHide = (getDeviceOptionValue(_device, "invertGlowHide") == "true");
-								var glow = !(stateGlowHide && stateGlowHide.val || false);
-								if(invertGlowHide) glow = !glow;
-								var stateHue = getState(_linkedHueId);
-								if(_linkGlowActiveColorToHue && stateHue && stateHue.val !== ""){
-									if(stateHue.valRaw !== null){
-										var hueMin = stateHue.min || 0;
-										var hueMax = stateHue.max || 359;
-										var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
-										var	saturation = 100;
-										var stateSaturation = getState(_linkedSaturationId);
-										if(stateSaturation && typeof stateSaturation.val != udef && stateSaturation.valRaw != null) {
-											var saturationMin = stateSaturation.min || 0;
-											var saturationMax = stateSaturation.max || 100;
-											saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
-										}
-										var colorString = "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)";
-									} else {
-										colorString = null;
-									}
-								} else if(_linkGlowActiveColorToHue){
-									var colorString = "rgb(255,245,157)";
-								} else {
-									var colorString = stateGlowActiveColor && isValidColorString(stateGlowActiveColor.val) && stateGlowActiveColor.val || null;
-								}
-								if(glow && colorString){
-									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow.active").css('box-shadow', colorString + " 0 0 10px 2px");
-								} else {
-									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow.active").css('box-shadow', "none");
-								}
-							};
-                            uiElements.addUpdateFunction([_linkedGlowActiveColorId, _linkedGlowHideId, _linkedHueId, _linkedSaturationId, _linkedAlternativeColorspaceValueId, "UPDATE_ONCE"], updateFunction);
-						})(); //<--End Closure
-					}
-					//--Badge
-					uiElements
-					.addHtml(viewContent)
-					.addBadge(device, {
-						badgeDeviceState: "BADGE",
-						badgeColorDeviceState: "BADGE_COLOR",
-						class: "iQontrolDeviceBadge"
-					})
-					viewContent = ""; //#####
-					//--Device
-					var linkedTileEnlargedId = deviceLinkedStateIds["tileEnlarged"];
-					var stateEnlarged = getState(linkedTileEnlargedId);
-					var enlarged = stateEnlarged && stateEnlarged.val;
-					if(enlarged == null) enlarged = (getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true");
-					var stateHeightAdaptsContentInactive = (getDeviceOptionValue(device, "stateHeightAdaptsContentInactive") == "true");
-					var stateHeightAdaptsContentActive = (getDeviceOptionValue(device, "stateHeightAdaptsContentActive") == "true");
-					var stateHeightAdaptsContentEnlarged = (getDeviceOptionValue(device, "stateHeightAdaptsContentEnlarged") == "true");
-					viewContent += "<div class='iQontrolDevice" + (device.tileSettings && typeof device.tileSettings.tileClass != udef ? ' tileClass_' + device.tileSettings.tileClass : '') + (device.tileSettings && typeof device.tileSettings.tileClassEnlarged != udef ? ' tileClass_' + device.tileSettings.tileClassEnlarged + '_ifEnlarged' : '') + ((getDeviceOptionValue(device, "transparentIfInactive") == "true") ? " transparentIfInactive" : "") + ((getDeviceOptionValue(device, "transparentIfActive") == "true") ? " transparentIfActive" : "") + ((getDeviceOptionValue(device, "transparentIfEnlarged") == "true") ? " transparentIfEnlarged" : "") + (getDeviceOptionValue(device, "sizeInactive") ? " " + getDeviceOptionValue(device, "sizeInactive") : "") + (getDeviceOptionValue(device, "sizeActive") ? " " + getDeviceOptionValue(device, "sizeActive") : "") + (getDeviceOptionValue(device, "sizeEnlarged") ? " " + getDeviceOptionValue(device, "sizeEnlarged") : "") + (enlarged ? " enlarged": "") + (stateHeightAdaptsContentInactive ? " adaptsHeightIfInactive" : "") + (stateHeightAdaptsContentActive ? " adaptsHeightIfActive" : "") + (stateHeightAdaptsContentEnlarged ? " adaptsHeightIfEnlarged" : "") + ((getDeviceOptionValue(device, "bigIconInactive") == "true") ? " bigIconIfInactive" : "") + ((getDeviceOptionValue(device, "bigIconActive") == "true") ? " bigIconIfActive" : "") + ((getDeviceOptionValue(device, "bigIconEnlarged") != "false") ? " bigIconIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 
-					uiElements
-					.addHtml(viewContent);
-					viewContent = ""; //#####
+				//--Tile
+				var tileClass = (device.tileSettings && typeof device.tileSettings.tileClass != udef ? ' tileClass_' + device.tileSettings.tileClass : '') + (device.tileSettings && typeof device.tileSettings.tileClassEnlarged != udef ? ' tileClass_' + device.tileSettings.tileClassEnlarged + '_ifEnlarged' : '') 
+				var tileEnlargedId = device.deviceStates["tileEnlarged"].stateId;
+				var enlargedState = getState(tileEnlargedId);
+				var enlarged = enlargedState && enlargedState.val;
+				if(enlarged == null) enlarged = (getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true");
+				var stateHeightAdaptsContentInactive = (getDeviceOptionValue(device, "stateHeightAdaptsContentInactive") == "true");
+				var stateHeightAdaptsContentActive = (getDeviceOptionValue(device, "stateHeightAdaptsContentActive") == "true");
+				var stateHeightAdaptsContentEnlarged = (getDeviceOptionValue(device, "stateHeightAdaptsContentEnlarged") == "true");
+				uiElements.addHtml(`<div
+					class="iQontrolDevice tile tileSize ${tileClass} ${
+						((getDeviceOptionValue(device, 'transparentIfInactive') == 'true') ? ' transparentIfInactive' : '')
+						+ ((getDeviceOptionValue(device, 'transparentIfActive') == 'true') ? ' transparentIfActive' : '')
+						+ ((getDeviceOptionValue(device, 'transparentIfEnlarged') == 'true') ? ' transparentIfEnlarged' : '')
+						+ (getDeviceOptionValue(device, 'sizeInactive') ? ' ' + getDeviceOptionValue(device, 'sizeInactive') : '')
+						+ (getDeviceOptionValue(device, 'sizeActive') ? ' ' + getDeviceOptionValue(device, 'sizeActive') : '')
+						+ (getDeviceOptionValue(device, 'sizeEnlarged') ? ' ' + getDeviceOptionValue(device, 'sizeEnlarged') : '')
+						+ (enlarged ? ' enlarged': '')
+						+ (stateHeightAdaptsContentInactive ? ' adaptsHeightIfInactive' : '')
+						+ (stateHeightAdaptsContentActive ? ' adaptsHeightIfActive' : '')
+						+ (stateHeightAdaptsContentEnlarged ? ' adaptsHeightIfEnlarged' : '')
+						+ ((getDeviceOptionValue(device, 'bigIconInactive') == 'true') ? ' bigIconIfInactive' : '') 
+						+ ((getDeviceOptionValue(device, 'bigIconActive') == 'true') ? ' bigIconIfActive' : '')
+						+ ((getDeviceOptionValue(device, 'bigIconEnlarged') != 'false') ? ' bigIconIfEnlarged' : '') 
+						+ ((getDeviceOptionValue(device, 'hideDeviceIfInactive') == 'true')?' hideDeviceIfInactive':'') 
+						+ ((getDeviceOptionValue(device, 'hideDeviceIfActive') == 'true')?' hideDeviceIfActive':'')
+					}"
+					data-device-id-escaped="${deviceIdEscaped}"
+					style="${((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true" || getDeviceOptionValue(device, "hideDeviceIfActive") == "true") ? 'visibility: hidden; height:0px;' : '')}"
+				>`);
 
 
 
+/* LINK
 					//--Link (clickOnTileAction)
-						var clickOnTileAction = getDeviceOptionValue(device, "clickOnTileAction");
-						if(clickOnTileAction == "toggle") { //clickOnTile: toggle
-							deviceContent += "<div class='iQontrolDeviceLink toggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='if(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"] && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick){new Function(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick)();}'>";
-						} else if(clickOnTileAction == "openDialog") { //clickOnTile: openDialog
-							deviceContent += "<div class='iQontrolDeviceLink dialog' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
-						} else if(clickOnTileAction == "enlarge") { //clickOnTile: enlarge
-							deviceContent += "<div class='iQontrolDeviceLink enlarge' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='event.stopPropagation(); toggleState(unescape(\"" + escape(deviceLinkedStateIds["tileEnlarged"]) + "\"), \"" + deviceIdEscaped + "\", null, 0);'>";
-						} else if(clickOnTileAction == "false") { //clickOnTile: false (do nothing)
-							deviceContent += "<div class='iQontrolDeviceLink noLink' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick=''>";
-						} else if(clickOnTileAction == "openURLExternal") { //clickOnTile: openURLExternal
-							if(deviceLinkedStateIds["URL"]){
-								deviceContent += "<a class='iQontrolDeviceLink externalLink' data-iQontrol-Device-ID='" + deviceIdEscaped + "' target='_blank'>";
-							}
-						} else { //clickOnTile: openLinkToOtherView (default)
-							if(typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
-								if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
-									var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
-									deviceContent += "<div class='iQontrolDeviceLink linkedView' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='renderViewInParentInstance(unescape(\"" + escape(device.nativeLinkedView) + "\"), " + closePanel + ");'>";
-								} else { //Normal Link to other view
-									deviceContent += "<div class='iQontrolDeviceLink linkedView' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + (viewLinksToOtherViews.length - 1) + "; renderView(unescape(\"" + escape(device.nativeLinkedView) + "\"));'>";
-								}
-							} else { //No Link to other view present
-								deviceContent += "<div class='iQontrolDeviceLink noLink' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick=''>";
-							}
-						}
+					var clickOnTileAction = getDeviceOptionValue(device, "clickOnTileAction");
+					if(clickOnTileAction == "toggle") { //clickOnTile: toggle
+						deviceContent += "<div class='iQontrolDeviceLink toggle' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='if(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"] && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick){new Function(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick)();}'>";
+					} else if(clickOnTileAction == "openDialog") { //clickOnTile: openDialog
+						deviceContent += "<div class='iQontrolDeviceLink dialog' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
+					} else if(clickOnTileAction == "enlarge") { //clickOnTile: enlarge
+						deviceContent += "<div class='iQontrolDeviceLink enlarge' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='event.stopPropagation(); toggleState(unescape(\"" + escape(deviceLinkedStateIds["tileEnlarged"]) + "\"), \"" + deviceIdEscaped + "\", null, 0);'>";
+					} else if(clickOnTileAction == "false") { //clickOnTile: false (do nothing)
+						deviceContent += "<div class='iQontrolDeviceLink noLink' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick=''>";
+					} else if(clickOnTileAction == "openURLExternal") { //clickOnTile: openURLExternal
 						if(deviceLinkedStateIds["URL"]){
-							viewDeviceContextMenu[deviceIdEscaped].externalLink = {name: _("Open External Link"), icon: 'action', href: '', target: '_blank', onclick: '$("#ViewDeviceContextMenu").popup("close");', hidden: true};
-							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-								var _device = device;
-								var _deviceIdEscaped = deviceIdEscaped;
-								var _linkedUrlId = deviceLinkedStateIds["URL"];
-                                var updateFunction = function(){
-									var href = getState(_linkedUrlId);
-									if(href && href.val){
-										viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = href.val;
-										viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = false
-										if(_device.commonRole == "iQontrolExternalLink") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].externalLink").attr('href', href.val);
-									} else {
-										viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = "";
-										viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = true;
-										if(_device.commonRole == "iQontrolExternalLink") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].externalLink").attr('href', '');
-									}
-								};
-                                uiElements.addUpdateFunction(_linkedUrlId, updateFunction);
-							})(); //<--End Closure
+							deviceContent += "<a class='iQontrolDeviceLink externalLink' data-device-id-escaped='" + deviceIdEscaped + "' target='_blank'>";
 						}
-							//--BackgroundImage
-							var noZoomOnHover = (getDeviceOptionValue(device, "noZoomOnHover") == "true") || (options && options.LayoutViewDeviceNoZoomOnHover);
-							var url = "";
-							var variableurl = null;
-							if(device.nativeBackgroundImage){
-								url = encodeURI(device.nativeBackgroundImage.split('|')[0]);
-								variableurl = encodeURI(device.nativeBackgroundImage.split('|').slice(1).join('|'));
+					} else { //clickOnTile: openLinkToOtherView (default)
+						if(typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
+							if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
+								var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
+								deviceContent += "<div class='iQontrolDeviceLink linkedView' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='renderViewInParentInstance(unescape(\"" + escape(device.nativeLinkedView) + "\"), " + closePanel + ");'>";
+							} else { //Normal Link to other view
+								deviceContent += "<div class='iQontrolDeviceLink linkedView' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + (viewLinksToOtherViews.length - 1) + "; renderView(unescape(\"" + escape(device.nativeLinkedView) + "\"));'>";
 							}
-							deviceContent += "<div class='iQontrolDeviceBackgroundImage" + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
-							//--BackgroundImageActive
-							url = "";
-							variableurl = null;
-							if(device.nativeBackgroundImageActive){
-								url = encodeURI(device.nativeBackgroundImageActive.split('|')[0]);
-								variableurl = encodeURI(device.nativeBackgroundImageActive.split('|').slice(1).join('|'));
-							}
-							deviceContent += "<div class='iQontrolDeviceBackgroundImage active" + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
-							var overlayAboveBackgroundURL = (getDeviceOptionValue(device, "overlayAboveBackgroundURL") == "true");
-							if(!overlayAboveBackgroundURL){
-								//--Background (Overlay) (if option overlayAboveBackgroundURL is not set)
-								if(!(getDeviceOptionValue(device, "noOverlayInactive") == "true")){
-									deviceContent += "<div class='iQontrolDeviceBackground" + (getDeviceOptionValue(device, "noOverlayEnlarged") == "true" ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
-								}
-								//--BackgroundActive (OverlayActive) (if option overlayAboveBackgroundURL is not set)
-								if(!(getDeviceOptionValue(device, "noOverlayActive") == "true")){
-									deviceContent += "<div class='iQontrolDeviceBackground active" + (getDeviceOptionValue(device, "noOverlayEnlarged") == "true" ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
-								}
-							}
-							//--BackgroundIframe (BACKGROUND_VIEW/URL/HTML)
-							if(deviceLinkedStateIds["BACKGROUND_VIEW"] || deviceLinkedStateIds["BACKGROUND_URL"] || deviceLinkedStateIds["BACKGROUND_URL"]){
-								var hideBackgroundURLInactive = (getDeviceOptionValue(device, "hideBackgroundURLInactive") == "true");
-								var hideBackgroundURLActive = (getDeviceOptionValue(device, "hideBackgroundURLActive") == "true");
-								var visibilityBackgroundURLEnlarged = (getDeviceOptionValue(device, "visibilityBackgroundURLEnlarged") ? " " + getDeviceOptionValue(device, "visibilityBackgroundURLEnlarged") : "");
-								deviceContent += "<div class='iQontrolDeviceBackgroundIframeWrapper" + (hideBackgroundURLInactive ? " hideIfInactive" : "") + (hideBackgroundURLActive ? " hideIfActive" : "") + visibilityBackgroundURLEnlarged + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' style='opacity: 0;" + ((getDeviceOptionValue(device, "backgroundURLNoPointerEvents") == "true") ? " pointer-events:none !important;" : "") + "'></div>";
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									var _deviceIdEscaped = deviceIdEscaped;
-									var _device = device;
-									var _linkedBackgroundViewId = deviceLinkedStateIds["BACKGROUND_VIEW"];
-									var _linkedBackgroundURLId = deviceLinkedStateIds["BACKGROUND_URL"];
-									var _linkedBackgroundHTMLId = deviceLinkedStateIds["BACKGROUND_HTML"];
-									var updateFunction = function(){
-										var stateBackgroundView = getState(_linkedBackgroundViewId);
-										var stateBackgroundURL = getState(_linkedBackgroundURLId);
-										var stateBackgroundHTML = getState(_linkedBackgroundHTMLId);
-										if((stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") || (stateBackgroundURL && typeof stateBackgroundURL.val !== udef && stateBackgroundURL.val !== "")){ //View or URL
-											if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() == ""){ //create iframe
-												var padding = parseInt(getDeviceOptionValue(_device, "backgroundURLPadding")) || 0;
-												var paddingStyleString = (padding > 0 ? "style='margin: " + padding + "px; width: calc(100% - " + (2 * padding) + "px); min-height: calc(100% - " + (2 * padding) + "px);'" : "");
-												var dynamicIframeZoomLevel = parseFloat(getDeviceOptionValue(_device, "backgroundURLDynamicIframeZoom")) || 0;
-												var backgroundLimitAdjustHeightToScreen = (getDeviceOptionValue(_device, "backgroundLimitAdjustHeightToScreen") == "true");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe" + (dynamicIframeZoomLevel > 0 ? " dynamicIframeZoom" : "") + (backgroundLimitAdjustHeightToScreen ? " limitAdjustHeightToScreen" : "") + "' id='iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped + "' data-iQontrol-Device-ID='" + _deviceIdEscaped + "'" + ((getDeviceOptionValue(_device, "backgroundURLAllowPostMessage") == "true") ? " data-allow-post-message='true'" : "") + paddingStyleString + (dynamicIframeZoomLevel > 0 ? " data-dynamic-iframe-zoom='" + dynamicIframeZoomLevel + "'" : "") + "></iframe>");
-											}
-											setTimeout(function(){
-												var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
-												if(stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") { //View
-													var adjustHeightToBackgroundView = (getDeviceOptionValue(_device, "adjustHeightToBackgroundView") == "true");
-													$(iframe).data('allow-adjust-height', adjustHeightToBackgroundView).addClass('isBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeight');
-													iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true" + (getUrlParameter("namespace") ? "&namespace=" + getUrlParameter("namespace") : "") + (adjustHeightToBackgroundView ? "&adjustHeightToBackgroundView=true" : "") + (bigMode ? "&bigModeEnabled=true" : "") + (passphrase ? "&passphrase=" + passphrase : "");
-													var timeout = 2900;
-												} else { //URL
-													var url = stateBackgroundURL.val;
-													var widgetReplaceurl = getUrlParameterFromUrl(stateBackgroundURL.val, 'widgetReplaceurl');
-													var backgroundURLAllowAdjustHeight = (getDeviceOptionValue(_device, "backgroundURLAllowAdjustHeight") == "true");
-													$(iframe).data('allow-adjust-height', backgroundURLAllowAdjustHeight).removeClass('isBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeight');
-													if(widgetReplaceurl) {
-														if(getUrlParameterFromUrl(stateBackgroundURL.val, 'widgetReplaceurlAbsolute')) {
-															url = url.replace(url.split('?')[0], widgetReplaceurl);
-														} else {
-															url = url.replace(url.split('?')[0].substring(url.split('?')[0].lastIndexOf('/') + 1), widgetReplaceurl);														
-														}
-													}
-													if(backgroundURLAllowAdjustHeight) {
-														url = url + (url.split('?').length > 1 ? "&" : "?") + "allowAdjustHeight=true";
-													}
-													iframe.src = url;
-													var timeout = 500;
-												}
-												if(iframe.onload == null) {
-													iframe.onload = function(){
-														setTimeout(function(e){
-															if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() !== "") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
-														}, timeout);
-													}
-												}
-												setTimeout(function(){ //Fallback if load event is not triggered
-													if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() !== "") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
-												},3000);
-											}, (isFirefox?100:0));
-										} else if(stateBackgroundHTML && typeof stateBackgroundHTML.valFull !== udef && stateBackgroundHTML.valFull !== ""){ //HTML
-											if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() == ""){ //create iframe
-												var padding = parseInt(getDeviceOptionValue(_device, "backgroundURLPadding")) || 0;
-												var paddingStyleString = (padding > 0 ? "style='margin: " + padding + "px; width: calc(100% - " + (2 * padding) + "px); min-height: calc(100% - " + (2 * padding) + "px);'" : "");
-												var dynamicIframeZoomLevel = parseInt(getDeviceOptionValue(_device, "backgroundURLDynamicIframeZoom")) || 0;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe" + (dynamicIframeZoomLevel > 0 ? " dynamicIframeZoom" : "") + "' id='iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped + "' data-iQontrol-Device-ID='" + _deviceIdEscaped + "'" + ((getDeviceOptionValue(_device, "backgroundURLAllowPostMessage") == "true") ? " data-allow-post-message='true'" : "") + paddingStyleString + (dynamicIframeZoomLevel > 0 ? " data-dynamic-iframe-zoom='" + dynamicIframeZoomLevel + "'" : "") + "></iframe>");
-											}
-											setTimeout(function(){
-												var html = stateBackgroundHTML.valFull;
-												if(/\.png$|\.jpg$|\.gif$/ig.test(html.split('?')[0])) { //html contains only a image file
-													html = "<html><head></head><body style='margin: 0;'><img style='width: 100%;' src='" + html + "'></body></html>"; 
-												}
-												var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
-												$(iframe).data('allow-adjust-height', false).removeClass('isBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeight');
-												var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
-												iframedoc.open();
-												iframedoc.write(html.replace(/\\n/g, String.fromCharCode(13)));
-												$(iframedoc).find('body').css('font-family', 'sans-serif');
-												iframedoc.close();
-												setTimeout(function(){
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
-												}, 500);
-											}, (isFirefox?100:0));
-										} else { //Nothing
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '0');
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("");
-										}
-									};
-                                    uiElements.addUpdateFunction([_linkedBackgroundViewId, _linkedBackgroundURLId, _linkedBackgroundHTMLId], updateFunction);
-								})(); //<--End Closure
-							}
-							if(overlayAboveBackgroundURL){
-								//--Background (Overlay) (if option overlayAboveBackgroundURL is set)
-								if(!(getDeviceOptionValue(device, "noOverlayInactive") == "true")){
-									deviceContent += "<div class='iQontrolDeviceBackground" + (getDeviceOptionValue(device, "noOverlayEnlarged") == "true" ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
-								}
-								//--BackgroundActive (OverlayActive) (if option overlayAboveBackgroundURL is set)
-								if(!(getDeviceOptionValue(device, "noOverlayActive") == "true")){
-									deviceContent += "<div class='iQontrolDeviceBackground active" + (getDeviceOptionValue(device, "noOverlayEnlarged") == "true" ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
-								}
-							}
-							//--Background (Overlay) InactiveColor
-							if(deviceLinkedStateIds["OVERLAY_INACTIVE_COLOR"]){
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									var _deviceIdEscaped = deviceIdEscaped;
-									var _linkedOverlayInactiveColorId = deviceLinkedStateIds["OVERLAY_INACTIVE_COLOR"];
-									var updateFunction = function(){
-										var stateOverlayInactiveColor = getState(_linkedOverlayInactiveColorId);
-										var colorString = stateOverlayInactiveColor && isValidColorString(stateOverlayInactiveColor.val) && stateOverlayInactiveColor.val || null;
-										if(colorString){
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage:not(.active)").css('background-color', colorString);
-										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage:not(.active)").css('background-color', '');
-									}
-								};
-                                uiElements.addUpdateFunction(_linkedOverlayInactiveColorId, updateFunction);
-							})(); //<--End Closure
+						} else { //No Link to other view present
+							deviceContent += "<div class='iQontrolDeviceLink noLink' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick=''>";
 						}
-						//--Background (Overlay) ActiveColor
-						var linkOverlayActiveColorToHue = (getDeviceOptionValue(device, "linkOverlayActiveColorToHue") == "true");
-						if(deviceLinkedStateIds["OVERLAY_ACTIVE_COLOR"] || linkOverlayActiveColorToHue){
-							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-								var _deviceId = deviceId;
-								var _deviceIdEscaped = deviceIdEscaped;
-								var _linkedOverlayActiveColorId = deviceLinkedStateIds["OVERLAY_ACTIVE_COLOR"];
-								var _linkOverlayActiveColorToHue = linkOverlayActiveColorToHue;
-								var _linkedHueId = deviceLinkedStateIds["HUE"];
-								var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
-								var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
-								if(!_linkedHueId && _linkedAlternativeColorspaceValueId) _linkedHueId = "TEMP:" + _deviceId + ".HUE";
-								var updateFunction = function(){
-									var stateOverlayActiveColor = getState(_linkedOverlayActiveColorId);
-									var stateHue = getState(_linkedHueId);
-									if(_linkOverlayActiveColorToHue && stateHue && stateHue.val !== "" && stateHue.valRaw !== null){
-										var hueMin = stateHue.min || 0;
-										var hueMax = stateHue.max || 359;
-										var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
-										var	saturation = 100;
-										var stateSaturation = getState(_linkedSaturationId);
-										if(stateSaturation && typeof stateSaturation.val != udef && stateSaturation.valRaw != null) {
-											var saturationMin = stateSaturation.min || 0;
-											var saturationMax = stateSaturation.max || 100;
-											saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
-										}
-										var colorString = "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)";
-									} else if(_linkOverlayActiveColorToHue){
-										var colorString = "rgb(255,245,157)";
-									} else {
-										var colorString = stateOverlayActiveColor && isValidColorString(stateOverlayActiveColor.val) && stateOverlayActiveColor.val || null;
-									}
-									if(colorString){
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage.active").css('background-color', colorString);
-									} else {
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage.active").css('background-color', '');
-									}
-								};
-                                uiElements.addUpdateFunction([_linkedOverlayActiveColorId, _linkedHueId, _linkedAlternativeColorspaceValueId, "UPDATE_ONCE", _linkedSaturationId], updateFunction);
-/*								if(_linkedOverlayActiveColorId) viewUpdateFunctions[].push(updateFunction);
-								if(_linkOverlayActiveColorToHue && _linkedHueId) viewUpdateFunctions[].push(updateFunction);
-								if(_linkOverlayActiveColorToHue && !_linkedHueId && _linkedAlternativeColorspaceValueId) viewUpdateFunctions[].push(updateFunction);
-								if(_linkOverlayActiveColorToHue && !_linkedHueId) viewUpdateFunctions[].push(updateFunction);
-								if(_linkOverlayActiveColorToHue && _linkedSaturationId) viewUpdateFunctions[].push(updateFunction); */
-							})(); //<--End Closure
-						}
+					}
+					if(deviceLinkedStateIds["URL"]){
+						viewDeviceContextMenu[deviceIdEscaped].externalLink = {name: _("Open External Link"), icon: 'action', href: '', target: '_blank', onclick: '$("#ViewDeviceContextMenu").popup("close");', hidden: true};
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _device = device;
+							var _deviceIdEscaped = deviceIdEscaped;
+							var _linkedUrlId = deviceLinkedStateIds["URL"];
+							var updateFunction = function(){
+								var href = getState(_linkedUrlId);
+								if(href && href.val){
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = href.val;
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = false
+									if(_device.commonRole == "iQontrolExternalLink") $("[data-device-id-escaped='" + _deviceIdEscaped + "'].externalLink").attr('href', href.val);
+								} else {
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = "";
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = true;
+									if(_device.commonRole == "iQontrolExternalLink") $("[data-device-id-escaped='" + _deviceIdEscaped + "'].externalLink").attr('href', '');
+								}
+							};
+							uiElements.addUpdateFunction(_linkedUrlId, updateFunction);
+						})(); //<--End Closure
+					}
+
+*/
 
 
 
 						//---------- TEST UI ELEMENTS ----------
-						uiElements.addHtml(deviceContent);
+						if(!device.tileSettings) device.tileSettings = {};
+						if(!device.tileSettings.elements) device.tileSettings.elements = [];
 
 						//--tileActive
 						var tileActiveStateId = getDeviceOptionValue(device, 'tileActiveStateId');
@@ -5157,55 +4882,246 @@ function renderView(viewId, triggeredByReconnection){
 							var tileActiveState = getState(tileActiveStateId);
 							var tileActiveConditionValue = getState(tileActiveConditionValueId);
 							device.active = checkCondition(tileActiveState && tileActiveState.val || '', getDeviceOptionValue(device, 'tileActiveCondition') || 'eqt', tileActiveConditionValue && tileActiveConditionValue.val || null);
-							if(device.active) $(`.iQontrolDevice[data-iqontrol-device-id="${device.deviceIdEscaped}"], .iQontrolDevicePressureIndicator [data-iqontrol-device-id="${device.deviceIdEscaped}"]`).addClass('active'); else $(`.iQontrolDevice[data-iqontrol-device-id="${device.deviceIdEscaped}"], .iQontrolDevicePressureIndicator [data-iqontrol-device-id="${device.deviceIdEscaped}"]`).removeClass('active'); 
+							if(device.active) $(`.iQontrolDevice[data-device-id-escaped="${device.deviceIdEscaped}"], .pressureIndicator [data-device-id-escaped="${device.deviceIdEscaped}"]`).addClass('active'); else $(`.iQontrolDevice[data-device-id-escaped="${device.deviceIdEscaped}"], .pressureIndicator [data-device-id-escaped="${device.deviceIdEscaped}"]`).removeClass('active'); 
 						}
 						uiElements.addStatesToFetchAndUpdate([tileActiveStateId, tileActiveConditionValueId]);
 						uiElements.addUpdateFunction([tileActiveStateId, tileActiveConditionValueId], updateFunction);
 
-						//--uiElements
-						if(device.tileSettings && device.tileSettings.elements){
-							device.tileSettings.elements.filter(function(element){ return element.outside; }).forEach(function(element, elementIndex){ //Outside
-								//uiElements.addHtml(''); //Ouside-Container xxxxxxxxxxxxxxxxxxxx #####
-								//processElement(element, elementIndex);
-							});
-							device.tileSettings.elements.filter(function(element){ return !element.outside; }).forEach(function(element, elementIndex){ //Inside
-								//uiElements.addHtml(''); //Inside-Container xxxxxxxxxxxxxxxxxx #####
-								processElement(element, elementIndex);
-							});		
+						//--tileExtraContainer + pressureIndicator
+						uiElements.addHtml('<div class="tileExtraContainer tileSize pressureIndicator">');
+
+						//----Glow
+						if(deviceLinkedStateIds["GLOW_INACTIVE_COLOR"]){
+							viewContent += "<div class='iQontrolDeviceGlow' data-device-id-escaped='" + deviceIdEscaped + "'></div>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _device = device;
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedGlowInactiveColorId = deviceLinkedStateIds["GLOW_INACTIVE_COLOR"];
+								var _linkedGlowHideId = deviceLinkedStateIds["GLOW_HIDE"];
+								var updateFunction = function(){
+									var stateGlowInactiveColor = getState(_linkedGlowInactiveColorId);
+									var stateGlowHide = getState(_linkedGlowHideId);
+									var invertGlowHide = (getDeviceOptionValue(_device, "invertGlowHide") == "true");
+									var glow = !(stateGlowHide && stateGlowHide.val || false);
+									if(invertGlowHide) glow = !glow;
+									var colorString = stateGlowInactiveColor && isValidColorString(stateGlowInactiveColor.val) && stateGlowInactiveColor.val || null;
+									if(glow && colorString){
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceGlow:not(.active)").css('box-shadow', colorString + " 0 0 10px 2px");
+									} else {
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceGlow:not(.active)").css('box-shadow', "none");
+									}
+								};
+								uiElements.addUpdateFunction([_linkedGlowInactiveColorId, _linkedGlowHideId], updateFunction);
+							})(); //<--End Closure
 						}
-						function processElement(element, elementIndex){
-							let options = {}
-							options.stackId = element.commonName;
-							options.stackClasses = 'stackClass_' + element.stackIndex;
-							(element.options || []).forEach(function(option){
-								options[option.option] = {role: option.role, value: option.value};
-							});
-							switch(element.commonType){
-								case "icon": 
-									uiElements.addIcon(device, options);
-									break;
 
-								case "text": 
-									uiElements.addText(device, options);
-									break;
+						//----Glow active
+						var linkGlowActiveColorToHue = (getDeviceOptionValue(device, "linkGlowActiveColorToHue") == "true");
+						if(deviceLinkedStateIds["GLOW_ACTIVE_COLOR"] || linkGlowActiveColorToHue){
+							viewContent += "<div class='iQontrolDeviceGlow active' data-device-id-escaped='" + deviceIdEscaped + "'></div>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _device = device;
+								var _deviceId = deviceId;
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedGlowActiveColorId = deviceLinkedStateIds["GLOW_ACTIVE_COLOR"];
+								var _linkedGlowHideId = deviceLinkedStateIds["GLOW_HIDE"];
+								var _linkGlowActiveColorToHue = linkGlowActiveColorToHue;
+								var _linkedHueId = deviceLinkedStateIds["HUE"];
+								var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
+								var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
+								if(!_linkedHueId && _linkedAlternativeColorspaceValueId) _linkedHueId = "TEMP:" + _deviceId + ".HUE";
+								var updateFunction = function(){
+									var stateGlowActiveColor = getState(_linkedGlowActiveColorId);
+									var stateGlowHide = getState(_linkedGlowHideId);
+									var invertGlowHide = (getDeviceOptionValue(_device, "invertGlowHide") == "true");
+									var glow = !(stateGlowHide && stateGlowHide.val || false);
+									if(invertGlowHide) glow = !glow;
+									var stateHue = getState(_linkedHueId);
+									if(_linkGlowActiveColorToHue && stateHue && stateHue.val !== ""){
+										if(stateHue.valRaw !== null){
+											var hueMin = stateHue.min || 0;
+											var hueMax = stateHue.max || 359;
+											var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
+											var	saturation = 100;
+											var stateSaturation = getState(_linkedSaturationId);
+											if(stateSaturation && typeof stateSaturation.val != udef && stateSaturation.valRaw != null) {
+												var saturationMin = stateSaturation.min || 0;
+												var saturationMax = stateSaturation.max || 100;
+												saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
+											}
+											var colorString = "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)";
+										} else {
+											colorString = null;
+										}
+									} else if(_linkGlowActiveColorToHue){
+										var colorString = "rgb(255,245,157)";
+									} else {
+										var colorString = stateGlowActiveColor && isValidColorString(stateGlowActiveColor.val) && stateGlowActiveColor.val || null;
+									}
+									if(glow && colorString){
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceGlow.active").css('box-shadow', colorString + " 0 0 10px 2px");
+									} else {
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceGlow.active").css('box-shadow', "none");
+									}
+								};
+								uiElements.addUpdateFunction([_linkedGlowActiveColorId, _linkedGlowHideId, _linkedHueId, _linkedSaturationId, _linkedAlternativeColorspaceValueId, "UPDATE_ONCE"], updateFunction);
+							})(); //<--End Closure
+						}
 
-								case "iconTextCombination": 
-									uiElements.addIconTextCombination(device, options);
-									break;
+						//----BackgroundImage
+						var noZoomOnHover = (getDeviceOptionValue(device, "noZoomOnHover") == "true") || (options && options.LayoutViewDeviceNoZoomOnHover);
+						var url = "";
+						var variableurl = null;
+						if(device.nativeBackgroundImage){
+							url = encodeURI(device.nativeBackgroundImage.split('|')[0]);
+							variableurl = encodeURI(device.nativeBackgroundImage.split('|').slice(1).join('|'));
+						}
+						uiElements.addHtml("<div class='iQontrolDeviceBackgroundImage" + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>");
 
-								case "loadingIcon":
-									uiElements.addLoadingIcon(device, options);
-									break;
+						//----BackgroundImageActive
+						url = "";
+						variableurl = null;
+						if(device.nativeBackgroundImageActive){
+							url = encodeURI(device.nativeBackgroundImageActive.split('|')[0]);
+							variableurl = encodeURI(device.nativeBackgroundImageActive.split('|').slice(1).join('|'));
+						}
+						deviceContent = "<div class='iQontrolDeviceBackgroundImage active" + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
+						var overlayAboveBackgroundURL = (getDeviceOptionValue(device, "overlayAboveBackgroundURL") == "true");
+						if(!overlayAboveBackgroundURL){
+							//--Background (Overlay) (if option overlayAboveBackgroundURL is not set)
+							if(!(getDeviceOptionValue(device, "noOverlayInactive") == "true")){
+								deviceContent += "<div class='iQontrolDeviceBackground" + (getDeviceOptionValue(device, "noOverlayEnlarged") == "true" ? " hideIfEnlarged" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "'></div>";
+							}
+							//--BackgroundActive (OverlayActive) (if option overlayAboveBackgroundURL is not set)
+							if(!(getDeviceOptionValue(device, "noOverlayActive") == "true")){
+								deviceContent += "<div class='iQontrolDeviceBackground active" + (getDeviceOptionValue(device, "noOverlayEnlarged") == "true" ? " hideIfEnlarged" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "'></div>";
 							}
 						}
+						uiElements.addHtml(deviceContent);
+
+						//----BackgroundIframe (BACKGROUND_VIEW/URL/HTML)
+						if(deviceLinkedStateIds["BACKGROUND_VIEW"] || deviceLinkedStateIds["BACKGROUND_URL"] || deviceLinkedStateIds["BACKGROUND_URL"]){
+							var hideBackgroundURLInactive = (getDeviceOptionValue(device, "hideBackgroundURLInactive") == "true");
+							var hideBackgroundURLActive = (getDeviceOptionValue(device, "hideBackgroundURLActive") == "true");
+							var visibilityBackgroundURLEnlarged = (getDeviceOptionValue(device, "visibilityBackgroundURLEnlarged") ? " " + getDeviceOptionValue(device, "visibilityBackgroundURLEnlarged") : "");
+							deviceContent = "<div class='iQontrolDeviceBackgroundIframeWrapper" + (hideBackgroundURLInactive ? " hideIfInactive" : "") + (hideBackgroundURLActive ? " hideIfActive" : "") + visibilityBackgroundURLEnlarged + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' style='opacity: 0;" + ((getDeviceOptionValue(device, "backgroundURLNoPointerEvents") == "true") ? " pointer-events:none !important;" : "") + "'></div>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _device = device;
+								var _linkedBackgroundViewId = deviceLinkedStateIds["BACKGROUND_VIEW"];
+								var _linkedBackgroundURLId = deviceLinkedStateIds["BACKGROUND_URL"];
+								var _linkedBackgroundHTMLId = deviceLinkedStateIds["BACKGROUND_HTML"];
+								var updateFunction = function(){
+									var stateBackgroundView = getState(_linkedBackgroundViewId);
+									var stateBackgroundURL = getState(_linkedBackgroundURLId);
+									var stateBackgroundHTML = getState(_linkedBackgroundHTMLId);
+									if((stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") || (stateBackgroundURL && typeof stateBackgroundURL.val !== udef && stateBackgroundURL.val !== "")){ //View or URL
+										if($("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() == ""){ //create iframe
+											var padding = parseInt(getDeviceOptionValue(_device, "backgroundURLPadding")) || 0;
+											var paddingStyleString = (padding > 0 ? "style='margin: " + padding + "px; width: calc(100% - " + (2 * padding) + "px); min-height: calc(100% - " + (2 * padding) + "px);'" : "");
+											var dynamicIframeZoomLevel = parseFloat(getDeviceOptionValue(_device, "backgroundURLDynamicIframeZoom")) || 0;
+											var backgroundLimitAdjustHeightToScreen = (getDeviceOptionValue(_device, "backgroundLimitAdjustHeightToScreen") == "true");
+											$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe" + (dynamicIframeZoomLevel > 0 ? " dynamicIframeZoom" : "") + (backgroundLimitAdjustHeightToScreen ? " limitAdjustHeightToScreen" : "") + "' id='iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped + "' data-device-id-escaped='" + _deviceIdEscaped + "'" + ((getDeviceOptionValue(_device, "backgroundURLAllowPostMessage") == "true") ? " data-allow-post-message='true'" : "") + paddingStyleString + (dynamicIframeZoomLevel > 0 ? " data-dynamic-iframe-zoom='" + dynamicIframeZoomLevel + "'" : "") + "></iframe>");
+										}
+										setTimeout(function(){
+											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
+											if(stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") { //View
+												var adjustHeightToBackgroundView = (getDeviceOptionValue(_device, "adjustHeightToBackgroundView") == "true");
+												$(iframe).data('allow-adjust-height', adjustHeightToBackgroundView).addClass('isBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeight');
+												iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true" + (getUrlParameter("namespace") ? "&namespace=" + getUrlParameter("namespace") : "") + (adjustHeightToBackgroundView ? "&adjustHeightToBackgroundView=true" : "") + (bigMode ? "&bigModeEnabled=true" : "") + (passphrase ? "&passphrase=" + passphrase : "");
+												var timeout = 2900;
+											} else { //URL
+												var url = stateBackgroundURL.val;
+												var widgetReplaceurl = getUrlParameterFromUrl(stateBackgroundURL.val, 'widgetReplaceurl');
+												var backgroundURLAllowAdjustHeight = (getDeviceOptionValue(_device, "backgroundURLAllowAdjustHeight") == "true");
+												$(iframe).data('allow-adjust-height', backgroundURLAllowAdjustHeight).removeClass('isBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeight');
+												if(widgetReplaceurl) {
+													if(getUrlParameterFromUrl(stateBackgroundURL.val, 'widgetReplaceurlAbsolute')) {
+														url = url.replace(url.split('?')[0], widgetReplaceurl);
+													} else {
+														url = url.replace(url.split('?')[0].substring(url.split('?')[0].lastIndexOf('/') + 1), widgetReplaceurl);														
+													}
+												}
+												if(backgroundURLAllowAdjustHeight) {
+													url = url + (url.split('?').length > 1 ? "&" : "?") + "allowAdjustHeight=true";
+												}
+												iframe.src = url;
+												var timeout = 500;
+											}
+											if(iframe.onload == null) {
+												iframe.onload = function(){
+													setTimeout(function(e){
+														if($("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() !== "") $("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
+													}, timeout);
+												}
+											}
+											setTimeout(function(){ //Fallback if load event is not triggered
+												if($("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() !== "") $("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
+											},3000);
+										}, (isFirefox?100:0));
+									} else if(stateBackgroundHTML && typeof stateBackgroundHTML.valFull !== udef && stateBackgroundHTML.valFull !== ""){ //HTML
+										if($("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() == ""){ //create iframe
+											var padding = parseInt(getDeviceOptionValue(_device, "backgroundURLPadding")) || 0;
+											var paddingStyleString = (padding > 0 ? "style='margin: " + padding + "px; width: calc(100% - " + (2 * padding) + "px); min-height: calc(100% - " + (2 * padding) + "px);'" : "");
+											var dynamicIframeZoomLevel = parseInt(getDeviceOptionValue(_device, "backgroundURLDynamicIframeZoom")) || 0;
+											$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe" + (dynamicIframeZoomLevel > 0 ? " dynamicIframeZoom" : "") + "' id='iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped + "' data-device-id-escaped='" + _deviceIdEscaped + "'" + ((getDeviceOptionValue(_device, "backgroundURLAllowPostMessage") == "true") ? " data-allow-post-message='true'" : "") + paddingStyleString + (dynamicIframeZoomLevel > 0 ? " data-dynamic-iframe-zoom='" + dynamicIframeZoomLevel + "'" : "") + "></iframe>");
+										}
+										setTimeout(function(){
+											var html = stateBackgroundHTML.valFull;
+											if(/\.png$|\.jpg$|\.gif$/ig.test(html.split('?')[0])) { //html contains only a image file
+												html = "<html><head></head><body style='margin: 0;'><img style='width: 100%;' src='" + html + "'></body></html>"; 
+											}
+											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
+											$(iframe).data('allow-adjust-height', false).removeClass('isBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeight');
+											var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+											iframedoc.open();
+											iframedoc.write(html.replace(/\\n/g, String.fromCharCode(13)));
+											$(iframedoc).find('body').css('font-family', 'sans-serif');
+											iframedoc.close();
+											setTimeout(function(){
+												$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
+											}, 500);
+										}, (isFirefox?100:0));
+									} else { //Nothing
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '0');
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("");
+									}
+								};
+								uiElements.addUpdateFunction([_linkedBackgroundViewId, _linkedBackgroundURLId, _linkedBackgroundHTMLId], updateFunction);
+							})(); //<--End Closure
+						}
+						if(overlayAboveBackgroundURL){
+							//--Background (Overlay) (if option overlayAboveBackgroundURL is set)
+							if(!(getDeviceOptionValue(device, "noOverlayInactive") == "true")){
+								deviceContent += "<div class='iQontrolDeviceBackground" + (getDeviceOptionValue(device, "noOverlayEnlarged") == "true" ? " hideIfEnlarged" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "'></div>";
+							}
+							//--BackgroundActive (OverlayActive) (if option overlayAboveBackgroundURL is set)
+							if(!(getDeviceOptionValue(device, "noOverlayActive") == "true")){
+								deviceContent += "<div class='iQontrolDeviceBackground active" + (getDeviceOptionValue(device, "noOverlayEnlarged") == "true" ? " hideIfEnlarged" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "'></div>";
+							}
+						}
+						uiElements.addHtml(deviceContent);
+
+						//----Badge #### transfer to elements
+						uiElements.addBadge(device, {
+							badgeDeviceState: "BADGE",
+							badgeColorDeviceState: "BADGE_COLOR",
+							class: "iQontrolDeviceBadge"
+						})
 
 
-						deviceContent = ""; //##### 
+						//----UIElements for tileExtraContainer
+						device.tileSettings.elements.filter(function(element){ return element.outside; }).forEach(function(element, elementIndex){ 
+							//uiElements.addUIElement(device, element, elementIndex); ############# activate after badge ist transferred
+						});
+						uiElements.addHtml('</div><!--tileExtraContainer end-->');
 
+						//--tileIntraContainer
+						uiElements.addHtml('<div class="tileIntraContainer tileSize">');
 
-						//--tileEnlargeButton
+						//----tileEnlargeButton #### transfer to elements
 						if(deviceLinkedStateIds["tileEnlarged"] || deviceLinkedStateIds["ENLARGE_TILE"]){
-							deviceContent += "<div class='iQontrolDeviceEnlargeButton" + ((getDeviceOptionValue(device, "tileEnlargeShowButtonActive") == "true") ? " showIfActive" : "") + ((getDeviceOptionValue(device, "tileEnlargeShowButtonInactive") == "true") ? " showIfInactive" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='event.stopPropagation(); toggleState(unescape(\"" + escape(deviceLinkedStateIds["tileEnlarged"]) + "\"), \"" + deviceIdEscaped + "\", null, 0);'></div>";
+							uiElements.addHtml("<div class='iQontrolDeviceEnlargeButton" + ((getDeviceOptionValue(device, "tileEnlargeShowButtonActive") == "true") ? " showIfActive" : "") + ((getDeviceOptionValue(device, "tileEnlargeShowButtonInactive") == "true") ? " showIfInactive" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' onclick='event.stopPropagation(); toggleState(unescape(\"" + escape(deviceLinkedStateIds["tileEnlarged"]) + "\"), \"" + deviceIdEscaped + "\", null, 0);'></div>");
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _device = device;
@@ -5214,17 +5130,17 @@ function renderView(viewId, triggeredByReconnection){
 								var updateFunction = function(){
 									var stateTileEnlarged = getState(_linkedTileEnlargedId);
 									if(typeof stateTileEnlarged !== udef && stateTileEnlarged.val) {
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("enlarged");
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("enlarged");
 										viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = true;
-										if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").hasClass("active")){
+										if($("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDevice").hasClass("active")){
 											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = false;
 										} else {
 											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = false;
 										}
 									} else {
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("enlarged");
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("enlarged");
 										viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = true;
-										if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").hasClass("active")){
+										if($("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDevice").hasClass("active")){
 											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = false;
 										} else {
 											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = false;
@@ -5253,19 +5169,30 @@ function renderView(viewId, triggeredByReconnection){
                                 } 
 							})(); //<--End Closure
 						}
-						
-						if(device.commonRole == "iQontrolExternalLink" && deviceLinkedStateIds["URL"]) { //.iQontrolDeviceLink was an external link and therefore an <a>
-							deviceContent += "</a>";
-						} else { //.iQontrolDeviceLink was not an external link and therefore a <div>
-							deviceContent += "</div>";
-						}
 
-				uiElements.addHtml(deviceContent)
-				.addHtml("</div></div>");
+						//----UIElements for tileIntraContainer
+						device.tileSettings.elements.filter(function(element){ return !element.outside; }).forEach(function(element, elementIndex){ 
+							uiElements.addUIElement(device, element, elementIndex);
+						});		
+						
+						uiElements.addHtml('</div><!--tileIntraContainer end-->');
+						
+
+/* LINK END
+						if(device.commonRole == "iQontrolExternalLink" && deviceLinkedStateIds["URL"]) { //.iQontrolDeviceLink was an external link and therefore an <a>
+							deviceContent = "</a>";
+						} else { //.iQontrolDeviceLink was not an external link and therefore a <div>
+							deviceContent = "</div>";
+						}
+						uiElements.addHtml(deviceContent);
+*/
+
+
+				uiElements.addHtml("</div><!-- tile end -->");
 				return uiElements; 
 			},
 			afterAddDeviceFunction: function(uiElements){
-				uiElements.addHtml("</div>").addStatesToFetchAndUpdate("UPDATE_ONCE");
+				uiElements.addHtml("</div><!--XXX viewIsotopeContainer end-->").addStatesToFetchAndUpdate("UPDATE_ONCE");
 				return uiElements; 
 			},
 			beforeUpdateStatesFunction: function(uiElements){
@@ -5278,10 +5205,10 @@ function renderView(viewId, triggeredByReconnection){
 				//Activate Shuffle
 				if(!options.LayoutViewShuffleDisabled) {
 					viewShuffleInstances = [];
-					var viewShuffleContainers = document.querySelectorAll('.viewShuffleContainer');
-					for(i = 0; i < viewShuffleContainers.length; i++){
-						viewShuffleInstances[i] = new Shuffle(viewShuffleContainers[i], {
-							itemSelector: '.viewShuffleTile',
+					var viewIsotopeContainers = document.querySelectorAll('.viewIsotopeContainer');
+					for(i = 0; i < viewIsotopeContainers.length; i++){
+						viewShuffleInstances[i] = new Shuffle(viewIsotopeContainers[i], {
+							itemSelector: '.tile',
 							delimiter: ',',
 							speed: 750,
 							sizer: '.iQontrolDeviceShuffleSizer',
@@ -5500,7 +5427,7 @@ function renderView(viewId, triggeredByReconnection){
 			setTimeout(function(){$("#Dialog").popup("open", {transition: "pop", positionTo: "window"});}, 250);
 			openDialogId = null;
 		}
-		//Start timer that updates timestamps with elapsed time
+		//Start timer that updates timestamps with elapsed time #####
 		if(viewTimestampElapsedTimer){
 			clearInterval(viewTimestampElapsedTimer);
 			viewTimestampElapsedTimer = false;
@@ -5512,22 +5439,22 @@ function renderView(viewId, triggeredByReconnection){
 			})
 		}, 60000);
 		//Call UPDATE_ONCE Functions
-		(deviceCollections.updateFunctions["view"]["UPDATE_ONCE"] || []).forEach(function(viewUpdateFunction){
+		(deviceCollections.updateFunctions["view"]["UPDATE_ONCE"] || []).forEach(function(viewUpdateFunction){ //#### ist das nicht schon in der deviceCollection eingebaut?
 			viewUpdateFunction();
 		});
-		//Enhance iQontrolSubheadingCollapsibles
-		var iQontrolSubheaderCollapsibleDblclickTimeout = false;
-		$('.iQontrolSubheaderCollapsible').on('click', function(){
+		//Enhance subheaderCollapsibles
+		var subheaderCollapsibleDblclickTimeout = false;
+		$('.subheaderCollapsible').on('click', function(){
 			var dblclick = false;
-			if(iQontrolSubheaderCollapsibleDblclickTimeout)	dblclick = true;
-			iQontrolSubheaderCollapsibleDblclickTimeout = setTimeout(function(){ iQontrolSubheaderCollapsibleDblclickTimeout = false; }, 400);
-			var collapsibleDeviceIdEscaped = $(this).data('iqontrolDeviceId');
+			if(subheaderCollapsibleDblclickTimeout)	dblclick = true;
+			subheaderCollapsibleDblclickTimeout = setTimeout(function(){ subheaderCollapsibleDblclickTimeout = false; }, 400);
+			var collapsibleDeviceIdEscaped = $(this).data('device-id-escaped');
 			var $openThese;
 			var $closeThese;
 			if($(this).hasClass('collapsibleClosed')){
-				$closeThese = $(".iQontrolSubheaderCollapsible.collapsibleClosesWhenOthersOpen").not(".collapsibleClosed").not(this);
+				$closeThese = $(".subheaderCollapsible.collapsibleClosesWhenOthersOpen").not(".collapsibleClosed").not(this);
 				if(dblclick && $closeThese.length == 0) {
-					$openThese = $(".iQontrolSubheaderCollapsible");
+					$openThese = $(".subheaderCollapsible");
 				} else {
 					$openThese = $(this);
 				}
@@ -5535,30 +5462,30 @@ function renderView(viewId, triggeredByReconnection){
 				if(!dblclick) $closeThese = $(this);
 			}
 			if($openThese) $openThese.removeClass('collapsibleClosed').each(function(){
-				$("[data-iQontrol-Device-ID='" + $(this).data('iqontrolDeviceId') + "'].viewShuffleContainer").removeClass('collapsibleClosed');
-				iQontrolSubheadingCollapsiblesRefresh($(this));
+				$("[data-device-id-escaped='" + $(this).data('device-id-escaped') + "'].viewIsotopeContainer").removeClass('collapsibleClosed');
+				subheaderCollapsiblesRefresh($(this));
 			});
 			if($closeThese) $closeThese.addClass('collapsibleClosed').each(function(){
-				$("[data-iQontrol-Device-ID='" + $(this).data('iqontrolDeviceId') + "'].viewShuffleContainer").addClass('collapsibleClosed');
-				iQontrolSubheadingCollapsiblesRefresh($(this));
+				$("[data-device-id-escaped='" + $(this).data('device-id-escaped') + "'].viewIsotopeContainer").addClass('collapsibleClosed');
+				subheaderCollapsiblesRefresh($(this));
 			});
 		});
-		$('.iQontrolSubheaderCollapsible').each(function(){
-			iQontrolSubheadingCollapsiblesRefresh($(this));
+		$('.subheaderCollapsible').each(function(){
+			subheaderCollapsiblesRefresh($(this));
 		});
-		function iQontrolSubheadingCollapsiblesRefresh($collapsible){
-			var collapsibleDeviceIdEscaped = $collapsible.data('iqontrolDeviceId')	;
+		function subheaderCollapsiblesRefresh($collapsible){
+			var collapsibleDeviceIdEscaped = $collapsible.data('device-id-escaped')	;
 			if($collapsible.hasClass('collapsibleClosed')){
-				if(!$("[data-iQontrol-Device-ID='" + collapsibleDeviceIdEscaped + "'].viewShuffleContainer").hasClass('collapsibleContentClosed')){
+				if(!$("[data-device-id-escaped='" + collapsibleDeviceIdEscaped + "'].viewIsotopeContainer").hasClass('collapsibleContentClosed')){
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _$collapsible = $collapsible;
 						var _collapsibleDeviceIdEscaped = collapsibleDeviceIdEscaped;
 						clearTimeout(_$collapsible.data('animationtimeout'));
 						clearTimeout(_$collapsible.data('resizetimeout'));
 						if(!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.disable(); });
-						$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleAnimationRunning').stop(true, false).animate({'height': '0px'}, 250, 'linear');
+						$("[data-device-id-escaped='" + _collapsibleDeviceIdEscaped + "'].viewIsotopeContainer").addClass('collapsibleAnimationRunning').stop(true, false).animate({'height': '0px'}, 250, 'linear');
 						var animationTimeoutId = setTimeout(function(){
-							$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleContentClosed');
+							$("[data-device-id-escaped='" + _collapsibleDeviceIdEscaped + "'].viewIsotopeContainer").addClass('collapsibleContentClosed');
 							viewShuffleReshuffle();
 							var resizeTimeoutId = setTimeout(resizeDevicesToFitScreen, 1750);
 							_$collapsible.data('resizetimeout', resizeTimeoutId);
@@ -5572,49 +5499,18 @@ function renderView(viewId, triggeredByReconnection){
 					var _collapsibleDeviceIdEscaped = collapsibleDeviceIdEscaped;
 					clearTimeout(_$collapsible.data('animationtimeout'));
 					clearTimeout(_$collapsible.data('resizetimeout'));
-					$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleAnimationRunning').stop(true, false).removeClass('collapsibleContentClosed'); 
-					$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer .viewShuffleTile").stop(true, false).slideDown(500);
+					$("[data-device-id-escaped='" + _collapsibleDeviceIdEscaped + "'].viewIsotopeContainer").addClass('collapsibleAnimationRunning').stop(true, false).removeClass('collapsibleContentClosed'); 
+					$("[data-device-id-escaped='" + _collapsibleDeviceIdEscaped + "'].viewIsotopeContainer .tile").stop(true, false).slideDown(500);
 					viewShuffleReshuffle();
 					var resizeTimeoutId = setTimeout(resizeDevicesToFitScreen, 1750);
 					_$collapsible.data('resizetimeout', resizeTimeoutId);
 					var animationTimeoutId = setTimeout(function(){
-						$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").removeClass('collapsibleAnimationRunning');
+						$("[data-device-id-escaped='" + _collapsibleDeviceIdEscaped + "'].viewIsotopeContainer").removeClass('collapsibleAnimationRunning');
 					}, 1000);
 					_$collapsible.data('animationtimeout', animationTimeoutId);
 				})(); //<--End Closure
 			}			
 		}
-		//Start viewInfoSliderInterval
-		viewInfoSliderInterval = setInterval(function(){
-			for (sliderDeviceIdEscaped in viewInfoASliderIndex){
-				if(viewInfoASliderLength[sliderDeviceIdEscaped] < 2) continue;
-				var i = 0;
-				do {
-					i++;
-					viewInfoASliderIndex[sliderDeviceIdEscaped] = (viewInfoASliderIndex[sliderDeviceIdEscaped] + 1) % viewInfoASliderLength[sliderDeviceIdEscaped];
-				} while (i < viewInfoASliderLength[sliderDeviceIdEscaped] && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoASliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoAIcon").css('display') == 'none' && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoASliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoAText").html() == '')
-				var sliderIndex = viewInfoASliderIndex[sliderDeviceIdEscaped];
-				console.log("InfoASlider " + sliderDeviceIdEscaped + ": " + sliderIndex);
-				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoAIcon").css('opacity', '1');
-				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoAText").css('opacity', '1');
-				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoAIcon").css('opacity', '0');
-				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoAText").css('opacity', '0');
-			}
-			for (sliderDeviceIdEscaped in viewInfoBSliderIndex){
-				if(viewInfoBSliderLength[sliderDeviceIdEscaped] < 2) continue;
-				var i = 0;
-				do {
-					i++;
-					viewInfoBSliderIndex[sliderDeviceIdEscaped] = (viewInfoBSliderIndex[sliderDeviceIdEscaped] + 1) % viewInfoBSliderLength[sliderDeviceIdEscaped];
-				} while (i < viewInfoBSliderLength[sliderDeviceIdEscaped] && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoBSliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoBIcon").css('display') == 'none' && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoBSliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoBText").html() == '')
-				var sliderIndex = viewInfoBSliderIndex[sliderDeviceIdEscaped];
-				console.log("InfoBSlider " + sliderDeviceIdEscaped + ": " + sliderIndex);
-				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoBIcon").css('opacity', '1');
-				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoBText").css('opacity', '1');
-				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoBIcon").css('opacity', '0');
-				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoBText").css('opacity', '0');
-			}
-		}, 5000);
 	});
 }
 
@@ -5630,7 +5526,7 @@ function viewShuffleFilterHideDeviceIfInactive(){
 	});
 	//Hide subheadings, if no tile is visible
 	$('#ViewContent h4').each(function(){ 
-		if($(this).nextAll('.viewShuffleContainer').find('.shuffle-item').hasClass('shuffle-item--visible')) $(this).show(500); else $(this).hide(500); 
+		if($(this).nextAll('.viewIsotopeContainer').find('.shuffle-item').hasClass('shuffle-item--visible')) $(this).show(500); else $(this).hide(500); 
 	});
 }
 
@@ -5791,7 +5687,7 @@ function applyViewTileResizeObserver(){
 						//stateFillsDeviceCheckForIconToFloat($(mutation.target).find('.iQontrolDeviceState')); //###### not longer necessary? becaus of new full-size-state?
 						//Disable Marquee and re-enable it after change-animation
 						if(!options.LayoutViewMarqueeDisabled ){
-							var deviceID = $(mutation.target).find('.iQontrolDeviceState').data('iqontrolDeviceId');
+							var deviceID = $(mutation.target).find('.iQontrolDeviceState').data('device-id-escaped');
 							var $marqueeObjects = $(mutation.target).find('.uiElement.text');
 							if(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]);
 							$marqueeObjects.data('marquee-disabled', true).marquee('destroy'); //##### .attr('style', '')
@@ -5815,12 +5711,12 @@ function applyViewTileResizeObserver(){
 								console.log("fullHeight activated");
 								addCustomCSS("#ViewContent { padding-bottom: 100vh; }", "addViewPaddingBottomAfterMinimizingTile");
 								var _$target = $(mutation.target);
-								var _targetDeviceId = _$target.parent('.iQontrolDevicePressureIndicator').data('iqontrolDeviceId');
+								var _targetDeviceId = _$target.parent('.pressureIndicator').data('device-id-escaped');
 								var _targetShuffleInstanceIndex = null;
 								var _targetShuffleItemIndex = null;
 								for(var i = 0; i < viewShuffleInstances.length; i++){
 									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
-										if(viewShuffleInstances[i].items[j].element.dataset.iqontrolDeviceId == _targetDeviceId){
+										if(viewShuffleInstances[i].items[j].element.dataset.device-id-escaped == _targetDeviceId){
 											_targetShuffleInstanceIndex = i;
 											_targetShuffleItemIndex = j;
 											break;
@@ -5856,12 +5752,12 @@ function applyViewTileResizeObserver(){
 								removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
 								addCustomCSS("#ViewContent { padding-bottom: 90vh; padding-bottom: calc(100vh - 200px); }", "addViewPaddingBottomAfterMinimizingTile");
 								var _$target = $(mutation.target);
-								var _targetDeviceId = _$target.parent('.iQontrolDevicePressureIndicator').data('iqontrolDeviceId');
+								var _targetDeviceId = _$target.parent('.pressureIndicator').data('device-id-escaped');
 								var _targetShuffleInstanceIndex = null;
 								var _targetShuffleItemIndex = null;
 								for(var i = 0; i < viewShuffleInstances.length; i++){
 									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
-										if(viewShuffleInstances[i].items[j].element.dataset.iqontrolDeviceId == _targetDeviceId){
+										if(viewShuffleInstances[i].items[j].element.dataset.device-id-escaped == _targetDeviceId){
 											_targetShuffleInstanceIndex = i;
 											_targetShuffleItemIndex = j;
 											break;
@@ -5968,7 +5864,7 @@ function viewScrollToDevice(scrollToDeviceId){ //add "h" to scrollToDeviceId to 
 	let scrollTop;
 	if(scrollToDeviceId.substr(-1).toLowerCase() == "h"){ //scroll to heading
 		scrollToDeviceId = scrollToDeviceId.substring(0, scrollToDeviceId.length - 1);
-		$heading = $("[data-iQontrol-Device-ID='" + scrollToDeviceId + "'].viewShuffleTile").parent('.viewShuffleContainer').prev('h4');
+		$heading = $("[data-device-id-escaped='" + scrollToDeviceId + "'].tile").parent('.viewIsotopeContainer').prev('h4');
 		if($heading.length){
 			scrollToHeading = true;
 			scrollTop = $heading.offset().top;
@@ -5980,7 +5876,7 @@ function viewScrollToDevice(scrollToDeviceId){ //add "h" to scrollToDeviceId to 
 		let targetShuffleItemIndex = null;
 		for(let i = 0; i < viewShuffleInstances.length; i++){
 			for(let j = 0; j < viewShuffleInstances[i].items.length; j++){
-				if(viewShuffleInstances[i].items[j].element.dataset.iqontrolDeviceId == scrollToDeviceId){
+				if(viewShuffleInstances[i].items[j].element.dataset.device-id-escaped == scrollToDeviceId){
 					scrollToShuffleInstanceIndex = i;
 					scrollToShuffleItemIndex = j;
 					break;
@@ -6008,9 +5904,9 @@ function stateFillsDeviceCheckForIconToFloat($iQontrolDeviceState){
 	if(!$iQontrolDeviceState.hasClass('iQontrolDeviceState')) return;
 	var active = $iQontrolDeviceState.parents('.iQontrolDevice').hasClass('active');
 	var enlarged = $iQontrolDeviceState.parents('.iQontrolDevice').hasClass('enlarged');
-	var deviceIdEscaped = $iQontrolDeviceState.data('iqontrolDeviceId');
+	var deviceIdEscaped = $iQontrolDeviceState.data('device-id-escaped');
 	if(((!active && $iQontrolDeviceState.hasClass('stateFillsDeviceIfInactive')) || (active && $iQontrolDeviceState.hasClass('stateFillsDeviceIfActive')) || (enlarged && $iQontrolDeviceState.hasClass('stateFillsDeviceIfEnlarged')))
-		&& !((($("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceIcon.active").prop('src') || "").endsWith('/images/icons/blank.png')) || (enlarged && $iQontrolDeviceState.prevAll('.iQontrolDeviceIcon' + (active ? '.active' : '')).hasClass('hideIfEnlarged')))){ //stateFillsDevice && Icon is visible
+		&& !((($("[data-device-id-escaped='" + deviceIdEscaped + "'].iQontrolDeviceIcon.active").prop('src') || "").endsWith('/images/icons/blank.png')) || (enlarged && $iQontrolDeviceState.prevAll('.iQontrolDeviceIcon' + (active ? '.active' : '')).hasClass('hideIfEnlarged')))){ //stateFillsDevice && Icon is visible
 		console.log("stateFillsDevice and icon is visible - add iQontrolDeviceStateIconFloatPlaceholder");
 		if($iQontrolDeviceState.children('.iQontrolDeviceStateIconFloatPlaceholder').length == 0) $iQontrolDeviceState.html("<div class='iQontrolDeviceStateIconFloatPlaceholder'></div>" + $iQontrolDeviceState.html());
 	} else if($iQontrolDeviceState.children('.iQontrolDeviceStateIconFloatPlaceholder').length > 0) { //state does not fillDevice or Icon is invisible (blank.png or hidden) and iQontrolDeviceStateIconFloatPlaceholder is present
@@ -6018,7 +5914,7 @@ function stateFillsDeviceCheckForIconToFloat($iQontrolDeviceState){
 		 $iQontrolDeviceState.children('.iQontrolDeviceStateIconFloatPlaceholder').remove();
 	}
 	if(((!active && $iQontrolDeviceState.hasClass('stateFillsDeviceIfInactive')) || (active && $iQontrolDeviceState.hasClass('stateFillsDeviceIfActive')) || (enlarged && $iQontrolDeviceState.hasClass('stateFillsDeviceIfEnlarged')))
-		&& $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBadge").hasClass("active")) { //stateFillsDevice && Badge is visible
+		&& $("[data-device-id-escaped='" + deviceIdEscaped + "'].iQontrolDeviceBadge").hasClass("active")) { //stateFillsDevice && Badge is visible
 		console.log("stateFillsDevice and badge is visible - add padding-top");
 		$iQontrolDeviceState.css('padding-top', '7px');
 	} else { 
@@ -6029,10 +5925,10 @@ function stateFillsDeviceCheckForIconToFloat($iQontrolDeviceState){
 
 function dynamicIframeZoom(){
 	$('iframe.dynamicIframeZoom').each(function(){
-		var deviceIdEscaped = $(this).data('iqontrolDeviceId');
+		var deviceIdEscaped = $(this).data('device-id-escaped');
 		if(deviceIdEscaped){
 			var zoom = parseFloat($(this).data('dynamic-iframe-zoom') || 33);
-			var $dummy = $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDevice").clone().css('display','none').css('transition', 'none').appendTo('#ViewMain'); //Create a dummy without transition to get the goal-width
+			var $dummy = $("[data-device-id-escaped='" + deviceIdEscaped + "'].iQontrolDevice").clone().css('display','none').css('transition', 'none').appendTo('#ViewMain'); //Create a dummy without transition to get the goal-width
 			var width = parseFloat($dummy.css('max-width') || 104) + (2 * parseFloat($dummy.css('padding-left') || 6));
 			$dummy.remove();
 			var factor = (zoom/100) * (width/104);
@@ -6093,7 +5989,7 @@ function viewDeviceContextMenuStart(callingElement){
 		console.log("viewDeviceContextMenu start ignored");
 		return;
 	}
-	$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+	$('.pressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
 	viewDeviceContextMenuIgnoreClick = false;
 	setTimeout(function(){
 		viewDeviceContextMenuIgnoreClick = false;
@@ -6117,10 +6013,10 @@ function viewDeviceContextMenuStart(callingElement){
 			if(level >= 1){ //Maximum reached
 				console.log("viewDeviceContextMenu maximum reached");
 				viewDeviceContextMenuIgnoreStart = true;
-				openViewDeviceContextMenu($(_callingElement).data('iqontrolDeviceId'), _callingElement);
+				openViewDeviceContextMenu($(_callingElement).data('device-id-escaped'), _callingElement);
 				viewDeviceContextMenuEnd();
 			} else if(level > 0) {
-				$(_callingElement).parents('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px ' + 10 * level + 'px rgba(175,175,175,0.85)');
+				$(_callingElement).parents('.pressureIndicator').css('box-shadow', '0px 0px 0px ' + 10 * level + 'px rgba(175,175,175,0.85)');
 			}
 		}, 25);
 	})(); //<--End Closure
@@ -6129,7 +6025,7 @@ function viewDeviceContextMenuStart(callingElement){
 function viewDeviceContextMenuEnd(dontEndIgnoreStart){
 	//console.log("viewDeviceContextMenu end function");
 	viewDeviceContextMenuIgnoreStart = true;
-	$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+	$('.pressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
 	if(viewDeviceContextMenuInterval) clearInterval(viewDeviceContextMenuInterval);
 	if(!dontEndIgnoreStart) setTimeout(function(){
 		//console.log("viewDeviceContextMenu end function - end ignoreStart");
@@ -6244,7 +6140,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						var type = getDeviceOptionValue(device, "stateCaption") || "Button";
 						var buttonCaption = getDeviceOptionValue(device, "buttonCaption") || "push";
 						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((dialogStates["STATE"].readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((dialogStates["STATE"].readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _device = device;
@@ -6276,14 +6172,14 @@ function OLDrenderDialog(deviceIdEscaped){
 						var unit = dialogStates["SET_TEMPERATURE"].unit || "";
 						if(unit != "" && unit != "°C" && unit != "%") unit = "&nbsp;" + unit;
 						dialogContent += "<label for='DialogStateSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SET_TEMPERATURE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SET_TEMPERATURE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 						var levelFavorites = (getDeviceOptionValue(device, "levelFavorites") || "").split(";");
 						var levelFavoritesHideSlider = (getDeviceOptionValue(device, "levelFavoritesHideSlider") == "true");
 						if(levelFavorites.length > 0 && levelFavorites[0] != "") {
 							dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal' style='text-align: center; padding-bottom: 15px;'>"
 								for(index in levelFavorites){
 									let val = levelFavorites[index];
-									dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
+									dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
 									dialogContent += "<label for='DialogLevelFavoritesCheckboxradio_" + index + "'>" + val + unit + "</label>";
 								}
 							dialogContent += "</fieldset>";
@@ -6353,7 +6249,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						dialogContentCountAfterHR++;
 						var type = getDeviceOptionValue(device, "stateCaption") || "Door";
 						dialogContent += "<label for='DialogStateValue'><image src='./images/symbols/door.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<input type='button' class='iQontrolDialogValue DialogStateValue' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='true' name='DialogStateValue' id='DialogStateValue' value='' />";
+						dialogContent += "<input type='button' class='iQontrolDialogValue DialogStateValue' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='true' name='DialogStateValue' id='DialogStateValue' value='' />";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedStateId = dialogLinkedStateIds["STATE"];
@@ -6381,7 +6277,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					if(dialogStates["STATE"] && !dialogStates["STATE"].readonly && !dialogReadonly){
 						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _device = device;
@@ -6404,7 +6300,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					if(dialogStates["STATE"] && !dialogStates["STATE"].readonly && !dialogReadonly){
 						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _device = device;
@@ -6439,7 +6335,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							if(device.commonRole == "iQontrolWidget") type = "Enlarge";
 							type = getDeviceOptionValue(device, "stateCaption") || type;
 							dialogContent += "<label for='DialogStateSwitch' ><image src='./images/symbols/switch.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateSwitch' id='DialogStateSwitch'>";
+							dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateSwitch' id='DialogStateSwitch'>";
 								dialogContent += "<option value='false'>0</option>";
 								dialogContent += "<option value='true'>I</option>";
 							dialogContent += "</select>";
@@ -6478,7 +6374,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							if(dialogLinkedStateIds["STATE"]){
 								var buttonCaption = getDeviceOptionValue(device, "buttonCaption") || "push";
 								dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((dialogStates["STATE"].readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
+								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((dialogStates["STATE"].readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _device = device;
@@ -6515,7 +6411,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							}
 							type = getDeviceOptionValue(device, "stateCaption") || type;
 							dialogContent += "<label for='DialogStateSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedStateId = dialogLinkedStateIds["STATE"];
@@ -6561,7 +6457,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							if(device.commonRole == "iQontrolAlarm") type = "Alarm";
 							type = getDeviceOptionValue(device, "stateCaption") || type;
 							dialogContent += "<label for='DialogStateValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<select  class='iQontrolDialogValueList DialogStateValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateValueList' id='DialogStateValueList' data-native-menu='false'>";
+							dialogContent += "<select  class='iQontrolDialogValueList DialogStateValueList' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateValueList' id='DialogStateValueList' data-native-menu='false'>";
 							for(val in dialogStates["STATE"].valueList){
 								if(dialogStates["STATE"].targetValues && dialogStates["STATE"].custom.showOnlyTargetValues && !dialogStates["STATE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
 								dialogContent += "<option value='" + val + "'>" + _(dialogStates["STATE"].valueList[val]) + "</option>";
@@ -6614,9 +6510,9 @@ function OLDrenderDialog(deviceIdEscaped){
 							dialogContentCountAfterHR++;
 							var type = getDeviceOptionValue(device, "stateCaption") || "Text";
 							dialogContent += "<label for='DialogStateString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<textarea class='iQontrolDialogString State' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateString' id='DialogStateString'></textarea>";
+							dialogContent += "<textarea class='iQontrolDialogString State' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateString' id='DialogStateString'></textarea>";
 							if(!dialogStates["STATE"].readonly && !dialogReadonly) {
-								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateStringSubmit' id='DialogStateStringSubmit'>" + _("Submit") + "</a>";
+								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateStringSubmit' id='DialogStateStringSubmit'>" + _("Submit") + "</a>";
 							}
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -6651,8 +6547,8 @@ function OLDrenderDialog(deviceIdEscaped){
 							var isPeriod = (timeFormat.type == "period")
 							var type = getDeviceOptionValue(device, "stateCaption") || (isPeriod ? "Duration" : "Time");
 							dialogContent += "<label for='DialogStateTimeString' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateTimeString' id='DialogStateTimeString' readonly/>";
-							dialogContent += "<div class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogStateTimeDistance'></div>";
+							dialogContent += "<input class='iQontrolDialogTime' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateTimeString' id='DialogStateTimeString' readonly/>";
+							dialogContent += "<div class='iQontrolDialogTimeDistance small' data-device-id-escaped='" + deviceIdEscaped + "' id='DialogStateTimeDistance'></div>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _device = device;
@@ -6889,14 +6785,14 @@ function OLDrenderDialog(deviceIdEscaped){
 							}
 							type = getDeviceOptionValue(device, "levelCaption") || type;
 							dialogContent += "<label for='DialogLevelSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 							var levelFavorites = (getDeviceOptionValue(device, "levelFavorites") || "").split(";");
 							var levelFavoritesHideSlider = (getDeviceOptionValue(device, "levelFavoritesHideSlider") == "true");
 							if(levelFavorites.length > 0 && levelFavorites[0] != "") {
 								dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal' style='text-align: center; padding-bottom: 15px;'>"
 									for(index in levelFavorites){
 										let val = levelFavorites[index];
-										dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
+										dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
 										dialogContent += "<label for='DialogLevelFavoritesCheckboxradio_" + index + "'>" + val + unit + "</label>";
 									}
 								dialogContent += "</fieldset>";
@@ -6965,7 +6861,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							dialogContentCountAfterHR++;
 							var type = getDeviceOptionValue(device, "levelCaption") || "Selection";
 							dialogContent += "<label for='DialogLevelValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<select  class='iQontrolDialogValueList DialogLevelValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' name='DialogLevelValueList' id='DialogLevelValueList' data-native-menu='false'>";
+							dialogContent += "<select  class='iQontrolDialogValueList DialogLevelValueList' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' name='DialogLevelValueList' id='DialogLevelValueList' data-native-menu='false'>";
 							for(val in dialogStates["LEVEL"].valueList){
 								if(dialogStates["LEVEL"].targetValues && dialogStates["LEVEL"].custom.showOnlyTargetValues && !dialogStates["LEVEL"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
 								dialogContent += "<option value='" + val + "'>" + _(dialogStates["LEVEL"].valueList[val]) + "</option>";
@@ -7019,8 +6915,8 @@ function OLDrenderDialog(deviceIdEscaped){
 				//----Timestamp
 				dialogContent += "<img class='iQontrolDialogTimestampSwitch show' style='display:none' src='./images/timestamp_show.png'>";
 				dialogContent += "<img class='iQontrolDialogTimestampSwitch hide' style='display:none' src='./images/timestamp_hide.png'>";
-				dialogContent += "<div id='DialogTimestamp' style='display: none;' data-timestamp='' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
-				dialogContent += "	<span class='small'>" + _("Last change:") + "&nbsp;</span><span id='DialogTimestampText' class='small' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></span>";
+				dialogContent += "<div id='DialogTimestamp' style='display: none;' data-timestamp='' data-device-id-escaped='" + deviceIdEscaped + "'>";
+				dialogContent += "	<span class='small'>" + _("Last change:") + "&nbsp;</span><span id='DialogTimestampText' class='small' data-device-id-escaped='" + deviceIdEscaped + "'></span>";
 				dialogContent += "</div>"; //The Timestamp itself is updated via the dialogUpdateTimestamp-Function
 
 				//--Additional Content
@@ -7034,7 +6930,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							var type = getDeviceOptionValue(device, "subjectCaption") || "Description";
 							dialogContent += "<br>";
 							dialogContent += "<label for='DialogSubjectValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<select  class='iQontrolDialogValueList DialogSubjectValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SUBJECT"].readonly || dialogReadonly).toString() + "' name='DialogSubjectValueList' id='DialogSubjectValueList' data-native-menu='false'>";
+							dialogContent += "<select  class='iQontrolDialogValueList DialogSubjectValueList' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SUBJECT"].readonly || dialogReadonly).toString() + "' name='DialogSubjectValueList' id='DialogSubjectValueList' data-native-menu='false'>";
 							for(val in dialogStates["SUBJECT"].valueList){
 								if(dialogStates["SUBJECT"].targetValues && dialogStates["SUBJECT"].custom.showOnlyTargetValues && !dialogStates["SUBJECT"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
 								dialogContent += "<option value='" + val + "'>" + _(dialogStates["SUBJECT"].valueList[val]) + "</option>";
@@ -7088,7 +6984,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							var type = getDeviceOptionValue(device, "subjectCaption") || "Description";
 							dialogContent += "<br>";
 							dialogContent += "<label for='DialogSubjectString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<textarea class='iQontrolDialogString' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SUBJECT"].readonly || dialogReadonly).toString() + "' name='DialogSubjectString' id='DialogSubjectString'></textarea>";
+							dialogContent += "<textarea class='iQontrolDialogString' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SUBJECT"].readonly || dialogReadonly).toString() + "' name='DialogSubjectString' id='DialogSubjectString'></textarea>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedSubjectId = dialogLinkedStateIds["SUBJECT"];
@@ -7126,8 +7022,8 @@ function OLDrenderDialog(deviceIdEscaped){
 						if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
 						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogTimeString' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["TIME"].readonly || dialogReadonly).toString() + "' name='DialogTimeString' id='DialogTimeString' readonly/>";
-						dialogContent += "<div class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogTimeDistance'></div>";
+						dialogContent += "<input class='iQontrolDialogTime' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["TIME"].readonly || dialogReadonly).toString() + "' name='DialogTimeString' id='DialogTimeString' readonly/>";
+						dialogContent += "<div class='iQontrolDialogTimeDistance small' data-device-id-escaped='" + deviceIdEscaped + "' id='DialogTimeDistance'></div>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _device = device;
@@ -7353,7 +7249,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
 						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogHueSlider' ><image src='./images/symbols/color.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color") + ":</label>";
-						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorPicker' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["HUE"] && dialogStates["HUE"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogHueSlider' id='DialogHueSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorPicker' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["HUE"] && dialogStates["HUE"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogHueSlider' id='DialogHueSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedHueId = dialogLinkedStateIds["HUE"];
@@ -7408,7 +7304,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						var max = dialogStates["SATURATION"] && dialogStates["SATURATION"].max || 100;
 						var step = dialogStates["SATURATION"] && dialogStates["SATURATION"].step || 1;
 						dialogContent += "<label for='DialogSaturationSlider' ><image src='./images/symbols/saturation.png' / style='width:16px; height:16px;'>&nbsp;" + _("Saturation") + ":</label>";
-						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorSaturationPicker' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["SATURATION"] && dialogStates["SATURATION"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogSaturationSlider' id='DialogSaturationSlider' min='" + min + "' max='" + max + "' step='1'/>";
+						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorSaturationPicker' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["SATURATION"] && dialogStates["SATURATION"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogSaturationSlider' id='DialogSaturationSlider' min='" + min + "' max='" + max + "' step='1'/>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedHueId = dialogLinkedStateIds["HUE"];
@@ -7466,7 +7362,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						var max = dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].max || 100;
 						var step = dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].step || 1;
 						dialogContent += "<label for='DialogColorBrightnessSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Brightness of color") + ":</label>";
-						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogColorBrightnessSlider' id='DialogColorBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
+						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogColorBrightnessSlider' id='DialogColorBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedColorBrightnessId = dialogLinkedStateIds["COLOR_BRIGHTNESS"];
@@ -7514,7 +7410,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
 						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogCtSlider' ><image src='./images/symbols/colortemperature.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color-Temperature") + ":</label>";
-						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorTemperaturePicker" + (invertCt?" invert":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["CT"] && dialogStates["CT"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogCtSlider' id='DialogCtSlider' min='" + min + "' max='" + max + "' step='1'/>";
+						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorTemperaturePicker" + (invertCt?" invert":"") + "' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["CT"] && dialogStates["CT"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogCtSlider' id='DialogCtSlider' min='" + min + "' max='" + max + "' step='1'/>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedCtId = dialogLinkedStateIds["CT"];
@@ -7559,7 +7455,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						var max = dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].max || 100;
 						var step = dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].step || 1;
 						dialogContent += "<label for='DialogWhiteBrightnessSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Brightness of white") + ":</label>";
-						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogWhiteBrightnessSlider' id='DialogWhiteBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
+						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogWhiteBrightnessSlider' id='DialogWhiteBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedWhiteBrightnessId = dialogLinkedStateIds["WHITE_BRIGHTNESS"];
@@ -7602,7 +7498,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
 						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogEffectValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Effect") + ":</label>";
-						dialogContent += "<select  class='iQontrolDialogValueList DialogEffectValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["EFFECT"].readonly || dialogReadonly).toString() + "' name='DialogEffectValueList' id='DialogEffectValueList' data-native-menu='false'>";
+						dialogContent += "<select  class='iQontrolDialogValueList DialogEffectValueList' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["EFFECT"].readonly || dialogReadonly).toString() + "' name='DialogEffectValueList' id='DialogEffectValueList' data-native-menu='false'>";
 						for(val in dialogStates["EFFECT"].valueList){
 							if(dialogStates["EFFECT"].targetValues && dialogStates["EFFECT"].custom.showOnlyTargetValues && !dialogStates["EFFECT"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
 							dialogContent += "<option value='" + val + "'>" + _(dialogStates["EFFECT"].valueList[val]) + "</option>";
@@ -7650,7 +7546,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
 						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogEffectNextButton' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Effect") + ":</label>";
-						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogEffectNextButton' id='DialogEffectNextButton'>" + _("Next") + "</a>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogEffectNextButton' id='DialogEffectNextButton'>" + _("Next") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedEffectNextId = dialogLinkedStateIds["EFFECT_NEXT"];
@@ -7666,7 +7562,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						dialogContentCountAfterHR++;
 						dialogContent += "<div data-role='controlgroup' data-type='horizontal'>";
 						if(dialogStates["EFFECT_SPEED_DOWN"] && dialogStates["EFFECT_SPEED_DOWN"].type){
-							dialogContent += "<a data-role='button' data-mini='false' data-icon='minus' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogEffectSpeedDownButton' id='DialogEffectSpeedDownButton'>" + _("Slower") + "</a>";
+							dialogContent += "<a data-role='button' data-mini='false' data-icon='minus' data-iconpos='left' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogEffectSpeedDownButton' id='DialogEffectSpeedDownButton'>" + _("Slower") + "</a>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedEffectSpeedDownId = dialogLinkedStateIds["EFFECT_SPEED_DOWN"];
@@ -7679,7 +7575,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["EFFECT_SPEED_UP"] && dialogStates["EFFECT_SPEED_UP"].type){
-							dialogContent += "<a data-role='button' data-mini='false' data-icon='plus' data-iconpos='right' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogEffectSpeedUpButton' id='DialogEffectSpeedUpButton'>" + _("Faster") + "</a>";
+							dialogContent += "<a data-role='button' data-mini='false' data-icon='plus' data-iconpos='right' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogEffectSpeedUpButton' id='DialogEffectSpeedUpButton'>" + _("Faster") + "</a>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedEffectSpeedUpId = dialogLinkedStateIds["EFFECT_SPEED_UP"];
@@ -7703,7 +7599,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							dialogContentCountAfterHR++;
 							var type = "Mode";
 							dialogContent += "<label for='DialogThermostatControlModeSwitch' ><image src='./images/symbols/config.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogThermostatControlModeSwitch' id='DialogThermostatControlModeSwitch'>";
+							dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogThermostatControlModeSwitch' id='DialogThermostatControlModeSwitch'>";
 								dialogContent += "<option value='false'>0</option>";
 								dialogContent += "<option value='true'>I</option>";
 							dialogContent += "</select>";
@@ -7741,7 +7637,7 @@ function OLDrenderDialog(deviceIdEscaped){
 								dialogContent += "<legend><image src='./images/symbols/config.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</legend>";
 								for(val in dialogStates["CONTROL_MODE"].valueList){
 									if(dialogStates["CONTROL_MODE"].targetValues && dialogStates["CONTROL_MODE"].custom.showOnlyTargetValues && !dialogStates["CONTROL_MODE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
-									dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogThermostatControlModeCheckboxradio' " + ((dialogStates["CONTROL_MODE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogThermostatControlModeCheckboxradio' id='DialogThermostatControlModeCheckboxradio_" + val + "' value='" + val + "' />";
+									dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogThermostatControlModeCheckboxradio' " + ((dialogStates["CONTROL_MODE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogThermostatControlModeCheckboxradio' id='DialogThermostatControlModeCheckboxradio_" + val + "' value='" + val + "' />";
 									dialogContent += "<label for='DialogThermostatControlModeCheckboxradio_" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</label>";
 								}
 							dialogContent += "</fieldset>";
@@ -7815,11 +7711,11 @@ function OLDrenderDialog(deviceIdEscaped){
 							for(val in dialogStates["CONTROL_MODE"].valueList){
 								if(dialogStates["CONTROL_MODE"].valueList[val] == "PARTY-MODE") continue;
 								dialogStates["CONTROL_MODE"].readonly = false; //SPECIAL: Homematic control mode IS readonly, because it writes to another targetValueId but the new targetValueId-Feature is not yet implemented for Homematic-Themostats. Therefore - as workaround - the readonly-mode is disabled here.
-								dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogThermostatControlModeCheckboxradio' " + ((dialogStates["CONTROL_MODE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogThermostatControlModeCheckboxradio' id='DialogThermostatControlModeCheckboxradio_" + val + "' value='" + val + "' />";
+								dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogThermostatControlModeCheckboxradio' " + ((dialogStates["CONTROL_MODE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogThermostatControlModeCheckboxradio' id='DialogThermostatControlModeCheckboxradio_" + val + "' value='" + val + "' />";
 								dialogContent += "<label for='DialogThermostatControlModeCheckboxradio_" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</label>";
 							}
 						dialogContent += "</fieldset>";
-						dialogContent += "<div class='DialogThermostatControlModeText' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
+						dialogContent += "<div class='DialogThermostatControlModeText' data-device-id-escaped='" + deviceIdEscaped + "'></div>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							if(device.commonRole == "iQontrolHomematicThermostat"){
@@ -7859,10 +7755,10 @@ function OLDrenderDialog(deviceIdEscaped){
 											val = Math.floor(val/60) + 1;
 											unit = " " + _("minutes");
 										}
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].DialogThermostatControlModeText").html("<span class='small'>" + _("Remaining Boost Time") + ": " + val + unit + "</span>");
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].DialogThermostatControlModeText").html("<span class='small'>" + _("Remaining Boost Time") + ": " + val + unit + "</span>");
 									}
 								} else {
-									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].DialogThermostatControlModeText").html("");
+									$("[data-device-id-escaped='" + _deviceIdEscaped + "'].DialogThermostatControlModeText").html("");
 								}
 							};
 							if(!dialogUpdateFunctions[_linkedBoostStateId]) dialogUpdateFunctions[_linkedBoostStateId] = [];
@@ -7974,7 +7870,7 @@ function OLDrenderDialog(deviceIdEscaped){
 									dialogContent += "</fieldset>";
 									dialogContent += "<div id='DialogThermostatPartyModeStopMomentError' style='display:none'><img src='./images/error.png' style='width: 16px; height: 16px;'><span class='small'>&nbsp;" + _("Has to be after start") + "</span></img></div><br>"
 									dialogContent += "<label for='DialogThermostatPartyModeTemperature' >" + _("Goal-Temperature") + ":</label>";
-									dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogThermostatPartyModeTemperature' id='DialogThermostatPartyModeTemperature' min='5' max='30' step='0.5'/><br>";
+									dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogThermostatPartyModeTemperature' id='DialogThermostatPartyModeTemperature' min='5' max='30' step='0.5'/><br>";
 									if(!dialogReadonly){
 										dialogContent += "<div class='ui-grid-a'>";
 											dialogContent += "<div class='ui-block-a'><input type='button' value='" + _("Save") + "' name='DialogThermostatPartyModeSave'></div>";
@@ -8131,7 +8027,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						dialogContent += "<div" + (valveStatesSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (valveStatesSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 							dialogContent += (valveStatesSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/setpoint.png' style='width:16px; height:16px;'>&nbsp;" + _("Heating-Valves") + ":</h4>" : "<hr>");
 							dialogContent += "<div id='DialogThermostatValveStatesContent'" + (valveStatesSectionType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";
-								dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogThermostatValveStatesContentList' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></ul>";
+								dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogThermostatValveStatesContentList' data-device-id-escaped='" + deviceIdEscaped + "'></ul>";
 							dialogContent += "</div>";
 						dialogContent += "</div>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -8154,7 +8050,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					case "iQontrolGarageDoor":
 					if(dialogStates["TOGGLE"] && !dialogStates["TOGGLE"].readonly && !dialogReadonly){
 						dialogContentCountAfterHR++;
-						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogToggleButton' id='DialogToggleButton'>" + _("Toggle") + "</a>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogToggleButton' id='DialogToggleButton'>" + _("Toggle") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedToggleId = dialogLinkedStateIds["TOGGLE"];
@@ -8174,7 +8070,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					}
 					if(dialogStates["LOCK_OPEN"] && !dialogStates["LOCK_OPEN"].readonly && !dialogReadonly){
 						dialogContentCountAfterHR++;
-						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLockOpenButton' id='DialogLockOpenButton'>" + _("Open Door") + "</a>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogLockOpenButton' id='DialogLockOpenButton'>" + _("Open Door") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _device = device;
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -8191,12 +8087,12 @@ function OLDrenderDialog(deviceIdEscaped){
 					if(dialogStates["LOCK_STATE"]){
 						dialogContentCountAfterHR++;
 						dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>"
-							dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' " + ((dialogStates["LOCK_STATE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_false' value='false' />";
+							dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' " + ((dialogStates["LOCK_STATE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_false' value='false' />";
 							dialogContent += "<label for='DialogLockStateCheckboxradio_false'>" + _("locked") + "</label>";
-							dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' " + ((dialogStates["LOCK_STATE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_true' value='true' />";
+							dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' " + ((dialogStates["LOCK_STATE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_true' value='true' />";
 							dialogContent += "<label for='DialogLockStateCheckboxradio_true'>" + _("unlocked") + "</label>";
 						dialogContent += "</fieldset>";
-						dialogContent += "<div class='DialogLockStateUncertainText' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
+						dialogContent += "<div class='DialogLockStateUncertainText' data-device-id-escaped='" + deviceIdEscaped + "'></div>";
 						if(dialogLinkedStateIds["STATE"]){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -8253,9 +8149,9 @@ function OLDrenderDialog(deviceIdEscaped){
 								var stateLockStateUncertain = getState(_linkedLockStateUncertainId);
 									if(stateLockStateUncertain){
 										if(stateLockStateUncertain.val == false || stateLockStateUncertain.val.toString().toLowerCase() == "false" || stateLockStateUncertain.val == 0 || stateLockStateUncertain == "0"){ //State certain
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].DialogLockStateUncertainText").html("");
+											$("[data-device-id-escaped='" + _deviceIdEscaped + "'].DialogLockStateUncertainText").html("");
 										} else { //State Uncertain
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].DialogLockStateUncertainText").html("<span class='small'>" + _("Exact position uncertain") + "</span>");
+											$("[data-device-id-escaped='" + _deviceIdEscaped + "'].DialogLockStateUncertainText").html("<span class='small'>" + _("Exact position uncertain") + "</span>");
 										}
 									}
 								};
@@ -8270,7 +8166,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					if(!dialogReadonly && (dialogStates["FAVORITE_POSITION"] && dialogStates["FAVORITE_POSITION"].type)){
 						dialogContentCountAfterHR++;
 						var favoritePositionCaption = getDeviceOptionValue(device, "favoritePositionCaption") || "Favorite Position";
-						dialogContent += "<a data-role='button' data-mini='true' data-icon='star' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateFavoritePositionButton' id='DialogStateFavoritePositionButton'>" + _(favoritePositionCaption) + "</a>";
+						dialogContent += "<a data-role='button' data-mini='true' data-icon='star' data-iconpos='left' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateFavoritePositionButton' id='DialogStateFavoritePositionButton'>" + _(favoritePositionCaption) + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedFavoritePositionId = dialogLinkedStateIds["FAVORITE_POSITION"];
@@ -8289,7 +8185,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						dialogContent += "<center><div data-role='controlgroup' data-type='horizontal'>";
 						if(dialogStates["DOWN"] && dialogStates["DOWN"].type){
 							var downCaption = getDeviceOptionValue(device, "downCaption") || "Down";
-							dialogContent += "<a data-role='button' data-mini='false' data-icon='carat-d' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateDownButton' id='DialogStateDownButton'>" + _(downCaption) + "</a>";
+							dialogContent += "<a data-role='button' data-mini='false' data-icon='carat-d' data-iconpos='left' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateDownButton' id='DialogStateDownButton'>" + _(downCaption) + "</a>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedDownId = dialogLinkedStateIds["DOWN"];
@@ -8305,7 +8201,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						}
 						if(dialogStates["STOP"] && dialogStates["STOP"].type){
 							var stopCaption = getDeviceOptionValue(device, "stopCaption") || "Stop";
-							dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateStopButton' id='DialogStateStopButton'>" + _(stopCaption) + "</a>";
+							dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateStopButton' id='DialogStateStopButton'>" + _(stopCaption) + "</a>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedStopId = dialogLinkedStateIds["STOP"];
@@ -8321,7 +8217,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						}
 						if(dialogStates["UP"] && dialogStates["UP"].type){
 							var upCaption = getDeviceOptionValue(device, "upCaption") || "Up";
-							dialogContent += "<a data-role='button' data-mini='false' data-icon='carat-u' data-iconpos='right'  class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateUPButton' id='DialogStateUPButton'>" + _(upCaption) + "</a>";
+							dialogContent += "<a data-role='button' data-mini='false' data-icon='carat-u' data-iconpos='right'  class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateUPButton' id='DialogStateUPButton'>" + _(upCaption) + "</a>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedUpId = dialogLinkedStateIds["UP"];
@@ -8337,7 +8233,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						}
 						if(!(dialogStates["DOWN"] && dialogStates["DOWN"].type) && !(dialogStates["UP"] && dialogStates["UP"].type) && dialogStates["LEVEL"]){
 							var onclick = "toggleActuator(\"" + (dialogLinkedStateIds["LEVEL"] || "") + "\", \"" + (dialogLinkedStateIds["DIRECTION"] || "") + "\", \"" + (dialogLinkedStateIds["STOP"] || "") + "\", \"" + (dialogLinkedStateIds["STOP_SET_VALUE"] || "") + "\", \"" + (dialogLinkedStateIds["UP"] || "") + "\", \"" + (dialogLinkedStateIds["UP_SET_VALUE"] || "") + "\", \"" + (dialogLinkedStateIds["DOWN"] || "") + "\", \"" + (dialogLinkedStateIds["DOWN_SET_VALUE"] || "") + "\", \"" + (dialogLinkedStateIds["FAVORITE_POSITION"] || "") + "\", \"" + deviceIdEscaped + "\");";
-							dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateToggleButton' id='DialogStateToggleButton' onclick='" + onclick + "'>" + _("Toggle") + "</a>";
+							dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateToggleButton' id='DialogStateToggleButton' onclick='" + onclick + "'>" + _("Toggle") + "</a>";
 						}
 						dialogContent += "</div></center>";
 					}
@@ -8350,7 +8246,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							var step = dialogStates["SLATS_LEVEL"].step || 1;
 							var type = "Slats";
 							dialogContent += "<label for='DialogSlatsLevelSlider' ><image src='./images/symbols/slats.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SLATS_LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogSlatsLevelSlider' id='DialogSlatsLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SLATS_LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogSlatsLevelSlider' id='DialogSlatsLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedSlatsLevelId = dialogLinkedStateIds["SLATS_LEVEL"];
@@ -8394,7 +8290,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					if(dialogStates["CONTROL_MODE"]){
 						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogControlModeValueList' ><image src='./images/symbols/variable.png' style='width:16px; height:16px;' />&nbsp;" + _("Operation Mode") + ":</label>";
-						dialogContent += "<select class='iQontrolDialogValueList DialogControlModeValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogControlModeValueList' id='DialogControlModeValueList' data-native-menu='false'>";
+						dialogContent += "<select class='iQontrolDialogValueList DialogControlModeValueList' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogControlModeValueList' id='DialogControlModeValueList' data-native-menu='false'>";
 						for(val in dialogStates["CONTROL_MODE"].valueList){
 							if(dialogStates["CONTROL_MODE"].targetValues && dialogStates["CONTROL_MODE"].custom.showOnlyTargetValues && !dialogStates["CONTROL_MODE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
 							dialogContent += "<option value='" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</option>";
@@ -8448,7 +8344,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					//----Cover Image
 					if(dialogStates["COVER_URL"]){
 						dialogContentCountAfterHR++;
-						dialogContent += "<img src='' style='max-width:150px; max-height:150px' class='iQontrolDialogMediaImage DialogMediaCoverImage' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaCoverImage' id='DialogMediaCoverImage'>";
+						dialogContent += "<img src='' style='max-width:150px; max-height:150px' class='iQontrolDialogMediaImage DialogMediaCoverImage' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogMediaCoverImage' id='DialogMediaCoverImage'>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _device = device;
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -8508,7 +8404,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					//----Artist
 					if(dialogStates["ARTIST"]){
 						dialogContentCountAfterHR++;
-						dialogContent += "<span class='iQontrolDialogMediaText artist' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaArtist' id='DialogMediaArtist'></span>";
+						dialogContent += "<span class='iQontrolDialogMediaText artist' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogMediaArtist' id='DialogMediaArtist'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedArtistId = dialogLinkedStateIds["ARTIST"];
@@ -8526,7 +8422,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					//----Album
 					if(dialogStates["ALBUM"]){
 						dialogContentCountAfterHR++;
-						dialogContent += "<span class='iQontrolDialogMediaText album' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaAlbum' id='DialogMediaAlbum'></span>";
+						dialogContent += "<span class='iQontrolDialogMediaText album' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogMediaAlbum' id='DialogMediaAlbum'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedAlbumId = dialogLinkedStateIds["ALBUM"];
@@ -8544,7 +8440,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					//----Title
 					if(dialogStates["TITLE"]){
 						dialogContentCountAfterHR++;
-						dialogContent += "<span class='iQontrolDialogMediaText title' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaTitle' id='DialogMediaTitle'></span>";
+						dialogContent += "<span class='iQontrolDialogMediaText title' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogMediaTitle' id='DialogMediaTitle'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedTitleId = dialogLinkedStateIds["TITLE"];
@@ -8562,7 +8458,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					//----Track
 					if(dialogStates["TRACK"]){
 						dialogContentCountAfterHR++;
-						dialogContent += "<span class='iQontrolDialogMediaText track small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaTrack' id='DialogMediaTrack'></span>";
+						dialogContent += "<span class='iQontrolDialogMediaText track small' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogMediaTrack' id='DialogMediaTrack'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedTrackId = dialogLinkedStateIds["TITLE"];
@@ -8580,7 +8476,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					//----Season
 					if(dialogStates["SEASON"]){
 						dialogContentCountAfterHR++;
-						dialogContent += "<span class='iQontrolDialogMediaText season' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaSeason' id='DialogMediaSeason'></span>";
+						dialogContent += "<span class='iQontrolDialogMediaText season' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogMediaSeason' id='DialogMediaSeason'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedSeasonId = dialogLinkedStateIds["SEASON"];
@@ -8598,7 +8494,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					//----Episode
 					if(dialogStates["EPISODE"]){
 						dialogContentCountAfterHR++;
-						dialogContent += "<span class='iQontrolDialogMediaText episode' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaEpisode' id='DialogMediaEpisode'></span>";
+						dialogContent += "<span class='iQontrolDialogMediaText episode' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogMediaEpisode' id='DialogMediaEpisode'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedEpisodeId = dialogLinkedStateIds["EPISODE"];
@@ -8620,8 +8516,8 @@ function OLDrenderDialog(deviceIdEscaped){
 							var min = dialogStates["ELAPSED"].min || 0;
 							var max = dialogStates["ELAPSED"].max || 200;
 							var step = dialogStates["ELAPSED"].step || 1;
-							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["ELAPSED"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='false' data-show-value='false' data-mini='true' name='DialogElapsedLevelSlider' id='DialogElapsedLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
-							dialogContent += "<div class='ui-grid-a' style='margin: -11px 8px 10px 3px;'><div class='ui-block-a'><span class='small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogElapsedSpan'></span></div><div class='ui-block-b' style='text-align: right;'><span class='small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogDurationSpan'></span></div></div>";
+							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider small' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["ELAPSED"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='false' data-show-value='false' data-mini='true' name='DialogElapsedLevelSlider' id='DialogElapsedLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+							dialogContent += "<div class='ui-grid-a' style='margin: -11px 8px 10px 3px;'><div class='ui-block-a'><span class='small' data-device-id-escaped='" + deviceIdEscaped + "' id='DialogElapsedSpan'></span></div><div class='ui-block-b' style='text-align: right;'><span class='small' data-device-id-escaped='" + deviceIdEscaped + "' id='DialogDurationSpan'></span></div></div>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _device = device;
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -8693,7 +8589,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						dialogContentCountAfterHR++;
 						dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>";
 						if(dialogStates["PREV"] && dialogStates["PREV"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPrevCheckbox' id='DialogMediaControlPrevCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlPrevCheckbox' id='DialogMediaControlPrevCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlPrevCheckbox'><img src='./images/symbols/media_prev.png' alt='Previous' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -8721,7 +8617,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["REWIND"] && dialogStates["REWIND"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlRewindCheckbox' id='DialogMediaControlRewindCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlRewindCheckbox' id='DialogMediaControlRewindCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlRewindCheckbox'><img src='./images/symbols/media_rewind.png' alt='Previous' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -8749,7 +8645,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["PLAY"] && dialogStates["PLAY"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPlayCheckbox' id='DialogMediaControlPlayCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlPlayCheckbox' id='DialogMediaControlPlayCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlPlayCheckbox'><img src='./images/symbols/media_play.png' alt='Play' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _device = device;
@@ -8794,7 +8690,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["PAUSE"] && dialogStates["PAUSE"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPauseCheckbox' id='DialogMediaControlPauseCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlPauseCheckbox' id='DialogMediaControlPauseCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlPauseCheckbox'><img src='./images/symbols/media_pause.png' alt='Pause' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _device = device;
@@ -8839,7 +8735,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["STOP"] && dialogStates["STOP"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlStopCheckbox' id='DialogMediaControlStopCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlStopCheckbox' id='DialogMediaControlStopCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlStopCheckbox'><img src='./images/symbols/media_stop.png' alt='Stop' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _device = device;
@@ -8884,7 +8780,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["FORWARD"] && dialogStates["FORWARD"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlForwardCheckbox' id='DialogMediaControlForwardCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlForwardCheckbox' id='DialogMediaControlForwardCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlForwardCheckbox'><img src='./images/symbols/media_forward.png' alt='Forward' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -8912,7 +8808,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["NEXT"] && dialogStates["NEXT"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlNextCheckbox' id='DialogMediaControlNextCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlNextCheckbox' id='DialogMediaControlNextCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlNextCheckbox'><img src='./images/symbols/media_next.png' alt='Next' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -8946,7 +8842,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						dialogContentCountAfterHR++;
 						dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>";
 						if(dialogStates["SHUFFLE"] && dialogStates["SHUFFLE"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlShuffleCheckbox' id='DialogMediaControlShuffleCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlShuffleCheckbox' id='DialogMediaControlShuffleCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlShuffleCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/symbols/media_shuffle.png' alt='Shuffle' style='width:15px; height:15px; margin:0px 0px -4px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -8978,7 +8874,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["REPEAT"] && dialogStates["REPEAT"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlRepeatCheckbox' id='DialogMediaControlRepeatCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlRepeatCheckbox' id='DialogMediaControlRepeatCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlRepeatCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/symbols/media_repeat.png' alt='Repeat' style='width:15px; height:15px; margin:0px 0px -4px 0px;' id='DialogMediaControlRepeatCheckboxRepeatAllImage'><img src='./images/media_repeat_one.png' alt='Repeat 1' style='display:none; width:15px; height:15px; margin:0px 0px -4px 0px;' id='DialogMediaControlRepeatCheckboxRepeatOneImage'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _device = device;
@@ -9054,7 +8950,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["MUTE"] && dialogStates["MUTE"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlMuteCheckbox' id='DialogMediaControlMuteCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlMuteCheckbox' id='DialogMediaControlMuteCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlMuteCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/symbols/media_mute.png' alt='Mute' style='width:15px; height:15px; margin:0px 0px -4px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -9086,7 +8982,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["PLAY_EVERYWHERE"] && dialogStates["PLAY_EVERYWHERE"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPlayEverywhereCheckbox' id='DialogMediaControlPlayEverywhereCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlPlayEverywhereCheckbox' id='DialogMediaControlPlayEverywhereCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlPlayEverywhereCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/symbols/media_playeverywhere.png' alt='Play Everywhere' style='width:15px; height:15px; margin:0px 0px -4px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -9118,7 +9014,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["EJECT"] && dialogStates["EJECT"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlEjectCheckbox' id='DialogMediaControlEjectCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlEjectCheckbox' id='DialogMediaControlEjectCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlEjectCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/symbols/media_eject.png' alt='Eject' style='width:15px; height:15px; margin:0px 0px -4px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -9150,7 +9046,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						if(dialogStates["POWER_SWITCH"] && dialogStates["POWER_SWITCH"].type){
-							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPowerSwitchCheckbox' id='DialogMediaControlPowerSwitchCheckbox'>";
+							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-device-id-escaped='" + deviceIdEscaped +"' name='DialogMediaControlPowerSwitchCheckbox' id='DialogMediaControlPowerSwitchCheckbox'>";
 							dialogContent += "<label for='DialogMediaControlPowerSwitchCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/symbols/media_power.png' alt='Power' style='width:15px; height:15px; margin:0px 0px -4px 0px;'></label>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -9193,7 +9089,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
 							dialogContentCountAfterHR++;
 							dialogContent += "<label for='DialogVolumeLevelSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["VOLUME"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogVolumeLevelSlider' id='DialogVolumeLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["VOLUME"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogVolumeLevelSlider' id='DialogVolumeLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedVolumeLevelId = dialogLinkedStateIds["VOLUME"];
@@ -9248,7 +9144,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							var remoteShowDirectionsInsidePad = (getDeviceOptionValue(device, "remoteShowDirectionsInsidePad") == "true");
 							dialogContent += "<div data-role='collapsible' class='collapsibleAnimated'" + (remoteSectionsStartOpened.indexOf("REMOTE_PAD") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 								dialogContent += "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Pad") + ":</h4>";
-								dialogContent += "<div class='ui-grid-b DialogRemotePadArea' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogRemotePadArea' id='DialogRemotePadArea' style='max-width:250px; border-style:dashed; border-color:lightgrey; border-width:1px; border-radius:5px; background-color:#f6f6f6; box-shadow: 0 1px 3px rgba(0,0,0,.15); touch-action: none;'>";
+								dialogContent += "<div class='ui-grid-b DialogRemotePadArea' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogRemotePadArea' id='DialogRemotePadArea' style='max-width:250px; border-style:dashed; border-color:lightgrey; border-width:1px; border-radius:5px; background-color:#f6f6f6; box-shadow: 0 1px 3px rgba(0,0,0,.15); touch-action: none;'>";
 									if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type){
 										dialogContent += "<div class='ui-block-a DialogRemotePadButton preventClick' id='DialogRemotePadButtonVolumeUp' data-remote-pad-button='volumeUp' style='opacity: 0.7; height: 45px; background-image: url(\"./images/symbols/media_pad_vol_u.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
 									} else {
@@ -9645,7 +9541,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							dialogContentCountAfterHR++;
 							var type = "Source";
 							dialogContent += "<label for='DialogSourceValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<select  class='iQontrolDialogValueList DialogSourceValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SOURCE"].readonly || dialogReadonly).toString() + "' name='DialogSourceValueList' id='DialogSourceValueList' data-native-menu='false'>";
+							dialogContent += "<select  class='iQontrolDialogValueList DialogSourceValueList' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SOURCE"].readonly || dialogReadonly).toString() + "' name='DialogSourceValueList' id='DialogSourceValueList' data-native-menu='false'>";
 							for(val in dialogStates["SOURCE"].valueList){
 								if(dialogStates["SOURCE"].targetValues && dialogStates["SOURCE"].custom.showOnlyTargetValues && !dialogStates["SOURCE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
 								dialogContent += "<option value='" + val + "'>" + _(dialogStates["SOURCE"].valueList[val]) + "</option>";
@@ -9696,9 +9592,9 @@ function OLDrenderDialog(deviceIdEscaped){
 							dialogContentCountAfterHR++;
 							var type = "Source";
 							dialogContent += "<label for='DialogSourceString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<textarea class='iQontrolDialogString Source' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SOURCE"].readonly || dialogReadonly).toString() + "' name='DialogSourceString' id='DialogSourceString'></textarea>";
+							dialogContent += "<textarea class='iQontrolDialogString Source' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SOURCE"].readonly || dialogReadonly).toString() + "' name='DialogSourceString' id='DialogSourceString'></textarea>";
 							if(!dialogStates["SOURCE"].readonly && !dialogReadonly) {
-								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogSourceStringSubmit' id='DialogSourceStringSubmit'>" + _("Submit") + "</a>";
+								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogSourceStringSubmit' id='DialogSourceStringSubmit'>" + _("Submit") + "</a>";
 							}
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -9732,7 +9628,7 @@ function OLDrenderDialog(deviceIdEscaped){
 							dialogContentCountAfterHR++;
 							var type = "Playlist";
 							dialogContent += "<label for='DialogPlaylistValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<select  class='iQontrolDialogValueList DialogPlaylistValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["PLAYLIST"].readonly || dialogReadonly).toString() + "' name='DialogPlaylistValueList' id='DialogPlaylistValueList' data-native-menu='false'>";
+							dialogContent += "<select  class='iQontrolDialogValueList DialogPlaylistValueList' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["PLAYLIST"].readonly || dialogReadonly).toString() + "' name='DialogPlaylistValueList' id='DialogPlaylistValueList' data-native-menu='false'>";
 							for(val in dialogStates["PLAYLIST"].valueList){
 								if(dialogStates["PLAYLIST"].targetValues && dialogStates["PLAYLIST"].custom.showOnlyTargetValues && !dialogStates["PLAYLIST"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
 								dialogContent += "<option value='" + val + "'>" + _(dialogStates["PLAYLIST"].valueList[val]) + "</option>";
@@ -9783,9 +9679,9 @@ function OLDrenderDialog(deviceIdEscaped){
 							dialogContentCountAfterHR++;
 							var type = "Playlist";
 							dialogContent += "<label for='DialogPlaylistString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<textarea class='iQontrolDialogString Playlist' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["PLAYLIST"].readonly || dialogReadonly).toString() + "' name='DialogPlaylistString' id='DialogPlaylistString'></textarea>";
+							dialogContent += "<textarea class='iQontrolDialogString Playlist' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["PLAYLIST"].readonly || dialogReadonly).toString() + "' name='DialogPlaylistString' id='DialogPlaylistString'></textarea>";
 							if(!dialogStates["PLAYLIST"].readonly && !dialogReadonly) {
-								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogPlaylistStringSubmit' id='DialogPlaylistStringSubmit'>" + _("Submit") + "</a>";
+								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogPlaylistStringSubmit' id='DialogPlaylistStringSubmit'>" + _("Submit") + "</a>";
 							}
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -9889,7 +9785,7 @@ function OLDrenderDialog(deviceIdEscaped){
 										var buttonCaption = _(_element.caption.split('|')[0] || "push");
 										var variablebuttonCaption = encodeURI(_element.caption.split('|').slice(1).join('|'));
 										if(!additionalControlsHideNameForButtons) dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsButton_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/program.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
-										dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + (dialogReadonly ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsButton_" + _index + "' id='DialogAdditionalControlsButton_" + _index + "'><span" + (variablebuttonCaption ? " data-variablehtml='" + variablebuttonCaption + "'" : "") + ">" + buttonCaption + "</span></a>";
+										dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + (dialogReadonly ? " ui-state-disabled'" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogAdditionalControlsButton_" + _index + "' id='DialogAdditionalControlsButton_" + _index + "'><span" + (variablebuttonCaption ? " data-variablehtml='" + variablebuttonCaption + "'" : "") + ">" + buttonCaption + "</span></a>";
 										(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 											var _deviceIdEscaped = deviceIdEscaped;
 											var _device = device;
@@ -9914,7 +9810,7 @@ function OLDrenderDialog(deviceIdEscaped){
 											var type = _(_element.name.split('|')[0] || "Switch");
 											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
 											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsSwitch_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/switch.png") + "' style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
-											dialogAdditionalControlsContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsSwitch_" + _index + "' id='DialogAdditionalControlsSwitch_" + _index + "'>";
+											dialogAdditionalControlsContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsSwitch_" + _index + "' id='DialogAdditionalControlsSwitch_" + _index + "'>";
 												dialogAdditionalControlsContent += "<option value='false'>0</option>";
 												dialogAdditionalControlsContent += "<option value='true'>I</option>";
 											dialogAdditionalControlsContent += "</select>";
@@ -9951,7 +9847,7 @@ function OLDrenderDialog(deviceIdEscaped){
 											var buttonCaption = _(_element.caption.split('|')[0] || "push");
 											var variablebuttonCaption = encodeURI(_element.caption.split('|').slice(1).join('|'));
 											if(!additionalControlsHideNameForButtons) dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsButton_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/program.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
-											dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsButton_" + _index + "' id='DialogAdditionalControlsButton_" + _index + "'><span" + (variablebuttonCaption ? " data-variablehtml='" + variablebuttonCaption + "'" : "") + ">" + buttonCaption + "</span></a>";
+											dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogAdditionalControlsButton_" + _index + "' id='DialogAdditionalControlsButton_" + _index + "'><span" + (variablebuttonCaption ? " data-variablehtml='" + variablebuttonCaption + "'" : "") + ">" + buttonCaption + "</span></a>";
 											(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 												var _deviceIdEscaped = deviceIdEscaped;
 												var _device = device;
@@ -9973,7 +9869,7 @@ function OLDrenderDialog(deviceIdEscaped){
 											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
 											var sliderSendRate = 500;
 											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsSlider_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/slider.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
-											dialogAdditionalControlsContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogAdditionalControlsSlider_" + _index + "' id='DialogAdditionalControlsSlider_" + _index + "' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+											dialogAdditionalControlsContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogAdditionalControlsSlider_" + _index + "' id='DialogAdditionalControlsSlider_" + _index + "' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 											(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 												var _deviceIdEscaped = deviceIdEscaped;
 												var _linkedStateId = linkedStateId;
@@ -10013,7 +9909,7 @@ function OLDrenderDialog(deviceIdEscaped){
 											var type = _(_element.name.split('|')[0] || "Selection");
 											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
 											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsValueList_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/variable.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
-											dialogAdditionalControlsContent += "<select  class='iQontrolDialogValueList DialogAdditionalControlsValueList_" + _index + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsValueList_" + _index + "' id='DialogAdditionalControlsValueList_" + _index + "' data-native-menu='false'>";
+											dialogAdditionalControlsContent += "<select  class='iQontrolDialogValueList DialogAdditionalControlsValueList_" + _index + "' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsValueList_" + _index + "' id='DialogAdditionalControlsValueList_" + _index + "' data-native-menu='false'>";
 											for(val in stateValue.valueList){
 												if(stateValue.targetValues && stateValue.custom.showOnlyTargetValues && !stateValue.targetValues.hasOwnProperty(val)) continue; //Show only targetValues
 												dialogAdditionalControlsContent += "<option value='" + val + "'>" + _(stateValue.valueList[val]) + "</option>";
@@ -10066,9 +9962,9 @@ function OLDrenderDialog(deviceIdEscaped){
 											var buttonCaption = _(_element.caption.split('|')[0] || "Submit");
 											var variablebuttonCaption = encodeURI(_element.caption.split('|').slice(1).join('|'));
 											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsString_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/variable.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
-											dialogAdditionalControlsContent += "<textarea class='iQontrolDialogString DialogAdditionalControlsString' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsString_" + _index + "' id='DialogAdditionalControlsString_" + _index + "'></textarea>";
+											dialogAdditionalControlsContent += "<textarea class='iQontrolDialogString DialogAdditionalControlsString' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsString_" + _index + "' id='DialogAdditionalControlsString_" + _index + "'></textarea>";
 											if(!readonly && !dialogReadonly) {
-												dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsString_" + _index + "Submit' id='DialogAdditionalControlsString_" + _index + "Submit'><span" + (variablebuttonCaption ? " data-variablehtml='" + variablebuttonCaption + "'" : "") + ">" + buttonCaption + "</span></a>";
+												dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogAdditionalControlsString_" + _index + "Submit' id='DialogAdditionalControlsString_" + _index + "Submit'><span" + (variablebuttonCaption ? " data-variablehtml='" + variablebuttonCaption + "'" : "") + ">" + buttonCaption + "</span></a>";
 											}
 											(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 												var _deviceIdEscaped = deviceIdEscaped;
@@ -10098,8 +9994,8 @@ function OLDrenderDialog(deviceIdEscaped){
 											var type = _(_element.name.split('|')[0] || "Time");
 											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
 											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsTimeString_" + _index + "' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
-											dialogAdditionalControlsContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsTimeString_" + _index + "' id='DialogAdditionalControlsTimeString_" + _index + "' readonly/>";
-											dialogAdditionalControlsContent += "<div class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogAdditionalControlsTimeDistance_" + _index + "'></div>";
+											dialogAdditionalControlsContent += "<input class='iQontrolDialogTime' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsTimeString_" + _index + "' id='DialogAdditionalControlsTimeString_" + _index + "' readonly/>";
+											dialogAdditionalControlsContent += "<div class='iQontrolDialogTimeDistance small' data-device-id-escaped='" + deviceIdEscaped + "' id='DialogAdditionalControlsTimeDistance_" + _index + "'></div>";
 											(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 												var _deviceIdEscaped = deviceIdEscaped;
 												var _linkedTimeId = linkedStateId;
@@ -10437,7 +10333,7 @@ function OLDrenderDialog(deviceIdEscaped){
 				if(dialogStates["URL"] && (device.commonRole == "iQontrolExternalLink" || getDeviceOptionValue(device, "openURLExternal") == "true")){
 					var type = _(getDeviceOptionValue(device, "openURLExternalCaption") || "Open External Link");
 					dialogContentCountAfterHR++;
-					dialogContent += "<a href='' target='_blank' data-role='button' data-mini='false' data-icon='action' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogExternalLinkButton' id='DialogExternalLinkButton'>" + type + "</a>";
+					dialogContent += "<a href='' target='_blank' data-role='button' data-mini='false' data-icon='action' data-iconpos='left' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogExternalLinkButton' id='DialogExternalLinkButton'>" + type + "</a>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedUrlId = dialogLinkedStateIds["URL"];
@@ -10468,7 +10364,7 @@ function OLDrenderDialog(deviceIdEscaped){
 						style += "height: unset !important; "
 					}
 					dialogContent += "<div class='iQontrolDialogIframeWrapper' id='DialogPopupIframeWrapper' style='" + style + "'>";
-					dialogContent += "	<iframe class='iQontrolDialogIframe' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogPopupIframe' scrolling='auto'" + ((getDeviceOptionValue(device, "popupAllowPostMessage") == "true") ? " data-allow-post-message='true'" : "") + ">" + _("Content not available") + "</iframe>";
+					dialogContent += "	<iframe class='iQontrolDialogIframe' data-device-id-escaped='" + deviceIdEscaped + "' id='DialogPopupIframe' scrolling='auto'" + ((getDeviceOptionValue(device, "popupAllowPostMessage") == "true") ? " data-allow-post-message='true'" : "") + ">" + _("Content not available") + "</iframe>";
 					dialogContent += "	<div id='DialogPopupIframeHandle' style='" + ((getDeviceOptionValue(device, "popupFixed") == "true") ? "display: none; " : "") + "position: absolute; width: 20px; height: 25px; bottom: -11px; right: -8px; background: repeating-linear-gradient(to right, darkgrey, darkgrey 1px, transparent, transparent 25%); transform: rotate(45deg);'></div>";
 					dialogContent += "</div>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -10546,7 +10442,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					dialogContent += "<div" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated iQontrolDialogAdditionalInfoCollapsible'") + (additionalInfoSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 						dialogContent += (additionalInfoSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/variable.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : (additionalInfoListType == "plain" && dialogContentCountAfterHR > 0 ? "<hr>" : ""));
 						dialogContent += "<div class='adjustToDialogWidthOffset50' id='DialogAdditionalInfosContent'" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? " style='padding-left:16px; margin-bottom:16px;'" : "") + ">";
-							dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogAdditionalInfosContentList'" + (additionalInfoListType == "plain" ? "" : " data-role='listview'") + " data-iQontrol-Device-ID='" + deviceIdEscaped + "' style='columns: " + additionalInfoListColumnCount + (additionalInfoListColumnWidth ? " " + additionalInfoListColumnWidth + "px" : "") + ";'></ul>";
+							dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogAdditionalInfosContentList'" + (additionalInfoListType == "plain" ? "" : " data-role='listview'") + " data-device-id-escaped='" + deviceIdEscaped + "' style='columns: " + additionalInfoListColumnCount + (additionalInfoListColumnWidth ? " " + additionalInfoListColumnWidth + "px" : "") + ";'></ul>";
 						dialogContent += "</div>";
 					dialogContent += "</div>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -10582,7 +10478,7 @@ function OLDrenderDialog(deviceIdEscaped){
 					if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
 					dialogContentCountAfterHR++;
 					dialogContent += "<label for='DialogLinkedViewButton' ><image src='./images/symbols/view.png' / style='width:16px; height:16px;'>&nbsp;" + _("Link to other view") + ":</label>";
-					dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLinkedViewButton' id='DialogLinkedViewButton' onclick='$(\"#DialogContent\").empty(); setTimeout(function(){$(\"#Dialog\").popup(\"close\"); setTimeout(function(){viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + linkedViewHistoryPosition + "; renderView(unescape(\"" + escape(linkedView) + "\"));}, 200);}, 200);'>" + _("Open %s", linkedViewName.split("#")[0]) + "</a>";
+					dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogLinkedViewButton' id='DialogLinkedViewButton' onclick='$(\"#DialogContent\").empty(); setTimeout(function(){$(\"#Dialog\").popup(\"close\"); setTimeout(function(){viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + linkedViewHistoryPosition + "; renderView(unescape(\"" + escape(linkedView) + "\"));}, 200);}, 200);'>" + _("Open %s", linkedViewName.split("#")[0]) + "</a>";
 				}
 			dialogContent += "</form>";
 			$("#DialogContent").html(dialogContent);
@@ -11350,7 +11246,7 @@ $(window).on('orientationchange resize', function(){
 	dialogResized();
 	if(!options.LayoutViewMarqueeDisabled){
 		$(".iQontrolToolbarBadge").each(function(){
-			var deviceID = $(this).data('iqontrolDeviceId');
+			var deviceID = $(this).data('device-id-escaped');
 			var $state = $(this);
 			if(toolbarMarqueeDisabledTimeouts[deviceID]) clearTimeout(toolbarMarqueeDisabledTimeouts[deviceID]);
 			var $stateBGColor = $state.css('background-color');
@@ -11366,7 +11262,7 @@ $(window).on('orientationchange resize', function(){
 	}
 });
 function resizeDevicesToFitScreen(){
-	var deviceMargin = parseInt($('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6;
+	var deviceMargin = parseInt($('.pressureIndicator').css('margin-left'), 10) || 6;
 	var viewPadding = (parseInt($('#ViewMain').css('padding-left'), 10) || 0) + (parseInt($('#ViewMain').css('padding-right'), 10) || 0);
 	var screenPadding = deviceMargin + viewPadding;
 	var panelMarginLeft = parseFloat(($('.ui-panel-page-content-open.ui-panel-page-content-position-left').css('margin-right') || "0px").slice(0, -2))
@@ -11375,11 +11271,11 @@ function resizeDevicesToFitScreen(){
 	var screenWidth = ($(window).innerWidth() - screenPadding - panelMarginLeft - panelMarginRight) / scale;
 	var deviceSize = 2 * $('.iQontrolDeviceShuffleSizer').outerWidth(true);
 	var columns = Math.round(screenWidth/deviceSize);
-	var customCSS = ".viewShuffleContainer, .fullScreenWidth {";
+	var customCSS = ".viewIsotopeContainer, .fullScreenWidth {";
 	customCSS += "	width: " + (deviceSize * columns) +"px !important;";
 	customCSS += "}";
-	removeCustomCSS('resizeViewShuffleContainer');
-	addCustomCSS(customCSS, "resizeViewShuffleContainer");
+	removeCustomCSS('resizeviewIsotopeContainer');
+	addCustomCSS(customCSS, "resizeviewIsotopeContainer");
 	if(!options.LayoutViewResizeDevicesToFitScreenDisabled){
 		resizeFullWidthDevicesToFitScreen();
 		if(options.LayoutViewResizeDevicesToFitScreenOnBigScreens || screenWidth <= (options.LayoutViewResizeDevicesToFitScreenTreshold || 600)){
@@ -11398,7 +11294,7 @@ function resizeDevicesToFitScreen(){
 	viewShuffleReshuffle(500, 1250);
 }
 function resizeFullWidthDevicesToFitScreen(){
-	var deviceMargin = parseInt($('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6;
+	var deviceMargin = parseInt($('.pressureIndicator').css('margin-left'), 10) || 6;
 	var viewPadding = (parseInt($('#ViewMain').css('padding-left'), 10) || 0) + (parseInt($('#ViewMain').css('padding-right'), 10) || 0);
 	var screenPadding = deviceMargin + viewPadding;
 	var panelMarginLeft = parseFloat(($('.ui-panel-page-content-open.ui-panel-page-content-position-left').css('margin-right') || "0px").slice(0, -2))
@@ -11471,7 +11367,7 @@ function resizeFullWidthDevicesToFitScreen(){
 		selector += ".iQontrolDevice.aspect-21-9, .iQontrolDevice:not(.active).aspect-21-9IfInactive, .iQontrolDevice.active.aspect-21-9IfActive, .iQontrolDevice.enlarged.aspect-21-9IfEnlarged";
 		selector += ".iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged";
 		$(selector).each(function(){
-			var deviceID = $(this).find('.iQontrolDeviceState').data('iqontrolDeviceId');
+			var deviceID = $(this).find('.iQontrolDeviceState').data('device-id-escaped');
 			var $state = $(this).find('.iQontrolDeviceState');
 			if(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]);
 			$state.data('marquee-disabled', true).marquee('destroy');
@@ -11697,7 +11593,7 @@ $(document).ready(function(){
 						var stateId = event.data.stateId;
 						if(event.data.command == "getWidgetState" || event.data.command == "getWidgetStateSubscribed") stateId = namespace + ".Widgets." + event.data.stateId;
 						if(event.data.command == "getWidgetDeviceState" || event.data.command == "getWidgetDeviceStateSubscribed") {
-							var deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
+							var deviceIdEscaped = sourceIframe.dataset.device-id-escaped;
 							var deviceId = unescape(deviceIdEscaped);
 							var device = getDevice(deviceId);
 							var stateId = getLinkedStateId(device, deviceId, event.data.stateId) || "";
@@ -11745,7 +11641,7 @@ $(document).ready(function(){
 						var stateId = event.data.stateId;
 						if(event.data.command == "setWidgetState") stateId = namespace + ".Widgets." + event.data.stateId;
 						if(event.data.command == "setWidgetDeviceState"){
-							var deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
+							var deviceIdEscaped = sourceIframe.dataset.device-id-escaped;
 							var deviceIndex = parseInt(deviceIdEscaped.substring(deviceIdEscaped.lastIndexOf(".") + 1));
 							stateId = actualView.devices[deviceIndex] && (actualView.devices[deviceIndex].states.find(function(element){ return (element.state == event.data.stateId); }) || {}).value || "";
 						}
@@ -11795,8 +11691,8 @@ $(document).ready(function(){
 					case "backgroundViewLoaded":
 					if(event.data.value){
 						console.log("postMessage received: backgroundViewLoaded");
-						var deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
-						if($("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() !== "") $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
+						var deviceIdEscaped = sourceIframe.dataset.device-id-escaped;
+						if($("[data-device-id-escaped='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-device-id-escaped='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() !== "") $("[data-device-id-escaped='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
 					}
 					break;
 
@@ -11805,8 +11701,8 @@ $(document).ready(function(){
 						console.log("postMessage received: adjustHeight " + event.data.value);
 						let value;
 						if(event.data.value != null && !isNaN(event.data.value)) value = parseInt(event.data.value); else return;
-						let deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
-						let $iframe = $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframe");
+						let deviceIdEscaped = sourceIframe.dataset.device-id-escaped;
+						let $iframe = $("[data-device-id-escaped='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframe");
 						if(!$iframe.data('allow-adjust-height')) return;
 						let deviceClasses = "";
 						if(!$iframe.parent('.iQontrolDeviceBackgroundIframeWrapper').hasClass('hideIfActive')) deviceClasses += " adjustHeightIfActive";
@@ -12823,6 +12719,33 @@ function UIElements(initialUiElements) {
 		return this;
 	}
 
+	this.addUIElement = function(device, element, elementIndex){
+		let options = {}
+		options.stackId = element.commonName;
+		options.stackClasses = 'stackClass_' + element.stackIndex;
+		(element.options || []).forEach(function(option){
+			options[option.option] = {role: option.role, value: option.value};
+		});
+		switch(element.commonType){
+			case "icon": 
+				this.addIcon(device, options);
+				break;
+
+			case "text": 
+				this.addText(device, options);
+				break;
+
+			case "iconTextCombination": 
+				this.addIconTextCombination(device, options);
+				break;
+
+			case "loadingIcon":
+				this.addLoadingIcon(device, options);
+				break;
+		}
+		return this;
+	}
+
 	this.addUpdateFunction = function(stateIds, updateFunction, calledRecoursive){
 		if(typeof stateIds == udef || typeof updateFunction != "function") return this;
 		var validState = false;
@@ -12918,7 +12841,7 @@ function UIElements(initialUiElements) {
 		var deviceStateBadge = getObjectValue(device, "deviceStates." + badgeDeviceStateId + ".stateId");
 		var deviceStateBadgeColor = getObjectValue(device, "deviceStates." + badgeColorDeviceStateId + ".stateId");
 		if(!deviceStateBadge) return this;
-		this.addHtml("<div class='" + badgeClass + "' data-iQontrol-Device-ID='" + device.deviceIdEscaped +"'></div>");
+		this.addHtml("<div class='" + badgeClass + "' data-device-id-escaped='" + device.deviceIdEscaped +"'></div>");
 		var updateFunction = function(){
 			var stateBadge = getState(deviceStateBadge);
 			var stateBadgeColor = getState(deviceStateBadgeColor);
@@ -12926,42 +12849,42 @@ function UIElements(initialUiElements) {
 			var showBadgeIfZero = (getDeviceOptionValue(device, "showBadgeIfZero") == "true");
 			var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
 			var restartActivateDelay = false;
-			if($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('background-color-string') != colorString){ //New color
+			if($("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('background-color-string') != colorString){ //New color
 				console.log("Badge - new color (" + colorString + ") - restartActivateDelay");
 				restartActivateDelay = true;
-				$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).css('background-color', colorString).data('background-color-string', colorString);
+				$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).css('background-color', colorString).data('background-color-string', colorString);
 			}
 			if(stateBadge && typeof stateBadge.val !== udef && (showBadgeIfZero || stateBadge.val) && stateBadge.plainText !== ""){ //Active
 				var val = stateBadge.plainText;
 				var unit = stateBadge.unit;
 				if(!isNaN(val)) val = Math.round(val * 10) / 10;
 				if(!badgeWithoutUnit && stateBadge.plainText == stateBadge.val) val = val + unit;
-				if($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('val') != val){ //New val
-					$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).html(val).data('val', val);
+				if($("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('val') != val){ //New val
+					$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).html(val).data('val', val);
 				}
-				if(!$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).hasClass('active')){ //Not active until now
-					if(restartActivateDelay || $("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout') != "over"){ //ActivateDelay is not over
+				if(!$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).hasClass('active')){ //Not active until now
+					if(restartActivateDelay || $("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout') != "over"){ //ActivateDelay is not over
 						console.log("Badge - new active - restartActivateDelay");
 						restartActivateDelay = true;
 					} else { //ActivateDelay is over
 						console.log("Badge - new active - activateDelayTimeout is over - activate now");
-						$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).addClass('active');
-						stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "'].iQontrolDeviceState"));
+						$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).addClass('active');
+						stateFillsDeviceCheckForIconToFloat($("[data-device-id-escaped='" + device.deviceIdEscaped + "'].iQontrolDeviceState"));
 					}
 				}
 			} else { //Inactive
-				$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).removeClass('active');
-				stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "'].iQontrolDeviceState"));
+				$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).removeClass('active');
+				stateFillsDeviceCheckForIconToFloat($("[data-device-id-escaped='" + device.deviceIdEscaped + "'].iQontrolDeviceState"));
 				if(!restartActivateDelay){
-					clearTimeout($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout'));
-					$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', null);
+					clearTimeout($("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout'));
+					$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', null);
 				}
 			}
 			if(restartActivateDelay){
-				clearTimeout($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout'));
-				$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', setTimeout(function(){
+				clearTimeout($("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout'));
+				$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', setTimeout(function(){
 					console.log("Badge - activateDelay-Timeout is over - recall updateFunction");
-					$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', 'over');
+					$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', 'over');
 					updateFunction();
 				}, 500));
 			}
@@ -13028,7 +12951,7 @@ function UIElements(initialUiElements) {
 				data-device-id-escaped="${device.deviceIdEscaped}" 
 				data-ui-element-index="${_uiElementIndex}" 
 				style="display: none;" 
-				>`);
+			>`);
 			var updateFunction = function(stateId, forceReloadOfImage){
 				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
 				var $textElement = $(`div.uiElement.text[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
@@ -13130,7 +13053,7 @@ function UIElements(initialUiElements) {
 				data-device-id-escaped="${device.deviceIdEscaped}"
 				data-ui-element-index="${_uiElementIndex}"
 				style="${getUiOption(device, uiElementOptions.textMultiline) ? 'white-space: break-word;' : 'white-space: nowrap;'}" 
-				></div>`);
+			></div>`);
 			var updateFunction = function(stateId){
 				var $textElement = $(`div.uiElement.text[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
 				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
@@ -13498,7 +13421,7 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 						var type = getDeviceOptionValue(device, "stateCaption") || "Button";
 						var buttonCaption = getDeviceOptionValue(device, "buttonCaption") || "push";
 						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((dialogStates["STATE"].readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((dialogStates["STATE"].readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _device = device;
@@ -13533,14 +13456,14 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 						var unit = dialogStates["SET_TEMPERATURE"].unit || "";
 						if(unit != "" && unit != "°C" && unit != "%") unit = "&nbsp;" + unit;
 						dialogContent += "<label for='DialogStateSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SET_TEMPERATURE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SET_TEMPERATURE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 						var levelFavorites = (getDeviceOptionValue(device, "levelFavorites") || "").split(";");
 						var levelFavoritesHideSlider = (getDeviceOptionValue(device, "levelFavoritesHideSlider") == "true");
 						if(levelFavorites.length > 0 && levelFavorites[0] != "") {
 							dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal' style='text-align: center; padding-bottom: 15px;'>"
 								for(index in levelFavorites){
 									let val = levelFavorites[index];
-									dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
+									dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
 									dialogContent += "<label for='DialogLevelFavoritesCheckboxradio_" + index + "'>" + val + unit + "</label>";
 								}
 							dialogContent += "</fieldset>";
@@ -13614,7 +13537,7 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 						dialogContentCountAfterHR++;
 						var type = getDeviceOptionValue(device, "stateCaption") || "Door";
 						dialogContent += "<label for='DialogStateValue'><image src='./images/symbols/door.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<input type='button' class='iQontrolDialogValue DialogStateValue' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='true' name='DialogStateValue' id='DialogStateValue' value='' />";
+						dialogContent += "<input type='button' class='iQontrolDialogValue DialogStateValue' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='true' name='DialogStateValue' id='DialogStateValue' value='' />";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedStateId = dialogLinkedStateIds["STATE"];
@@ -13645,7 +13568,7 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 					if(dialogStates["STATE"] && !dialogStates["STATE"].readonly && !dialogReadonly){
 						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _device = device;
@@ -13671,7 +13594,7 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 					if(dialogStates["STATE"] && !dialogStates["STATE"].readonly && !dialogReadonly){
 						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _device = device;
@@ -13709,7 +13632,7 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 							if(device.commonRole == "iQontrolWidget") type = "Enlarge";
 							type = getDeviceOptionValue(device, "stateCaption") || type;
 							dialogContent += "<label for='DialogStateSwitch' ><image src='./images/symbols/switch.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateSwitch' id='DialogStateSwitch'>";
+							dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateSwitch' id='DialogStateSwitch'>";
 								dialogContent += "<option value='false'>0</option>";
 								dialogContent += "<option value='true'>I</option>";
 							dialogContent += "</select>";
@@ -13751,7 +13674,7 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 							if(dialogLinkedStateIds["STATE"]){
 								var buttonCaption = getDeviceOptionValue(device, "buttonCaption") || "push";
 								dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((dialogStates["STATE"].readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
+								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((dialogStates["STATE"].readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _device = device;
@@ -13791,7 +13714,7 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 							}
 							type = getDeviceOptionValue(device, "stateCaption") || type;
 							dialogContent += "<label for='DialogStateSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedStateId = dialogLinkedStateIds["STATE"];
@@ -13840,7 +13763,7 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 							if(device.commonRole == "iQontrolAlarm") type = "Alarm";
 							type = getDeviceOptionValue(device, "stateCaption") || type;
 							dialogContent += "<label for='DialogStateValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<select  class='iQontrolDialogValueList DialogStateValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateValueList' id='DialogStateValueList' data-native-menu='false'>";
+							dialogContent += "<select  class='iQontrolDialogValueList DialogStateValueList' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateValueList' id='DialogStateValueList' data-native-menu='false'>";
 							for(val in dialogStates["STATE"].valueList){
 								if(dialogStates["STATE"].targetValues && dialogStates["STATE"].custom.showOnlyTargetValues && !dialogStates["STATE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
 								dialogContent += "<option value='" + val + "'>" + _(dialogStates["STATE"].valueList[val]) + "</option>";
@@ -13896,9 +13819,9 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 							dialogContentCountAfterHR++;
 							var type = getDeviceOptionValue(device, "stateCaption") || "Text";
 							dialogContent += "<label for='DialogStateString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<textarea class='iQontrolDialogString State' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateString' id='DialogStateString'></textarea>";
+							dialogContent += "<textarea class='iQontrolDialogString State' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateString' id='DialogStateString'></textarea>";
 							if(!dialogStates["STATE"].readonly && !dialogReadonly) {
-								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateStringSubmit' id='DialogStateStringSubmit'>" + _("Submit") + "</a>";
+								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogStateStringSubmit' id='DialogStateStringSubmit'>" + _("Submit") + "</a>";
 							}
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -13936,8 +13859,8 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 							var isPeriod = (timeFormat.type == "period")
 							var type = getDeviceOptionValue(device, "stateCaption") || (isPeriod ? "Duration" : "Time");
 							dialogContent += "<label for='DialogStateTimeString' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateTimeString' id='DialogStateTimeString' readonly/>";
-							dialogContent += "<div class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogStateTimeDistance'></div>";
+							dialogContent += "<input class='iQontrolDialogTime' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateTimeString' id='DialogStateTimeString' readonly/>";
+							dialogContent += "<div class='iQontrolDialogTimeDistance small' data-device-id-escaped='" + deviceIdEscaped + "' id='DialogStateTimeDistance'></div>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _device = device;
@@ -14177,14 +14100,14 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 							}
 							type = getDeviceOptionValue(device, "levelCaption") || type;
 							dialogContent += "<label for='DialogLevelSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 							var levelFavorites = (getDeviceOptionValue(device, "levelFavorites") || "").split(";");
 							var levelFavoritesHideSlider = (getDeviceOptionValue(device, "levelFavoritesHideSlider") == "true");
 							if(levelFavorites.length > 0 && levelFavorites[0] != "") {
 								dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal' style='text-align: center; padding-bottom: 15px;'>"
 									for(index in levelFavorites){
 										let val = levelFavorites[index];
-										dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
+										dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-device-id-escaped='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
 										dialogContent += "<label for='DialogLevelFavoritesCheckboxradio_" + index + "'>" + val + unit + "</label>";
 									}
 								dialogContent += "</fieldset>";
@@ -14257,7 +14180,7 @@ function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementi
 							dialogContentCountAfterHR++;
 							var type = getDeviceOptionValue(device, "levelCaption") || "Selection";
 							dialogContent += "<label for='DialogLevelValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<select  class='iQontrolDialogValueList DialogLevelValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' name='DialogLevelValueList' id='DialogLevelValueList' data-native-menu='false'>";
+							dialogContent += "<select  class='iQontrolDialogValueList DialogLevelValueList' data-device-id-escaped='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' name='DialogLevelValueList' id='DialogLevelValueList' data-native-menu='false'>";
 							for(val in dialogStates["LEVEL"].valueList){
 								if(dialogStates["LEVEL"].targetValues && dialogStates["LEVEL"].custom.showOnlyTargetValues && !dialogStates["LEVEL"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
 								dialogContent += "<option value='" + val + "'>" + _(dialogStates["LEVEL"].valueList[val]) + "</option>";

@@ -108,7 +108,7 @@ iQontrolRoles[usedObjects[deviceId].common.role].states.forEach(function(element
 
 /** Now all parts of the device are rendered. Some parts may differ from the role of the device. This is only an example: **/
 if(viewLinkedStateIds['.STATE']){   //Example for .STATE. May also be any other datapoint like .LEVEL, .HUE, ...
-    deviceContent += "<div class='iQontrolDeviceState' data-iQontrol-Device-ID='" + deviceId + "'></div>";
+    deviceContent += "<div class='iQontrolDeviceState' data-device-id-escaped='" + deviceId + "'></div>";
 		//This is an example for generated HTML-Code for this device
 
 	(function(){ //<---Closure---> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -122,7 +122,7 @@ if(viewLinkedStateIds['.STATE']){   //Example for .STATE. May also be any other 
 			// This function will be called, when the linkedStateId changes its value. 
             // It will update the generated HTML-Code with the new value.
             var state = getStateObject(_linkedStateId);
-			if (state) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").html(state.val + state.unit);
+			if (state) $("[data-device-id-escaped='" + _deviceId + "'] .iQontrolDeviceState").html(state.val + state.unit);
 		};
         
         viewUpdateFunctions[linkedStateId].push(updateFunction);
