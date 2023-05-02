@@ -1258,6 +1258,14 @@ var uiElementOptions = {
 		{option: "iconClasses", type: "string", description: "Optional. Add these CSS-Classes to the icon."},
 		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
 		{option: "iconNoPointerEvents", type: "checkbox", description: "If true, the icon does not capture mouse or touch events. Default: false."}
+	],
+	badge: [
+		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
+		{option: "badgeClasses", type: "string", description: "Optional. Add these CSS-Classes to the text."},
+		{option: "badgeState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "STATE", description: "The text to display."},
+		{option: "badgeColorState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "STATE", description: "The background color of the badge."},
+		{option: "badgeWithoutUnit", type: "checkbox", description: "If true, the badge state is shown without units. Default: false."},
+		{option: "badgeShowIfZero", type: "checkbox", description: "If true, the badge is visible even if its value is zero. Default: false."}
 	]
 }
 

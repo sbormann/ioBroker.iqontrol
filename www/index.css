@@ -259,6 +259,7 @@ html.noscroll body {
     border-radius: 8px;
     box-shadow: #0000001f 0 0 2px 2px;
     text-align: center;
+	color: white;
     background-color: rgba(255,0,0,0.8);
     padding: 0px 2px 0px 2px;
     font-family: sans-serif;
@@ -684,29 +685,6 @@ html.noscroll body {
 	overflow: hidden;
 }
 
-.iQontrolDeviceBadge {
-	pointer-events:none !important;
-	position: absolute;	left: -5px;	top: -5px;
-    height: 18px;
-	overflow: hidden;
-    z-index: 1000;
-    min-width: 14px; max-width: 61px;
-    border-radius: 8px;
-    box-shadow: #0000001f 0 0 2px 2px;
-    text-align: center;
-    background-color: rgba(255,0,0,0.8);
-    padding: 0px 2px 0px 2px;
-    font-family: sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-	opacity: 0.00000000001;
-	-webkit-transition: all 0.5s;
-	   -moz-transition: all 0.5s;
-			transition: all 0.5s;
-}
-.iQontrolDeviceBadge.active {
-	opacity: 1;
-}
 .iQontrolDeviceLink {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -1678,6 +1656,7 @@ html.bigMode #View .ui-panel-wrapper {
 	margin: 0; padding: 0; border: none;
 	background: transparent;
     overflow:visible;
+	z-index: 2;
 }
 
 .tileIntraContainer{
@@ -1965,4 +1944,25 @@ html.bigMode #View .ui-panel-wrapper {
 }
 
 
+.uiElement.badge {
+	pointer-events:none !important;
+    z-index: 1000;
+    min-width: 14px;
+    border-radius: 8px;
+    padding: 0px 2px 0px 2px;
+	color: white;
+    background-color: rgba(255,0,0,0.8);
+    box-shadow: #0000001f 0 0 2px 2px;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+	opacity: 0.00000000001;
+	-webkit-transition: all 0.5s;
+	   -moz-transition: all 0.5s;
+			transition: all 0.5s;
+}
+.uiElement.badge.active {
+	opacity: 1;
+}
 

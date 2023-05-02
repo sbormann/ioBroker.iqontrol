@@ -4478,9 +4478,11 @@ function renderToolbar(){
 			uiElements
 				.addHtml("<li><a data-icon='" + (toolbarItem.nativeIcon ? (toolbarItem.nativeIcon.indexOf('.') == -1 ? toolbarItem.nativeIcon : "grid") : "") + "' data-index='" + toolbarIndex + "' onclick='if(!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + toolbarItem.commonName)
 				.addBadge(toolbarItem, {
-					badgeDeviceState: "BADGE",
-					badgeColorDeviceState: "BADGE_COLOR",
-					class: "iQontrolToolbarBadge"
+					stackId: toolbarItem.commonName,
+					stackClasses: 'iQontrolToolbarBadge',
+					badgeClasses: "iQontrolToolbarBadge",
+					badgeState:  "BADGE",
+					badgeColorState: "BADGE_COLOR"
 				})
 				.addHtml("</a></li>");
 			//Create toolbarContextMenu
@@ -4720,7 +4722,8 @@ function renderView(viewId, triggeredByReconnection){
 				//---------- addDeviceFunction ----------
 				var deviceId = device.deviceId;
 				var deviceIdEscaped = device.deviceIdEscaped;
-				var deviceContent;
+				if(!device.tileSettings) device.tileSettings = {};
+				if(!device.tileSettings.elements) device.tileSettings.elements = [];
 
 /*	######		//Special: the option tileActiveStateId is transferred to device.deviceStates["tileActiveStateId"].stateId and fetched
 				var linkedTileActiveStateId = getDeviceOptionValue(device, "tileActiveStateId");
@@ -4733,20 +4736,20 @@ function renderView(viewId, triggeredByReconnection){
 				//--New Line & Heading
 				if(device.nativeHeading) {
 					var variablename = encodeURI(device.nativeHeading.split('|').slice(1).join('|')); //#####
-					deviceContent = "</div>" + (deviceIndex > 0 ? "<div class='viewNewSectionSpacer'></div>" : "") + "<h4>";
+					var newLineContent = "</div>" + (deviceIndex > 0 ? "<div class='viewNewSectionSpacer'></div>" : "") + "<h4>";
 					if(device.nativeHeadingOptions && (device.nativeHeadingOptions == "CO" || device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "COC" || device.nativeHeadingOptions == "CCC")) {
-						deviceContent += "<div class='subheaderCollapsible fullScreenWidth" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed" : "") + (device.nativeHeadingOptions == "COC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosesWhenOthersOpen" : "") + "' style='position: absolute; top:0; padding-top: inherit; height: 100%;' data-device-id-escaped='" + deviceIdEscaped + "'>";
-						deviceContent += "	<div class='subheaderCollapsibleIcon plus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelPlus || "&plus;") + "</span></div>";
-						deviceContent += "	<div class='subheaderCollapsibleIcon minus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelMinus || "&minus;") + "</span></div>";
-						deviceContent += "</div>";
+						newLineContent += "<div class='subheaderCollapsible fullScreenWidth" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed" : "") + (device.nativeHeadingOptions == "COC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosesWhenOthersOpen" : "") + "' style='position: absolute; top:0; padding-top: inherit; height: 100%;' data-device-id-escaped='" + deviceIdEscaped + "'>";
+						newLineContent += "	<div class='subheaderCollapsibleIcon plus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelPlus || "&plus;") + "</span></div>";
+						newLineContent += "	<div class='subheaderCollapsibleIcon minus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelMinus || "&minus;") + "</span></div>";
+						newLineContent += "</div>";
 					}
-					deviceContent += "<div class='subHeaderText fullScreenWidth'" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading.split('|')[0] + "</div></h4><div class='viewIsotopeContainer" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed collapsibleContentClosed" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
+					newLineContent += "<div class='subHeaderText fullScreenWidth'" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading.split('|')[0] + "</div></h4><div class='viewIsotopeContainer" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed collapsibleContentClosed" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
 				} else if(device.nativeNewLine) {
-					deviceContent = "</div><div class='viewNewLineSpacer'></div><div class='viewIsotopeContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
+					newLineContent = "</div><div class='viewNewLineSpacer'></div><div class='viewIsotopeContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 				} else if(deviceIndex == 0) {
-					deviceContent = "</div><div class='viewFirstLineNoHeadingSpacer'></div><div class='viewIsotopeContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
+					newLineContent = "</div><div class='viewFirstLineNoHeadingSpacer'></div><div class='viewIsotopeContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 				}	
-				if(deviceContent) uiElements.addHtml(deviceContent);
+				if(newLineContent) uiElements.addHtml(newLineContent);
 
 				//--Device nativeHide
 				if(device.nativeHide) return uiElements; 
@@ -4806,9 +4809,6 @@ function renderView(viewId, triggeredByReconnection){
 				
 				//--TileSizer
 				uiElements.addHtml('<div class="tileSizer setTileSize">');
-
-				if(!device.tileSettings) device.tileSettings = {};
-				if(!device.tileSettings.elements) device.tileSettings.elements = [];
 
 				//--tileActive
 				var tileActiveStateId = getDeviceOptionValue(device, 'tileActiveStateId');
@@ -4896,19 +4896,12 @@ function renderView(viewId, triggeredByReconnection){
 					uiElements.addUpdateFunction([glowActiveColorId, glowHideId, hueId, saturationId, alternativeColorspaceValueId, "UPDATE_ONCE"], updateFunction);
 				}
 
-				//--Badge #### transfer to elements
-				uiElements.addBadge(device, {
-					badgeDeviceState: "BADGE",
-					badgeColorDeviceState: "BADGE_COLOR",
-					class: "iQontrolDeviceBadge"
-				})
-
 				//--UIElements for tileExtraContainer
 				device.tileSettings.elements.filter(function(element){ return element.outside; }).forEach(function(element, elementIndex){ 
-					//uiElements.addUIElement(device, element, elementIndex); ############# activate after badge ist transferred
+					uiElements.addUIElement(device, element, elementIndex);
 				});
 				uiElements.addHtml('</div><!--tileExtraContainer end-->');
-				
+
 				//---------- tileIntraContainer + clickOnTileAction ----------
 				let clickOnTileAction = getDeviceOptionValue(device, "clickOnTileAction");
 				uiElements.addHtml(`<div 
@@ -5161,7 +5154,7 @@ function renderView(viewId, triggeredByReconnection){
 				//--UIElements for tileIntraContainer
 				device.tileSettings.elements.filter(function(element){ return !element.outside; }).forEach(function(element, elementIndex){ 
 					uiElements.addUIElement(device, element, elementIndex);
-				});		
+				});	
 				
 				//--Closing divs
 				uiElements.addHtml('</div><!--tileIntraContainer end--></div><!-- tileSizer end --></div><!-- tile end -->');
@@ -12725,6 +12718,10 @@ function UIElements(initialUiElements) {
 			case "loadingIcon":
 				this.addLoadingIcon(device, options);
 				break;
+
+			case "badge":
+				this.addBadge(device, options);
+				break;
 		}
 		return this;
 	}
@@ -12811,71 +12808,89 @@ function UIElements(initialUiElements) {
 	/** Adds a Badge to uiElements
 	 * @param {object} device 
 	 * @param {object} uiElementOptions 
-	 * @param {string} uiElementOptions.badgeDeviceStateId
-	 * @param {string} uiElementOptions.badgeColorDeviceStateId 
-	 * @param {string} uiElementOptions.class
+	 *
+	 * @param {string} uiElementOptions.stackId
+	 * @param {boolean} uiElementOptions.stackCycles
+
+	 * @param {string} uiElementOptions.badgeClasses class
+	 * @param {string} uiElementOptions.badgeState badgeDeviceStateId
+	 * @param {string} uiElementOptions.badgeColorState badgeColorDeviceStateId 
+	 * 
 	 * @returns {UIElements}  
 	 */
-	this.addBadge = function(device, uiElementOptions){
+	this.addBadge = function(device, uiElementOptions, arrayIndex){
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
-		var badgeDeviceStateId = uiElementOptions.badgeDeviceStateId || "BADGE";
-		var badgeColorDeviceStateId = uiElementOptions.badgeColorDeviceStateId || "BADGE_COLOR";
-		var badgeClass = uiElementOptions.class || "iQontrolDeviceBadge";
-		var deviceStateBadge = getObjectValue(device, "deviceStates." + badgeDeviceStateId + ".stateId");
-		var deviceStateBadgeColor = getObjectValue(device, "deviceStates." + badgeColorDeviceStateId + ".stateId");
-		if(!deviceStateBadge) return this;
-		this.addHtml("<div class='" + badgeClass + "' data-device-id-escaped='" + device.deviceIdEscaped +"'></div>");
-		var updateFunction = function(){
-			var stateBadge = getState(deviceStateBadge);
-			var stateBadgeColor = getState(deviceStateBadgeColor);
-			var badgeWithoutUnit = (getDeviceOptionValue(device, "badgeWithoutUnit") == "true");
-			var showBadgeIfZero = (getDeviceOptionValue(device, "showBadgeIfZero") == "true");
-			var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
-			var restartActivateDelay = false;
-			if($("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('background-color-string') != colorString){ //New color
-				console.log("Badge - new color (" + colorString + ") - restartActivateDelay");
-				restartActivateDelay = true;
-				$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).css('background-color', colorString).data('background-color-string', colorString);
-			}
-			if(stateBadge && typeof stateBadge.val !== udef && (showBadgeIfZero || stateBadge.val) && stateBadge.plainText !== ""){ //Active
-				var val = stateBadge.plainText;
-				var unit = stateBadge.unit;
-				if(!isNaN(val)) val = Math.round(val * 10) / 10;
-				if(!badgeWithoutUnit && stateBadge.plainText == stateBadge.val) val = val + unit;
-				if($("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('val') != val){ //New val
-					$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).html(val).data('val', val);
+		//Recoursive call for arrays
+		if(typeof arrayIndex == udef){
+			let maxArrayLength = getMaxArrayLengthOfUiOptions(device, uiElementOptions);
+			if(maxArrayLength > -1){
+				for(let arrayIndex = 0; arrayIndex < maxArrayLength; arrayIndex++) this.addBadge(device, uiElementOptions, arrayIndex);
+				return this;
+			}	
+		}
+		this.newElementStackContainer(device, uiElementOptions);
+		var _uiElementIndex = this.uiElementIndex;
+		var badgeStateId = getUiOptionStateId(device, uiElementOptions.badgeState, arrayIndex);
+		var badgeColorStateId = getUiOptionStateId(device, uiElementOptions.badgeColorState, arrayIndex);
+		if(uiElementOptions.badgeState){
+			this.addHtml(`<div 
+				class="uiElement badge ${getUiOption(device, uiElementOptions.badgeClasses) || ''}"
+				data-device-id-escaped="${device.deviceIdEscaped}" 
+				data-ui-element-index="${_uiElementIndex}" 
+				style="white-space: nowrap;" 
+			></div>`);
+			var updateFunction = function(stateId){
+				var $badgeElement = $(`div.uiElement.badge[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				var badgeState = getUiOptionState(device, uiElementOptions.badgeState, arrayIndex);
+				var badgeColorState = getUiOptionState(device, uiElementOptions.badgeColorState, arrayIndex);
+				var badgeWithoutUnit = (getDeviceOptionValue(device, "badgeWithoutUnit") == "true");
+				var showBadgeIfZero = (getDeviceOptionValue(device, "showBadgeIfZero") == "true");
+				var colorString = badgeColorState && isValidColorString(badgeColorState.val) && badgeColorState.val || "rgba(255,0,0,0.8)";
+				var restartActivateDelay = false;
+				if($badgeElement.data('background-color-string') != colorString){ //New color
+					console.log("Badge - new color (" + colorString + ") - restartActivateDelay");
+					restartActivateDelay = true;
+					$badgeElement.css('background-color', colorString).data('background-color-string', colorString);
 				}
-				if(!$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).hasClass('active')){ //Not active until now
-					if(restartActivateDelay || $("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout') != "over"){ //ActivateDelay is not over
-						console.log("Badge - new active - restartActivateDelay");
-						restartActivateDelay = true;
-					} else { //ActivateDelay is over
-						console.log("Badge - new active - activateDelayTimeout is over - activate now");
-						$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).addClass('active');
-						stateFillsDeviceCheckForIconToFloat($("[data-device-id-escaped='" + device.deviceIdEscaped + "'].iQontrolDeviceState"));
+				if(badgeState && typeof badgeState.val !== udef && (showBadgeIfZero || badgeState.val) && badgeState.plainText !== ""){ //Active
+					var val = badgeState.plainText;
+					var unit = badgeState.unit;
+					if(!isNaN(val)) val = Math.round(val * 10) / 10;
+					if(!badgeWithoutUnit && badgeState.plainText == badgeState.val) val = val + unit;
+					updateMarqueeElement($badgeElement, val);
+					if(!$badgeElement.hasClass('active')){ //Not active until now
+						if(restartActivateDelay || $badgeElement.data('activate-delay-timeout') != "over"){ //ActivateDelay is not over
+							console.log("Badge - new active - restartActivateDelay");
+							restartActivateDelay = true;
+						} else { //ActivateDelay is over
+							console.log("Badge - new active - activateDelayTimeout is over - activate now");
+							$badgeElement.addClass('active');
+							//stateFillsDeviceCheckForIconToFloat($("[data-device-id-escaped='" + device.deviceIdEscaped + "'].iQontrolDeviceState"));#####
+						}
+					}
+				} else { //Inactive
+					$badgeElement.removeClass('active');
+					//stateFillsDeviceCheckForIconToFloat($("[data-device-id-escaped='" + device.deviceIdEscaped + "'].iQontrolDeviceState"));####
+					if(!restartActivateDelay){
+						clearTimeout($badgeElement.data('activate-delay-timeout'));
+						$badgeElement.data('activate-delay-timeout', null);
 					}
 				}
-			} else { //Inactive
-				$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).removeClass('active');
-				stateFillsDeviceCheckForIconToFloat($("[data-device-id-escaped='" + device.deviceIdEscaped + "'].iQontrolDeviceState"));
-				if(!restartActivateDelay){
-					clearTimeout($("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout'));
-					$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', null);
+				if(restartActivateDelay){
+					clearTimeout($badgeElement.data('activate-delay-timeout'));
+					$badgeElement.data('activate-delay-timeout', setTimeout(function(){
+						console.log("Badge - activateDelay-Timeout is over - recall updateFunction");
+						$badgeElement.data('activate-delay-timeout', 'over');
+						updateFunction();
+					}, 500));
 				}
 			}
-			if(restartActivateDelay){
-				clearTimeout($("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout'));
-				$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', setTimeout(function(){
-					console.log("Badge - activateDelay-Timeout is over - recall updateFunction");
-					$("[data-device-id-escaped='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', 'over');
-					updateFunction();
-				}, 500));
-			}
-		};
-		this.addUpdateFunction([deviceStateBadge, deviceStateBadgeColor], updateFunction);
+		}
+		this.addUpdateFunction([badgeStateId, badgeColorStateId], updateFunction);
+		this.closeElementStackContainer();
+		this.uiElementIndex++;
 		return this;
 	}
-
 
 	//---------- iconTextCombination ----------
 	/** Adds a icon and text combination
@@ -12920,7 +12935,7 @@ function UIElements(initialUiElements) {
 			}	
 		}
 		this.newElementStackContainer(device, uiElementOptions);
-		var _uiElementIndex = this.uiElementIndex; //#####
+		var _uiElementIndex = this.uiElementIndex;
 		var iconStateId = getUiOptionStateId(device, uiElementOptions.iconState, arrayIndex);
 		var iconActiveStateIds = getUiOptionActiveStateIds(device, uiElementOptions.iconActive, arrayIndex);
 		var textStateId = getUiOptionStateId(device, uiElementOptions.textState, arrayIndex);
@@ -13053,19 +13068,7 @@ function UIElements(initialUiElements) {
 					let fontSize = $textElement.height() / 1.2 + 'px';
 					if(!getUiOption(device, uiElementOptions.textMultiline)) $textElement.css('font-size', fontSize);
 				}, 50);
-				if(textResult != $textElement.data('old-text') || textResult != $textElement.data('marquee-finished-new-text')){
-					if($textElement.find('.js-marquee-wrapper').length){ //marquee active
-						$textElement.data('marquee-finished-new-text', textResult).unbind('finished').bind('finished', function(){
-							let newText = $textElement.data('marquee-finished-new-text');
-							$textElement.marquee('destroy');
-							$textElement.html(newText).data('old-text', newText);
-							adaptHeightOrStartMarqueeOnOverflow($textElement, true);
-						});
-					} else {
-						$textElement.html(textResult).data('old-text', textResult);
-						adaptHeightOrStartMarqueeOnOverflow($textElement);	
-					}
-				}
+				updateMarqueeElement($textElement, textResult);
 				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');	
 			}
 			this.addUpdateFunction([textStateId, textLevelStateId, textActiveStateIds, iconStateId, iconActiveStateIds], updateFunction);
@@ -13225,6 +13228,22 @@ function UIElements(initialUiElements) {
 			return (state && state.val && Array.isArray(state.val) ? state.val.length : -1);
 		}
 		return -1;
+	}
+
+	function updateMarqueeElement($element, text){
+		if(text != $element.data('old-text') || text != $element.data('marquee-finished-new-text')){
+			if($element.find('.js-marquee-wrapper').length){ //marquee active
+				$element.data('marquee-finished-new-text', text).unbind('finished').bind('finished', function(){
+					let newText = $element.data('marquee-finished-new-text');
+					$element.marquee('destroy');
+					$element.html(newText).data('old-text', newText);
+					adaptHeightOrStartMarqueeOnOverflow($element, true);
+				});
+			} else {
+				$element.html(text).data('old-text', text);
+				adaptHeightOrStartMarqueeOnOverflow($element);	
+			}
+		}		
 	}
 
 	function getFreeSpace(containerSelector, childsSelector) {
