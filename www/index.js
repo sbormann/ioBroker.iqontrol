@@ -4479,10 +4479,29 @@ function renderToolbar(){
 				.addHtml("<li><a data-icon='" + (toolbarItem.nativeIcon ? (toolbarItem.nativeIcon.indexOf('.') == -1 ? toolbarItem.nativeIcon : "grid") : "") + "' data-index='" + toolbarIndex + "' onclick='if(!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + toolbarItem.commonName)
 				.addBadge(toolbarItem, {
 					stackId: toolbarItem.commonName,
-					stackClasses: 'iQontrolToolbarBadge',
+					stackClasses: "iQontrolToolbarBadgeStack",
 					badgeClasses: "iQontrolToolbarBadge",
-					badgeState:  "BADGE",
-					badgeColorState: "BADGE_COLOR"
+					stackCycles: false,
+					"badgeClasses": {
+						"role": "const",
+						"value": ""
+					},
+					"badgeState": {
+						"role": "deviceState",
+						"value": "BADGE"
+					},
+					"badgeColorState": {
+						"role": "deviceState",
+						"value": "BADGE_COLOR"
+					},
+					"badgeWithoutUnit": {
+						"role": "deviceOption",
+						"value": "badgeWithoutUnit"
+					},
+					"badgeShowIfZero": {
+						"role": "deviceOption",
+						"value": "showBadgeIfZero"
+					}
 				})
 				.addHtml("</a></li>");
 			//Create toolbarContextMenu
@@ -12038,6 +12057,7 @@ function getStateIdFromDeviceState(device, state){
 		arrayPathParts.unshift(stateParts.splice(i - 1, 1)[0]); //removes last part of stateParts and puts it to beginning of arrayPathParts
 	}
 	var deviceStateId = device.deviceId + ".deviceStates." + state;
+	if(!device.states) device.states = [];
 	var deviceStateIndex = device.states.findIndex(function(element){ return (element.state == state);})
 	var deviceStateObject = device.states[deviceStateIndex] || {state: state};
 	deviceStateObject.value = (typeof deviceStateObject.value != udef ? deviceStateObject.value : '');

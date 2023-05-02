@@ -244,31 +244,36 @@ html.noscroll body {
 .iQontrolToolbarLink.ui-btn:after {
 	background-color: transparent !important;
 }
-.iQontrolToolbarBadge {
+.iQontrolToolbarBadgeStack {
     pointer-events: none !important;
     position: absolute;
     left: 50%;
     margin-left: 11px;
     top: 2px;
     height: 18px;
+	width: 100%;
+    max-width: 25%;
+    max-width: min(calc(50% - 17px), 120px);
+    z-index: 999;
+}
+.iQontrolToolbarBadge {
+    pointer-events: none !important;
     overflow: hidden;
     z-index: 1000;
     min-width: 14px;
-    max-width: 25%;
-    max-width: min(calc(50% - 17px), 120px);
     border-radius: 8px;
-    box-shadow: #0000001f 0 0 2px 2px;
-    text-align: center;
+    padding: 0px 2px 0px 2px;
 	color: white;
     background-color: rgba(255,0,0,0.8);
-    padding: 0px 2px 0px 2px;
+    box-shadow: #0000001f 0 0 2px 2px;
+    text-align: center;
     font-family: sans-serif;
     font-weight: 500;
     font-size: 14px;
     opacity: 0.00000000001;
     -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
-    transition: all 0.5s;
+       -moz-transition: all 0.5s;
+    		transition: all 0.5s;
 }
 .iQontrolToolbarBadge.active {
     opacity: 1;
