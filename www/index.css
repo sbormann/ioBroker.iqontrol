@@ -1659,11 +1659,21 @@ html.bigMode #View .ui-panel-wrapper {
 }
 
 .tileSizer{ background-color: #28d93152;
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+			user-select: none !important;
+	-webkit-touch-callout: none !important;
+ 	pointer-events: none !important;
 	position: relative;
     transition: all 0s !important;
 }
 
 .tileExtraContainer{
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+			user-select: none !important;
+	-webkit-touch-callout: none !important;
+ 	pointer-events: none !important;
 	position: absolute; left: 0; top: 0; width: 100%; height: 100%;
 	margin: 0; padding: 0; border: none;
 	background: transparent;
@@ -1671,6 +1681,11 @@ html.bigMode #View .ui-panel-wrapper {
 }
 
 .tileIntraContainer{
+	-webkit-user-select: all !important;
+	   -moz-user-select: all !important; 
+			user-select: all !important;
+	-webkit-touch-callout: default !important; 
+ 	pointer-events: all !important;
 	position: absolute; left: 0; top: 0; width: 100%; height: 100%;
 	margin: 0; padding: 0; border: none;
 	background: transparent;
@@ -1691,7 +1706,31 @@ html.bigMode #View .ui-panel-wrapper {
 			box-shadow: none !important;
 } 
 
+.tileIntraContainer.tileLinkToggle{
+	cursor: pointer;
+}
+.tileIntraContainer.tileLinkOpenDialog{
+	cursor: default;
+}
+.tileIntraContainer.tileLinkEnlarge{
+	cursor: zoom-in;
+}
+.tile.enlarged .tileIntraContainer.tileLinkEnlarge{
+	cursor: zoom-out;
+}
+.tileIntraContainer.tileLinkOpenURLExternal{
+	cursor: copy;
+}
+.tileIntraContainer.tileLinkOpenLinkToOtherView{
+	cursor: alias;
+}
+
 .tileGlow {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+			user-select: none !important;
+	-webkit-touch-callout: none !important;
+ 	pointer-events: none !important;
 	position: absolute;	top: 0; left: 0; width: 100%; height: 100%;
 	margin: 0; padding: 0; border: none;
 	background: transparent;
@@ -1711,6 +1750,11 @@ html.bigMode #View .ui-panel-wrapper {
 }
 
 .tileBackgroundImage {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+			user-select: none !important;
+	-webkit-touch-callout: none !important;
+ 	pointer-events: none !important;
 	position: absolute;	top:0px; left:0px; width:100%; height:100%;
 	margin: 0; padding: 0; border: none;
 	background-size:cover; background-position:center;	
@@ -1759,6 +1803,11 @@ html.bigMode #View .ui-panel-wrapper {
 } 
 
 .tileBackgroundIframeWrapper {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+			user-select: none !important;
+	-webkit-touch-callout: none !important;
+ 	pointer-events: none !important;
 	position: absolute;	top:0px; left:0px; width:100%; height:100%;
 	margin: 0; padding: 0; border: none;
 	-webkit-transform: scale3d(1.0,1.0,1);
@@ -1790,6 +1839,11 @@ html.bigMode #View .ui-panel-wrapper {
 }
 
 .tileOverlay {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+			user-select: none !important;
+	-webkit-touch-callout: none !important;
+ 	pointer-events: none !important;
 	position: absolute;	top:0px; left:0px; width:100%; height:100%;
 	margin: 0; padding: 0; border: none;
 	-webkit-transform: scale3d(1.1,1.1,2);
@@ -1842,9 +1896,13 @@ html.bigMode #View .ui-panel-wrapper {
 
 /* ---------- uiElements ---------- */
 .uiElementStack.container{
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+			user-select: none !important;
+	-webkit-touch-callout: none !important;
+	pointer-events: none;
 	position: absolute;
 	overflow: visible;
-	pointer-events: none;
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
@@ -1856,10 +1914,14 @@ html.bigMode #View .ui-panel-wrapper {
 	line-height: 1.2;
 }
 .uiElement{
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+			user-select: none !important;
+	-webkit-touch-callout: none !important;
+	pointer-events: none;
 	position: absolute; left:0; top:0; width: 100%; height: 100%;
 	overflow: hidden;
 	opacity: 0;
-	pointer-events: none;
 	-webkit-transition: all 0s, transform 1s, opacity 1s;
 	   -moz-transition: all 0s, transform 1s, opacity 1s;
 			transition: all 0s, transform 1s, opacity 1s;
@@ -1892,7 +1954,7 @@ html.bigMode #View .ui-panel-wrapper {
 .uiElement.icon.iconLinkEnlarge{
 	cursor: zoom-in;
 }
-.iQontrolDevice.enlarged .uiElement.icon.iconLinkEnlarge{ /* ##### iQontrolDevice noch akutell? */
+.tile.enlarged .uiElement.icon.iconLinkEnlarge{ 
 	cursor: zoom-out;
 }
 .uiElement.icon.iconLinkOpenURLExternal{
