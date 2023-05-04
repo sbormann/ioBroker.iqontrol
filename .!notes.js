@@ -81,7 +81,6 @@
 
 
 
-
 //#####################################################################################
 //++++++++++ Variables ++++++++++
 $myDiv = $("<div id='myDiv'>Loading...|Variable 1: {javascript.0.Test.Teststring|1 not found}, Variable 2: {javascript.0.Test.Testnumber|2 not found} , Variable [2b]: {[javascript.0.Test.Testnumber]|2b not found}</div>");

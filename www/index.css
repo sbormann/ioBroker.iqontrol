@@ -580,7 +580,9 @@ html.noscroll body {
 	top: 50%; 
 	transform: translateY(-50%); 
 	height: 1.3em;
-	transition: all 0.15s;
+	-webkit-transition: all 0.15s;
+	   -moz-transition: all 0.15s;
+			transition: all 0.15s;
 	opacity: 1;
 }
 .subheaderCollapsible.collapsibleClosed .subheaderCollapsibleIcon.minus{
@@ -600,13 +602,19 @@ html.noscroll body {
 .viewNewSectionSpacer{
     height: 1.3em;
 	margin: 0;
-    transition: all 500ms;
+    -webkit-transition: all 0.5s;
+       -moz-transition: all 0.5s;
+    		transition: all 0.5s;
 	width: 100%;
 }
 .viewIsotopeContainer.collapsibleClosed + .viewNewSectionSpacer{
 	height: 0.01em;	margin-top: -20px; /* workaround for quirky animation */
-    transition: all 500ms linear;
-    transition-delay: 250ms;
+    -webkit-transition: all 0.5s linear;
+       -moz-transition: all 0.5s linear;
+    		transition: all 0.5s linear;
+    -webkit-transition-delay: 0.25s;
+       -moz-transition-delay: 0.25s;
+    		transition-delay: 0.25s;
 	width: 100%;
 }
 .viewFirstLineNoHeadingSpacer{
@@ -615,15 +623,7 @@ html.noscroll body {
 
 
 /* ++++++++++ View / Device ++++++++++ */ 
-.iQontrolDeviceShuffleSizer {
-	display: none;
-	height: 0px;
-	margin: 0;
-	width: 61px;
-	-webkit-transition: all 0s;
-	   -moz-transition: all 0s;
-			transition: all 0s;
-}
+
 .pressureIndicator {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -855,49 +855,7 @@ html.noscroll body {
 .iQontrolDeviceBattery.active {
 	opacity: 1;
 }
-.iQontrolDeviceEnlargeButton {
-	pointer-events:none !important;
-	cursor: zoom-in;
-	position:absolute; right: -1px; top: 0px; width: 10px; height: 10px;
-	background-image: url("./images/maximize.png");
-	background-position: 1px 4px;
-	background-repeat: no-repeat;
-	background-size: 50%;
-	background-color: lightgrey;
-	border:lightgrey 1px solid;
-	opacity:0;
-	-webkit-border-radius: 0px 0px 0px 5px;
-	   -moz-border-radius: 0px 0px 0px 5px;
-	        border-radius: 0px 0px 0px 5px;
-	-webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.3);
-	   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.3);
-	        box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.3);
-	-webkit-transition: all 0.5s;
-	   -moz-transition: all 0.5s;
-			transition: all 0.5s;
-}
-.iQontrolDeviceEnlargeButton:before {
-	content: "";
-	position: absolute;
-	top: -100%;
-	left: -100%;
-	width: 300%;
-	height: 300%;
-	background: transparent;
-}
-.iQontrolDevice.enlarged .iQontrolDeviceEnlargeButton {
-	cursor: zoom-out;
-	background-image: url("./images/minimize.png");
-	background-position: 1px 4px;
-}
-.iQontrolDevice:not(.active) .iQontrolDeviceEnlargeButton.showIfInactive, .iQontrolDevice.active .iQontrolDeviceEnlargeButton.showIfActive, .iQontrolDevice.enlarged .iQontrolDeviceEnlargeButton {
-	pointer-events:auto !important;
-	opacity: 0.5;
-}
-.iQontrolDeviceEnlargeButton:hover {
-	opacity: 0.6;
-	border: lightgrey 4px solid;
-}
+
 .iQontrolDeviceInfoAIcon {
 	pointer-events:none !important;
 	position:absolute; left: 52px; top: 20px; width: 12px; height: 12px;
@@ -1524,7 +1482,9 @@ html.adjustHeightToBackgroundView {
 	display: none;
 }
 .tileBackgroundIframe.adjustHeight {
-	transition: none;
+	-webkit-transition: none;
+	   -moz-transition: none;
+			transition: none;
 }
 .tileBackgroundIframe.limitAdjustHeightToScreen:not(.isBackgroundView) {
 	max-height: 85vh; max-height: calc(100vh - 70px);
@@ -1537,7 +1497,9 @@ html.adjustHeightToBackgroundView {
 	top: -3px;
 	margin-bottom: -15px;
 	padding: 0px 0px 5px 0px;
-	transition: none;
+	-webkit-transition: none;
+	   -moz-transition: none;
+			transition: none;
 }
 .iQontrolDevice.adjustHeight, .iQontrolDevice.active.adjustHeightIfActive:not(.enlarged:not(adjustHeightIfEnlarged)), .iQontrolDevice:not(.active).adjustHeightIfInactive:not(.enlarged:not(adjustHeightIfEnlarged)), .iQontrolDevice.enlarged.adjustHeightIfEnlarged {
 	height: unset !important;
@@ -1564,17 +1526,83 @@ html.bigMode #View .ui-panel-wrapper {
 }
 
 /* ---------- Tiles ---------- */
+.isotopeSizer {
+	display: none;
+	height: 0px;
+	margin: 0;
+	width: 56px;
+	-webkit-transition: all 0s;
+	   -moz-transition: all 0s;
+			transition: all as;
+}
 .tile{
 	position: absolute; /* wil be set to absolute by isotope anyway */
 	margin: 6px;
 	padding: 0; border: none;
 	overflow: visible;
 }
+
+
+.tileSizer{ background-color: #28d93152;
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+			user-select: none !important;
+	-webkit-touch-callout: none !important;
+ 	pointer-events: none !important;
+	position: relative;
+    -webkit-transition: all 0s !important;
+       -moz-transition: all 0s !important;
+    		transition: all 0s !important;
+}
+
+.tileExtraContainer{
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+			user-select: none !important;
+	-webkit-touch-callout: none !important;
+ 	pointer-events: none !important;
+	position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+	margin: 0; padding: 0; border: none;
+	background: transparent;
+    overflow:visible;
+	z-index: 2;
+}
+
+.tileIntraContainer{
+	-webkit-user-select: all !important;
+	   -moz-user-select: all !important; 
+			user-select: all !important;
+	-webkit-touch-callout: default !important; 
+ 	pointer-events: all !important;
+	position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+	margin: 0; padding: 0; border: none;
+	background: transparent;
+    overflow:hidden;
+	-webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+	   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+			box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+}
+.tileIntraContainer:hover {
+	border: 0px solid rgba(255, 255, 255, 0.8);
+	-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+	   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+			box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+}
+.tile:not(.active).transparentIfInactive .tileIntraContainer, .tile.active.transparentIfActive .tileIntraContainer, .tile.enlarged.transparentIfEnlarged .tileIntraContainer{
+	-webkit-box-shadow: none !important;
+	   -moz-box-shadow: none !important;
+			box-shadow: none !important;
+} 
+
+
+
 .tile .setTileSize{
 	width: 100px; max-width: 100px;
 	height: 100px; max-height: 100px; min-height: 100px;
 	margin: 0; padding: 0; border: none;
-    transition: all 0.4s;
+    -webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+    		transition: all 1s;
 }
 .tile.narrow .setTileSize, .tile:not(.active).narrowIfInactive .setTileSize, .tile.active.narrowIfActive .setTileSize, .tile.enlarged.narrowIfEnlarged .setTileSize{
 	width: 44px; max-width: 44px;
@@ -1619,19 +1647,19 @@ html.bigMode #View .ui-panel-wrapper {
 	padding-bottom: 42.86%; padding-bottom: calc(42.86% - 100px);
 }
 .tile.aspect-1-1-limited .setTileSize, .tile:not(.active).aspect-1-1-limitedIfInactive .setTileSize, .tile.active.aspect-1-1-limitedIfActive .setTileSize, .tile.enlarged.aspect-1-1-limitedIfEnlarged .setTileSize{
-	padding-bottom: 100%; padding-bottom: calc(100% - 100px); padding-bottom: min(calc(100% - 100px) .setTileSize, calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	padding-bottom: 100%; padding-bottom: calc(100% - 100px); padding-bottom: min(calc(100% - 100px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
 }
 .tile.aspect-4-3-limited .setTileSize, .tile:not(.active).aspect-4-3-limitedIfInactive .setTileSize, .tile.active.aspect-4-3-limitedIfActive .setTileSize, .tile.enlarged.aspect-4-3-limitedIfEnlarged .setTileSize{
-	padding-bottom: 75%; padding-bottom: calc(75% - 100px); padding-bottom: min(calc(75% - 100px) .setTileSize, calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	padding-bottom: 75%; padding-bottom: calc(75% - 100px); padding-bottom: min(calc(75% - 100px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
 }
 .tile.aspect-3-2-limited .setTileSize, .tile:not(.active).aspect-3-2-limitedIfInactive .setTileSize, .tile.active.aspect-3-2-limitedIfActive .setTileSize, .tile.enlarged.aspect-3-3-limitedIfEnlarged .setTileSize{
-	padding-bottom: 66.66%; padding-bottom: calc(66.66% - 100px); padding-bottom: min(calc(66.66% - 100px) .setTileSize, calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	padding-bottom: 66.66%; padding-bottom: calc(66.66% - 100px); padding-bottom: min(calc(66.66% - 100px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
 }
 .tile.aspect-16-9-limited .setTileSize, .tile:not(.active).aspect-16-9-limitedIfInactive .setTileSize, .tile.active.aspect-16-9-limitedIfActive .setTileSize, .tile.enlarged.aspect-16-9-limitedIfEnlarged .setTileSize{
-	padding-bottom: 56.25%; padding-bottom: calc(56.25% - 100px); padding-bottom: min(calc(56.25% - 100px) .setTileSize, calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	padding-bottom: 56.25%; padding-bottom: calc(56.25% - 100px); padding-bottom: min(calc(56.25% - 100px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
 }
 .tile.aspect-21-9-limited .setTileSize, .tile:not(.active).aspect-21-9-limitedIfInactive .setTileSize, .tile.active.aspect-21-9-limitedIfActive .setTileSize, .tile.enlarged.aspect-21-9-limitedIfEnlarged .setTileSize{
-	padding-bottom: 42.86%; padding-bottom: calc(42.86% - 100px); padding-bottom: min(calc(42.86% - 100px) .setTileSize, calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	padding-bottom: 42.86%; padding-bottom: calc(42.86% - 100px); padding-bottom: min(calc(42.86% - 100px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
 }
 .tile.fullHeight .setTileSize, .tile:not(.active).fullHeightIfInactive .setTileSize, .tile.active.fullHeightIfActive .setTileSize, .tile.enlarged.fullHeightIfEnlarged .setTileSize{
 	height: 85vh; height: calc(100vh - 70px); max-height: 85vh; max-height: calc(100vh - 70px); min-height: 85vh; min-height: calc(100vh - 70px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
@@ -1640,55 +1668,6 @@ html.bigMode #View .ui-panel-wrapper {
 .tile.adaptsHeight .setTileSize, .tile:not(.active).adaptsHeightIfInactive .setTileSize, .tile.active.adaptsHeightIfActive .setTileSize, .tile.enlarged.adaptsHeightIfEnlarged .setTileSize{
 	height: unset; max-height: 85vh; max-height: calc(100vh - 70px);
 }
-
-.tileSizer{ background-color: #28d93152;
-	-webkit-user-select: none !important;
-	   -moz-user-select: none !important; 
-			user-select: none !important;
-	-webkit-touch-callout: none !important;
- 	pointer-events: none !important;
-	position: relative;
-    transition: all 0s !important;
-}
-
-.tileExtraContainer{
-	-webkit-user-select: none !important;
-	   -moz-user-select: none !important; 
-			user-select: none !important;
-	-webkit-touch-callout: none !important;
- 	pointer-events: none !important;
-	position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-	margin: 0; padding: 0; border: none;
-	background: transparent;
-    overflow:visible;
-	z-index: 2;
-}
-
-.tileIntraContainer{
-	-webkit-user-select: all !important;
-	   -moz-user-select: all !important; 
-			user-select: all !important;
-	-webkit-touch-callout: default !important; 
- 	pointer-events: all !important;
-	position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-	margin: 0; padding: 0; border: none;
-	background: transparent;
-    overflow:hidden;
-	-webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
-	   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
-			box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
-}
-.tileIntraContainer:hover {
-	border: 0px solid rgba(255, 255, 255, 0.8);
-	-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
-	   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
-			box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
-}
-.tile:not(.active).transparentIfInactive .tileIntraContainer, .tile.active.transparentIfActive .tileIntraContainer, .tile.enlarged.transparentIfEnlarged .tileIntraContainer{
-	-webkit-box-shadow: none !important;
-	   -moz-box-shadow: none !important;
-			box-shadow: none !important;
-} 
 
 .tileIntraContainer.tileLinkToggle{
 	cursor: pointer;
@@ -1722,9 +1701,6 @@ html.bigMode #View .ui-panel-wrapper {
 	-webkit-box-shadow: none;
 	   -moz-box-shadow: none;
 	        box-shadow: none;
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
 }
 .tile.active .tileGlow:not(.active) {
 	opacity: 0 !important;
@@ -1923,6 +1899,7 @@ html.bigMode #View .ui-panel-wrapper {
 .uiElement.zoomOnHover:hover{
 	transform: scale3d(1.2,1.2,1);
 }
+
 .uiElement.icon {
 	height: 100%;
 	max-height: 100%;
@@ -1948,7 +1925,6 @@ html.bigMode #View .ui-panel-wrapper {
 	cursor: alias;
 }
 
-
 .uiElement.badge {
 	pointer-events:none !important;
     z-index: 1000;
@@ -1971,3 +1947,46 @@ html.bigMode #View .ui-panel-wrapper {
 	opacity: 1;
 }
 
+.uiElement.enlargeButton {
+	pointer-events:none !important;
+	cursor: zoom-in;
+	position:absolute; right: -1px; left:unset; top: 0px; bottom: unset; width: 10px; height: 10px;
+	background-image: url("./images/maximize.png");
+	background-position: 1px 4px;
+	background-repeat: no-repeat;
+	background-size: 50%;
+	background-color: lightgrey;
+	border:lightgrey 1px solid;
+	opacity:0;
+	-webkit-border-radius: 0px 0px 0px 5px;
+	   -moz-border-radius: 0px 0px 0px 5px;
+	        border-radius: 0px 0px 0px 5px;
+	-webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.3);
+	   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.3);
+	        box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.3);
+	-webkit-transition: all 0.5s;
+	   -moz-transition: all 0.5s;
+			transition: all 0.5s;
+}
+.uiElement.enlargeButton:before {
+	content: "";
+	position: absolute;
+	top: -100%;
+	left: -100%;
+	width: 300%;
+	height: 300%;
+	background: transparent;
+}
+.tile.enlarged .uiElement.enlargeButton {
+	cursor: zoom-out;
+	background-image: url("./images/minimize.png");
+	background-position: 1px 4px;
+}
+.tile:not(.active) .uiElement.enlargeButton.showIfInactive, .tile.active .uiElement.enlargeButton.showIfActive, .tile.enlarged .uiElement.enlargeButton {
+	pointer-events:auto !important;
+	opacity: 0.5;
+}
+.uiElement.enlargeButton:hover {
+	opacity: 0.6;
+	border: lightgrey 4px solid;
+}
