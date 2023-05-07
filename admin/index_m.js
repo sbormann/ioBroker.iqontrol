@@ -1268,6 +1268,12 @@ var uiElementOptions = {
 		{option: "badgeColorState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "STATE", description: "The background color of the badge."},
 		{option: "badgeWithoutUnit", type: "checkbox", description: "If true, the badge state is shown without units. Default: false."},
 		{option: "badgeShowIfZero", type: "checkbox", description: "If true, the badge is visible even if its value is zero. Default: false."}
+	],
+	clickAction: [
+		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
+		{option: "clickActionActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "clickAction", type: "select", selectOptions: ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView", description: "Defines, what happens, when you click on the element. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false."},
+		{option: "clickActionToggleFunction", type: "string", description: "Only valid, if clickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values."}
 	]
 }
 
@@ -2909,6 +2915,118 @@ var iQontrolRolesStandardDeviceStates = {
 
 var iQontrolRolesStandardTileSettingElements = [
 	{
+		"commonType": "clickAction",
+		"commonName": "Click On Tile Action",
+		"stackIndex": "0",
+		"outside": false,
+		"options": [
+			{
+				"option": "stackCycles",
+				"type": "checkbox",
+				"role": "const",
+				"value": false
+			},
+			{
+				"option": "clickActionActive",
+				"type": "activeConditionArray",
+				"role": "array",
+				"value": ""
+			}
+		]
+	},
+	{
+		"commonType": "iconTextCombination",
+		"commonName": "Full Size State",
+		"stackIndex": "0",
+		"outside": false,
+		"options": [
+			{
+				"option": "stackCycles",
+				"type": "checkbox",
+				"role": "const",
+				"value": false
+			},
+			{
+				"option": "iconClasses",
+				"type": "string",
+				"role": "const",
+				"value": ""
+			},
+			{
+				"option": "iconState",
+				"type": "string",
+				"role": "deviceOption",
+				"value": "icon_off",
+			},
+			{
+				"option": "iconActive",
+				"type": "activeConditionArray",
+				"role": "array",
+				"value": "[{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+			},
+			{
+				"option": "iconZoomOnHover",
+				"type": "checkbox",
+				"role": "const",
+				"value": false
+			},
+			{
+				"option": "iconNoPointerEvents",
+				"type": "checkbox",
+				"role": "const",
+				"value": false
+			},
+			{
+				"option": "textClasses",
+				"type": "string",
+				"role": "const",
+				"value": ""
+			},
+			{
+				"option": "textState",
+				"type": "string",
+				"role": "deviceState",
+				"value": "STATE",
+			},
+			{
+				"option": "textLevelState",
+				"type": "string",
+				"role": "deviceState",
+				"value": "LEVEL",
+			},
+			{
+				"option": "textActive",
+				"type": "activeConditionArray",
+				"role": "array",
+				"value": "[{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+			},
+			{
+				"option": "textProcessingFunction",
+				"type": "textarea",
+				"role": "const",
+				"value": ""
+			},
+			{
+				"option": "textProcessingOptions",
+				"type": "textarea",
+				"value": "{}",
+				"role": "const"
+			},
+			{
+				"option": "textMultiline",
+				"type": "checkbox",
+				"role": "const",
+				"value": true
+			},
+			{
+				"option": "textAlwaysReservePlaceForIcon",
+				"type": "checkbox",
+				"role": "const",
+				"value": false
+			}
+		]
+	},
+	{
 		"commonType": "badge",
 		"commonName": "Badge",
 		"stackIndex": "1",
@@ -2923,112 +3041,6 @@ var iQontrolRolesStandardTileSettingElements = [
 		"options": ""
 	},
 	{
-		"commonType": "iconTextCombination",
-		"commonName": "Full Size State",
-		"stackIndex": "0",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"roleOptions": "",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"roleOptions": "",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "deviceOption",
-				"roleOptions": "+deviceState",
-				"value": "icon_off",
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
-				"value": "[{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"roleOptions": "",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"roleOptions": "",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "textClasses",
-				"type": "string",
-				"roleOptions": "",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textState",
-				"type": "string",
-				"role": "deviceState",
-				"roleOptions": "+deviceState",
-				"value": "STATE",
-			},
-			{
-				"option": "textLevelState",
-				"type": "string",
-				"role": "deviceState",
-				"roleOptions": "+deviceState",
-				"value": "LEVEL",
-			},
-			{
-				"option": "textActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
-				"value": "[{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "textProcessingFunction",
-				"type": "textarea",
-				"roleOptions": "",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textProcessingOptions",
-				"type": "textarea",
-				"value": "{}",
-				"roleOptions": "",
-				"role": "const"
-			},
-			{
-				"option": "textMultiline",
-				"type": "checkbox",
-				"roleOptions": "",
-				"role": "const",
-				"value": true
-			},
-			{
-				"option": "textAlwaysReservePlaceForIcon",
-				"type": "checkbox",
-				"roleOptions": "",
-				"role": "const",
-				"value": false
-			}
-		]
-	},
-	{
 		"commonType": "icon",
 		"commonName": "Icon off",
 		"stackIndex": "3",
@@ -3037,14 +3049,12 @@ var iQontrolRolesStandardTileSettingElements = [
 			{
 				"option": "stackCycles",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3052,41 +3062,35 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "iconState",
 				"type": "string",
 				"role": "deviceOption",
-				"roleOptions": "+deviceState",
 				"value": "icon_off",
 			},
 			{
 				"option": "iconActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
 			},
 			{
 				"option": "iconZoomOnHover",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": true
 			},
 			{
 				"option": "iconNoPointerEvents",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconClickAction",
 				"type": "select",
-				"roleOptions": "",
 				"role": "deviceOption",
 				"value": "clickOnIconAction"
 			},
 			{
 				"option": "iconToggleFunction",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			}	
@@ -3101,14 +3105,12 @@ var iQontrolRolesStandardTileSettingElements = [
 			{
 				"option": "stackCycles",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3116,41 +3118,35 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "iconState",
 				"type": "string",
 				"role": "deviceOption",
-				"roleOptions": "+deviceState",
 				"value": "icon_on",
 			},
 			{
 				"option": "iconActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
 			},
 			{
 				"option": "iconZoomOnHover",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": true
 			},
 			{
 				"option": "iconNoPointerEvents",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconClickAction",
 				"type": "select",
-				"roleOptions": "",
 				"role": "deviceOption",
 				"value": "clickOnIconAction"
 			},
 			{
 				"option": "iconToggleFunction",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			}			
@@ -3165,14 +3161,12 @@ var iQontrolRolesStandardTileSettingElements = [
 			{
 				"option": "stackCycles",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3180,27 +3174,23 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "iconState",
 				"type": "string",
 				"role": "const",
-				"roleOptions": "+deviceState",
 				"value": "./images/loading.gif",
 			},
 			{
 				"option": "iconActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"loading\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
 			},
 			{
 				"option": "iconZoomOnHover",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconNoPointerEvents",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": true
 			}
@@ -3215,14 +3205,12 @@ var iQontrolRolesStandardTileSettingElements = [
 			{
 				"option": "stackCycles",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3230,27 +3218,23 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "iconState",
 				"type": "string",
 				"role": "deviceOption",
-				"roleOptions": "+deviceState",
 				"value": "errorIcon_on",
 			},
 			{
 				"option": "iconActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"ERROR\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
 			},
 			{
 				"option": "iconZoomOnHover",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconNoPointerEvents",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			}
@@ -3265,14 +3249,12 @@ var iQontrolRolesStandardTileSettingElements = [
 			{
 				"option": "stackCycles",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3280,27 +3262,23 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "iconState",
 				"type": "string",
 				"role": "deviceOption",
-				"roleOptions": "+deviceState",
 				"value": "unreachIcon_on",
 			},
 			{
 				"option": "iconActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"UNREACH\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
 			},
 			{
 				"option": "iconZoomOnHover",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconNoPointerEvents",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			}
@@ -3315,14 +3293,12 @@ var iQontrolRolesStandardTileSettingElements = [
 			{
 				"option": "stackCycles",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3330,27 +3306,23 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "iconState",
 				"type": "string",
 				"role": "deviceOption",
-				"roleOptions": "+deviceState",
 				"value": "batteryIcon_on",
 			},
 			{
 				"option": "iconActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"BATTERY\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
 			},
 			{
 				"option": "iconZoomOnHover",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconNoPointerEvents",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			}
@@ -3365,14 +3337,12 @@ var iQontrolRolesStandardTileSettingElements = [
 			{
 				"option": "stackCycles",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3380,34 +3350,29 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "iconState",
 				"type": "string",
 				"role": "deviceState",
-				"roleOptions": "+deviceState",
 				"value": "INFO_A.icon",
 			},
 			{
 				"option": "iconActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_A.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
 			},
 			{
 				"option": "iconZoomOnHover",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconNoPointerEvents",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "textClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3415,27 +3380,23 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "textState",
 				"type": "string",
 				"role": "deviceState",
-				"roleOptions": "+deviceState",
 				"value": "INFO_A.state",
 			},
 			{
 				"option": "textLevelState",
 				"type": "string",
 				"role": "deviceState",
-				"roleOptions": "+deviceState",
 				"value": "",
 			},
 			{
 				"option": "textActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_A.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
 			},
 			{
 				"option": "textProcessingFunction",
 				"type": "textarea",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3443,13 +3404,11 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "textProcessingOptions",
 				"type": "textarea",
 				"value": "{}",
-				"roleOptions": "",
 				"role": "const"
 			},
 			{
 				"option": "textMultiline",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false,
 				"selectOptions": "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal"
@@ -3457,14 +3416,12 @@ var iQontrolRolesStandardTileSettingElements = [
 			{
 				"option": "textNoPointerEvents",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "textAlwaysReservePlaceForIcon",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			}
@@ -3479,14 +3436,12 @@ var iQontrolRolesStandardTileSettingElements = [
 			{
 				"option": "stackCycles",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3494,34 +3449,29 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "iconState",
 				"type": "string",
 				"role": "deviceState",
-				"roleOptions": "+deviceState",
 				"value": "INFO_B.icon",
 			},
 			{
 				"option": "iconActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": "[{\"modifier\":\"&&\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_B.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
 			},
 			{
 				"option": "iconZoomOnHover",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "iconNoPointerEvents",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "textClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3529,27 +3479,23 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "textState",
 				"type": "string",
 				"role": "deviceState",
-				"roleOptions": "+deviceState",
 				"value": "INFO_B.state",
 			},
 			{
 				"option": "textLevelState",
 				"type": "string",
 				"role": "deviceState",
-				"roleOptions": "+deviceState",
 				"value": "",
 			},
 			{
 				"option": "textActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": ""
 			},
 			{
 				"option": "textProcessingFunction",
 				"type": "textarea",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3557,20 +3503,17 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "textProcessingOptions",
 				"type": "textarea",
 				"value": "{}",
-				"roleOptions": "",
 				"role": "const"
 			},
 			{
 				"option": "textMultiline",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "textAlwaysReservePlaceForIcon",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			}
@@ -3585,14 +3528,12 @@ var iQontrolRolesStandardTileSettingElements = [
 			{
 				"option": "stackCycles",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "textClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3600,27 +3541,23 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "textState",
 				"type": "string",
 				"role": "deviceSetting",
-				"roleOptions": "+deviceState",
 				"value": "commonName",
 			},
 			{
 				"option": "textLevelState",
 				"type": "string",
 				"role": "deviceState",
-				"roleOptions": "+deviceState",
 				"value": "",
 			},
 			{
 				"option": "textActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": "[]"
 			},
 			{
 				"option": "textProcessingFunction",
 				"type": "textarea",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3628,13 +3565,11 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "textProcessingOptions",
 				"type": "textarea",
 				"value": "{}",
-				"roleOptions": "",
 				"role": "const"
 			},
 			{
 				"option": "textMultiline",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": true
 			}
@@ -3649,14 +3584,12 @@ var iQontrolRolesStandardTileSettingElements = [
 			{
 				"option": "stackCycles",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": false
 			},
 			{
 				"option": "textClasses",
 				"type": "string",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3664,27 +3597,23 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "textState",
 				"type": "string",
 				"role": "deviceState",
-				"roleOptions": "+deviceState",
 				"value": "STATE",
 			},
 			{
 				"option": "textLevelState",
 				"type": "string",
 				"role": "deviceState",
-				"roleOptions": "+deviceState",
 				"value": "LEVEL",
 			},
 			{
 				"option": "textActive",
 				"type": "activeConditionArray",
 				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
 				"value": ""
 			},
 			{
 				"option": "textProcessingFunction",
 				"type": "textarea",
-				"roleOptions": "",
 				"role": "const",
 				"value": ""
 			},
@@ -3692,13 +3621,11 @@ var iQontrolRolesStandardTileSettingElements = [
 				"option": "textProcessingOptions",
 				"type": "textarea",
 				"value": "{}",
-				"roleOptions": "",
 				"role": "const"
 			},
 			{
 				"option": "textMultiline",
 				"type": "checkbox",
-				"roleOptions": "",
 				"role": "const",
 				"value": true
 			}
@@ -6264,7 +6191,7 @@ async function load(settings, onChange) {
 		});
 		//Build options content
 		dialogDeviceEditOptionsBuildOptionsContent();
-		//TileSettings
+		//TileSettings ##### -> hier werden die tile settings mit den defaults überschrieben. Idee: Beim Ändern wird das device als user-defined markiert und die rolle kann dann nicht mehr geändert werden? 
 		dialogDeviceEditTileSettings.tileClass = typeof dialogDeviceEditTileSettings.tileClass != 'undefined' && (dialogDeviceEditTileSettings.tileClass != (iQontrolRoles[dialogDeviceEditOldCommonRole]?.tileSettings?.tileClass || 0)) ? dialogDeviceEditTileSettings.tileClass : iQontrolRoles[dialogDeviceEditCommonRole]?.tileSettings?.tileClass || -1; //if old settings differs from role´s default: keep it. Otherwise take default from new role
 		dialogDeviceEditTileSettings.tileClassEnlarged = typeof dialogDeviceEditTileSettings.tileClassEnlarged != 'undefined' && (dialogDeviceEditTileSettings.tileClassEnlarged != (iQontrolRoles[dialogDeviceEditOldCommonRole]?.tileSettings?.tileClassEnlarged || 0)) ? dialogDeviceEditTileSettings.tileClassEnlarged : iQontrolRoles[dialogDeviceEditCommonRole]?.tileSettings?.tileClassEnlarged || -1; //if old settings differs from role´s default: keep it. Otherwise take default from new role
 		if(!dialogDeviceEditTileSettings.elements) dialogDeviceEditTileSettings.elements = [];

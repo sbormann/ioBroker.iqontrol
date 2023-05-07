@@ -4923,71 +4923,10 @@ function renderView(viewId, triggeredByReconnection){
 				});
 				uiElements.addHtml('</div><!--tileExtraContainer end-->');
 
-				//---------- tileIntraContainer + clickOnTileAction ----------
-				let clickOnTileAction = getDeviceOptionValue(device, "clickOnTileAction");
+				//---------- tileIntraContainer ----------
 				uiElements.addHtml(`<div 
-					class="tileIntraContainer setTileSize ${clickOnTileAction ? 'tileLink' + capitalize(clickOnTileAction) : ''}"
-				>`).addBindingFunction(function(){
-					$(".tile[data-device-id-escaped='" + deviceIdEscaped + "'] .tileIntraContainer").on('click', function(){
-						switch(clickOnTileAction){
-							case 'toggle':
-								event.stopPropagation();
-								let tileToggleFunction = (getDeviceOptionValue(device, 'tileToggleFunction') || '').split('/'); //##### muss noch in admin implementiert werden
-								let state = getStateIdFromDeviceState(device, tileToggleFunction[1] || 'STATE') || null;
-								switch(tileToggleFunction[0]){
-									case 'startProgram':
-										if(state) startProgram(state, device.deviceIdEscaped);
-										break;
-									case 'toggleScene':
-										if(state) toggleScene(state, device.deviceIdEscaped);
-										break;
-									case 'toggleMedia':
-										if(state) toggleMedia(state, device.deviceIdEscaped);
-										break;
-									case 'startButton':
-										let setValue = getStateIdFromDeviceState(device, tileToggleFunction[2] || 'SET_VALUE') || null;
-										let offSetValue = getStateIdFromDeviceState(device, tileToggleFunction[3] || 'OFF_SET_VALUE') || null;
-										let returnToOffSetValueAfter = tileToggleFunction[4] || 100;
-										if(state) startButton(state, setValue, offSetValue, returnToOffSetValueAfter, device.deviceIdEscaped);
-										break;
-									case 'toggleState': default:
-										state = state || getStateIdFromDeviceState(device, tileToggleFunction[2] || 'LEVEL') || null;
-										if(state) toggleState(state, device.deviceIdEscaped);
-								}
-								break;
-							case 'openDialog':
-								event.stopPropagation();
-								renderDialog(device.deviceIdEscaped); 
-								$('#Dialog').popup("open", {transition: "pop", positionTo: "window"});
-								break;
-							case 'enlarge':
-								event.stopPropagation();
-								toggleState(getStateIdFromDeviceState(device, 'tileEnlarged'), device.deviceIdEscaped);
-								break;
-							case 'openURLExternal':
-								event.stopPropagation();
-								let url = getStateFromDeviceState(device, 'URL');
-								if(url && url.val) window.open(url.val, '_blank').focus();
-								break;
-							case 'openLinkToOtherView': case '':
-								if(typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
-									if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
-										var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
-										renderViewInParentInstance(device.nativeLinkedView, closePanel);
-									} else { //Normal Link to other view
-										viewHistory = viewLinksToOtherViews; 
-										viewHistoryPosition = viewLinksToOtherViews.length - 1; 
-										renderView(device.nativeLinkedView);
-									}
-								}
-								break;
-							case 'false': default:
-							//do nothing
-						}								
-					});
-				}).addUnbindingFunction(function(){
-					$(".tile[data-device-id-escaped='" + deviceIdEscaped + "'] .tileIntraContainer").off('click');
-				});
+					class="tileIntraContainer setTileSize"
+				>`);
 
 				//--BackgroundImage
 				var noZoomOnHover = (getDeviceOptionValue(device, "noZoomOnHover") == "true") || (options && options.LayoutViewDeviceNoZoomOnHover);
@@ -5018,6 +4957,63 @@ function renderView(viewId, triggeredByReconnection){
 						uiElements.addHtml("<div class='tileOverlay active" + (getDeviceOptionValue(device, "noOverlayEnlarged") == "true" ? " hideIfEnlarged" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "'></div>");
 					}
 				}
+
+				//--tileEnlargeButton #### transfer to uiELements
+				if((device.deviceStates["tileEnlarged"] && device.deviceStates["tileEnlarged"].stateId) || (device.deviceStates["ENLARGE_TILE"] && device.deviceStates["ENLARGE_TILE"].stateId)){
+					uiElements.addHtml("<div class='uiElement enlargeButton" + ((getDeviceOptionValue(device, "tileEnlargeShowButtonActive") == "true") ? " showIfActive" : "") + ((getDeviceOptionValue(device, "tileEnlargeShowButtonInactive") == "true") ? " showIfInactive" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' onclick='event.stopPropagation(); toggleState(unescape(\"" + escape(device.deviceStates["tileEnlarged"].stateId) + "\"), \"" + deviceIdEscaped + "\", null, 0);'></div>");
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _device = device;
+						var _linkedTileEnlargedId = device.deviceStates["tileEnlarged"] && device.deviceStates["tileEnlarged"].stateId;
+						var _linkedEnlargeTileId = device.deviceStates["ENLARGE_TILE"] && device.deviceStates["ENLARGE_TILE"].stateId;
+						var updateFunction = function(){
+							var stateTileEnlarged = getState(_linkedTileEnlargedId);
+							if(typeof stateTileEnlarged !== udef && stateTileEnlarged.val) {
+								$(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").addClass("enlarged");
+								viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = true;
+								if($(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").hasClass("active")){
+									if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = false;
+								} else {
+									if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = false;
+								}
+							} else {
+								$(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").removeClass("enlarged");
+								viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = true;
+								if($(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").hasClass("active")){
+									if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = false;
+								} else {
+									if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = false;
+								}
+							}
+							$('.viewIsotopeContainer').isotope('layout'); //#### auslagern
+						};
+						uiElements.addUpdateFunction(_linkedTileEnlargedId, updateFunction);
+						if(_linkedEnlargeTileId){
+							var updateFunction = function(){
+								var stateTileEnlarged = getState(_linkedTileEnlargedId);
+								var stateEnlargeTile = getState(_linkedEnlargeTileId);
+								if(typeof stateEnlargeTile !== udef && stateEnlargeTile.type) {
+									switch(stateEnlargeTile.type){
+										case "button":
+										if(stateEnlargeTile.ts && new Date() - stateEnlargeTile.ts < 100) toggleState(_linkedTileEnlargedId, _deviceIdEscaped, null, 0);
+										break;
+
+										default:
+										var val = stateEnlargeTile.plainText.toString();
+										if(stateEnlargeTile.val == false || val == "0" || val == "-1" || val == "false" || val == _("false") || val == _("closed") || val == _("OK") || val == _("off")) val = false; else val = true;
+										setState(_linkedTileEnlargedId, _deviceIdEscaped, val, true, null, 0);
+									}
+								}
+							};
+							uiElements.addUpdateFunction(_linkedEnlargeTileId, updateFunction);
+						} 
+					})(); //<--End Closure
+				}
+
+				//--UIElements for tileIntraContainer
+				device.tileSettings.elements.filter(function(element){ return !element.outside; }).forEach(function(element, elementIndex){ 
+					uiElements.addUIElement(device, element, elementIndex);
+				});	
 
 				//--BackgroundIframe (BACKGROUND_VIEW/URL/HTML)
 				if((device.deviceStates["BACKGROUND_VIEW"] && device.deviceStates["BACKGROUND_VIEW"].stateId) || (device.deviceStates["BACKGROUND_URL"] && device.deviceStates["BACKGROUND_URL"].stateId) || (device.deviceStates["BACKGROUND_URL"] && device.deviceStates["BACKGROUND_URL"].stateId)){
@@ -5121,63 +5117,6 @@ function renderView(viewId, triggeredByReconnection){
 					}
 				}
 
-				//--tileEnlargeButton #### transfer to uiELements
-				if((device.deviceStates["tileEnlarged"] && device.deviceStates["tileEnlarged"].stateId) || (device.deviceStates["ENLARGE_TILE"] && device.deviceStates["ENLARGE_TILE"].stateId)){
-					uiElements.addHtml("<div class='uiElement enlargeButton" + ((getDeviceOptionValue(device, "tileEnlargeShowButtonActive") == "true") ? " showIfActive" : "") + ((getDeviceOptionValue(device, "tileEnlargeShowButtonInactive") == "true") ? " showIfInactive" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' onclick='event.stopPropagation(); toggleState(unescape(\"" + escape(device.deviceStates["tileEnlarged"].stateId) + "\"), \"" + deviceIdEscaped + "\", null, 0);'></div>");
-					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						var _deviceIdEscaped = deviceIdEscaped;
-						var _device = device;
-						var _linkedTileEnlargedId = device.deviceStates["tileEnlarged"] && device.deviceStates["tileEnlarged"].stateId;
-						var _linkedEnlargeTileId = device.deviceStates["ENLARGE_TILE"] && device.deviceStates["ENLARGE_TILE"].stateId;
-						var updateFunction = function(){
-							var stateTileEnlarged = getState(_linkedTileEnlargedId);
-							if(typeof stateTileEnlarged !== udef && stateTileEnlarged.val) {
-								$(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").addClass("enlarged");
-								viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = true;
-								if($(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").hasClass("active")){
-									if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = false;
-								} else {
-									if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = false;
-								}
-							} else {
-								$(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").removeClass("enlarged");
-								viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = true;
-								if($(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").hasClass("active")){
-									if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = false;
-								} else {
-									if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = false;
-								}
-							}
-							$('.viewIsotopeContainer').isotope('layout'); //#### auslagern
-						};
-						uiElements.addUpdateFunction(_linkedTileEnlargedId, updateFunction);
-						if(_linkedEnlargeTileId){
-							var updateFunction = function(){
-								var stateTileEnlarged = getState(_linkedTileEnlargedId);
-								var stateEnlargeTile = getState(_linkedEnlargeTileId);
-								if(typeof stateEnlargeTile !== udef && stateEnlargeTile.type) {
-									switch(stateEnlargeTile.type){
-										case "button":
-										if(stateEnlargeTile.ts && new Date() - stateEnlargeTile.ts < 100) toggleState(_linkedTileEnlargedId, _deviceIdEscaped, null, 0);
-										break;
-
-										default:
-										var val = stateEnlargeTile.plainText.toString();
-										if(stateEnlargeTile.val == false || val == "0" || val == "-1" || val == "false" || val == _("false") || val == _("closed") || val == _("OK") || val == _("off")) val = false; else val = true;
-										setState(_linkedTileEnlargedId, _deviceIdEscaped, val, true, null, 0);
-									}
-								}
-							};
-							uiElements.addUpdateFunction(_linkedEnlargeTileId, updateFunction);
-						} 
-					})(); //<--End Closure
-				}
-
-				//--UIElements for tileIntraContainer
-				device.tileSettings.elements.filter(function(element){ return !element.outside; }).forEach(function(element, elementIndex){ 
-					uiElements.addUIElement(device, element, elementIndex);
-				});	
-				
 				//--Close divs
 				uiElements.addHtml('</div><!--tileIntraContainer end--></div><!-- tileSizer end --></div><!-- tile end -->');
 				return uiElements; 
@@ -5486,23 +5425,6 @@ function renderView(viewId, triggeredByReconnection){
 	});
 }
 
-function viewShuffleFilterHideDeviceIfInactive(){
-	viewShuffleInstances.forEach(function(shuffleInstance, i){
-		shuffleInstance.filter(function(shuffleElement){
-			return !(
-				($(shuffleElement).hasClass('hideDeviceIfInactive') && !$(shuffleElement).hasClass('active'))
-				|| ($(shuffleElement).hasClass('hideDeviceIfActive') && $(shuffleElement).hasClass('active'))
-				|| $(shuffleElement).hasClass('hideDevice')
-			);
-		});
-	});
-	//Hide subheadings, if no tile is visible
-	$('#ViewContent h4').each(function(){ 
-		if($(this).nextAll('.viewIsotopeContainer').find('.shuffle-item').hasClass('shuffle-item--visible')) $(this).show(500); else $(this).hide(500); 
-	});
-}
-
-
 function applyViewTileResizeObserver(){ 
 	console.log("Starting shuffle resize observer");
 	var viewTileResizeObserverTimeout1 = false;
@@ -5632,7 +5554,7 @@ function applyViewTileResizeObserver(){
 	});
 }
 
-function viewShuffleReshuffle(delays){
+function viewShuffleReshuffle(delays){ return; //#######
 	console.log("viewShuffleReshuffle " + JSON.stringify(viewShuffleReshuffleTimeouts));
 	if(options.LayoutViewShuffleDisabled) return;
 	if(!Array.isArray(delays)) delays = [(delays || 0)];
@@ -8036,7 +7958,7 @@ $(document).ready(function(){
 					document.querySelectorAll('.tileBackgroundIframe').forEach(function(iframe){
 						iframe.contentWindow.postMessage({ command: "parentBigModeEnabled", value: bigMode }, "*");			
 					});
-					viewShuffleReshuffle(0, 1250);
+					//viewShuffleReshuffle(0, 1250); #####
 				}
 				break;
 				
@@ -9025,25 +8947,12 @@ function UIElements(initialUiElements) {
 			options[option.option] = {role: option.role, value: option.value};
 		});
 		switch(element.commonType){
-			case "icon": 
-				this.addIcon(device, options);
-				break;
-
-			case "text": 
-				this.addText(device, options);
-				break;
-
-			case "iconTextCombination": 
-				this.addIconTextCombination(device, options);
-				break;
-
-			case "loadingIcon":
-				this.addLoadingIcon(device, options);
-				break;
-
-			case "badge":
-				this.addBadge(device, options);
-				break;
+			case "icon": this.addIcon(device, options);	break;
+			case "text": this.addText(device, options);	break;
+			case "iconTextCombination": this.addIconTextCombination(device, options); break;
+			case "loadingIcon":	this.addLoadingIcon(device, options); break;
+			case "badge": this.addBadge(device, options); break;
+			case "clickAction": this.addClickAction(device, options); break;
 		}
 		return this;
 	}
@@ -9123,6 +9032,166 @@ function UIElements(initialUiElements) {
 			this.addHtml(`</div>`);
 			this.uiElementStacks.open = false;
 		}
+		return this;
+	}
+
+	//---------- iconTextCombination ----------
+	/** Adds a icon and text combination
+	 * @param {object} device 
+	 * @param {object} uiElementOptions 
+	 *
+	 * @param {string} uiElementOptions.stackId
+	 * @param {boolean} uiElementOptions.stackCycles
+	 *
+	 * @param {string} uiElementOptions.iconClasses
+	 * @param {string} uiElementOptions.iconState
+	 * @param {string} uiElementOptions.iconActive
+	 * @param {boolean} uiElementOptions.iconZoomOnHover
+	 * @param {boolean} uiElementOptions.iconNoPointerEvents
+	 * @param {string} uiElementOptions.iconClickAction
+	 * @param {string} uiElementOptions.iconToggleFunction
+	 *
+	 * @param {string} uiElementOptions.textClasses
+	 * @param {string} uiElementOptions.textState
+	 * @param {string} uiElementOptions.textLevelState
+	 * @param {string} uiElementOptions.textActive
+	 * @param {boolean} uiElementOptions.textNoPointerEvents
+	 * @param {boolean} uiElementOptions.textAlwaysReservePlaceForIcon
+	 * @param {boolean} uiElementOptions.textMultiline
+	 * @param {string} uiElementOptions.textAddTimestampMode
+	 * @param {function} uiElementOptions.textProcessingFunction
+	 * @param {object} uiElementOptions.textProcessingOptions
+	 * @param {string} uiElementOptions.textProcessingOptions.showStateAndLevelSeparatelyInTile
+	 * 
+	 * @returns {UIElements}  
+	 */
+	this.addIconTextCombination = function(device, uiElementOptions, arrayIndex){
+		if(typeof uiElementOptions != "object") uiElementOptions = {};
+		//Recoursive call for arrays
+		if(typeof arrayIndex == udef){
+			let maxArrayLength = getMaxArrayLengthOfUiOptions(device, uiElementOptions);
+			if(maxArrayLength > -1){
+				for(let arrayIndex = 0; arrayIndex < maxArrayLength; arrayIndex++) this.addIconTextCombination(device, uiElementOptions, arrayIndex);
+				return this;
+			}	
+		}
+		this.newElementStackContainer(device, uiElementOptions);
+		var _uiElementIndex = this.uiElementIndex;
+		var iconStateId = getUiOptionStateId(device, uiElementOptions.iconState, arrayIndex);
+		var iconActiveStateIds = getUiOptionActiveStateIds(device, uiElementOptions.iconActive, arrayIndex);
+		var textStateId = getUiOptionStateId(device, uiElementOptions.textState, arrayIndex);
+		var textLevelStateId = getUiOptionStateId(device, uiElementOptions.textLevelState, arrayIndex);
+		var textActiveStateIds = getUiOptionActiveStateIds(device, uiElementOptions.textActive, arrayIndex);
+		//--Icon
+		if(uiElementOptions.iconState){
+			let iconClickAction = getUiOption(device, uiElementOptions.iconClickAction);
+			this.addHtml(`<img 
+				class="uiElement icon ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''} ${iconClickAction ? 'iconLink' + capitalize(iconClickAction) : ''}"
+				data-device-id-escaped="${device.deviceIdEscaped}" 
+				data-ui-element-index="${_uiElementIndex}" 
+				style="display: none;" 
+			>`);
+			var updateFunction = function(stateId, forceReloadOfImage){
+				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				var $textElement = $(`div.uiElement.text[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				var iconState = getUiOptionState(device, uiElementOptions.iconState, arrayIndex);
+				var iconActive = getUiOptionActive(device, uiElementOptions.iconActive, arrayIndex);
+				var src = iconState && iconState.val || "";
+				if(src && forceReloadOfImage) src = src.replace(/(?<=\?|&)forcedReload=([^&]+)/, "forcedReload=" + Math.floor(new Date().getTime() / 100));
+				var oldSrc = $iconElement.attr('src') || '';
+				if(src != oldSrc){
+					if(oldSrc && oldSrc.substring(0, 5).toLowerCase() !== "data:") $iconElement.fadeTo(0, 0, function(){ $(this).css('opacity', '')});
+					setTimeout(function(){
+						$iconElement.off('load').on('load', function(){
+							if(iconActive){
+								$iconElement.fadeTo(0, 1, function(){ $(this).css('opacity', '')});
+								$textElement.css('left', `${$iconElement.width()}px`).css('width', `calc(100% - ${$iconElement.width()}px)`);
+							} else {
+								$iconElement.css('opacity', '');
+								$textElement.css('left', `0`).css('width', `100%`);
+							}		
+						}).attr('src', src).css('display', '');
+					}, oldSrc ? 250 : 10);
+				}
+				if(iconActive) $iconElement.addClass('active').css('opacity', ''); else $iconElement.removeClass('active');
+			}
+			var bindingFunction = function(){
+				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				let iconClickAction = getUiOption(device, uiElementOptions.iconClickAction);
+				let iconToggleFunction = (getUiOption(device, uiElementOptions.iconToggleFunction) || '');
+				clickActionBindingFunction(device, $iconElement, iconClickAction, iconToggleFunction);
+			};
+			var unbindingFunction = function(){
+				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				$iconElement.off('click');
+			};
+			this.addUpdateFunction([iconStateId, iconActiveStateIds], updateFunction)
+			.addBindingFunction(bindingFunction)
+			.addUnbindingFunction(unbindingFunction);	
+		}
+		//--Text
+		if(uiElementOptions.textState || uiElementOptions.textLevelState){
+			this.addHtml(`<div 	
+				class="uiElement text ${getUiOption(device, uiElementOptions.textClasses) || ''} ${getUiOption(device, uiElementOptions.textNoPointerEvents) ? 'noPointerEvents' : ''}"
+				data-device-id-escaped="${device.deviceIdEscaped}"
+				data-ui-element-index="${_uiElementIndex}"
+				style="${getUiOption(device, uiElementOptions.textMultiline) ? 'white-space: break-word;' : 'white-space: nowrap;'}" 
+			></div>`);
+			var updateFunction = function(stateId){
+				var $textElement = $(`div.uiElement.text[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				var textState = getUiOptionState(device, uiElementOptions.textState, arrayIndex);
+				var textLevelState = getUiOptionState(device, uiElementOptions.textLevelState, arrayIndex);
+				var textResult = processText(textState, textLevelState, getUiOption(device, uiElementOptions.textProcessingOptions), getUiOption(device, uiElementOptions.textProcessingFunction));
+				var textActive = getUiOptionActive(device, uiElementOptions.textActive, arrayIndex);
+				var textAddTimestampMode = getUiOption(device, uiElementOptions.textAddTimestampMode);
+				if(textAddTimestampMode) textResult = addTimestamp(textResult, [textState, textLevelState], textActive, textAddTimestampMode);
+				setTimeout(function(){
+					if(getUiOption(device, uiElementOptions.textAlwaysReservePlaceForIcon) || ($iconElement.hasClass('active') && $iconElement.attr('src'))){ //icon visible - reserve Place
+						$textElement.css('left', `${$iconElement.width()}px`).css('width', `calc(100% - ${$iconElement.width()}px)`);
+					} else {
+						$textElement.css('left', `0`).css('width', `100%`);	
+					}
+					let fontSize = $textElement.height() / 1.2 + 'px';
+					if(!getUiOption(device, uiElementOptions.textMultiline)) $textElement.css('font-size', fontSize);
+				}, 50);
+				updateMarqueeElement($textElement, textResult);
+				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');	
+			}
+			this.addUpdateFunction([textStateId, textLevelStateId, textActiveStateIds, iconStateId, iconActiveStateIds, getUiOption(device, uiElementOptions.textAddTimestampMode) ? 'UPDATE_TIMESTAMP' : null], updateFunction);
+		}
+		this.closeElementStackContainer();
+		this.uiElementIndex++;
+		return this;
+	}
+	this.addIcon = this.addIconTextCombination;
+	this.addText = this.addIconTextCombination;
+
+	//---------- Loading Icon ----------
+	/** Adds a icon and text combination
+	 * @param {object} device 
+	 * @param {object} uiElementOptions 
+	 *
+	 * @param {string} uiElementOptions.stackId
+	 * @param {boolean} uiElementOptions.stackCycles
+	 *
+	 * @param {string} uiElementOptions.iconClasses
+	 * @param {boolean} uiElementOptions.iconZoomOnHover
+	 * @param {boolean} uiElementOptions.iconNoPointerEvents
+	 * 
+	 * @returns {UIElements}  
+	 */	this.addLoadingIcon = function(device, uiElementOptions){
+		if(typeof uiElementOptions != "object") uiElementOptions = {};
+		this.newElementStackContainer(device, uiElementOptions);
+		var _uiElementIndex = this.uiElementIndex; //#####
+		this.addHtml(`<img 
+			src='./images/loading.gif'
+			class="uiElement icon iQontrolDeviceLoading ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''}"
+			data-device-id-escaped="${device.deviceIdEscaped}" 
+			data-ui-element-index="${_uiElementIndex}" 
+			>`);
+		this.closeElementStackContainer();
+		this.uiElementIndex++;
 		return this;
 	}
 
@@ -9214,221 +9283,59 @@ function UIElements(initialUiElements) {
 		return this;
 	}
 
-	//---------- iconTextCombination ----------
-	/** Adds a icon and text combination
+	//---------- clickAction ----------
+	/** Adds a general click action
 	 * @param {object} device 
 	 * @param {object} uiElementOptions 
 	 *
 	 * @param {string} uiElementOptions.stackId
 	 * @param {boolean} uiElementOptions.stackCycles
 	 *
-	 * @param {string} uiElementOptions.iconClasses
-	 * @param {string} uiElementOptions.iconState
-	 * @param {string} uiElementOptions.iconActiveState
-	 * @param {string} uiElementOptions.iconActiveCondition
-	 * @param {string} uiElementOptions.iconActiveConditionValue
-	 * @param {boolean} uiElementOptions.iconZoomOnHover
-	 * @param {boolean} uiElementOptions.iconNoPointerEvents
-	 * @param {boolean} uiElementOptions.iconClickAction
-	 * @param {boolean} uiElementOptions.iconToggleOption
-	 *
-	 * @param {string} uiElementOptions.textClasses
-	 * @param {string} uiElementOptions.textState
-	 * @param {string} uiElementOptions.textLevelState
-	 * @param {string} uiElementOptions.textActiveState
-	 * @param {string} uiElementOptions.textActiveCondition
-	 * @param {string} uiElementOptions.textActiveConditionValue
-	 * @param {boolean} uiElementOptions.textAlwaysReservePlaceForIcon
-	 * @param {boolean} uiElementOptions.textMultiline
-	 * @param {string} uiElementOptions.textAddTimestampMode
-	 * @param {function} uiElementOptions.textProcessingFunction
-	 * @param {object} uiElementOptions.textProcessingOptions
-	 * @param {string} uiElementOptions.textProcessingOptions.showStateAndLevelSeparatelyInTile
+	 * @param {string} uiElementOptions.clickActionActive
+	 * @param {boolean} uiElementOptions.clickAction
+	 * @param {string} uiElementOptions.clickActionToggleFunction
 	 * 
 	 * @returns {UIElements}  
 	 */
-	this.addIconTextCombination = function(device, uiElementOptions, arrayIndex){
+	this.addClickAction = function(device, uiElementOptions, arrayIndex){
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
 		//Recoursive call for arrays
 		if(typeof arrayIndex == udef){
 			let maxArrayLength = getMaxArrayLengthOfUiOptions(device, uiElementOptions);
 			if(maxArrayLength > -1){
-				for(let arrayIndex = 0; arrayIndex < maxArrayLength; arrayIndex++) this.addIconTextCombination(device, uiElementOptions, arrayIndex);
+				for(let arrayIndex = 0; arrayIndex < maxArrayLength; arrayIndex++) this.addClickAction(device, uiElementOptions, arrayIndex);
 				return this;
 			}	
 		}
 		this.newElementStackContainer(device, uiElementOptions);
 		var _uiElementIndex = this.uiElementIndex;
-		var iconStateId = getUiOptionStateId(device, uiElementOptions.iconState, arrayIndex);
-		var iconActiveStateIds = getUiOptionActiveStateIds(device, uiElementOptions.iconActive, arrayIndex);
-		var textStateId = getUiOptionStateId(device, uiElementOptions.textState, arrayIndex);
-		var textLevelStateId = getUiOptionStateId(device, uiElementOptions.textLevelState, arrayIndex);
-		var textActiveStateIds = getUiOptionActiveStateIds(device, uiElementOptions.textActive, arrayIndex);
-		//--Icon
-		if(uiElementOptions.iconState){
-			let iconClickAction = getUiOption(device, uiElementOptions.iconClickAction);
-			this.addHtml(`<img 
-				class="uiElement icon ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''} ${iconClickAction ? 'iconLink' + capitalize(iconClickAction) : ''}"
-				data-device-id-escaped="${device.deviceIdEscaped}" 
-				data-ui-element-index="${_uiElementIndex}" 
-				style="display: none;" 
-			>`);
-			var updateFunction = function(stateId, forceReloadOfImage){
-				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-				var $textElement = $(`div.uiElement.text[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-				var iconState = getUiOptionState(device, uiElementOptions.iconState, arrayIndex);
-				var iconActive = getUiOptionActive(device, uiElementOptions.iconActive, arrayIndex);
-				var src = iconState && iconState.val || "";
-				if(src && forceReloadOfImage) src = src.replace(/(?<=\?|&)forcedReload=([^&]+)/, "forcedReload=" + Math.floor(new Date().getTime() / 100));
-				var oldSrc = $iconElement.attr('src') || '';
-				if(src != oldSrc){
-					if(oldSrc && oldSrc.substring(0, 5).toLowerCase() !== "data:") $iconElement.fadeTo(0, 0, function(){ $(this).css('opacity', '')});
-					setTimeout(function(){
-						$iconElement.off('load').on('load', function(){
-							if(iconActive){
-								$iconElement.fadeTo(0, 1, function(){ $(this).css('opacity', '')});
-								$textElement.css('left', `${$iconElement.width()}px`).css('width', `calc(100% - ${$iconElement.width()}px)`);
-							} else {
-								$iconElement.css('opacity', '');
-								$textElement.css('left', `0`).css('width', `100%`);
-							}		
-						}).attr('src', src).css('display', '');
-					}, oldSrc ? 250 : 10);
-				}
-				if(iconActive) $iconElement.addClass('active').css('opacity', ''); else $iconElement.removeClass('active');
-			}
-			var bindingFunction = function(){
-				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-				$iconElement.on('click', function(event){
-					let iconClickAction = getUiOption(device, uiElementOptions.iconClickAction);
-					switch(iconClickAction){
-						case 'toggle':
-							event.stopPropagation();
-							let iconToggleFunction = (getUiOption(device, uiElementOptions.iconToggleFunction) || '').split('/');
-							let state = getStateIdFromDeviceState(device, iconToggleFunction[1] || 'STATE') || null;
-							switch(iconToggleFunction[0]){
-								case 'startProgram':
-									if(state) startProgram(state, device.deviceIdEscaped);
-									break;
-								case 'toggleScene':
-									if(state) toggleScene(state, device.deviceIdEscaped);
-									break;
-								case 'toggleMedia':
-									if(state) toggleMedia(state, device.deviceIdEscaped);
-									break;
-								case 'startButton':
-									let setValue = getStateIdFromDeviceState(device, iconToggleFunction[2] || 'SET_VALUE') || null;
-									let offSetValue = getStateIdFromDeviceState(device, iconToggleFunction[3] || 'OFF_SET_VALUE') || null;
-									let returnToOffSetValueAfter = iconToggleFunction[4] || 100;
-									if(state) startButton(state, setValue, offSetValue, returnToOffSetValueAfter, device.deviceIdEscaped);
-									break;
-								case 'toggleState': default:
-									state = state || getStateIdFromDeviceState(device, iconToggleFunction[2] || 'LEVEL') || null;
-									if(state) toggleState(state, device.deviceIdEscaped);
-							}
-							break;
-						case 'openDialog':
-							event.stopPropagation();
-							renderDialog(device.deviceIdEscaped); 
-							$('#Dialog').popup("open", {transition: "pop", positionTo: "window"});
-							break;
-						case 'enlarge':
-							event.stopPropagation();
-							toggleState(getStateIdFromDeviceState(device, 'tileEnlarged'), device.deviceIdEscaped);
-							break;
-						case 'openURLExternal':
-							event.stopPropagation();
-							let url = getStateFromDeviceState(device, 'URL');
-							if(url && url.val) window.open(url.val, '_blank').focus();
-							break;
-						case 'openLinkToOtherView': case '':
-							if(typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
-								if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
-									var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
-									renderViewInParentInstance(device.nativeLinkedView, closePanel);
-								} else { //Normal Link to other view
-									viewHistory = viewLinksToOtherViews; 
-									viewHistoryPosition = viewLinksToOtherViews.length - 1; 
-									renderView(device.nativeLinkedView);
-								}
-							}
-							break;
-						case 'false': default:
-						//do nothing
-					}
-				});
-			}
-			var unbindingFunction = function(){
-				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-				$iconElement.off('click');
-			}
-			this.addUpdateFunction([iconStateId, iconActiveStateIds], updateFunction)
-			.addBindingFunction(bindingFunction)
-			.addUnbindingFunction(unbindingFunction);
-			
-		}
-		//--Text
-		if(uiElementOptions.textState || uiElementOptions.textLevelState){
-			this.addHtml(`<div 	
-				class="uiElement text ${getUiOption(device, uiElementOptions.textClasses) || ''} ${getUiOption(device, uiElementOptions.textNoPointerEvents) ? 'noPointerEvents' : ''}"
-				data-device-id-escaped="${device.deviceIdEscaped}"
-				data-ui-element-index="${_uiElementIndex}"
-				style="${getUiOption(device, uiElementOptions.textMultiline) ? 'white-space: break-word;' : 'white-space: nowrap;'}" 
-			></div>`);
-			var updateFunction = function(stateId){
-				var $textElement = $(`div.uiElement.text[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-				var textState = getUiOptionState(device, uiElementOptions.textState, arrayIndex);
-				var textLevelState = getUiOptionState(device, uiElementOptions.textLevelState, arrayIndex);
-				var textResult = processText(textState, textLevelState, getUiOption(device, uiElementOptions.textProcessingOptions), getUiOption(device, uiElementOptions.textProcessingFunction));
-				var textActive = getUiOptionActive(device, uiElementOptions.textActive, arrayIndex);
-				var textAddTimestampMode = getUiOption(device, uiElementOptions.textAddTimestampMode);
-				if(textAddTimestampMode) textResult = addTimestamp(textResult, [textState, textLevelState], textActive, textAddTimestampMode);
-				setTimeout(function(){
-					if(getUiOption(device, uiElementOptions.textAlwaysReservePlaceForIcon) || ($iconElement.hasClass('active') && $iconElement.attr('src'))){ //icon visible - reserve Place
-						$textElement.css('left', `${$iconElement.width()}px`).css('width', `calc(100% - ${$iconElement.width()}px)`);
-					} else {
-						$textElement.css('left', `0`).css('width', `100%`);	
-					}
-					let fontSize = $textElement.height() / 1.2 + 'px';
-					if(!getUiOption(device, uiElementOptions.textMultiline)) $textElement.css('font-size', fontSize);
-				}, 50);
-				updateMarqueeElement($textElement, textResult);
-				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');	
-			}
-			this.addUpdateFunction([textStateId, textLevelStateId, textActiveStateIds, iconStateId, iconActiveStateIds, getUiOption(device, uiElementOptions.textAddTimestampMode) ? 'UPDATE_TIMESTAMP' : null], updateFunction);
-		}
-		this.closeElementStackContainer();
-		this.uiElementIndex++;
-		return this;
-	}
-	this.addIcon = this.addIconTextCombination;
-	this.addText = this.addIconTextCombination;
-
-	//---------- Loading Icon ----------
-	/** Adds a icon and text combination
-	 * @param {object} device 
-	 * @param {object} uiElementOptions 
-	 *
-	 * @param {string} uiElementOptions.stackId
-	 * @param {boolean} uiElementOptions.stackCycles
-	 *
-	 * @param {string} uiElementOptions.iconClasses
-	 * @param {boolean} uiElementOptions.iconZoomOnHover
-	 * @param {boolean} uiElementOptions.iconNoPointerEvents
-	 * 
-	 * @returns {UIElements}  
-	 */	this.addLoadingIcon = function(device, uiElementOptions){
-		if(typeof uiElementOptions != "object") uiElementOptions = {};
-		this.newElementStackContainer(device, uiElementOptions);
-		var _uiElementIndex = this.uiElementIndex; //#####
-		this.addHtml(`<img 
-			src='./images/loading.gif'
-			class="uiElement icon iQontrolDeviceLoading ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''}"
+		var clickActionActiveStateIds = getUiOptionActiveStateIds(device, uiElementOptions.clickActionActive, arrayIndex);
+		let clickAction = getUiOption(device, uiElementOptions.clickAction);
+		this.addHtml(`<div 
+			class="uiElement clickAction ${clickAction ? 'clickActionLink' + capitalize(clickAction) : ''}"
 			data-device-id-escaped="${device.deviceIdEscaped}" 
 			data-ui-element-index="${_uiElementIndex}" 
-			>`);
-		this.closeElementStackContainer();
+			style="display:none;"
+		></div>`);
+		var updateFunction = function(stateId, forceReloadOfImage){
+			var $clickActionElement = $(`div.uiElement.clickAction[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+			var clickActionActive = getUiOptionActive(device, uiElementOptions.clickActionActive, arrayIndex);
+			if(clickActionActive) $clickActionElement.addClass('active').css('display', ''); else $iconElement.removeClass('active').css('display', 'none');
+		}
+		var bindingFunction = function(){
+			var $clickActionElement = $(`div.uiElement.clickAction[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+			let clickAction = getUiOption(device, uiElementOptions.clickAction);
+			let clickActionToggleFunction = (getUiOption(device, uiElementOptions.clickActionToggleFunction) || '');
+			clickActionBindingFunction(device, $clickActionElement, clickAction, clickActionToggleFunction);
+		};
+		var unbindingFunction = function(){
+			var $clickActionElement = $(`div.uiElement.clickAction[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+			$clickActionElement.off('click');
+		};
+		this.addUpdateFunction([clickActionActiveStateIds], updateFunction)
+		.addBindingFunction(bindingFunction)
+		.addUnbindingFunction(unbindingFunction)
+		.closeElementStackContainer();
 		this.uiElementIndex++;
 		return this;
 	}
@@ -9729,6 +9636,66 @@ function UIElements(initialUiElements) {
 			break;
 		}
 		return textResult;
+	}
+
+	function clickActionBindingFunction(device, $element, clickAction, toggleFunction){
+		$element.on('click', function(event){						
+			switch(clickAction){
+				case 'toggle':
+					event.stopPropagation();
+					let toggleFunctionParts = toggleFunction.split('/');
+					let state = getStateIdFromDeviceState(device, toggleFunctionParts[1] || 'STATE') || null;
+					switch(toggleFunctionParts[0]){
+						case 'startProgram':
+							if(state) startProgram(state, device.deviceIdEscaped);
+							break;
+						case 'toggleScene':
+							if(state) toggleScene(state, device.deviceIdEscaped);
+							break;
+						case 'toggleMedia':
+							if(state) toggleMedia(state, device.deviceIdEscaped);
+							break;
+						case 'startButton':
+							let setValue = getStateIdFromDeviceState(device, toggleFunctionParts[2] || 'SET_VALUE') || null;
+							let offSetValue = getStateIdFromDeviceState(device, toggleFunctionParts[3] || 'OFF_SET_VALUE') || null;
+							let returnToOffSetValueAfter = toggleFunctionParts[4] || 100;
+							if(state) startButton(state, setValue, offSetValue, returnToOffSetValueAfter, device.deviceIdEscaped);
+							break;
+						case 'toggleState': default:
+							state = state || getStateIdFromDeviceState(device, toggleFunctionParts[2] || 'LEVEL') || null;
+							if(state) toggleState(state, device.deviceIdEscaped);
+					}
+					break;
+				case 'openDialog':
+					event.stopPropagation();
+					renderDialog(device.deviceIdEscaped); 
+					$('#Dialog').popup("open", {transition: "pop", positionTo: "window"});
+					break;
+				case 'enlarge':
+					event.stopPropagation();
+					toggleState(getStateIdFromDeviceState(device, 'tileEnlarged'), device.deviceIdEscaped);
+					break;
+				case 'openURLExternal':
+					event.stopPropagation();
+					let url = getStateFromDeviceState(device, 'URL');
+					if(url && url.val) window.open(url.val, '_blank').focus();
+					break;
+				case 'openLinkToOtherView': case '':
+					if(typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
+						if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
+							var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
+							renderViewInParentInstance(device.nativeLinkedView, closePanel);
+						} else { //Normal Link to other view
+							viewHistory = viewLinksToOtherViews; 
+							viewHistoryPosition = viewLinksToOtherViews.length - 1; 
+							renderView(device.nativeLinkedView);
+						}
+					}
+					break;
+				case 'false': default:
+				//do nothing
+			}
+		});
 	}
 
 	function processText(state, level, textProcessingOptions, textProcessingFunction){ 
