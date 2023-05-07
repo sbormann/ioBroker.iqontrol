@@ -1274,6 +1274,14 @@ var uiElementOptions = {
 		{option: "clickActionActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
 		{option: "clickAction", type: "select", selectOptions: ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView", description: "Defines, what happens, when you click on the element. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false."},
 		{option: "clickActionToggleFunction", type: "string", description: "Only valid, if clickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values."}
+	],
+	enlargeButton: [
+		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
+		{option: "enlargeButtonClasses", type: "string", description: "Optional. Add these CSS-Classes to the button."},
+		{option: "enlargeButtonActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "enlargeButtonNoZoomOnHover", type: "checkbox", description: "If true, the button does not zoom in on mouse hover. Default: false."},
+		{option: "enlargeButtonRotate", type: "string", description: "Optional. Rotate the element by this value in degrees."},
+		{option: "enlargeState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "STATE", description: "This state can toggle the enlarge button."}
 	]
 }
 
@@ -3034,8 +3042,8 @@ var iQontrolRolesStandardTileSettingElements = [
 		"outside": true
 	},
 	{
-		"commonType": "enlarge",
-		"commonName": "Enlarge",
+		"commonType": "enlargeButton",
+		"commonName": "Enlarge Button",
 		"stackIndex": "2",
 		"outside": false,
 		"options": ""

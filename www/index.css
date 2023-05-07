@@ -1873,6 +1873,7 @@ html.bigMode #View .ui-panel-wrapper {
 	font-size: 9pt;
 	line-height: 1.2;
 }
+
 .uiElement{
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -1886,7 +1887,7 @@ html.bigMode #View .ui-panel-wrapper {
 	   -moz-transition: all 0s, transform 1s, opacity 1s;
 			transition: all 0s, transform 1s, opacity 1s;
 }
-.uiElement.uiElement.active{
+.uiElement.active{
 	opacity: 0.99;
 	pointer-events: all;
 }
@@ -1925,6 +1926,25 @@ html.bigMode #View .ui-panel-wrapper {
 	cursor: alias;
 }
 
+.uiElement.clickAction.clickActionLinkToggle{
+	cursor: pointer;
+}
+.uiElement.clickAction.clickActionLinkOpenDialog{
+	cursor: default;
+}
+.uiElement.clickAction.clickActionLinkEnlarge{
+	cursor: zoom-in;
+}
+.tile.enlarged .uiElement.clickAction.clickActionLinkEnlarge{ 
+	cursor: zoom-out;
+}
+.uiElement.clickAction.clickActionLinkOpenURLExternal{
+	cursor: copy;
+}
+.uiElement.clickAction.clickActionLinkOpenLinkToOtherView{
+	cursor: alias;
+}
+
 .uiElement.badge {
 	pointer-events:none !important;
     z-index: 1000;
@@ -1948,45 +1968,32 @@ html.bigMode #View .ui-panel-wrapper {
 }
 
 .uiElement.enlargeButton {
-	pointer-events:none !important;
 	cursor: zoom-in;
-	position:absolute; right: -1px; left:unset; top: 0px; bottom: unset; width: 10px; height: 10px;
 	background-image: url("./images/maximize.png");
-	background-position: 1px 4px;
+	background-position: 8% 92%;
 	background-repeat: no-repeat;
-	background-size: 50%;
+	background-size: 33%;
 	background-color: lightgrey;
-	border:lightgrey 1px solid;
+	xborder:lightgrey 1px solid;
 	opacity:0;
-	-webkit-border-radius: 0px 0px 0px 5px;
-	   -moz-border-radius: 0px 0px 0px 5px;
-	        border-radius: 0px 0px 0px 5px;
-	-webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.3);
-	   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.3);
-	        box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.3);
+	-webkit-border-radius: 5px;
+	   -moz-border-radius: 5px;
+	        border-radius: 5px;
+	-webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3);
+	   -moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3);
+	        box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3);
 	-webkit-transition: all 0.5s;
 	   -moz-transition: all 0.5s;
 			transition: all 0.5s;
 }
-.uiElement.enlargeButton:before {
-	content: "";
-	position: absolute;
-	top: -100%;
-	left: -100%;
-	width: 300%;
-	height: 300%;
-	background: transparent;
+.uiElement.enlargeButton.active{
+	opacity: 0.5;
+}
+.uiElement.enlargeButton.active:hover {
+	opacity: 0.6;
 }
 .tile.enlarged .uiElement.enlargeButton {
 	cursor: zoom-out;
 	background-image: url("./images/minimize.png");
-	background-position: 1px 4px;
-}
-.tile:not(.active) .uiElement.enlargeButton.showIfInactive, .tile.active .uiElement.enlargeButton.showIfActive, .tile.enlarged .uiElement.enlargeButton {
-	pointer-events:auto !important;
-	opacity: 0.5;
-}
-.uiElement.enlargeButton:hover {
-	opacity: 0.6;
-	border: lightgrey 4px solid;
+	background-position: 13% 87%;
 }
