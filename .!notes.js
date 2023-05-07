@@ -3,15 +3,199 @@
 //#####################################################################################
 
 
-//++++++++++ ToDo ++++++++++
-/*
+//++++++++++ Next Steps ++++++++++
+- Enlarge-Button in uiElements transferieren
+- Fehler beim Speichern von tile options beheben, standard Tile options aktualisieren
+
+- context-Menu / toggle / clickOnTileAction
+
+- enlarge/active funktion erstellen, die resize-observer ersetzt
+- shrink to free space
+- clickOnIconConfirmToggle: wie, wenn nicht über clickIconOption?? im toggleState() die device-option abfragen?<-- Option bei garage door invertieren beim converten
+- define standard Tile Elements per Role
+- variableSrc in icons & Bg-images, die über options kamen
+
+- Remove pressure and shuffle from file system and index.html
+
+	
+	LINK
+					//--Link (clickOnTileAction)
+					var clickOnTileAction = getDeviceOptionValue(device, "clickOnTileAction");
+					if(clickOnTileAction == "toggle") { //clickOnTile: toggle
+						deviceContent = "<div class='iQontrolDeviceLink toggle' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='if(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"] && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick){new Function(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick)();}'>";
+					} else if(clickOnTileAction == "openDialog") { //clickOnTile: openDialog
+						deviceContent = "<div class='iQontrolDeviceLink dialog' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
+					} else if(clickOnTileAction == "enlarge") { //clickOnTile: enlarge
+						deviceContent = "<div class='iQontrolDeviceLink enlarge' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='event.stopPropagation(); toggleState(unescape(\"" + escape(device.deviceStates["tileEnlarged"].stateId) + "\"), \"" + deviceIdEscaped + "\", null, 0);'>";
+					} else if(clickOnTileAction == "false") { //clickOnTile: false (do nothing)
+						deviceContent = "<div class='iQontrolDeviceLink noLink' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick=''>";
+					} else if(clickOnTileAction == "openURLExternal") { //clickOnTile: openURLExternal
+						if(device.deviceStates["URL"]){
+							deviceContent = "<a class='iQontrolDeviceLink externalLink' data-device-id-escaped='" + deviceIdEscaped + "' target='_blank'>";
+						}
+					} else { //clickOnTile: openLinkToOtherView (default)
+						if(typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
+							if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
+								var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
+								deviceContent = "<div class='iQontrolDeviceLink linkedView' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='renderViewInParentInstance(unescape(\"" + escape(device.nativeLinkedView) + "\"), " + closePanel + ");'>";
+							} else { //Normal Link to other view
+								deviceContent = "<div class='iQontrolDeviceLink linkedView' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + (viewLinksToOtherViews.length - 1) + "; renderView(unescape(\"" + escape(device.nativeLinkedView) + "\"));'>";
+							}
+						} else { //No Link to other view present
+							deviceContent = "<div class='iQontrolDeviceLink noLink' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick=''>";
+						}
+					}
+					if(device.deviceStates["URL"]){
+						viewDeviceContextMenu[deviceIdEscaped].externalLink = {name: _("Open External Link"), icon: 'action', href: '', target: '_blank', onclick: '$("#ViewDeviceContextMenu").popup("close");', hidden: true};
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _device = device;
+							var _deviceIdEscaped = deviceIdEscaped;
+							var _linkedUrlId = device.deviceStates["URL"].stateId;
+							var updateFunction = function(){
+								var href = getState(_linkedUrlId);
+								if(href && href.val){
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = href.val;
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = false
+									if(_device.commonRole == "iQontrolExternalLink") $("[data-device-id-escaped='" + _deviceIdEscaped + "'].externalLink").attr('href', href.val);
+								} else {
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = "";
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = true;
+									if(_device.commonRole == "iQontrolExternalLink") $("[data-device-id-escaped='" + _deviceIdEscaped + "'].externalLink").attr('href', '');
+								}
+							};
+							uiElements.addUpdateFunction(_linkedUrlId, updateFunction);
+						})(); //<--End Closure
+					}
+
+	LINK END
+						if(device.commonRole == "iQontrolExternalLink" && device.deviceStates["URL"] && device.deviceStates["URL"].stateId) { //.iQontrolDeviceLink was an external link and therefore an <a>
+							deviceContent = "</a><!--Link end-->";
+						} else { //.iQontrolDeviceLink was not an external link and therefore a <div>
+							deviceContent = "</div><!--Link end-->";
+						}
+						uiElements.addHtml(deviceContent);
+
+
+
+
+- deviceLinkedStateIds[deviceStateName] = device.deviceStates[deviceStateName].stateId (habe ich schon gemacht, aber für den hier folgenden Code vielleicht noch nicht)
+				//--Hide
+					/* if(deviceLinkedStateIds["HIDE"]){
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _device = device;
+							var _deviceIdEscaped = deviceIdEscaped;
+							var _linkedHideId = deviceLinkedStateIds["HIDE"];
+							var updateFunction = function(){
+								var stateHide = getStateObject(_linkedGlowHideId);
+								var invertHide = (getDeviceOptionValue(_device, "invertHide") == "true");
+								var hide = !(stateHide && stateHide.val || false);
+								if(invertHide) hide = !hide;
+								if(hide){
+									$("[data-device-id-escaped='" + _deviceIdEscaped + "'].pressureIndicator").addClass("hideDevice");
+								} else {
+									$("[data-device-id-escaped='" + _deviceIdEscaped + "'].pressureIndicator").removeClass("hideDevice");
+								}
+							};
+                            uiElements.addUpdateFunction(_linkedHideId, updateFunction);
+						})(); //<--End Closure
+					} */
+					function viewShuffleFilterHideDeviceIfInactive(){
+						viewShuffleInstances.forEach(function(shuffleInstance, i){
+							shuffleInstance.filter(function(shuffleElement){
+								return !(
+									($(shuffleElement).hasClass('hideDeviceIfInactive') && !$(shuffleElement).hasClass('active'))
+									|| ($(shuffleElement).hasClass('hideDeviceIfActive') && $(shuffleElement).hasClass('active'))
+									|| $(shuffleElement).hasClass('hideDevice')
+								);
+							});
+						});
+						//Hide subheadings, if no tile is visible
+						$('#ViewContent h4').each(function(){ 
+							if($(this).nextAll('.viewIsotopeContainer').find('.shuffle-item').hasClass('shuffle-item--visible')) $(this).show(500); else $(this).hide(500); 
+						});
+					}
+
+
+
+						//----Background (Overlay) InactiveColor
+						if(deviceLinkedStateIds["OVERLAY_INACTIVE_COLOR"]){
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedOverlayInactiveColorId = deviceLinkedStateIds["OVERLAY_INACTIVE_COLOR"];
+								var updateFunction = function(){
+									var stateOverlayInactiveColor = getState(_linkedOverlayInactiveColorId);
+									var colorString = stateOverlayInactiveColor && isValidColorString(stateOverlayInactiveColor.val) && stateOverlayInactiveColor.val || null;
+									if(colorString){
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage:not(.active)").css('background-color', colorString);
+									} else {
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage:not(.active)").css('background-color', '');
+									}
+								};
+								uiElements.addUpdateFunction(_linkedOverlayInactiveColorId, updateFunction);
+							})(); //<--End Closure
+						}
+
+						//----Background (Overlay) ActiveColor
+						var linkOverlayActiveColorToHue = (getDeviceOptionValue(device, "linkOverlayActiveColorToHue") == "true");
+						if(deviceLinkedStateIds["OVERLAY_ACTIVE_COLOR"] || linkOverlayActiveColorToHue){
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceId = deviceId;
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedOverlayActiveColorId = deviceLinkedStateIds["OVERLAY_ACTIVE_COLOR"];
+								var _linkOverlayActiveColorToHue = linkOverlayActiveColorToHue;
+								var _linkedHueId = deviceLinkedStateIds["HUE"];
+								var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
+								var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
+								if(!_linkedHueId && _linkedAlternativeColorspaceValueId) _linkedHueId = "TEMP:" + _deviceId + ".HUE";
+								var updateFunction = function(){
+									var stateOverlayActiveColor = getState(_linkedOverlayActiveColorId);
+									var stateHue = getState(_linkedHueId);
+									if(_linkOverlayActiveColorToHue && stateHue && stateHue.val !== "" && stateHue.valRaw !== null){
+										var hueMin = stateHue.min || 0;
+										var hueMax = stateHue.max || 359;
+										var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
+										var	saturation = 100;
+										var stateSaturation = getState(_linkedSaturationId);
+										if(stateSaturation && typeof stateSaturation.val != udef && stateSaturation.valRaw != null) {
+											var saturationMin = stateSaturation.min || 0;
+											var saturationMax = stateSaturation.max || 100;
+											saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
+										}
+										var colorString = "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)";
+									} else if(_linkOverlayActiveColorToHue){
+										var colorString = "rgb(255,245,157)";
+									} else {
+										var colorString = stateOverlayActiveColor && isValidColorString(stateOverlayActiveColor.val) && stateOverlayActiveColor.val || null;
+									}
+									if(colorString){
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage.active").css('background-color', colorString);
+									} else {
+										$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage.active").css('background-color', '');
+									}
+								};
+								uiElements.addUpdateFunction([_linkedOverlayActiveColorId, _linkedHueId, _linkedAlternativeColorspaceValueId, "UPDATE_ONCE", _linkedSaturationId], updateFunction);
+		/*								if(_linkedOverlayActiveColorId) viewUpdateFunctions[].push(updateFunction);
+								if(_linkOverlayActiveColorToHue && _linkedHueId) viewUpdateFunctions[].push(updateFunction);
+								if(_linkOverlayActiveColorToHue && !_linkedHueId && _linkedAlternativeColorspaceValueId) viewUpdateFunctions[].push(updateFunction);
+								if(_linkOverlayActiveColorToHue && !_linkedHueId) viewUpdateFunctions[].push(updateFunction);
+								if(_linkOverlayActiveColorToHue && _linkedSaturationId) viewUpdateFunctions[].push(updateFunction); */
+							})(); //<--End Closure
+						}
+
+
+
+
+//++++++++++ Later Steps ++++++++++
+
 * Popup: ack-flag setzen https://forum.iobroker.net/post/971356
 * selectId-Icon: search or list or colorize
 * ack-behaviour set ack|do not wait for ack|wait ___ seconds for ack (0 = forever) then assume its OK|not OK|...
-*/
+* Options: User edited speichern?? Default, RoleEdited, UserEdited???
+* nachdenken: wrapper funktion addUiElement("Icon", device, uiElmntOpt) ? Hier könnten standard, dinge drum rum erleding werden??
+
 
 //++++++++++ V3-Conversion ++++++++++
-/*
+
 
 * commonRole:
 				if (commonRole == ""){
@@ -75,13 +259,7 @@
 * uiElements: Badge, iconText, iFrame, mediaControl, media..., input (abhängig vom STATE z.B. valueList,...), sound
 
 
-*/
 
-
-
-
-
-//#####################################################################################
 //++++++++++ Variables ++++++++++
 $myDiv = $("<div id='myDiv'>Loading...|Variable 1: {javascript.0.Test.Teststring|1 not found}, Variable 2: {javascript.0.Test.Testnumber|2 not found} , Variable [2b]: {[javascript.0.Test.Testnumber]|2b not found}</div>");
 $myDiv2 = $("<div id='myDiv2'>Loading...|Variable 3: {javascript.0.Test.Teststring2|3 not found}, Variable 4: {javascript.0.Test.Testnumber2|4 not found} , Variable [4b]: {[javascript.0.Test.Testnumber2]|4b not found}</div>");
