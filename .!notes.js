@@ -4,7 +4,7 @@
 
 
 //++++++++++ Next Steps ++++++++++
-- Enlarge-Button in uiElements transferieren
+- contextMenu as uiElement
 - Fehler beim Speichern von tile options beheben, standard Tile options aktualisieren
 
 - context-Menu / toggle / clickOnTileAction

@@ -8998,7 +8998,8 @@ function UIElements(initialUiElements) {
 	 * @param {boolean} uiElementOptions.iconZoomOnHover
 	 * @param {boolean} uiElementOptions.iconNoPointerEvents
 	 * @param {string} uiElementOptions.iconClickAction
-	 * @param {string} uiElementOptions.iconToggleFunction
+	 * @param {string} uiElementOptions.iconClickToggleFunction
+	 * @param {string} uiElementOptions.iconClickURLState
 	 *
 	 * @param {string} uiElementOptions.textClasses
 	 * @param {string} uiElementOptions.textState
@@ -9067,8 +9068,9 @@ function UIElements(initialUiElements) {
 			var bindingFunction = function(){
 				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
 				let iconClickAction = getUiOption(device, uiElementOptions.iconClickAction);
-				let iconToggleFunction = (getUiOption(device, uiElementOptions.iconToggleFunction) || '');
-				clickActionBindingFunction(device, $iconElement, iconClickAction, iconToggleFunction);
+				let iconClickToggleFunction = (getUiOption(device, uiElementOptions.iconClickToggleFunction) || '');
+				var iconClickURLState = getUiOptionState(device, uiElementOptions.iconClickURLState, arrayIndex);
+				clickActionBindingFunction(device, $iconElement, iconClickAction, iconClickToggleFunction, iconClickURLState);
 			};
 			var unbindingFunction = function(){
 				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
@@ -9232,15 +9234,6 @@ function UIElements(initialUiElements) {
 		return this;
 	}
 
-
-
-
-
-
-
-
-
-
 	//---------- enlargeButton ----------
 	/** Adds a enlarge/reduce Button
 	 * @param {object} device 
@@ -9337,59 +9330,10 @@ function UIElements(initialUiElements) {
 		return this;
 	}	
 
-	/*
-	//--tileEnlargeButton #### transfer to uiELements
-	if((device.deviceStates["tileEnlarged"] && device.deviceStates["tileEnlarged"].stateId) || (device.deviceStates["ENLARGE_TILE"] && device.deviceStates["ENLARGE_TILE"].stateId)){
-		uiElements.addHtml("<div class='uiElement enlargeButton" + ((getDeviceOptionValue(device, "tileEnlargeShowButtonActive") == "true") ? " showIfActive" : "") + ((getDeviceOptionValue(device, "tileEnlargeShowButtonInactive") == "true") ? " showIfInactive" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' onclick='event.stopPropagation(); toggleState(unescape(\"" + escape(device.deviceStates["tileEnlarged"].stateId) + "\"), \"" + deviceIdEscaped + "\", null, 0);'></div>");
-		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-			var _deviceIdEscaped = deviceIdEscaped;
-			var _device = device;
-			var _linkedTileEnlargedId = device.deviceStates["tileEnlarged"] && device.deviceStates["tileEnlarged"].stateId;
-			var _linkedEnlargeTileId = device.deviceStates["ENLARGE_TILE"] && device.deviceStates["ENLARGE_TILE"].stateId;
-			var updateFunction = function(){
-				var stateTileEnlarged = getState(_linkedTileEnlargedId);
-				if(typeof stateTileEnlarged !== udef && stateTileEnlarged.val) {
-					$(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").addClass("enlarged");
-					viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = true;
-					if($(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").hasClass("active")){
-						if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = false;
-					} else {
-						if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = false;
-					}
-				} else {
-					$(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").removeClass("enlarged");
-					viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = true;
-					if($(".tile[data-device-id-escaped='" + _deviceIdEscaped + "']").hasClass("active")){
-						if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = false;
-					} else {
-						if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = false;
-					}
-				}
-				$('.viewIsotopeContainer').isotope('layout'); //#### auslagern
-			};
-			uiElements.addUpdateFunction(_linkedTileEnlargedId, updateFunction);
-			if(_linkedEnlargeTileId){
-				var updateFunction = function(){
-					var stateTileEnlarged = getState(_linkedTileEnlargedId);
-					var stateEnlargeTile = getState(_linkedEnlargeTileId);
-					if(typeof stateEnlargeTile !== udef && stateEnlargeTile.type) {
-						switch(stateEnlargeTile.type){
-							case "button":
-							if(stateEnlargeTile.ts && new Date() - stateEnlargeTile.ts < 100) toggleState(_linkedTileEnlargedId, _deviceIdEscaped, null, 0);
-							break;
 
-							default:
-							var val = stateEnlargeTile.plainText.toString();
-							if(stateEnlargeTile.val == false || val == "0" || val == "-1" || val == "false" || val == _("false") || val == _("closed") || val == _("OK") || val == _("off")) val = false; else val = true;
-							setState(_linkedTileEnlargedId, _deviceIdEscaped, val, true, null, 0);
-						}
-					}
-				};
-				uiElements.addUpdateFunction(_linkedEnlargeTileId, updateFunction);
-			} 
-		})(); //<--End Closure
-	}
-	*/
+	var clickActionURLStateId = getUiOptionStateId(device, uiElementOptions.clickActionURLState, arrayIndex);
+	var clickActionURLState = getUiOptionState(device, uiElementOptions.clickActionURLState, arrayIndex);
+
 
 	//---------- clickAction ----------
 	/** Adds a general click action
@@ -9402,6 +9346,7 @@ function UIElements(initialUiElements) {
 	 * @param {string} uiElementOptions.clickActionActive
 	 * @param {string} uiElementOptions.clickAction
 	 * @param {string} uiElementOptions.clickActionToggleFunction
+	 * @param {string} uiElementOptions.clickActionURLState
 	 * 
 	 * @returns {UIElements}  
 	 */
@@ -9434,7 +9379,8 @@ function UIElements(initialUiElements) {
 			var $clickActionElement = $(`div.uiElement.clickAction[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
 			let clickAction = getUiOption(device, uiElementOptions.clickAction);
 			let clickActionToggleFunction = (getUiOption(device, uiElementOptions.clickActionToggleFunction) || '');
-			clickActionBindingFunction(device, $clickActionElement, clickAction, clickActionToggleFunction);
+			var clickActionURLState = getUiOptionState(device, uiElementOptions.clickActionURLState, arrayIndex);
+			clickActionBindingFunction(device, $clickActionElement, clickAction, clickActionToggleFunction, clickActionURLState);
 		};
 		var unbindingFunction = function(){
 			var $clickActionElement = $(`div.uiElement.clickAction[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
@@ -9747,12 +9693,12 @@ function UIElements(initialUiElements) {
 		return textResult;
 	}
 
-	function clickActionBindingFunction(device, $element, clickAction, toggleFunction){
+	function clickActionBindingFunction(device, $element, clickAction, toggleFunction, urlState){
 		$element.on('click', function(event){						
 			switch(clickAction){
 				case 'toggle':
 					event.stopPropagation();
-					let toggleFunctionParts = toggleFunction.split('/');
+					let toggleFunctionParts = (toggleFunction || '').split('/');
 					let state = getStateIdFromDeviceState(device, toggleFunctionParts[1] || 'STATE') || null;
 					switch(toggleFunctionParts[0]){
 						case 'startProgram':
@@ -9775,19 +9721,14 @@ function UIElements(initialUiElements) {
 							if(state) toggleState(state, device.deviceIdEscaped);
 					}
 					break;
-				case 'openDialog':
-					event.stopPropagation();
-					renderDialog(device.deviceIdEscaped); 
-					$('#Dialog').popup("open", {transition: "pop", positionTo: "window"});
-					break;
 				case 'enlarge':
 					event.stopPropagation();
 					toggleState(getStateIdFromDeviceState(device, 'tileEnlarged'), device.deviceIdEscaped);
 					break;
 				case 'openURLExternal':
 					event.stopPropagation();
-					let url = getStateFromDeviceState(device, 'URL');
-					if(url && url.val) window.open(url.val, '_blank').focus();
+					if(!urlState || ! urlState.val) urlState = getStateFromDeviceState(device, 'URL');
+					if(urlState && urlState.val) window.open(urlState.val, '_blank').focus();
 					break;
 				case 'openLinkToOtherView': case '':
 					if(typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
@@ -9801,8 +9742,14 @@ function UIElements(initialUiElements) {
 						}
 					}
 					break;
-				case 'false': default:
-				//do nothing
+				case 'false': 
+					//do nothing
+					break;					
+				case 'openDialog': default:
+					event.stopPropagation();
+					renderDialog(device.deviceIdEscaped); 
+					$('#Dialog').popup("open", {transition: "pop", positionTo: "window"});
+					break;
 			}
 		});
 	}
