@@ -2196,14 +2196,14 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 			var _deviceIdEscaped = deviceIdEscaped;
 			var _preventUpdateTime = preventUpdateTime;
 			if(_stateId.substring(0, 6) == 'CONST:' || _stateId.substring(0, 5) == 'CALC:' || _stateId.substring(0, 6) == 'ARRAY:' || _stateId.substring(0, 5) == 'TEMP:' || _stateId.substring(0, 8) == 'VIRTUAL:') _preventUpdateTime = 200;
-			$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceLoading").addClass("active");
+			$("[data-device-id-escaped='" + _deviceIdEscaped + "'].uiElement.loadingIcon").addClass("active");
 			preventUpdate[_stateId] = {};
 			preventUpdate[_stateId].stateId = _stateId;
 			preventUpdate[_stateId].deviceIdEscaped = deviceIdEscaped;
 			preventUpdate[_stateId].newVal = newValue;
 			preventUpdate[_stateId].timerId = setTimeout(function(){
 				console.log("<< preventUpdate dexpired.")
-				$("[data-device-id-escaped='" + _deviceIdEscaped + "'].iQontrolDeviceLoading").removeClass("active");
+				$("[data-device-id-escaped='" + _deviceIdEscaped + "'].uiElement.loadingIcon").removeClass("active");
 				delete preventUpdate[_stateId];
 				updateState(_stateId);
 			}, _preventUpdateTime);
@@ -2334,7 +2334,7 @@ function updateState(stateId, ignorePreventUpdate){
 	}
 	if(preventUpdate[stateId] && fetchedStates[stateId] && fetchedStates[stateId].ack && typeof fetchedStates[stateId].val != udef && fetchedStates[stateId].val != null && fetchedStates[stateId].val.toString() == preventUpdate[stateId].newVal.toString()) { //An ack-true value has reached the new value - preventUpdate can be cancelled
 		console.log("<< ack-val reached new val: preventUpdate regular ended.");
-		$("[ddata-device-id-escaped='" + preventUpdate[stateId].deviceIdEscaped + "'] .iQontrolDeviceLoading").removeClass("active");
+		$("[ddata-device-id-escaped='" + preventUpdate[stateId].deviceIdEscaped + "'] .uiElement.loadingIcon").removeClass("active");
 		clearTimeout(preventUpdate[stateId].timerId);
 		delete preventUpdate[stateId];
 	}
@@ -9137,7 +9137,7 @@ function UIElements(initialUiElements) {
 		this.newElementStackContainer(device, uiElementOptions)
 		.addHtml(`<img 
 			src='./images/loading.gif'
-			class="uiElement icon iQontrolDeviceLoading ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''}"
+			class="uiElement icon loadingIcon ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''}"
 			data-device-id-escaped="${device.deviceIdEscaped}" 
 			data-ui-element-index="${_uiElementIndex}" 
 		>`)
@@ -9329,11 +9329,6 @@ function UIElements(initialUiElements) {
 		this.uiElementIndex++;
 		return this;
 	}	
-
-
-	var clickActionURLStateId = getUiOptionStateId(device, uiElementOptions.clickActionURLState, arrayIndex);
-	var clickActionURLState = getUiOptionState(device, uiElementOptions.clickActionURLState, arrayIndex);
-
 
 	//---------- clickAction ----------
 	/** Adds a general click action
