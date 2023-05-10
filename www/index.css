@@ -1147,7 +1147,7 @@ html.bigMode #View .ui-panel-wrapper {
 	overflow: visible;
 }
 
-.tileSizer{ background-color: #28d93152;
+.tileSizer{
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 			user-select: none !important;
@@ -1197,8 +1197,6 @@ html.bigMode #View .ui-panel-wrapper {
 	   -moz-box-shadow: none !important;
 			box-shadow: none !important;
 } 
-
-
 
 .tile .setTileSize{
 	width: 100px; max-width: 100px;
