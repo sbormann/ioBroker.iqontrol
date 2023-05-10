@@ -22,8 +22,14 @@
 
 
 
-* @param {boolean} uiElementOptions.renderLinkedViewInParentInstance
-* @param {boolean} uiElementOptions.renderLinkedViewInParentInstanceClosesPanel --> beides auf für clickAction nutzen, auch bei iconClickAction!
+* @param {boolean} uiElementOptions.clickActionRenderLinkedViewInParentInstance
+* @param {boolean} uiElementOptions.clickActionRenderLinkedViewInParentInstanceClosesPanel
+
+* @param {boolean} uiElementOptions.iconClickRenderLinkedViewInParentInstance
+* @param {boolean} uiElementOptions.iconClickRenderLinkedViewInParentInstanceClosesPanel
+
+
+--> beides auf für clickAction nutzen, auch bei iconClickAction!
 
 
 ?? Kann die clickAction auch auf das Icon bezogen werden? (über das Icon noch eine ClickAction setzen?)
