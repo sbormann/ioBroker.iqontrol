@@ -1210,8 +1210,6 @@ var standardTileClass = {
 	]
 }
 
-//types: string, textarea, checkbox, select with selectOptions, deviceState, position. roles: const,deviceState,deviceOption. roleOptions: "+deviceState;-deviceOption"
-//{option: "<name of option>", type: "string|textarea|checkbox|select", roleOptions: "+deviceState;-deviceOption;-deviceSetting;-deviceCondition", selectOptions: "value1/Caption1;value2/Caption2;...", value: "", description: ""}
 var uiElementOptions = {
 	icon: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
@@ -1249,7 +1247,7 @@ var uiElementOptions = {
 		{option: "iconClickActionToggleFunction", type: "string", description: "Only valid, if iconClickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values."},
 		{option: "iconClickActionURLState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "Only valid, if iconClickAction is openURLExternal. This is the url to open."},
 		{option: "iconClickActionRenderLinkedViewInParentInstance", type: "checkbox", description: "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a background view or a panel, then the linked view is opened in the parent instance. Default: false."},
-		{option: "iconClickActionRenderLinkedViewInParentInstanceClosesPanel", type: "checkbox", description: "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a panel, then the panel closes after the linked view is rendered. Default: false."}
+		{option: "iconClickActionRenderLinkedViewInParentInstanceClosesPanel", type: "checkbox", description: "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a panel, then the panel closes after the linked view is rendered. Default: false."},
 		{option: "textClasses", type: "string", description: "Optional. Add these CSS-Classes to the text."},
 		{option: "textState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "STATE", description: "The text to display."},
 		{option: "textLevelState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "LEVEL", description: "Optional. The default textProcessing can combine two values, a state and a level. This ist the level."},
@@ -1282,7 +1280,7 @@ var uiElementOptions = {
 		{option: "clickActionToggleFunction", type: "string", description: "Only valid, if clickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values."},
 		{option: "clickActionURLState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "Only valid, if iconClickAction is openURLExternal. This is the url to open."},
 		{option: "clickActionRenderLinkedViewInParentInstance", type: "checkbox", description: "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a background view or a panel, then the linked view is opened in the parent instance. Default: false."},
-		{option: "clickActionRenderLinkedViewInParentInstanceClosesPanel", type: "checkbox", description: "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a panel, then the panel closes after the linked view is rendered. Default: false."}
+		{option: "clickActionRenderLinkedViewInParentInstanceClosesPanel", type: "checkbox", description: "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a panel, then the panel closes after the linked view is rendered. Default: false."},
 		{option: "contextMenu", type: "checkbox", description: "If true, a context menu can be opened by a long press. Default: false."},
 		{option: "contextMenuToggleActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
 		{option: "contextMenuDialogActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
@@ -2936,723 +2934,1124 @@ var iQontrolRolesStandardDeviceStates = {
 };
 
 var iQontrolRolesStandardTileSettingElements = [
-	{
-		"commonType": "clickAction",
-		"commonName": "Click On Tile Action",
-		"stackIndex": "0",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "clickActionActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": ""
-			}
-		]
-	},
-	{
-		"commonType": "iconTextCombination",
-		"commonName": "Full Size State",
-		"stackIndex": "0",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "deviceOption",
-				"value": "icon_off",
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "textClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textState",
-				"type": "string",
-				"role": "deviceState",
-				"value": "STATE",
-			},
-			{
-				"option": "textLevelState",
-				"type": "string",
-				"role": "deviceState",
-				"value": "LEVEL",
-			},
-			{
-				"option": "textActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "textProcessingFunction",
-				"type": "textarea",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textProcessingOptions",
-				"type": "textarea",
-				"value": "{}",
-				"role": "const"
-			},
-			{
-				"option": "textMultiline",
-				"type": "checkbox",
-				"role": "const",
-				"value": true
-			},
-			{
-				"option": "textAlwaysReservePlaceForIcon",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			}
-		]
-	},
-	{
-		"commonType": "badge",
-		"commonName": "Badge",
-		"stackIndex": "1",
-		"options": [],
-		"outside": true
-	},
-	{
-		"commonType": "enlargeButton",
-		"commonName": "Enlarge Button",
-		"stackIndex": "2",
-		"outside": false,
-		"options": ""
-	},
-	{
-		"commonType": "icon",
-		"commonName": "Icon off",
-		"stackIndex": "3",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "deviceOption",
-				"value": "icon_off",
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"role": "const",
-				"value": true
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClickAction",
-				"type": "select",
-				"role": "deviceOption",
-				"value": "clickOnIconAction"
-			},
-			{
-				"option": "iconToggleFunction",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			}	
-		]
-	},
-	{
-		"commonType": "icon",
-		"commonName": "Icon on",
-		"stackIndex": "3",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "deviceOption",
-				"value": "icon_on",
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"role": "const",
-				"value": true
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClickAction",
-				"type": "select",
-				"role": "deviceOption",
-				"value": "clickOnIconAction"
-			},
-			{
-				"option": "iconToggleFunction",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			}			
-		]
-	},
-	{
-		"commonType": "loadingIcon",
-		"commonName": "Loading",
-		"stackIndex": "4",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "const",
-				"value": "./images/loading.gif",
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"loading\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"role": "const",
-				"value": true
-			}
-		]
-	},
-	{
-		"commonType": "icon",
-		"commonName": "ERROR",
-		"stackIndex": "5",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "deviceOption",
-				"value": "errorIcon_on",
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"ERROR\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			}
-		]
-	},
-	{
-		"commonType": "icon",
-		"commonName": "UNREACH",
-		"stackIndex": "6",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "deviceOption",
-				"value": "unreachIcon_on",
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"UNREACH\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			}
-		]
-	},
-	{
-		"commonType": "icon",
-		"commonName": "BATTERY",
-		"stackIndex": "7",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "deviceOption",
-				"value": "batteryIcon_on",
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"BATTERY\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			}
-		]
-	},
-	{
-		"commonType": "iconTextCombination",
-		"commonName": "INFO_A",
-		"stackIndex": "8",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "deviceState",
-				"value": "INFO_A.icon",
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_A.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "textClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textState",
-				"type": "string",
-				"role": "deviceState",
-				"value": "INFO_A.state",
-			},
-			{
-				"option": "textLevelState",
-				"type": "string",
-				"role": "deviceState",
-				"value": "",
-			},
-			{
-				"option": "textActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_A.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "textProcessingFunction",
-				"type": "textarea",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textProcessingOptions",
-				"type": "textarea",
-				"value": "{}",
-				"role": "const"
-			},
-			{
-				"option": "textMultiline",
-				"type": "checkbox",
-				"role": "const",
-				"value": false,
-				"selectOptions": "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal"
-			},
-			{
-				"option": "textNoPointerEvents",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "textAlwaysReservePlaceForIcon",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			}
-		]
-	},
-	{
-		"commonType": "iconTextCombination",
-		"commonName": "INFO_B",
-		"stackIndex": "9",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "deviceState",
-				"value": "INFO_B.icon",
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[{\"modifier\":\"&&\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_B.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "textClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textState",
-				"type": "string",
-				"role": "deviceState",
-				"value": "INFO_B.state",
-			},
-			{
-				"option": "textLevelState",
-				"type": "string",
-				"role": "deviceState",
-				"value": "",
-			},
-			{
-				"option": "textActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": ""
-			},
-			{
-				"option": "textProcessingFunction",
-				"type": "textarea",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textProcessingOptions",
-				"type": "textarea",
-				"value": "{}",
-				"role": "const"
-			},
-			{
-				"option": "textMultiline",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "textAlwaysReservePlaceForIcon",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			}
-		]
-	},
-	{
-		"commonType": "text",
-		"commonName": "Name",
-		"stackIndex": "10",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "textClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textState",
-				"type": "string",
-				"role": "deviceSetting",
-				"value": "commonName",
-			},
-			{
-				"option": "textLevelState",
-				"type": "string",
-				"role": "deviceState",
-				"value": "",
-			},
-			{
-				"option": "textActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": "[]"
-			},
-			{
-				"option": "textProcessingFunction",
-				"type": "textarea",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textProcessingOptions",
-				"type": "textarea",
-				"value": "{}",
-				"role": "const"
-			},
-			{
-				"option": "textMultiline",
-				"type": "checkbox",
-				"role": "const",
-				"value": true
-			}
-		]
-	},
-	{
-		"commonType": "text",
-		"commonName": "STATE",
-		"stackIndex": "11",
-		"outside": false,
-		"options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "textClasses",
-				"type": "string",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textState",
-				"type": "string",
-				"role": "deviceState",
-				"value": "STATE",
-			},
-			{
-				"option": "textLevelState",
-				"type": "string",
-				"role": "deviceState",
-				"value": "LEVEL",
-			},
-			{
-				"option": "textActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"value": ""
-			},
-			{
-				"option": "textProcessingFunction",
-				"type": "textarea",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "textProcessingOptions",
-				"type": "textarea",
-				"value": "{}",
-				"role": "const"
-			},
-			{
-				"option": "textMultiline",
-				"type": "checkbox",
-				"role": "const",
-				"value": true
-			}
-		]
-	}
+    {
+        "commonType": "clickAction",
+        "commonName": "Click On Tile Action",
+        "stackIndex": "0",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "clickActionActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": ""
+            },
+            {
+                "option": "clickAction",
+                "type": "select",
+                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
+                "value": "clickOnTileAction",
+                "role": "deviceOption"
+            },
+            {
+                "option": "clickActionToggleFunction",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "clickActionURLState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "URL"
+            },
+            {
+                "option": "clickActionRenderLinkedViewInParentInstance",
+                "type": "checkbox",
+                "value": "renderLinkedViewInParentInstance",
+                "role": "deviceOption"
+            },
+            {
+                "option": "clickActionRenderLinkedViewInParentInstanceClosesPanel",
+                "type": "checkbox",
+                "value": "renderLinkedViewInParentInstanceClosesPanel",
+                "role": "deviceOption"
+            },
+            {
+                "option": "contextMenu",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "contextMenuToggleActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": ""
+            },
+            {
+                "option": "contextMenuDialogActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": ""
+            },
+            {
+                "option": "contextMenuEnlargeActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": ""
+            },
+            {
+                "option": "contextMenuOpenLinkToOtherViewActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": ""
+            },
+            {
+                "option": "contextMenuOpenURLExternalActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": ""
+            }
+        ]
+    },
+    {
+        "commonType": "iconTextCombination",
+        "commonName": "Full Size State",
+        "stackIndex": "0",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconState",
+                "type": "string",
+                "role": "deviceOption",
+                "value": "icon_off"
+            },
+            {
+                "option": "iconActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "iconZoomOnHover",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "iconNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClickAction",
+                "type": "select",
+                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
+                "role": "deviceOption",
+                "value": "clickOnIconAction"
+            },
+            {
+                "option": "iconClickActionToggleFunction",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionURLState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "URL"
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstance",
+                "type": "checkbox",
+                "role": "deviceOption",
+                "value": "renderLinkedViewInParentInstance"
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
+                "type": "checkbox",
+                "role": "deviceOption",
+                "value": "renderLinkedViewInParentInstanceClosesPanel"
+            },
+            {
+                "option": "textClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "STATE"
+            },
+            {
+                "option": "textLevelState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "LEVEL"
+            },
+            {
+                "option": "textActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "textAddTimestampMode",
+                "type": "string",
+                "role": "deviceOption",
+                "value": "addTimestampToState"
+            },
+            {
+                "option": "textProcessingFunction",
+                "type": "textarea",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textProcessingOptions",
+                "type": "textarea",
+                "value": "{}",
+                "role": "const"
+            },
+            {
+                "option": "textMultiline",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "textNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "textAlwaysReservePlaceForIcon",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            }
+        ]
+    },
+    {
+        "commonType": "badge",
+        "commonName": "Badge",
+        "stackIndex": "1",
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "badgeClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "badgeState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "BADGE"
+            },
+            {
+                "option": "badgeColorState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "BADGE_COLOR"
+            },
+            {
+                "option": "badgeWithoutUnit",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "badgeShowIfZero",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            }
+        ],
+        "outside": true
+    },
+    {
+        "commonType": "enlargeButton",
+        "commonName": "Enlarge Button",
+        "stackIndex": "2",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "enlargeButtonClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "enlargeButtonActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"tileEnlargeShowButtonInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"tileEnlargeShowButtonActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "enlargeButtonNoZoomOnHover",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "enlargeButtonRotate",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            }
+        ]
+    },
+    {
+        "commonType": "icon",
+        "commonName": "Icon off",
+        "stackIndex": "3",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconState",
+                "type": "string",
+                "role": "deviceOption",
+                "value": "icon_off"
+            },
+            {
+                "option": "iconActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "iconZoomOnHover",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "iconNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClickAction",
+                "type": "select",
+                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
+                "role": "deviceOption",
+                "value": "clickOnIconAction"
+            },
+            {
+                "option": "iconClickActionToggleFunction",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionURLState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "URL"
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstance",
+                "type": "checkbox",
+                "value": "renderLinkedViewInParentInstance",
+                "role": "deviceOption"
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
+                "type": "checkbox",
+                "value": "renderLinkedViewInParentInstanceClosesPanel",
+                "role": "deviceOption"
+            }
+        ]
+    },
+    {
+        "commonType": "icon",
+        "commonName": "Icon on",
+        "stackIndex": "3",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconState",
+                "type": "string",
+                "role": "deviceOption",
+                "value": "icon_on"
+            },
+            {
+                "option": "iconActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "iconZoomOnHover",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "iconNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClickAction",
+                "type": "select",
+                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
+                "role": "deviceOption",
+                "value": "clickOnIconAction"
+            },
+            {
+                "option": "iconClickActionToggleFunction",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionURLState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "URL"
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstance",
+                "type": "checkbox",
+                "value": "renderLinkedViewInParentInstance",
+                "role": "deviceOption"
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
+                "type": "checkbox",
+                "value": "renderLinkedViewInParentInstanceClosesPanel",
+                "role": "deviceOption"
+            }
+        ]
+    },
+    {
+        "commonType": "loadingIcon",
+        "commonName": "Loading",
+        "stackIndex": "4",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconZoomOnHover",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            }
+        ]
+    },
+    {
+        "commonType": "icon",
+        "commonName": "ERROR",
+        "stackIndex": "5",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconState",
+                "type": "string",
+                "role": "deviceOption",
+                "value": "errorIcon_on"
+            },
+            {
+                "option": "iconActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"ERROR\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "iconZoomOnHover",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "iconClickAction",
+                "type": "select",
+                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionToggleFunction",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionURLState",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstance",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            }
+        ]
+    },
+    {
+        "commonType": "icon",
+        "commonName": "UNREACH",
+        "stackIndex": "6",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconState",
+                "type": "string",
+                "role": "deviceOption",
+                "value": "unreachIcon_on"
+            },
+            {
+                "option": "iconActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"UNREACH\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "iconZoomOnHover",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "iconClickAction",
+                "type": "select",
+                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionToggleFunction",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionURLState",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstance",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            }
+        ]
+    },
+    {
+        "commonType": "icon",
+        "commonName": "BATTERY",
+        "stackIndex": "7",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconState",
+                "type": "string",
+                "role": "deviceOption",
+                "value": "batteryIcon_on"
+            },
+            {
+                "option": "iconActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"BATTERY\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "iconZoomOnHover",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "iconClickAction",
+                "type": "select",
+                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionToggleFunction",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionURLState",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstance",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            }
+        ]
+    },
+    {
+        "commonType": "iconTextCombination",
+        "commonName": "INFO_A",
+        "stackIndex": "8",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "INFO_A.icon"
+            },
+            {
+                "option": "iconActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_A.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "iconZoomOnHover",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "iconClickAction",
+                "type": "select",
+                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionToggleFunction",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionURLState",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstance",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "textClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "INFO_A.state"
+            },
+            {
+                "option": "textLevelState",
+                "type": "string",
+                "role": "deviceState",
+                "value": ""
+            },
+            {
+                "option": "textActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_A.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "textAddTimestampMode",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textProcessingFunction",
+                "type": "textarea",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textProcessingOptions",
+                "type": "textarea",
+                "value": "{}",
+                "role": "const"
+            },
+            {
+                "option": "textMultiline",
+                "type": "checkbox",
+                "role": "const",
+                "value": false,
+                "selectOptions": "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal"
+            },
+            {
+                "option": "textNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "textAlwaysReservePlaceForIcon",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            }
+        ]
+    },
+    {
+        "commonType": "iconTextCombination",
+        "commonName": "INFO_B",
+        "stackIndex": "9",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "INFO_B.icon"
+            },
+            {
+                "option": "iconActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[{\"modifier\":\"&&\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_B.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "iconZoomOnHover",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "iconClickAction",
+                "type": "select",
+                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionToggleFunction",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionURLState",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstance",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "textClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "INFO_B.state"
+            },
+            {
+                "option": "textLevelState",
+                "type": "string",
+                "role": "deviceState",
+                "value": ""
+            },
+            {
+                "option": "textActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": ""
+            },
+            {
+                "option": "textAddTimestampMode",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textProcessingFunction",
+                "type": "textarea",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textProcessingOptions",
+                "type": "textarea",
+                "value": "{}",
+                "role": "const"
+            },
+            {
+                "option": "textMultiline",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "textNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "textAlwaysReservePlaceForIcon",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            }
+        ]
+    },
+    {
+        "commonType": "text",
+        "commonName": "Name",
+        "stackIndex": "10",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "textClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textState",
+                "type": "string",
+                "role": "deviceSetting",
+                "value": "commonName"
+            },
+            {
+                "option": "textLevelState",
+                "type": "string",
+                "role": "deviceState",
+                "value": ""
+            },
+            {
+                "option": "textActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": "[]"
+            },
+            {
+                "option": "textAddTimestampMode",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textProcessingFunction",
+                "type": "textarea",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textProcessingOptions",
+                "type": "textarea",
+                "value": "{}",
+                "role": "const"
+            },
+            {
+                "option": "textMultiline",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "textNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            }
+        ]
+    },
+    {
+        "commonType": "text",
+        "commonName": "STATE",
+        "stackIndex": "11",
+        "outside": false,
+        "options": [
+            {
+                "option": "stackCycles",
+                "type": "checkbox",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "textClasses",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "STATE"
+            },
+            {
+                "option": "textLevelState",
+                "type": "string",
+                "role": "deviceState",
+                "value": "LEVEL"
+            },
+            {
+                "option": "textActive",
+                "type": "activeConditionArray",
+                "role": "array",
+                "value": ""
+            },
+            {
+                "option": "textAddTimestampMode",
+                "type": "string",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textProcessingFunction",
+                "type": "textarea",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textProcessingOptions",
+                "type": "textarea",
+                "value": "{}",
+                "role": "const"
+            },
+            {
+                "option": "textMultiline",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "textNoPointerEvents",
+                "type": "checkbox",
+                "role": "const",
+                "value": true
+            }
+        ]
+    }
 ];
 
 //Extend iQontrolRoles with iQontrolRolesStandardOptions, iQontrolRolesStandardDeviceStates and iQontrolRolesStandardTileSettingElements
@@ -3727,6 +4126,7 @@ var isReact = false;
 var previewWindow = null;
 var passphrase;
 var devicesMarkDevice = null;
+var dialogDeviceEditCommonRole;
 var tileEditor = {};
 var dialogTileEditorSelectedStack = -1;
 
@@ -4028,6 +4428,19 @@ function isValidColorString(colorString){
 	var style = new Option().style;
 	style.color = colorString;
 	return (style.color && style.color != "");
+}
+
+function objectsEqual(obj1, obj2, ignoreKeys){ //Returns true, if two objects are equal (regardless of keys order)
+	if(typeof ignoreKeys == udef) ignoreKeys = []; else if(!Array.isArray(ignoreKeys)) ignoreKeys = new Array(x);
+	var sortedObj1 = JSON.stringify(Object.keys(obj1).filter(function(key){ return ignoreKeys.indexOf(key) == -1; }).sort().reduce(function(acc, key){
+		acc[key] = obj1[key];
+		return acc;
+	}, {}));
+	var sortedObj2 = JSON.stringify(Object.keys(obj2).filter(function(key){ return ignoreKeys.indexOf(key) == -1; }).sort().reduce(function(acc, key){
+		acc[key] = obj2[key];
+		return acc;
+	}, {}));
+	return sortedObj1 === sortedObj2;
 }
 
 //Create CSS-array from options of tileClass
@@ -6076,8 +6489,10 @@ async function load(settings, onChange) {
 							$('#dialogDeviceEditOptionsContent').empty();
 							dialogDeviceEditTileSettings = JSON.parse(JSON.stringify(views[_viewIndex].devices[_deviceIndex].tileSettings || {}));
 							if (views[_viewIndex].devices[_deviceIndex].commonRole) {
-								$('#dialogDeviceEditCommonRole').val(views[_viewIndex].devices[_deviceIndex].commonRole).trigger('change');
+								dialogDeviceEditCommonRole = views[_viewIndex].devices[_deviceIndex].commonRole;
+								$('#dialogDeviceEditCommonRole').val(dialogDeviceEditCommonRole).trigger('change');
 							} else {
+								dialogDeviceEditCommonRole = null;
 								$('#dialogDeviceEditCommonRole').val(-1).trigger('change');
 							}
 							$('#dialogDeviceEditCommonRole').select();
@@ -6161,7 +6576,7 @@ async function load(settings, onChange) {
 	$('#dialogDeviceEditCommonRole').on('change', function(){
 		var viewIndex =   $('#dialogDeviceEditViewIndex').val();
 		var deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
-		var dialogDeviceEditOldCommonRole = dialogDeviceEditCommonRole;
+		var dialogDeviceEditOldCommonRole = dialogDeviceEditCommonRole || null;
 		dialogDeviceEditCommonRole = $('#dialogDeviceEditCommonRole').val();
 		//Icon
 		let iconSrc = iQontrolRoles[dialogDeviceEditCommonRole] && iQontrolRoles[dialogDeviceEditCommonRole].icon ? previewLink + iQontrolRoles[dialogDeviceEditCommonRole].icon : "";
@@ -6213,13 +6628,63 @@ async function load(settings, onChange) {
 		});
 		//Build options content
 		dialogDeviceEditOptionsBuildOptionsContent();
-		//TileSettings ##### -> hier werden die tile settings mit den defaults überschrieben. Idee: Beim Ändern wird das device als user-defined markiert und die rolle kann dann nicht mehr geändert werden? 
-		dialogDeviceEditTileSettings.tileClass = typeof dialogDeviceEditTileSettings.tileClass != 'undefined' && (dialogDeviceEditTileSettings.tileClass != (iQontrolRoles[dialogDeviceEditOldCommonRole]?.tileSettings?.tileClass || 0)) ? dialogDeviceEditTileSettings.tileClass : iQontrolRoles[dialogDeviceEditCommonRole]?.tileSettings?.tileClass || -1; //if old settings differs from role´s default: keep it. Otherwise take default from new role
-		dialogDeviceEditTileSettings.tileClassEnlarged = typeof dialogDeviceEditTileSettings.tileClassEnlarged != 'undefined' && (dialogDeviceEditTileSettings.tileClassEnlarged != (iQontrolRoles[dialogDeviceEditOldCommonRole]?.tileSettings?.tileClassEnlarged || 0)) ? dialogDeviceEditTileSettings.tileClassEnlarged : iQontrolRoles[dialogDeviceEditCommonRole]?.tileSettings?.tileClassEnlarged || -1; //if old settings differs from role´s default: keep it. Otherwise take default from new role
-		if(!dialogDeviceEditTileSettings.elements) dialogDeviceEditTileSettings.elements = [];
-		(iQontrolRoles[dialogDeviceEditCommonRole] && iQontrolRoles[dialogDeviceEditCommonRole].tileSettings.elements || []).forEach(function(roleElement, elementIndex){
-			dialogDeviceEditTileSettings.elements[elementIndex] = Object.assign({}, dialogDeviceEditTileSettings.elements[elementIndex] || {}, roleElement);
-		});
+		//TileSettings
+		dialogDeviceEditTileSettings.tileClass = typeof dialogDeviceEditTileSettings.tileClass != 'undefined' && (dialogDeviceEditTileSettings.tileClass != (iQontrolRoles[dialogDeviceEditOldCommonRole]?.tileSettings?.tileClass || -1)) ? dialogDeviceEditTileSettings.tileClass : iQontrolRoles[dialogDeviceEditCommonRole]?.tileSettings?.tileClass || -1; //if old settings differs from role´s default: keep it. Otherwise take default from new role
+		dialogDeviceEditTileSettings.tileClassEnlarged = typeof dialogDeviceEditTileSettings.tileClassEnlarged != 'undefined' && (dialogDeviceEditTileSettings.tileClassEnlarged != (iQontrolRoles[dialogDeviceEditOldCommonRole]?.tileSettings?.tileClassEnlarged || -1)) ? dialogDeviceEditTileSettings.tileClassEnlarged : iQontrolRoles[dialogDeviceEditCommonRole]?.tileSettings?.tileClassEnlarged || -1; //if old settings differs from role´s default: keep it. Otherwise take default from new role
+		if(!dialogDeviceEditTileSettings.elements) { //no tileSettings present - use role Settings
+			dialogDeviceEditTileSettings.elements = [];
+			(iQontrolRoles[dialogDeviceEditCommonRole] && iQontrolRoles[dialogDeviceEditCommonRole].tileSettings.elements || []).forEach(function(roleElement, roleElementIndex){
+				dialogDeviceEditTileSettings.elements[roleElementIndex] = Object.assign({}, roleElement);
+			});	
+		} else { //tileSettigs present
+			if(dialogDeviceEditOldCommonRole != dialogDeviceEditCommonRole){ //Role has changed
+				//Check if the tileSettings elements match the old roleSettings elements
+				let allMatches = true;
+				dialogDeviceEditTileSettings.elements.forEach(function(tileElement, tileElementIndex){
+					if(!allMatches) return;
+					oldRoleElementIndex = iQontrolRoles[dialogDeviceEditCommonRole] && iQontrolRoles[dialogDeviceEditCommonRole].tileSettings && iQontrolRoles[dialogDeviceEditCommonRole].tileSettings.elements && iQontrolRoles[dialogDeviceEditCommonRole].tileSettings.elements.findIndex(function(element){ return element.commonName == tileElement.commonName; });
+					if(oldRoleElementIndex > -1 && !objectsEqual(tileElement, iQontrolRoles[dialogDeviceEditCommonRole].tileSettings.elements[oldRoleElementIndex])){ //settings were previously changed (= differ from oldRoleSettings)
+						allMatches = false;
+					} 
+				});
+				if(allMatches || !confirm(_("There are modified tile settings that differ from the default role settings. Try to merge them with the new default role settings? Otherwise your changes will be lost and the new defaults are used."))){ //no merge - simply overwrite with new role settings
+					dialogDeviceEditTileSettings.elements = JSON.parse(JSON.stringify(iQontrolRoles[dialogDeviceEditCommonRole].tileSettings.elements || []));
+				} else { //Merge
+					let newTileElements = [];
+					let tileElementProcessedIndex = -1; //Index that shows the last processed Element of the existing tile settings
+					(iQontrolRoles[dialogDeviceEditCommonRole] && iQontrolRoles[dialogDeviceEditCommonRole].tileSettings.elements || []).forEach(function(roleElement, roleElementIndex){ //Go through all new role elements
+						tileElementIndex = dialogDeviceEditTileSettings.elements.findIndex(function(element){ return element.commonName == roleElement.commonName; });
+						if(tileElementIndex == -1){//New role setting does not exist in old tile settings - just push new role setting
+							newTileElements.push(roleElement);
+						} else { //New role setting exists also in old tile setting
+							//push all not yet processed Elements before tileElementIndex
+							for(let i = tileElementProcessedIndex + 1; i < tileElementIndex; i++){
+								newTileElements.push(dialogDeviceEditTileSettings.elements[i]);
+							}
+							//for tileElementIndex check, if settings were previously changed (= differ from oldRoleSettings)
+							oldRoleElementIndex = iQontrolRoles[dialogDeviceEditOldCommonRole] && iQontrolRoles[dialogDeviceEditOldCommonRole].tileSettings && iQontrolRoles[dialogDeviceEditOldCommonRole].tileSettings.elements && iQontrolRoles[dialogDeviceEditOldCommonRole].tileSettings.elements.findIndex(function(element){ return element.commonName == dialogDeviceEditTileSettings.elements[tileElementIndex].commonName; });
+							if(objectsEqual(dialogDeviceEditTileSettings.elements[tileElementIndex], iQontrolRoles[dialogDeviceEditOldCommonRole].tileSettings.elements[oldRoleElementIndex])){ //Setting was not changed - push new role setting
+								newTileElements.push(roleElement);
+							} else { //Setting was changed - ask what to do
+								if(confirm(_("The tile Element %s was changed by user. Keep your modified settings? Otherwise this element will be overwritten with new default settings.", dialogDeviceEditTileSettings.elements[tileElementIndex].commonName))){ //keep
+									newTileElements.push(dialogDeviceEditTileSettings.elements[tileElementIndex]);
+								} else { //overwrite
+									newTileElements.push(roleElement);
+														
+								}
+							}
+							tileElementProcessedIndex = tileElementIndex;
+						}
+					});
+					//Add not yet processed Elements (that are missing in new role settings)
+					for(let i = tileElementProcessedIndex + 1; i < dialogDeviceEditTileSettings.elements.length; i++){
+						newTileElements.push(dialogDeviceEditTileSettings.elements[i]);
+					}
+					//Save new settings
+					dialogDeviceEditTileSettings.elements = JSON.parse(JSON.stringify(newTileElements));		
+				}
+			}
+		}
 		dialogDeviceEditTileSettingsInit();
 	});
 
@@ -12076,7 +12541,7 @@ async function load(settings, onChange) {
 				var $this = $(this);
 				$this.val(tileEditor.stacks[index]['style' + capitalize($this.data('type')) + capitalize($this.data('type-options'))] || ($(this).data('type') == 'font-weight' || $(this).data('type') == 'font-style' ? 'normal' : ''));
 			});
-			if(tileEditor.stacks[index].readonly) $('.tabDialogTileEditor.styleValue').prop('disabled', 'disabled').addClass('disabled'); else $('.tabDialogTileEditor.styleValue').prop('disabled', false).removeClass('disabled');
+			//if(tileEditor.stacks[index].readonly) $('.tabDialogTileEditor.styleValue').prop('disabled', 'disabled').addClass('disabled'); else $('.tabDialogTileEditor.styleValue').prop('disabled', false).removeClass('disabled');
 			$('select.tabDialogTileEditor.styleValue').select();
 			initColorpickers(onChange);
 			$('.tabDialogTileEditorEditContainer').show();
