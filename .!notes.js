@@ -7,7 +7,7 @@
 - contextMenu as uiElement
 - Fehler beim Speichern von tile options beheben, standard Tile options aktualisieren
 
-- context-Menu / toggle / clickOnTileAction
+- updateFunction verbessern 
 
 - enlarge/active funktion erstellen, die resize-observer ersetzt
 - shrink to free space
@@ -18,66 +18,21 @@
 - Remove pressure and shuffle from file system and index.html
 
 	
-	LINK
-					//--Link (clickOnTileAction)
-					var clickOnTileAction = getDeviceOptionValue(device, "clickOnTileAction");
-					if(clickOnTileAction == "toggle") { //clickOnTile: toggle
-						deviceContent = "<div class='iQontrolDeviceLink toggle' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='if(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"] && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick){new Function(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick)();}'>";
-					} else if(clickOnTileAction == "openDialog") { //clickOnTile: openDialog
-						deviceContent = "<div class='iQontrolDeviceLink dialog' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
-					} else if(clickOnTileAction == "enlarge") { //clickOnTile: enlarge
-						deviceContent = "<div class='iQontrolDeviceLink enlarge' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='event.stopPropagation(); toggleState(unescape(\"" + escape(device.deviceStates["tileEnlarged"].stateId) + "\"), \"" + deviceIdEscaped + "\", null, 0);'>";
-					} else if(clickOnTileAction == "false") { //clickOnTile: false (do nothing)
-						deviceContent = "<div class='iQontrolDeviceLink noLink' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick=''>";
-					} else if(clickOnTileAction == "openURLExternal") { //clickOnTile: openURLExternal
-						if(device.deviceStates["URL"]){
-							deviceContent = "<a class='iQontrolDeviceLink externalLink' data-device-id-escaped='" + deviceIdEscaped + "' target='_blank'>";
-						}
-					} else { //clickOnTile: openLinkToOtherView (default)
-						if(typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
-							if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
-								var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
-								deviceContent = "<div class='iQontrolDeviceLink linkedView' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='renderViewInParentInstance(unescape(\"" + escape(device.nativeLinkedView) + "\"), " + closePanel + ");'>";
-							} else { //Normal Link to other view
-								deviceContent = "<div class='iQontrolDeviceLink linkedView' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick='viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + (viewLinksToOtherViews.length - 1) + "; renderView(unescape(\"" + escape(device.nativeLinkedView) + "\"));'>";
-							}
-						} else { //No Link to other view present
-							deviceContent = "<div class='iQontrolDeviceLink noLink' data-device-id-escaped='" + deviceIdEscaped + "' data-onclick=''>";
-						}
-					}
-					if(device.deviceStates["URL"]){
-						viewDeviceContextMenu[deviceIdEscaped].externalLink = {name: _("Open External Link"), icon: 'action', href: '', target: '_blank', onclick: '$("#ViewDeviceContextMenu").popup("close");', hidden: true};
-						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-							var _device = device;
-							var _deviceIdEscaped = deviceIdEscaped;
-							var _linkedUrlId = device.deviceStates["URL"].stateId;
-							var updateFunction = function(){
-								var href = getState(_linkedUrlId);
-								if(href && href.val){
-									viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = href.val;
-									viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = false
-									if(_device.commonRole == "iQontrolExternalLink") $("[data-device-id-escaped='" + _deviceIdEscaped + "'].externalLink").attr('href', href.val);
-								} else {
-									viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = "";
-									viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = true;
-									if(_device.commonRole == "iQontrolExternalLink") $("[data-device-id-escaped='" + _deviceIdEscaped + "'].externalLink").attr('href', '');
-								}
-							};
-							uiElements.addUpdateFunction(_linkedUrlId, updateFunction);
-						})(); //<--End Closure
-					}
+//--Context Menu
 
-	LINK END
-						if(device.commonRole == "iQontrolExternalLink" && device.deviceStates["URL"] && device.deviceStates["URL"].stateId) { //.iQontrolDeviceLink was an external link and therefore an <a>
-							deviceContent = "</a><!--Link end-->";
-						} else { //.iQontrolDeviceLink was not an external link and therefore a <div>
-							deviceContent = "</div><!--Link end-->";
-						}
-						uiElements.addHtml(deviceContent);
+
+
+* @param {boolean} uiElementOptions.renderLinkedViewInParentInstance
+* @param {boolean} uiElementOptions.renderLinkedViewInParentInstanceClosesPanel --> beides auf für clickAction nutzen, auch bei iconClickAction!
+
+
+?? Kann die clickAction auch auf das Icon bezogen werden? (über das Icon noch eine ClickAction setzen?)
 
 
 
 
+
+//-------------
 - deviceLinkedStateIds[deviceStateName] = device.deviceStates[deviceStateName].stateId (habe ich schon gemacht, aber für den hier folgenden Code vielleicht noch nicht)
 				//--Hide
 					/* if(deviceLinkedStateIds["HIDE"]){

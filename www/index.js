@@ -4558,7 +4558,7 @@ function applyToolbarContextMenu(){
 			return;
 		}
 		toolbarContextMenuStart(event.target);
-		viewDeviceContextMenuEnd();
+		//viewDeviceContextMenuEnd(); #####
 	});
 	$(window).on('touchend mouseup', function(){
 		//console.log("toolbarContextMenu end via TOUCHEND/MOUSEUP");
@@ -4744,14 +4744,6 @@ function renderView(viewId, triggeredByReconnection){
 				if(!device.tileSettings) device.tileSettings = {};
 				if(!device.tileSettings.elements) device.tileSettings.elements = [];
 
-/*	######		//Special: the option tileActiveStateId is transferred to device.deviceStates["tileActiveStateId"].stateId and fetched
-				var linkedTileActiveStateId = getDeviceOptionValue(device, "tileActiveStateId");
-				if(linkedTileActiveStateId) { //Call updateFunction after rendering View
-					if(!viewUpdateFunctions[linkedTileActiveStateId]) viewUpdateFunctions[linkedTileActiveStateId] = [];
-					viewLinkedStateIdsToFetchAndUpdate.push(linkedTileActiveStateId);
-				}
-				device.deviceStates["tileActiveStateId"].stateId = linkedTileActiveStateId; */
-
 				//--New Line & Heading
 				if(device.nativeHeading) {
 					var variablename = encodeURI(device.nativeHeading.split('|').slice(1).join('|')); //#####
@@ -4773,34 +4765,16 @@ function renderView(viewId, triggeredByReconnection){
 				//--Device nativeHide
 				if(device.nativeHide) return uiElements; 
 
-				//--viewDeviceContextMenu
-				viewDeviceContextMenu[deviceIdEscaped] = {};
-				viewDeviceContextMenu[deviceIdEscaped].dialog = {name: _("Properties..."), icon: 'comment', href: '', target: '', onclick: '$("#ViewDeviceContextMenu").popup("close"); setTimeout(function(){renderDialog("' + deviceIdEscaped + '"); $("#Dialog").popup("open", {transition: "pop", positionTo: "window"});}, 400);'};
-				var onclick = "$(\"#ViewDeviceContextMenu\").popup(\"close\"); toggleState(unescape(\"" + escape(device.deviceStates["tileEnlarged"].stateId) + "\"), \"" + deviceIdEscaped + "\");";
-				viewDeviceContextMenu[deviceIdEscaped].enlarge = {name: _("Enlarge"), icon:'arrow-u-r', href: '', target: '', onclick: onclick, hidden: true};
-				viewDeviceContextMenu[deviceIdEscaped].reduce = {name: _("Reduce"), icon:'arrow-d-l', href: '', target: '', onclick: onclick, hidden: true};
-				//--Get viewLinksToOtherViews
-				if(device.nativeLinkedView && device.nativeLinkedView !== "") { //Link to other view
-					var deviceLinkedViewId = addNamespaceToViewId(device.nativeLinkedView);
-					if(deviceLinkedViewId && typeof getView(deviceLinkedViewId.split("#")[0]) !== udef && getView(deviceLinkedViewId.split("#")[0]) && typeof getView(deviceLinkedViewId.split("#")[0]).commonName !== udef){
-						var deviceLinkedViewName = getView(deviceLinkedViewId.split("#")[0]).commonName;
-						if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
-							var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
-							viewDeviceContextMenu[deviceIdEscaped].linkedView = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ViewDeviceContextMenu").popup("close"); renderViewInParentInstance(unescape("' + escape(deviceLinkedViewId) + '"), ' + closePanel + ');'};
-						} else {
-							viewLinksToOtherViews.push(deviceLinkedViewId);
-							viewDeviceContextMenu[deviceIdEscaped].linkedView = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ViewDeviceContextMenu").popup("close"); viewHistory = viewLinksToOtherViews; viewHistoryPosition = ' + (viewLinksToOtherViews.length - 1) + '; renderView(unescape("' + escape(deviceLinkedViewId) + '"));'};
-						}
-					}
-				}
-
-				//--Tile
+				//---------- tile  ---------- 
 				var tileClass = 'tileClass_' + (device.tileSettings && typeof device.tileSettings.tileClass != udef && device.tileSettings.tileClass > -1 ? device.tileSettings.tileClass : options.LayoutTilesDefaultClass || '0');
 				tileClass += ' tileClass_' + (device.tileSettings && typeof device.tileSettings.tileClassEnlarged != udef && device.tileSettings.tileClassEnlarged > -1 ? device.tileSettings.tileClassEnlarged : options.LayoutTilesDefaultClassEnlarged || '0') + '_ifEnlarged'
-				var tileEnlargedId = device.deviceStates["tileEnlarged"].stateId;
-				var enlargedState = getState(tileEnlargedId);
-				var enlarged = enlargedState && enlargedState.val;
-				if(enlarged == null) enlarged = (getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true");
+				var tileEnlargedStateId = device.deviceStates["tileEnlarged"].stateId;
+				var tileEnlargedState = getState(tileEnlargedStateId);
+				var enlarged = tileEnlargedState && tileEnlargedState.val;
+				if(enlarged == null) {
+					enlarged = (getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true");
+					setState(tileEnlargedStateId, device.deviceIdEscaped, enlarged, true, null, 0);
+				}
 				var stateHeightAdaptsContentInactive = (getDeviceOptionValue(device, "stateHeightAdaptsContentInactive") == "true");
 				var stateHeightAdaptsContentActive = (getDeviceOptionValue(device, "stateHeightAdaptsContentActive") == "true");
 				var stateHeightAdaptsContentEnlarged = (getDeviceOptionValue(device, "stateHeightAdaptsContentEnlarged") == "true");
@@ -4825,9 +4799,36 @@ function renderView(viewId, triggeredByReconnection){
 					data-device-id-escaped="${deviceIdEscaped}"
 					style="${((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true" || getDeviceOptionValue(device, "hideDeviceIfActive") == "true") ? 'visibility: hidden; height:0px;' : '')}"
 				>`);
-				
-				//--TileSizer
-				uiElements.addHtml('<div class="tileSizer setTileSize">');
+
+				//--tileEnlarged
+				var enlargeTileStateId = device.deviceStates["ENLARGE_TILE"].stateId;
+				//tileEnlarged is fetched above and is NOT the same as enlargeTile!
+				var updateFunction = function(){
+					var tileEnlargedState = getState(tileEnlargedStateId);
+					if(typeof tileEnlargedState !== udef && tileEnlargedState.val){
+						$(".tile[data-device-id-escaped='" + device.deviceIdEscaped + "']").addClass("enlarged");
+					} else {
+						$(".tile[data-device-id-escaped='" + device.deviceIdEscaped + "']").removeClass("enlarged");
+					}
+					$('.viewIsotopeContainer').isotope('layout');
+				};
+				var enlargeStateUpdateFunction = function(stateId){
+					var enlargeTileState = getState(enlargeTileStateId);
+					if(enlargeTileState && enlargeTileState.type) {
+						switch(enlargeTileState.type){
+							case "button":
+								if(enlargeTileState.ts && new Date() - enlargeTileState.ts < 100) toggleState(tileEnlargedStateId, device.deviceIdEscaped, null, 0);
+								break;
+		
+							default:
+								var val = enlargeTileState.plainText.toString();
+								if(enlargeTileState.val == false || val == "0" || val == "-1" || val == "false" || val == _("false") || val == _("closed") || val == _("OK") || val == _("off")) val = false; else val = true;
+								setState(tileEnlargedStateId, device.deviceIdEscaped, val, true, null, 0);
+						}
+					}
+				};
+				uiElements.addUpdateFunction([tileEnlargedStateId], updateFunction)
+				.addUpdateFunction([enlargeTileStateId], enlargeStateUpdateFunction);
 
 				//--tileActive
 				var tileActiveStateId = getDeviceOptionValue(device, 'tileActiveStateId');
@@ -4841,10 +4842,13 @@ function renderView(viewId, triggeredByReconnection){
 					device.active = checkCondition(tileActiveState && tileActiveState.val || '', getDeviceOptionValue(device, 'tileActiveCondition') || 'eqt', tileActiveConditionValue && tileActiveConditionValue.val || null);
 					var oldActive = $(`.tile[data-device-id-escaped="${device.deviceIdEscaped}"]`).hasClass('active');
 					if(device.active) $(`.tile[data-device-id-escaped="${device.deviceIdEscaped}"]`).addClass('active'); else $(`.tile[data-device-id-escaped="${device.deviceIdEscaped}"]`).removeClass('active'); 
-					if(device.active != oldActive) $('.viewIsotopeContainer').isotope('layout'); //#### auslagern
+					if(device.active != oldActive) $('.viewIsotopeContainer').isotope('layout');
 				}
 				uiElements.addStatesToFetchAndUpdate([tileActiveStateId, tileActiveConditionValueId]);
 				uiElements.addUpdateFunction([tileActiveStateId, tileActiveConditionValueId], updateFunction);
+
+				//--TileSizer
+				uiElements.addHtml('<div class="tileSizer setTileSize">');
 
 				//--Glow
 				if(device.deviceStates["GLOW_INACTIVE_COLOR"] && device.deviceStates["GLOW_INACTIVE_COLOR"].stateId){
@@ -4914,8 +4918,11 @@ function renderView(viewId, triggeredByReconnection){
 					uiElements.addUpdateFunction([glowActiveColorId, glowHideId, hueId, saturationId, alternativeColorspaceValueId, "UPDATE_ONCE"], updateFunction);
 				}
 
-				//---------- tileExtraContainer + pressureIndicator ----------
-				uiElements.addHtml('<div class="tileExtraContainer setTileSize pressureIndicator">');
+				//--contextMenuIndicator
+				uiElements.addHtml('<div class="tileContextMenuIndicator setTileSize"></div>');
+
+				//---------- tileExtraContainer  ----------
+				uiElements.addHtml('<div class="tileExtraContainer setTileSize contextMenuIndicator">');
 
 				//--UIElements for tileExtraContainer
 				device.tileSettings.elements.filter(function(element){ return element.outside; }).forEach(function(element, elementIndex){ 
@@ -5279,7 +5286,6 @@ function renderView(viewId, triggeredByReconnection){
 			}
 		});	
 		//DeviceCollection ready - go on with some afterwork
-		applyViewDeviceContextMenu();
 		dynamicIframeZoom();
 		//Show ViewSwipeGoals
 		if(!options.LayoutViewHideSwipeGoals && !options.LayoutViewSwipingDisabled && viewHistoryPosition > 0 && getView(viewHistory[viewHistoryPosition - 1]) && getView(viewHistory[viewHistoryPosition - 1]).commonName){
@@ -5653,113 +5659,6 @@ function dynamicIframeZoom(){
 			$(this).css('min-height', (100 / factor) + '%');
 		}
 	});
-}
-
-function applyViewDeviceContextMenu(){
-	//In former versions the context menu was called pressure menu - therefore there are some elements with old names like pressureIndicator
-	$('.tileLink').off('click').on('click', function(event){
-		console.log("viewDeviceContextMenu device CLICK");
-		if(!viewDeviceContextMenuIgnoreClick){
-			viewDeviceContextMenuEnd();
-			var onclick = $(this).data('onclick');
-			var that = this;
-			if(onclick) new Function('that', onclick)(that);
-		} else {
-			console.log("viewDeviceContextMenu device CLICK ignored");
-		}
-	});
-	$('.iQontrolDeviceLinkToToggle').off('click').on('click', function(event){
-		console.log("viewDeviceContextMenu device CLICK TOGGLE");
-		event.stopPropagation();
-		viewDeviceContextMenuIgnoreStart = true;
-	});
-	$('.iQontrolDeviceLink').on('touchstart mousedown', function(event){
-		//console.log("viewDeviceContextMenu start via TOUCHSTART/MOUSEDOWN");
-		var posY = event.originalEvent.clientY || event.originalEvent.touches[0].clientY || 0;
-		var saveAreaInsetBottom = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--saveAreaInsetBottom"), 10) || 0;
-		if(posY > window.innerHeight - saveAreaInsetBottom){
-			//console.log("viewDeviceContextMenu start aborted, because touch was in safe area");
-			return;
-		}
-		viewDeviceContextMenuStart(event.target);
-		toolbarContextMenuEnd();
-	});
-	$(window).on('touchend mouseup', function(){
-		//console.log("viewDeviceContextMenu end via TOUCHEND/MOUSEUP");
-		viewDeviceContextMenuEnd();
-	});
-	$(window).scroll(function(event){
-		if(!viewDeviceContextMenuIgnoreStart){
-			//console.log("viewDeviceContextMenu end via SCROLL");
-			viewDeviceContextMenuEnd();
-		}
-	});
-}
-
-function viewDeviceContextMenuStart(callingElement){
-	console.log("viewDeviceContextMenu start function");
-	if(viewDeviceContextMenuIgnoreStart) {
-		console.log("viewDeviceContextMenu start ignored");
-		return;
-	}
-	$('.pressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-	viewDeviceContextMenuIgnoreClick = false;
-	setTimeout(function(){
-		viewDeviceContextMenuIgnoreClick = false;
-		console.log("viewDeviceContextMenu ignore click ended after 100ms");
-	}, 100);
-	viewDeviceContextMenuLevel = 0;
-	if(viewDeviceContextMenuInterval) clearInterval(viewDeviceContextMenuInterval);
-	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-		var _callingElement = callingElement;
-		viewDeviceContextMenuInterval = setInterval(function(){
-			if($('#ViewMain').data('plugin_ptrLight').spinnerRotation){ //Stop on pull to reresh (ptrLight)
-				console.log("viewDeviceContextMenu end via ptrLight");
-				viewDeviceContextMenuEnd();
-			}
-			viewDeviceContextMenuLevel += 0.05;
-			var level = (viewDeviceContextMenuLevel - 0.2) * 1.25; //Ignore level <0.2
-			if(level > 0.5 && !viewDeviceContextMenuIgnoreClick){
-				console.log("viewDeviceContextMenu startDeepPress");
-				viewDeviceContextMenuIgnoreClick = true;
-			}
-			if(level >= 1){ //Maximum reached
-				console.log("viewDeviceContextMenu maximum reached");
-				viewDeviceContextMenuIgnoreStart = true;
-				openViewDeviceContextMenu($(_callingElement).data('device-id-escaped'), _callingElement);
-				viewDeviceContextMenuEnd();
-			} else if(level > 0) {
-				$(_callingElement).parents('.pressureIndicator').css('box-shadow', '0px 0px 0px ' + 10 * level + 'px rgba(175,175,175,0.85)');
-			}
-		}, 25);
-	})(); //<--End Closure
-}
-
-function viewDeviceContextMenuEnd(dontEndIgnoreStart){
-	//console.log("viewDeviceContextMenu end function");
-	viewDeviceContextMenuIgnoreStart = true;
-	$('.pressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-	if(viewDeviceContextMenuInterval) clearInterval(viewDeviceContextMenuInterval);
-	if(!dontEndIgnoreStart) setTimeout(function(){
-		//console.log("viewDeviceContextMenu end function - end ignoreStart");
-		viewDeviceContextMenuIgnoreStart = false;
-		viewDeviceContextMenuIgnoreClick = false;
-	}, 300);
-}
-
-function openViewDeviceContextMenu(deviceIdEscaped, callingElement){
-	console.log("viewDeviceContextMenu openViewDeviceContextMenu");
-	if(viewDeviceContextMenu[deviceIdEscaped]){
-		console.log("viewDeviceContextMenu openViewDeviceContextMenu - open");
-		$('#ViewDeviceContextMenuList').empty();
-		for (key in viewDeviceContextMenu[deviceIdEscaped]){
-			var element = viewDeviceContextMenu[deviceIdEscaped][key];
-			$('#ViewDeviceContextMenuList').append('<li' + (typeof element.icon != udef ? ' data-icon="' + element.icon + '"' : '') + ' class="ui-nodisc-icon ui-alt-icon" style="' + (typeof element.hidden != udef && element.hidden ? 'display: none;' : '') + '"><a href="' + (typeof element.href != udef ? element.href : '') + '" target="' + (typeof element.target != udef ? element.target : '') + '" onclick=\'' + (typeof element.onclick != udef ? element.onclick : '') + '\'>' + (typeof element.name != udef ? element.name : key) + '</a></li>');
-		};
-		$('#ViewDeviceContextMenuList').listview('refresh');
-		$("#ViewDeviceContextMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(callingElement)});
-		viewDeviceContextMenuEnd(true);
-	}
 }
 
 function changeViewBackground(url){
@@ -7332,7 +7231,7 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open pa
 	});	
 	$(document).on("swiperight", ".swipePage", function(event) {
 		toolbarContextMenuEnd();
-		viewDeviceContextMenuEnd();
+		//viewDeviceContextMenuEnd(); #####
 		if(event.swipestart.coords[0] < 100){
 			if(openPanel("left")){
 				return false;
@@ -7345,7 +7244,7 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open pa
 	});
 	$(document).on("swipeleft", ".swipePage", function(event){
 		toolbarContextMenuEnd();
-		viewDeviceContextMenuEnd();
+		//viewDeviceContextMenuEnd(); #####
 		if(window.innerWidth - event.swipestart.coords[0] < 100){
 			if(openPanel("right")){
 				return false;
@@ -7363,7 +7262,7 @@ $(document).on('swipeleft swiperight', '#Dialog', function(event) { //Disable sw
 });
 $(document).on('swipeleft swiperight swipeup swipedown', function(event) { //Stop Context-Menu on swiping
 	toolbarContextMenuEnd();
-	viewDeviceContextMenuEnd();
+	//viewDeviceContextMenuEnd(); #####
 });
 $(document).on('click', function(event){
 	if(!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !isBackgroundView && event.clientX && event.clientX < 55 && event.clientY && event.clientY < 15) {
@@ -8900,8 +8799,8 @@ function UIElements(initialUiElements) {
 			case "iconTextCombination": this.addIconTextCombination(device, options); break;
 			case "loadingIcon":	this.addLoadingIcon(device, options); break;
 			case "badge": this.addBadge(device, options); break;
-			case "clickAction": this.addClickAction(device, options); break;
 			case "enlargeButton": this.addEnlargeButton(device, options); break;
+			case "clickAction": this.addClickAction(device, options); break;
 		}
 		return this;
 	}
@@ -9070,7 +8969,11 @@ function UIElements(initialUiElements) {
 				let iconClickAction = getUiOption(device, uiElementOptions.iconClickAction);
 				let iconClickToggleFunction = (getUiOption(device, uiElementOptions.iconClickToggleFunction) || '');
 				var iconClickURLState = getUiOptionState(device, uiElementOptions.iconClickURLState, arrayIndex);
-				clickActionBindingFunction(device, $iconElement, iconClickAction, iconClickToggleFunction, iconClickURLState);
+				clickActionBindingFunction(device, uiElementOptions, arrayIndex, $iconElement, {
+					clickActionOption: 'iconClickAction', 
+					clickToggleFunctionOption: 'iconClickToggleFunction', 
+					clickURLState: 'iconClickURLState'
+				});
 			};
 			var unbindingFunction = function(){
 				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
@@ -9131,7 +9034,8 @@ function UIElements(initialUiElements) {
 	 * @param {boolean} uiElementOptions.iconNoPointerEvents
 	 * 
 	 * @returns {UIElements}  
-	 */	this.addLoadingIcon = function(device, uiElementOptions){
+	 */	
+	this.addLoadingIcon = function(device, uiElementOptions){
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
 		var _uiElementIndex = this.uiElementIndex; //#####
 		this.newElementStackContainer(device, uiElementOptions)
@@ -9247,8 +9151,6 @@ function UIElements(initialUiElements) {
 	 * @param {boolean} uiElementOptions.enlargeButtonNoZoomOnHover
 	 * @param {boolean} uiElementOptions.enlargeButtonRotate
 	 * 	 
-	 * @param {boolean} uiElementOptions.enlargeState
-	 * 
 	 * @returns {UIElements}  
 	 */
 	this.addEnlargeButton = function(device, uiElementOptions, arrayIndex){
@@ -9264,7 +9166,6 @@ function UIElements(initialUiElements) {
 		this.newElementStackContainer(device, uiElementOptions);
 		var _uiElementIndex = this.uiElementIndex;
 		var tileEnlargedStateId = device.deviceStates["tileEnlarged"] && device.deviceStates["tileEnlarged"].stateId || null;
-		var enlargeStateId = getUiOptionStateId(device, uiElementOptions.enlargeState, arrayIndex);
 		var enlargeButtonActiveStateIds = getUiOptionActiveStateIds(device, uiElementOptions.enlargeButtonActive, arrayIndex);
 		var rotate = getUiOption(device, uiElementOptions.enlargeButtonRotate);
 		this.addHtml(`<div 
@@ -9275,54 +9176,19 @@ function UIElements(initialUiElements) {
 		></div>`);
 		var updateFunction = function(stateId){
 			var $enlargeButtonElement = $(`div.uiElement.enlargeButton[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-			var tileEnlargedState = getState(tileEnlargedStateId);
 			var enlargeButtonActive = getUiOptionActive(device, uiElementOptions.enlargeButtonActive, arrayIndex);
-			if(typeof tileEnlargedState !== udef && tileEnlargedState.val){
-				$(".tile[data-device-id-escaped='" + device.deviceIdEscaped + "']").addClass("enlarged");
-				viewDeviceContextMenu[device.deviceIdEscaped].enlarge.hidden = true; //##### contextMenu in eigenes uiElement auslagern???
-				if($(".tile[data-device-id-escaped='" + device.deviceIdEscaped + "']").hasClass("active")){
-					if(getDeviceOptionValue(device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[device.deviceIdEscaped].reduce.hidden = false;
-				} else {
-					if(getDeviceOptionValue(device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[device.deviceIdEscaped].reduce.hidden = false;
-				}
-			} else {
-				$(".tile[data-device-id-escaped='" + device.deviceIdEscaped + "']").removeClass("enlarged");
-				viewDeviceContextMenu[device.deviceIdEscaped].reduce.hidden = true;
-				if($(".tile[data-device-id-escaped='" + device.deviceIdEscaped + "']").hasClass("active")){
-					if(getDeviceOptionValue(device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[device.deviceIdEscaped].enlarge.hidden = false;
-				} else {
-					if(getDeviceOptionValue(device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[device.deviceIdEscaped].enlarge.hidden = false;
-				}
-			}
-			$('.viewIsotopeContainer').isotope('layout'); //#### auslagern ?
 			if(enlargeButtonActive) $enlargeButtonElement.addClass('active').css('display', ''); else $enlargeButtonElement.removeClass('active').css('display', 'none');
-		};
-		var enlargeStateUpdateFunction = function(stateId){
-			var $enlargeButtonElement = $(`div.uiElement.enlargeButton[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-			var enlargeState = getUiOptionState(device, uiElementOptions.enlargeState, arrayIndex);
-			if(enlargeState && enlargeState.type) {
-				switch(enlargeState.type){
-					case "button":
-						if(enlargeState.ts && new Date() - enlargeState.ts < 100) toggleState(tileEnlargedStateId, device.deviceIdEscaped, null, 0);
-						break;
-
-					default:
-						var val = enlargeState.plainText.toString();
-						if(enlargeState.val == false || val == "0" || val == "-1" || val == "false" || val == _("false") || val == _("closed") || val == _("OK") || val == _("off")) val = false; else val = true;
-						setState(tileEnlargedStateId, device.deviceIdEscaped, val, true, null, 0);
-				}
-			}
 		};
 		var bindingFunction = function(){
 			var $enlargeButtonElement = $(`div.uiElement.enlargeButton[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-			clickActionBindingFunction(device, $enlargeButtonElement, 'enlarge');
+			uiElementOptions.clickAction = 'enlarge';
+			clickActionBindingFunction(device, uiElementOptions, arrayIndex, $enlargeButtonElement);
 		};
 		var unbindingFunction = function(){
 			var $enlargeButtonElement = $(`div.uiElement.enlargeButton[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
 			$enlargeButtonElement.off('click');
 		};
-		this.addUpdateFunction([tileEnlargedStateId, enlargeButtonActiveStateIds], updateFunction)
-		.addUpdateFunction([enlargeStateId], enlargeStateUpdateFunction)
+		this.addUpdateFunction([enlargeButtonActiveStateIds], updateFunction)
 		.addBindingFunction(bindingFunction)
 		.addUnbindingFunction(unbindingFunction)
 		.closeElementStackContainer();
@@ -9342,6 +9208,13 @@ function UIElements(initialUiElements) {
 	 * @param {string} uiElementOptions.clickAction
 	 * @param {string} uiElementOptions.clickActionToggleFunction
 	 * @param {string} uiElementOptions.clickActionURLState
+	 * 
+	 * @param {string} uiElementOptions.contextMenu
+	 * @param {string} uiElementOptions.contextMenuToggleActive
+	 * @param {string} uiElementOptions.contextMenuDialogActive
+	 * @param {string} uiElementOptions.contextMenuEnlargeActive
+	 * @param {string} uiElementOptions.contextMenuOpenLinkToOtherViewActive
+	 * @param {string} uiElementOptions.contextMenuOpenURLExternalActive
 	 * 
 	 * @returns {UIElements}  
 	 */
@@ -9372,14 +9245,12 @@ function UIElements(initialUiElements) {
 		}
 		var bindingFunction = function(){
 			var $clickActionElement = $(`div.uiElement.clickAction[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-			let clickAction = getUiOption(device, uiElementOptions.clickAction);
-			let clickActionToggleFunction = (getUiOption(device, uiElementOptions.clickActionToggleFunction) || '');
-			var clickActionURLState = getUiOptionState(device, uiElementOptions.clickActionURLState, arrayIndex);
-			clickActionBindingFunction(device, $clickActionElement, clickAction, clickActionToggleFunction, clickActionURLState);
+uiElementOptions.contextMenu = true; //#####
+			clickActionBindingFunction(device, uiElementOptions, arrayIndex, $clickActionElement);
 		};
 		var unbindingFunction = function(){
 			var $clickActionElement = $(`div.uiElement.clickAction[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-			$clickActionElement.off('click');
+			$clickActionElement.off('click touchstart mousedown touchend touchcancel mouseup mouseout');
 		};
 		this.addUpdateFunction([clickActionActiveStateIds], updateFunction)
 		.addBindingFunction(bindingFunction)
@@ -9405,7 +9276,7 @@ function UIElements(initialUiElements) {
 
 	function getUiOptionState(device, uiElementOption, arrayIndex){
 		if(typeof uiElementOption == udef || uiElementOption == null) return null;
-		if(typeof uiElementOption == 'string') {
+		if(typeof uiElementOption == 'string' || typeof uiElementOption == 'boolean') {
 			uiElementOption = {
 				type: 'string',
 				role: 'const',
@@ -9688,12 +9559,115 @@ function UIElements(initialUiElements) {
 		return textResult;
 	}
 
-	function clickActionBindingFunction(device, $element, clickAction, toggleFunction, urlState){
-		$element.on('click', function(event){						
-			switch(clickAction){
+	function clickActionBindingFunction(device, uiElementOptions, arrayIndex, $element, clickActionOptions){
+		if(!clickActionOptions) clickActionOptions = {};
+		var that = this;
+		that.clickActionOptions = clickActionOptions; //clickActionOptions allowes allocation of uiElementOptions to clickActions
+		if(getUiOption(device, uiElementOptions[that.clickActionOptions.contextMenu || 'contextMenu'])){ //contextMenu
+			var $tileContextMenuIndicator = $element.parents('.tile').find('.tileContextMenuIndicator');
+			$element.on('touchstart mousedown', function(event){
+				console.log("deviceContextMenu start via TOUCHSTART/MOUSEDOWN");
+				var posY = event.originalEvent.clientY || event.originalEvent.touches[0].clientY || 0;
+				var saveAreaInsetBottom = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--saveAreaInsetBottom"), 10) || 0;
+				if(posY > window.innerHeight - saveAreaInsetBottom){
+					console.log("deviceContextMenu start aborted, because touch was in safe area");
+					return;
+				}
+				that.contextMenuLevel = 0;
+				that.windowScrollTopStart = $(window).scrollTop();
+				that.contextMenuInterval = setInterval(function(){
+					if($('#ViewMain').data('plugin_ptrLight').spinnerRotation){ //Stop on pull to reresh (ptrLight)
+						console.log("deviceContextMenu end via ptrLight");
+						contextMenuEnd(false);
+					}
+					if(Math.abs(that.windowScrollTopStart - $(window).scrollTop()) > 5){
+						console.log("deviceContextMenu end via Scroll");
+						contextMenuEnd(false);
+					}
+					that.contextMenuLevel += 0.04;
+					if(that.contextMenuLevel >= 1) contextMenuEnd(true);
+					let level = Math.max(0, (that.contextMenuLevel - 0.2) * 1.25); //Ignore level <0.2
+					$tileContextMenuIndicator.css('box-shadow', '0px 0px 0px ' + 10 * level + 'px rgba(175,175,175,0.85)');
+				}, 25);
+			});
+			$element.on('touchend touchcancel mouseup mouseout', function(event){
+				console.log("deviceContextMenu end via TOUCHEND/TOUCHCANCEL/MOUSEUP/MOUSEOUT");
+				contextMenuEnd(true);
+			});
+			function contextMenuEnd(performAction){
+				if(that.contextMenuInterval) clearInterval(that.contextMenuInterval);
+				that.contextMenuInterval = false;
+				if(performAction && that.contextMenuLevel > 0){
+					if(that.contextMenuLevel >= 1){
+						console.log("deviceContextMenu DEEP PRESS MAXIMUM REACHED");
+						contextMenuOpen();
+					} else if(that.contextMenuLevel >= 0.5){
+						console.log("deviceContextMenu DEEP PRESS ABORTED");
+					} else {
+						console.log("deviceContextMenu CLICK");
+						clickFunction();
+					}
+				}
+				that.contextMenuLevel = 0;
+				$tileContextMenuIndicator.css('box-shadow', '');
+			}
+			function contextMenuOpen(){
+				console.log("deviceContextMenu OPEN");
+				//Bild and open contextMenu
+				$contextMenu = $('#ViewDeviceContextMenuList');
+				$contextMenu.find('a').off('click');
+				$contextMenu.empty();
+				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuToggleActive || 'contextMenuToggleActive'], arrayIndex)){
+					$(`<li class="ui-nodisc-icon ui-alt-icon" data-icon="power"></li>`).append(`<a href="" target="">${_("Toggle")}</a>`).on('click', function(event){
+						$("#ViewDeviceContextMenu").popup("close");
+						$element.trigger('contextMenuClick', {clickAction: 'toggle'});
+					}).appendTo($contextMenu);
+				}
+				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuDialogActive || 'contextMenuDialogActive'], arrayIndex)){
+					$(`<li class="ui-nodisc-icon ui-alt-icon" data-icon="comment"></li>`).append(`<a href="" target="">${_("Properties...")}</a>`).on('click', function(event){
+						$("#ViewDeviceContextMenu").popup("close");
+						setTimeout(function(){ $element.trigger('contextMenuClick', {clickAction: 'openDialog'}); }, 300);
+					}).appendTo($contextMenu);
+				}
+				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuEnlargeActive || 'contextMenuEnlargeActive'], arrayIndex)){
+					var enlarged = $element.parents('.tile').hasClass('enlarged');
+					$(`<li class="ui-nodisc-icon ui-alt-icon" data-icon="${enlarged ? 'arrow-d-l' : 'arrow-u-r'}"></li>`).append(`<a href="" target="">${enlarged ? _("Reduce") : _("Enlarge")}</a>`).on('click', {}, function(event){
+						$("#ViewDeviceContextMenu").popup("close");
+						$element.trigger('contextMenuClick', {clickAction: 'enlarge'});
+					}).appendTo($contextMenu);
+				}
+				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuOpenLinkToOtherViewActive || 'contextMenuOpenLinkToOtherViewActive'], arrayIndex)){
+					var deviceLinkedViewId = addNamespaceToViewId(device.nativeLinkedView);
+					if(deviceLinkedViewId && typeof getView(deviceLinkedViewId.split("#")[0]) !== udef && getView(deviceLinkedViewId.split("#")[0]) && typeof getView(deviceLinkedViewId.split("#")[0]).commonName !== udef){
+						var deviceLinkedViewName = getView(deviceLinkedViewId.split("#")[0]).commonName;
+						$(`<li class="ui-nodisc-icon ui-alt-icon" data-icon="grid"></li>`).append(`<a href="" target="">${_("Open %s", deviceLinkedViewName)}</a>`).on('click', function(event){
+							$("#ViewDeviceContextMenu").popup("close");
+							$element.trigger('contextMenuClick', {clickAction: 'openLinkToOtherView'});
+						}).appendTo($contextMenu);
+					}
+				}
+				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuOpenURLExternalActive || 'contextMenuOpenURLExternalActive'], arrayIndex)){
+					let urlState = getUiOptionState(device, uiElementOptions[that.clickActionOptions.urlState || 'urlState'], arrayIndex);
+					if(!urlState || ! urlState.val) urlState = getStateFromDeviceState(device, 'URL');
+					if(urlState && urlState.val){
+						$(`<li class="ui-nodisc-icon ui-alt-icon" data-icon="action"></li>`).append(`<a href="" target="" title="${urlState.val}">${_("Open External Link")}</a>`).on('click', function(event){
+							$("#ViewDeviceContextMenu").popup("close");
+							$element.trigger('contextMenuClick', {clickAction: 'openURLExternal'});
+						}).appendTo($contextMenu);
+					}
+				}
+				$contextMenu.listview('refresh');
+				if($contextMenu.html()) $("#ViewDeviceContextMenu").data('closeable', 'false').enhanceWithin().popup("open", {transition: "pop", positionTo: $element});
+			}
+			$element.on('contextMenuClick', clickFunction);
+		} else { //no contextMenu
+			$element.on('click', clickFunction);
+		}
+		function clickFunction(event, data){
+			switch(data && data.clickAction || getUiOption(device, uiElementOptions[that.clickActionOptions.clickAction || 'clickAction'])){
 				case 'toggle':
-					event.stopPropagation();
-					let toggleFunctionParts = (toggleFunction || '').split('/');
+					event && event.stopPropagation();
+					let toggleFunctionParts = (getUiOption(device, uiElementOptions[that.clickActionOptions.toggleFunction || 'toggleFunction']) || '').split('/');
 					let state = getStateIdFromDeviceState(device, toggleFunctionParts[1] || 'STATE') || null;
 					switch(toggleFunctionParts[0]){
 						case 'startProgram':
@@ -9717,17 +9691,12 @@ function UIElements(initialUiElements) {
 					}
 					break;
 				case 'enlarge':
-					event.stopPropagation();
+					event && event.stopPropagation();
 					toggleState(getStateIdFromDeviceState(device, 'tileEnlarged'), device.deviceIdEscaped);
-					break;
-				case 'openURLExternal':
-					event.stopPropagation();
-					if(!urlState || ! urlState.val) urlState = getStateFromDeviceState(device, 'URL');
-					if(urlState && urlState.val) window.open(urlState.val, '_blank').focus();
 					break;
 				case 'openLinkToOtherView': case '':
 					if(typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
-						if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
+						if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance & renderLinkedViewInParentInstanceClosesPanel ###### option erstellen
 							var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
 							renderViewInParentInstance(device.nativeLinkedView, closePanel);
 						} else { //Normal Link to other view
@@ -9737,16 +9706,22 @@ function UIElements(initialUiElements) {
 						}
 					}
 					break;
+				case 'openURLExternal':
+					event && event.stopPropagation();
+					let urlState = getUiOptionState(device, uiElementOptions[that.clickActionOptions.urlState || 'urlState'], arrayIndex);
+					if(!urlState || ! urlState.val) urlState = getStateFromDeviceState(device, 'URL');
+					if(urlState && urlState.val) window.open(urlState.val, '_blank').focus();
+					break;
 				case 'false': 
 					//do nothing
 					break;					
 				case 'openDialog': default:
-					event.stopPropagation();
+					event && event.stopPropagation();
 					renderDialog(device.deviceIdEscaped); 
 					$('#Dialog').popup("open", {transition: "pop", positionTo: "window"});
 					break;
 			}
-		});
+		}
 	}
 
 	function processText(state, level, textProcessingOptions, textProcessingFunction){ 

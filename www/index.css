@@ -623,42 +623,6 @@ html.noscroll body {
 
 
 /* ++++++++++ View / Device ++++++++++ */ 
-
-.pressureIndicator {
-	-webkit-user-select: none !important;
-	   -moz-user-select: none !important; 
-	        user-select: none !important;
-	-webkit-touch-callout: none !important;
-	display: inline-block;
-	top: 0; left: 0;
-	margin: 6px;
-	padding: 0px;
-	background: transparent;
-	border: 0px solid rgba(255, 255, 255, 1);
-	-webkit-border-radius: 15px;
-	   -moz-border-radius: 15px;
-			border-radius: 15px;
-	text-align: left;
-	overflow: visible;
-	-webkit-box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
-	   -moz-box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
-	        box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
-}
-.pressureIndicator.hideDeviceIfInactive:not(.active), .pressureIndicator.hideDeviceIfActive.active {
-	visibility: hidden !important; 
-	height: 0 !important;
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
-}
-.pressureIndicator.hideDeviceIfInactive.active, .pressureIndicator.hideDeviceIfActive:not(.active) {
-	visibility: visible !important; 
-	height: unset !important;
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
-}
-
 .iQontrolDevice:not(.active) .hideIfInactive, .iQontrolDevice.active .hideIfActive, .iQontrolDevice.enlarged .hideIfEnlarged {
 	pointer-events:none !important;
 	opacity: 0 !important;
@@ -1173,15 +1137,15 @@ html.bigMode #View .ui-panel-wrapper {
 	width: 56px;
 	-webkit-transition: all 0s;
 	   -moz-transition: all 0s;
-			transition: all as;
+			transition: all 0s;
 }
+
 .tile{
 	position: absolute; /* wil be set to absolute by isotope anyway */
 	margin: 6px;
 	padding: 0; border: none;
 	overflow: visible;
 }
-
 
 .tileSizer{ background-color: #28d93152;
 	-webkit-user-select: none !important;
@@ -1347,6 +1311,15 @@ html.bigMode #View .ui-panel-wrapper {
 }
 .tile:not(.active) .tileGlow.active {
 	opacity: 0 !important;
+}
+
+.tileContextMenuIndicator{
+	-webkit-box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
+	   -moz-box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
+	        box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
+	-webkit-transition: all 0.01s !important;
+	   -moz-transition: all 0.01s !important;
+			transition: all 0.01s !important;
 }
 
 .tileBackgroundImage {
@@ -1610,18 +1583,17 @@ html.bigMode #View .ui-panel-wrapper {
 .uiElement.enlargeButton {
 	cursor: zoom-in;
 	background-image: url("./images/maximize.png");
-	background-position: 8% 92%;
+	background-position: 15% 85%;
 	background-repeat: no-repeat;
 	background-size: 33%;
 	background-color: lightgrey;
-	xborder:lightgrey 1px solid;
 	opacity:0;
 	-webkit-border-radius: 5px;
 	   -moz-border-radius: 5px;
 	        border-radius: 5px;
-	-webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3);
-	   -moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3);
-	        box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.3);
+	   -moz-box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.3);
+	        box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.3);
 	-webkit-transition: all 0.5s;
 	   -moz-transition: all 0.5s;
 			transition: all 0.5s;
@@ -1635,5 +1607,4 @@ html.bigMode #View .ui-panel-wrapper {
 .tile.enlarged .uiElement.enlargeButton {
 	cursor: zoom-out;
 	background-image: url("./images/minimize.png");
-	background-position: 13% 87%;
 }
