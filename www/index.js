@@ -8897,8 +8897,10 @@ function UIElements(initialUiElements) {
 	 * @param {boolean} uiElementOptions.iconZoomOnHover
 	 * @param {boolean} uiElementOptions.iconNoPointerEvents
 	 * @param {string} uiElementOptions.iconClickAction
-	 * @param {string} uiElementOptions.iconClickToggleFunction
-	 * @param {string} uiElementOptions.iconClickURLState
+	 * @param {string} uiElementOptions.iconClickActionToggleFunction
+	 * @param {string} uiElementOptions.iconClickActionURLState
+	 * @param {boolean} uiElementOptions.iconClickActionRenderLinkedViewInParentInstance
+	 * @param {boolean} uiElementOptions.iconClickActionRenderLinkedViewInParentInstanceClosesPanel
 	 *
 	 * @param {string} uiElementOptions.textClasses
 	 * @param {string} uiElementOptions.textState
@@ -8966,13 +8968,12 @@ function UIElements(initialUiElements) {
 			}
 			var bindingFunction = function(){
 				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-				let iconClickAction = getUiOption(device, uiElementOptions.iconClickAction);
-				let iconClickToggleFunction = (getUiOption(device, uiElementOptions.iconClickToggleFunction) || '');
-				var iconClickURLState = getUiOptionState(device, uiElementOptions.iconClickURLState, arrayIndex);
 				clickActionBindingFunction(device, uiElementOptions, arrayIndex, $iconElement, {
 					clickActionOption: 'iconClickAction', 
-					clickToggleFunctionOption: 'iconClickToggleFunction', 
-					clickURLState: 'iconClickURLState'
+					clickActionToggleFunction: 'iconClickActionToggleFunction', 
+					clickActionURLState: 'iconClickActionURLState',
+					clickActionRenderLinkedViewInParentInstance: 'iconClickActionRenderLinkedViewInParentInstance',
+					clickActionRenderLinkedViewInParentInstanceClosesPanel: 'iconClickActionRenderLinkedViewInParentInstanceClosesPanel'
 				});
 			};
 			var unbindingFunction = function(){
@@ -9208,6 +9209,8 @@ function UIElements(initialUiElements) {
 	 * @param {string} uiElementOptions.clickAction
 	 * @param {string} uiElementOptions.clickActionToggleFunction
 	 * @param {string} uiElementOptions.clickActionURLState
+	 * @param {boolean} uiElementOptions.clickActionRenderLinkedViewInParentInstance
+	 * @param {boolean} uiElementOptions.clickActionRenderLinkedViewInParentInstanceClosesPanel
 	 * 
 	 * @param {string} uiElementOptions.contextMenu
 	 * @param {string} uiElementOptions.contextMenuToggleActive
@@ -9667,7 +9670,7 @@ uiElementOptions.contextMenu = true; //#####
 			switch(data && data.clickAction || getUiOption(device, uiElementOptions[that.clickActionOptions.clickAction || 'clickAction'])){
 				case 'toggle':
 					event && event.stopPropagation();
-					let toggleFunctionParts = (getUiOption(device, uiElementOptions[that.clickActionOptions.toggleFunction || 'toggleFunction']) || '').split('/');
+					let toggleFunctionParts = (getUiOption(device, uiElementOptions[that.clickActionOptions.clickActionToggleFunction || 'clickActionToggleFunction']) || '').split('/');
 					let state = getStateIdFromDeviceState(device, toggleFunctionParts[1] || 'STATE') || null;
 					switch(toggleFunctionParts[0]){
 						case 'startProgram':
@@ -9696,8 +9699,8 @@ uiElementOptions.contextMenu = true; //#####
 					break;
 				case 'openLinkToOtherView': case '':
 					if(typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
-						if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance & renderLinkedViewInParentInstanceClosesPanel ###### option erstellen
-							var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
+						if(isBackgroundView && getUiOption(device, uiElementOptions[that.clickActionOptions.clickActionRenderLinkedViewInParentInstance || 'clickActionRenderLinkedViewInParentInstance'])){ 
+							var closePanel = getUiOption(device, uiElementOptions[that.clickActionOptions.clickActionRenderLinkedViewInParentInstanceClosesPanel || 'clickActionRenderLinkedViewInParentInstanceClosesPanel']);
 							renderViewInParentInstance(device.nativeLinkedView, closePanel);
 						} else { //Normal Link to other view
 							viewHistory = viewLinksToOtherViews; 
@@ -9708,7 +9711,7 @@ uiElementOptions.contextMenu = true; //#####
 					break;
 				case 'openURLExternal':
 					event && event.stopPropagation();
-					let urlState = getUiOptionState(device, uiElementOptions[that.clickActionOptions.urlState || 'urlState'], arrayIndex);
+					let urlState = getUiOptionState(device, uiElementOptions[that.clickActionOptions.clickActionURLState || 'clickActionURLState'], arrayIndex);
 					if(!urlState || ! urlState.val) urlState = getStateFromDeviceState(device, 'URL');
 					if(urlState && urlState.val) window.open(urlState.val, '_blank').focus();
 					break;
