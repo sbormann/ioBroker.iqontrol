@@ -4,8 +4,8 @@
 
 
 //++++++++++ Next Steps ++++++++++
-- contextMenu as uiElement
-- Fehler beim Speichern von tile options beheben, standard Tile options aktualisieren
+- invertActive
+- Beim Speichern von Options description etc. nicht speichen
 
 - updateFunction verbessern 
 

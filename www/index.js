@@ -8946,7 +8946,7 @@ function UIElements(initialUiElements) {
 				var $iconElement = $(`img.uiElement.icon[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
 				var $textElement = $(`div.uiElement.text[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
 				var iconState = getUiOptionState(device, uiElementOptions.iconState, arrayIndex);
-				var iconActive = getUiOptionActive(device, uiElementOptions.iconActive, arrayIndex);
+				var iconActive = getUiOptionActive(device, uiElementOptions.iconActive, uiElementOptions.iconActiveInvert, arrayIndex);
 				var src = iconState && iconState.val || "";
 				if(src && forceReloadOfImage) src = src.replace(/(?<=\?|&)forcedReload=([^&]+)/, "forcedReload=" + Math.floor(new Date().getTime() / 100));
 				var oldSrc = $iconElement.attr('src') || '';
@@ -8998,7 +8998,7 @@ function UIElements(initialUiElements) {
 				var textState = getUiOptionState(device, uiElementOptions.textState, arrayIndex);
 				var textLevelState = getUiOptionState(device, uiElementOptions.textLevelState, arrayIndex);
 				var textResult = processText(textState, textLevelState, getUiOption(device, uiElementOptions.textProcessingOptions), getUiOption(device, uiElementOptions.textProcessingFunction));
-				var textActive = getUiOptionActive(device, uiElementOptions.textActive, arrayIndex);
+				var textActive = getUiOptionActive(device, uiElementOptions.textActive, uiElementOptions.textActiveInvert, arrayIndex);
 				var textAddTimestampMode = getUiOption(device, uiElementOptions.textAddTimestampMode);
 				if(textAddTimestampMode) textResult = addTimestamp(textResult, [textState, textLevelState], textActive, textAddTimestampMode);
 				setTimeout(function(){
@@ -9177,7 +9177,7 @@ function UIElements(initialUiElements) {
 		></div>`);
 		var updateFunction = function(stateId){
 			var $enlargeButtonElement = $(`div.uiElement.enlargeButton[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-			var enlargeButtonActive = getUiOptionActive(device, uiElementOptions.enlargeButtonActive, arrayIndex);
+			var enlargeButtonActive = getUiOptionActive(device, uiElementOptions.enlargeButtonActive, uiElementOptions.enlargeButtonActiveInvert, arrayIndex);
 			if(enlargeButtonActive) $enlargeButtonElement.addClass('active').css('display', ''); else $enlargeButtonElement.removeClass('active').css('display', 'none');
 		};
 		var bindingFunction = function(){
@@ -9243,7 +9243,7 @@ function UIElements(initialUiElements) {
 		></div>`);
 		var updateFunction = function(stateId, forceReloadOfImage){
 			var $clickActionElement = $(`div.uiElement.clickAction[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-			var clickActionActive = getUiOptionActive(device, uiElementOptions.clickActionActive, arrayIndex);
+			var clickActionActive = getUiOptionActive(device, uiElementOptions.clickActionActive, uiElementOptions.clickActionActiveInvert, arrayIndex);
 			if(clickActionActive) $clickActionElement.addClass('active').css('display', ''); else $iconElement.removeClass('active').css('display', 'none');
 		}
 		var bindingFunction = function(){
@@ -9341,15 +9341,16 @@ uiElementOptions.contextMenu = true; //#####
 		return activeStateIds;
 	}
 
-	function getUiOptionActive(device, uiElementOption, arrayIndex){
+	function getUiOptionActive(device, uiElementOption, uiElementInvertOption, arrayIndex){
 		var result = false;
 		var activeArray = getUiOptionValue(uiElementOption);
+		var invert = !!getUiOptionValue(uiElementInvertOption);
 		if(!Array.isArray(activeArray)) activeArray = tryParseJSON(activeArray) || [];
 		if(activeArray.length){
 			for (let i = 0; i < activeArray.length; i++) {
 				let active = activeArray[i];
 				if(active.modifier && active.modifier == "||"){ //New OR-Part
-					if(result) return true;
+					if(result) return invert ? false : true;
 					result = true;
 				} 
 				let activeState = getUiOptionState(device, {role: active.activeStateRole, value: active.activeStateValue}, arrayIndex);
@@ -9360,7 +9361,7 @@ uiElementOptions.contextMenu = true; //#####
 		} else {
 			result = true;
 		}
-		return result;		
+		return invert ? !result : result;		
 	}
 
 	function getUiOptionValue(uiElementOption){
@@ -9620,26 +9621,26 @@ uiElementOptions.contextMenu = true; //#####
 				$contextMenu = $('#ViewDeviceContextMenuList');
 				$contextMenu.find('a').off('click');
 				$contextMenu.empty();
-				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuToggleActive || 'contextMenuToggleActive'], arrayIndex)){
+				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuToggleActive || 'contextMenuToggleActive'], uiElementOptions[that.clickActionOptions.contextMenuToggleActiveInvert || 'contextMenuToggleActiveInvert'], arrayIndex)){
 					$(`<li class="ui-nodisc-icon ui-alt-icon" data-icon="power"></li>`).append(`<a href="" target="">${_("Toggle")}</a>`).on('click', function(event){
 						$("#ViewDeviceContextMenu").popup("close");
 						$element.trigger('contextMenuClick', {clickAction: 'toggle'});
 					}).appendTo($contextMenu);
 				}
-				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuDialogActive || 'contextMenuDialogActive'], arrayIndex)){
+				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuDialogActive || 'contextMenuDialogActive'], uiElementOptions[that.clickActionOptions.contextMenuDialogActiveInvert || 'contextMenuDialogActiveInvert'], arrayIndex)){
 					$(`<li class="ui-nodisc-icon ui-alt-icon" data-icon="comment"></li>`).append(`<a href="" target="">${_("Properties...")}</a>`).on('click', function(event){
 						$("#ViewDeviceContextMenu").popup("close");
 						setTimeout(function(){ $element.trigger('contextMenuClick', {clickAction: 'openDialog'}); }, 300);
 					}).appendTo($contextMenu);
 				}
-				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuEnlargeActive || 'contextMenuEnlargeActive'], arrayIndex)){
+				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuEnlargeActive || 'contextMenuEnlargeActive'], uiElementOptions[that.clickActionOptions.contextMenuEnlargeActiveInvert || 'contextMenuEnlargeActiveInvert'], arrayIndex)){
 					var enlarged = $element.parents('.tile').hasClass('enlarged');
 					$(`<li class="ui-nodisc-icon ui-alt-icon" data-icon="${enlarged ? 'arrow-d-l' : 'arrow-u-r'}"></li>`).append(`<a href="" target="">${enlarged ? _("Reduce") : _("Enlarge")}</a>`).on('click', {}, function(event){
 						$("#ViewDeviceContextMenu").popup("close");
 						$element.trigger('contextMenuClick', {clickAction: 'enlarge'});
 					}).appendTo($contextMenu);
 				}
-				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuOpenLinkToOtherViewActive || 'contextMenuOpenLinkToOtherViewActive'], arrayIndex)){
+				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuOpenLinkToOtherViewActive || 'contextMenuOpenLinkToOtherViewActive'], uiElementOptions[that.clickActionOptions.contextMenuOpenLinkToOtherViewActiveInvert || 'contextMenuOpenLinkToOtherViewActiveInvert'], arrayIndex)){
 					var deviceLinkedViewId = addNamespaceToViewId(device.nativeLinkedView);
 					if(deviceLinkedViewId && typeof getView(deviceLinkedViewId.split("#")[0]) !== udef && getView(deviceLinkedViewId.split("#")[0]) && typeof getView(deviceLinkedViewId.split("#")[0]).commonName !== udef){
 						var deviceLinkedViewName = getView(deviceLinkedViewId.split("#")[0]).commonName;
@@ -9649,7 +9650,7 @@ uiElementOptions.contextMenu = true; //#####
 						}).appendTo($contextMenu);
 					}
 				}
-				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuOpenURLExternalActive || 'contextMenuOpenURLExternalActive'], arrayIndex)){
+				if(getUiOptionActive(device, uiElementOptions[that.clickActionOptions.contextMenuOpenURLExternalActive || 'contextMenuOpenURLExternalActive'], uiElementOptions[that.clickActionOptions.contextMenuOpenURLExternalActiveInvert || 'contextMenuOpenURLExternalActiveInvert'], arrayIndex)){
 					let urlState = getUiOptionState(device, uiElementOptions[that.clickActionOptions.urlState || 'urlState'], arrayIndex);
 					if(!urlState || ! urlState.val) urlState = getStateFromDeviceState(device, 'URL');
 					if(urlState && urlState.val){

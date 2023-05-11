@@ -940,15 +940,7 @@ var standardTileClass = {
 			"heightValue": 100,
 			"heightUnit": "%",
 			"default": true,
-			"readonly": true,
-			"styleColorInactive": "",
-			"styleColorInactiveHover": "",
-			"styleColorActive": "",
-			"styleColorActiveHover": "",
-			"styleColorInactiveOntransparent": "",
-			"styleColorInactiveOntransparentHover": "",
-			"styleColorActiveOntransparent": "",
-			"styleColorActiveOntransparentHover": ""
+			"readonly": true
 		},
 		{
 			"name": "Badge",
@@ -956,23 +948,15 @@ var standardTileClass = {
 			"horizontalValue": -5,
 			"horizontalUnit": "px",
 			"widthMode": "normal",
-			"widthValue": 57,
+			"widthValue": 50,
 			"widthUnit": "px",
 			"verticalMode": "top",
-			"verticalValue": -5,
+			"verticalValue": -8,
 			"verticalUnit": "px",
 			"heightMode": "normal",
-			"heightValue": 18,
+			"heightValue": 15,
 			"heightUnit": "px",
-			"default": true,
-			"styleColorInactive": "",
-			"styleColorInactiveHover": "",
-			"styleColorActive": "",
-			"styleColorActiveHover": "",
-			"styleColorInactiveOntransparent": "",
-			"styleColorInactiveOntransparentHover": "",
-			"styleColorActiveOntransparent": "",
-			"styleColorActiveOntransparentHover": ""
+			"default": true
 		},
 		{
 			"name": "Enlarge",
@@ -1004,15 +988,7 @@ var standardTileClass = {
 			"heightMode": "normal",
 			"heightValue": 38,
 			"heightUnit": "px",
-			"default": true,
-			"styleColorInactive": "",
-			"styleColorInactiveHover": "",
-			"styleColorActive": "",
-			"styleColorActiveHover": "",
-			"styleColorInactiveOntransparent": "",
-			"styleColorInactiveOntransparentHover": "",
-			"styleColorActiveOntransparent": "",
-			"styleColorActiveOntransparentHover": ""
+			"default": true
 		},
 		{
 			"name": "Loading",
@@ -1028,15 +1004,7 @@ var standardTileClass = {
 			"heightMode": "normal",
 			"heightValue": 24,
 			"heightUnit": "px",
-			"default": true,
-			"styleColorInactive": "",
-			"styleColorInactiveHover": "",
-			"styleColorActive": "",
-			"styleColorActiveHover": "",
-			"styleColorInactiveOntransparent": "",
-			"styleColorInactiveOntransparentHover": "",
-			"styleColorActiveOntransparent": "",
-			"styleColorActiveOntransparentHover": ""
+			"default": true
 		},
 		{
 			"name": "Error",
@@ -1052,15 +1020,7 @@ var standardTileClass = {
 			"heightMode": "normal",
 			"heightValue": 16,
 			"heightUnit": "px",
-			"default": true,
-			"styleColorInactive": "",
-			"styleColorInactiveHover": "",
-			"styleColorActive": "",
-			"styleColorActiveHover": "",
-			"styleColorInactiveOntransparent": "",
-			"styleColorInactiveOntransparentHover": "",
-			"styleColorActiveOntransparent": "",
-			"styleColorActiveOntransparentHover": ""
+			"default": true
 		},
 		{
 			"name": "Unreach",
@@ -1076,15 +1036,7 @@ var standardTileClass = {
 			"heightMode": "normal",
 			"heightValue": 16,
 			"heightUnit": "px",
-			"default": true,
-			"styleColorInactive": "",
-			"styleColorInactiveHover": "",
-			"styleColorActive": "",
-			"styleColorActiveHover": "",
-			"styleColorInactiveOntransparent": "",
-			"styleColorInactiveOntransparentHover": "",
-			"styleColorActiveOntransparent": "",
-			"styleColorActiveOntransparentHover": ""
+			"default": true
 		},
 		{
 			"name": "Battery",
@@ -1100,15 +1052,7 @@ var standardTileClass = {
 			"heightMode": "normal",
 			"heightValue": 16,
 			"heightUnit": "px",
-			"default": true,
-			"styleColorInactive": "",
-			"styleColorInactiveHover": "",
-			"styleColorActive": "",
-			"styleColorActiveHover": "",
-			"styleColorInactiveOntransparent": "",
-			"styleColorInactiveOntransparentHover": "",
-			"styleColorActiveOntransparent": "",
-			"styleColorActiveOntransparentHover": ""
+			"default": true
 		},
 		{
 			"name": "INFO_A",
@@ -1124,15 +1068,7 @@ var standardTileClass = {
 			"heightMode": "normal",
 			"heightValue": 12,
 			"heightUnit": "px",
-			"default": true,
-			"styleColorInactive": "",
-			"styleColorInactiveHover": "",
-			"styleColorActive": "",
-			"styleColorActiveHover": "",
-			"styleColorInactiveOntransparent": "",
-			"styleColorInactiveOntransparentHover": "",
-			"styleColorActiveOntransparent": "",
-			"styleColorActiveOntransparentHover": ""
+			"default": true
 		},
 		{
 			"name": "INFO_B",
@@ -1148,15 +1084,7 @@ var standardTileClass = {
 			"heightMode": "normal",
 			"heightValue": 12,
 			"heightUnit": "px",
-			"default": true,
-			"styleColorInactive": "",
-			"styleColorInactiveHover": "",
-			"styleColorActive": "",
-			"styleColorActiveHover": "",
-			"styleColorInactiveOntransparent": "",
-			"styleColorInactiveOntransparentHover": "",
-			"styleColorActiveOntransparent": "",
-			"styleColorActiveOntransparentHover": ""
+			"default": true
 		},
 		{
 			"name": "Name",
@@ -1173,15 +1101,7 @@ var standardTileClass = {
 			"heightValue": "27",
 			"heightUnit": "px",
 			"styleFont-weight": "bold",
-			"default": true,
-			"styleColorInactive": "",
-			"styleColorInactiveHover": "",
-			"styleColorActive": "",
-			"styleColorActiveHover": "",
-			"styleColorInactiveOntransparent": "",
-			"styleColorInactiveOntransparentHover": "",
-			"styleColorActiveOntransparent": "",
-			"styleColorActiveOntransparentHover": ""
+			"default": true
 		},
 		{
 			"name": "State",
@@ -1197,15 +1117,7 @@ var standardTileClass = {
 			"heightMode": "tileMinus",
 			"heightValue": "83",
 			"heightUnit": "px",
-			"default": true,
-			"styleColorInactive": "",
-			"styleColorInactiveHover": "",
-			"styleColorActive": "",
-			"styleColorActiveHover": "",
-			"styleColorInactiveOntransparent": "",
-			"styleColorInactiveOntransparentHover": "",
-			"styleColorActiveOntransparent": "",
-			"styleColorActiveOntransparentHover": ""
+			"default": true
 		}
 	]
 }
@@ -1216,6 +1128,7 @@ var uiElementOptions = {
 		{option: "iconClasses", type: "string", description: "Optional. Add these CSS-Classes to the icon."},
 		{option: "iconState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "The url of the icon."},
 		{option: "iconActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "iconActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
 		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
 		{option: "iconNoPointerEvents", type: "checkbox", description: "If true, the icon does not capture mouse or touch events. Default: false."},
 		{option: "iconClickAction", type: "select", selectOptions: ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView", description: "Defines, what happens, when you click on the icon. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false."},
@@ -1230,6 +1143,7 @@ var uiElementOptions = {
 		{option: "textState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "STATE", description: "The text to display."},
 		{option: "textLevelState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "LEVEL", description: "Optional. The default textProcessing can combine two values, a state and a level. This ist the level."},
 		{option: "textActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "textActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
 		{option: "textAddTimestampMode", type: "string", description: "Optional. Add timestamp to text. Can be: empty = State only | SA = State only (if active) | ST = State + Timestamp | STA = State + Timestamp (if active) | SE = State + Elapsed | SEA = State + Elapsed (if active) | SE. = State + Elapsed (since) | SE.A = State + Elapsed (since, if active) | Se = State + Elapsed (short) | SeA = State + Elapsed (short, if active) | STE = State + Timestamp + Elapsed | STEA = State + Timestamp + Elapsed (if active) | STE. = State + Timestamp + Elapsed (since) | STE.A = State + Timestamp + Elapsed (since, if active) | STe = State + Timestamp + Elapsed (short) | STeA = State + Timestamp + Elapsed (short, if active) | T = Timestamp only | TA = Timestamp only (if active) | TE = Timestamp + Elapsed | TEA = Timestamp + Elapsed (if active) | TE. = Timestamp + Elapsed (since) | TE.A = Timestamp + Elapsed (since, if active) | Te = Timestamp + Elapsed (short) | TeA = Timestamp + Elapsed (short, if active) | E = Elapsed only | EA = Elapsed only (if active) | E. = Elapsed only (since) | E.A = Elapsed only (since, if active) | e = Elapsed only (short) | eA = Elapsed only (short, if active) | N = Nothing (Hide state). Default: empty."},
 		{option: "textProcessingFunction", type: "textarea", description: "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction"},
 		{option: "textProcessingOptions", type: "textarea", value: "{}", description: "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}."},
@@ -1241,6 +1155,7 @@ var uiElementOptions = {
 		{option: "iconClasses", type: "string", description: "Optional. Add these CSS-Classes to the icon."},
 		{option: "iconState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "The url of the icon."},
 		{option: "iconActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "iconActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
 		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
 		{option: "iconNoPointerEvents", type: "checkbox", description: "If true, the icon does not capture mouse or touch events. Default: false."},
 		{option: "iconClickAction", type: "select", selectOptions: ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView", description: "Defines, what happens, when you click on the icon. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false."},
@@ -1252,6 +1167,7 @@ var uiElementOptions = {
 		{option: "textState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "STATE", description: "The text to display."},
 		{option: "textLevelState", type: "string", role: "deviceState", roleOptions: "+deviceState", value: "LEVEL", description: "Optional. The default textProcessing can combine two values, a state and a level. This ist the level."},
 		{option: "textActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "textActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
 		{option: "textAddTimestampMode", type: "string", description: "Optional. Add timestamp to text. Can be: empty = State only | SA = State only (if active) | ST = State + Timestamp | STA = State + Timestamp (if active) | SE = State + Elapsed | SEA = State + Elapsed (if active) | SE. = State + Elapsed (since) | SE.A = State + Elapsed (since, if active) | Se = State + Elapsed (short) | SeA = State + Elapsed (short, if active) | STE = State + Timestamp + Elapsed | STEA = State + Timestamp + Elapsed (if active) | STE. = State + Timestamp + Elapsed (since) | STE.A = State + Timestamp + Elapsed (since, if active) | STe = State + Timestamp + Elapsed (short) | STeA = State + Timestamp + Elapsed (short, if active) | T = Timestamp only | TA = Timestamp only (if active) | TE = Timestamp + Elapsed | TEA = Timestamp + Elapsed (if active) | TE. = Timestamp + Elapsed (since) | TE.A = Timestamp + Elapsed (since, if active) | Te = Timestamp + Elapsed (short) | TeA = Timestamp + Elapsed (short, if active) | E = Elapsed only | EA = Elapsed only (if active) | E. = Elapsed only (since) | E.A = Elapsed only (since, if active) | e = Elapsed only (short) | eA = Elapsed only (short, if active) | N = Nothing (Hide state). Default: empty."},
 		{option: "textProcessingFunction", type: "textarea", description: "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction"},
 		{option: "textProcessingOptions", type: "textarea", value: "{}", description: "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}."},
@@ -1276,6 +1192,7 @@ var uiElementOptions = {
 	clickAction: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
 		{option: "clickActionActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "clickActionActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
 		{option: "clickAction", type: "select", selectOptions: ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView", description: "Defines, what happens, when you click on the element. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false."},
 		{option: "clickActionToggleFunction", type: "string", description: "Only valid, if clickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values."},
 		{option: "clickActionURLState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "Only valid, if iconClickAction is openURLExternal. This is the url to open."},
@@ -1283,15 +1200,21 @@ var uiElementOptions = {
 		{option: "clickActionRenderLinkedViewInParentInstanceClosesPanel", type: "checkbox", description: "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a panel, then the panel closes after the linked view is rendered. Default: false."},
 		{option: "contextMenu", type: "checkbox", description: "If true, a context menu can be opened by a long press. Default: false."},
 		{option: "contextMenuToggleActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "contextMenuToggleActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
 		{option: "contextMenuDialogActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "contextMenuDialogActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
 		{option: "contextMenuEnlargeActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "contextMenuEnlargeActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
 		{option: "contextMenuOpenLinkToOtherViewActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
-		{option: "contextMenuOpenURLExternalActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."}
+		{option: "contextMenuOpenLinkToOtherViewActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
+		{option: "contextMenuOpenURLExternalActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "contextMenuOpenURLExternalActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."}
 	],
 	enlargeButton: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
 		{option: "enlargeButtonClasses", type: "string", description: "Optional. Add these CSS-Classes to the button."},
 		{option: "enlargeButtonActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
+		{option: "enlargeButtonActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
 		{option: "enlargeButtonNoZoomOnHover", type: "checkbox", description: "If true, the button does not zoom in on mouse hover. Default: false."},
 		{option: "enlargeButtonRotate", type: "string", description: "Optional. Rotate the element by this value in degrees."}
 	]
@@ -1974,12 +1897,14 @@ var iQontrolRoles = {
 				sizeActive: {selectOptions: " /Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: "fullWidthIfActive fullHeightIfActive"},
 				noOverlayActive: {default: "true"}
 			}},
-			SECTION_TILE_ENLARGED: {options: {
-				sizeEnlarged: {selectOptions: " /Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
+			SECTION_TILE_ENLARGE_CONDITION: {options: {
 				tileEnlargeShowButtonInactive: {default: "true"},
 				tileEnlargeShowButtonActive: {default: "true"},
 				tileEnlargeShowInPressureMenuInactive: {default: "true"},
 				tileEnlargeShowInPressureMenuActive: {default: "true"}
+			}},
+			SECTION_TILE_ENLARGED: {options: {
+				sizeEnlarged: {selectOptions: " /Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"}
 			}},
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
 				levelCaption: "delete",
@@ -2068,6 +1993,13 @@ var iQontrolRolesStandardOptions = {
 		tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 		tileActiveConditionValue: {name: "Condition value", type: "text", default: ""}
 	}},
+	SECTION_TILE_ENLARGE_CONDITION: {name: "Conditions for an Enlarged Tile", type: "section", options: {
+		tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
+		tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+		tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+		tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
+		tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"}
+	}},
 	SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section", options: {
 		sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 		stateHeightAdaptsContentInactive: {name: "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is inactive", type: "checkbox", default: "false"},
@@ -2111,11 +2043,6 @@ var iQontrolRolesStandardOptions = {
 		iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
 		transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
 		noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
-		tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-		tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
-		tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
-		tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
-		tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 		visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 		hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
 		hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
@@ -3023,138 +2950,399 @@ var iQontrolRolesStandardTileSettingElements = [
     },
     {
         "commonType": "iconTextCombination",
-        "commonName": "Full Size State",
+        "commonName": "Full Size State off",
         "stackIndex": "0",
         "outside": false,
         "options": [
-            {
-                "option": "stackCycles",
-                "type": "checkbox",
-                "role": "const",
-                "value": false
-            },
-            {
-                "option": "iconClasses",
-                "type": "string",
-                "role": "const",
-                "value": ""
-            },
-            {
-                "option": "iconState",
-                "type": "string",
-                "role": "deviceOption",
-                "value": "icon_off"
-            },
-            {
-                "option": "iconActive",
-                "type": "activeConditionArray",
-                "role": "array",
-                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-            },
-            {
-                "option": "iconZoomOnHover",
-                "type": "checkbox",
-                "role": "const",
-                "value": true
-            },
-            {
-                "option": "iconNoPointerEvents",
-                "type": "checkbox",
-                "role": "const",
-                "value": false
-            },
-            {
-                "option": "iconClickAction",
-                "type": "select",
-                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
-                "role": "deviceOption",
-                "value": "clickOnIconAction"
-            },
-            {
-                "option": "iconClickActionToggleFunction",
-                "type": "string",
-                "role": "const",
-                "value": ""
-            },
-            {
-                "option": "iconClickActionURLState",
-                "type": "string",
-                "role": "deviceState",
-                "value": "URL"
-            },
-            {
-                "option": "iconClickActionRenderLinkedViewInParentInstance",
-                "type": "checkbox",
-                "role": "deviceOption",
-                "value": "renderLinkedViewInParentInstance"
-            },
-            {
-                "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
-                "type": "checkbox",
-                "role": "deviceOption",
-                "value": "renderLinkedViewInParentInstanceClosesPanel"
-            },
-            {
-                "option": "textClasses",
-                "type": "string",
-                "role": "const",
-                "value": ""
-            },
-            {
-                "option": "textState",
-                "type": "string",
-                "role": "deviceState",
-                "value": "STATE"
-            },
-            {
-                "option": "textLevelState",
-                "type": "string",
-                "role": "deviceState",
-                "value": "LEVEL"
-            },
-            {
-                "option": "textActive",
-                "type": "activeConditionArray",
-                "role": "array",
-                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
-            },
-            {
-                "option": "textAddTimestampMode",
-                "type": "string",
-                "role": "deviceOption",
-                "value": "addTimestampToState"
-            },
-            {
-                "option": "textProcessingFunction",
-                "type": "textarea",
-                "role": "const",
-                "value": ""
-            },
-            {
-                "option": "textProcessingOptions",
-                "type": "textarea",
-                "value": "{}",
-                "role": "const"
-            },
-            {
-                "option": "textMultiline",
-                "type": "checkbox",
-                "role": "const",
-                "value": true
-            },
-            {
-                "option": "textNoPointerEvents",
-                "type": "checkbox",
-                "role": "const",
-                "value": false
-            },
-            {
-                "option": "textAlwaysReservePlaceForIcon",
-                "type": "checkbox",
-                "role": "const",
-                "value": false
-            }
-        ]
+			{
+				"option": "stackCycles",
+				"type": "checkbox",
+				"description": "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false.",
+				"role": "const",
+				"value": false,
+				"optionIndex": 0,
+				"roleOptions": ""
+			},
+			{
+				"option": "iconClasses",
+				"type": "string",
+				"description": "Optional. Add these CSS-Classes to the icon.",
+				"role": "const",
+				"value": "",
+				"optionIndex": 1,
+				"roleOptions": ""
+			},
+			{
+				"option": "iconState",
+				"type": "string",
+				"role": "deviceOption",
+				"roleOptions": "+deviceState",
+				"value": "icon_off",
+				"description": "The url of the icon.",
+				"optionIndex": 2
+			},
+			{
+				"option": "iconActive",
+				"type": "activeConditionArray",
+				"role": "array",
+				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
+				"description": "Optional. You can set conditions under which the element is active, that is, whether it is visible or not.",
+				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]",
+				"optionIndex": 3
+			},
+			{
+				"option": "iconZoomOnHover",
+				"type": "checkbox",
+				"description": "If true, the icon zooms in on mouse hover. Default: false.",
+				"role": "const",
+				"value": true,
+				"optionIndex": 4,
+				"roleOptions": ""
+			},
+			{
+				"option": "iconNoPointerEvents",
+				"type": "checkbox",
+				"description": "If true, the icon does not capture mouse or touch events. Default: false.",
+				"role": "const",
+				"value": false,
+				"optionIndex": 5,
+				"roleOptions": ""
+			},
+			{
+				"option": "iconClickAction",
+				"type": "select",
+				"selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
+				"description": "Defines, what happens, when you click on the icon. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false.",
+				"optionIndex": 6,
+				"roleOptions": "",
+				"role": "deviceOption",
+				"value": "clickOnIconAction"
+			},
+			{
+				"option": "iconClickActionToggleFunction",
+				"type": "string",
+				"description": "Only valid, if iconClickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values.",
+				"optionIndex": 7,
+				"roleOptions": "",
+				"role": "const",
+				"value": ""
+			},
+			{
+				"option": "iconClickActionURLState",
+				"type": "string",
+				"role": "deviceState",
+				"roleOptions": "+deviceState",
+				"value": "URL",
+				"description": "Only valid, if iconClickAction is openURLExternal. This is the url to open.",
+				"optionIndex": 8
+			},
+			{
+				"option": "iconClickActionRenderLinkedViewInParentInstance",
+				"type": "checkbox",
+				"description": "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a background view or a panel, then the linked view is opened in the parent instance. Default: false.",
+				"optionIndex": 9,
+				"roleOptions": "",
+				"role": "deviceOption",
+				"value": "renderLinkedViewInParentInstance"
+			},
+			{
+				"option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
+				"type": "checkbox",
+				"description": "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a panel, then the panel closes after the linked view is rendered. Default: false.",
+				"optionIndex": 10,
+				"roleOptions": "",
+				"role": "deviceOption",
+				"value": "renderLinkedViewInParentInstanceClosesPanel"
+			},
+			{
+				"option": "textClasses",
+				"type": "string",
+				"description": "Optional. Add these CSS-Classes to the text.",
+				"role": "const",
+				"value": "",
+				"optionIndex": 11,
+				"roleOptions": ""
+			},
+			{
+				"option": "textState",
+				"type": "string",
+				"role": "deviceState",
+				"roleOptions": "+deviceState",
+				"value": "STATE",
+				"description": "The text to display.",
+				"optionIndex": 12
+			},
+			{
+				"option": "textLevelState",
+				"type": "string",
+				"role": "deviceState",
+				"roleOptions": "+deviceState",
+				"value": "LEVEL",
+				"description": "Optional. The default textProcessing can combine two values, a state and a level. This ist the level.",
+				"optionIndex": 13
+			},
+			{
+				"option": "textActive",
+				"type": "activeConditionArray",
+				"role": "array",
+				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
+				"description": "Optional. You can set conditions under which the element is active, that is, whether it is visible or not.",
+				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]",
+				"optionIndex": 14
+			},
+			{
+				"option": "textAddTimestampMode",
+				"type": "string",
+				"description": "Optional. Add timestamp to text. Can be: empty = State only | SA = State only (if active) | ST = State + Timestamp | STA = State + Timestamp (if active) | SE = State + Elapsed | SEA = State + Elapsed (if active) | SE. = State + Elapsed (since) | SE.A = State + Elapsed (since, if active) | Se = State + Elapsed (short) | SeA = State + Elapsed (short, if active) | STE = State + Timestamp + Elapsed | STEA = State + Timestamp + Elapsed (if active) | STE. = State + Timestamp + Elapsed (since) | STE.A = State + Timestamp + Elapsed (since, if active) | STe = State + Timestamp + Elapsed (short) | STeA = State + Timestamp + Elapsed (short, if active) | T = Timestamp only | TA = Timestamp only (if active) | TE = Timestamp + Elapsed | TEA = Timestamp + Elapsed (if active) | TE. = Timestamp + Elapsed (since) | TE.A = Timestamp + Elapsed (since, if active) | Te = Timestamp + Elapsed (short) | TeA = Timestamp + Elapsed (short, if active) | E = Elapsed only | EA = Elapsed only (if active) | E. = Elapsed only (since) | E.A = Elapsed only (since, if active) | e = Elapsed only (short) | eA = Elapsed only (short, if active) | N = Nothing (Hide state). Default: empty.",
+				"optionIndex": 15,
+				"roleOptions": "",
+				"role": "deviceOption",
+				"value": "addTimestampToState"
+			},
+			{
+				"option": "textProcessingFunction",
+				"type": "textarea",
+				"description": "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction",
+				"role": "const",
+				"value": "",
+				"optionIndex": 16,
+				"roleOptions": ""
+			},
+			{
+				"option": "textProcessingOptions",
+				"type": "textarea",
+				"value": "{}",
+				"description": "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}.",
+				"role": "const",
+				"optionIndex": 17,
+				"roleOptions": ""
+			},
+			{
+				"option": "textMultiline",
+				"type": "checkbox",
+				"description": "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false.",
+				"role": "const",
+				"value": true,
+				"optionIndex": 18,
+				"roleOptions": ""
+			},
+			{
+				"option": "textNoPointerEvents",
+				"type": "checkbox",
+				"description": "If true, the text does not capture mouse or touch events. Default: false.",
+				"optionIndex": 19,
+				"roleOptions": "",
+				"role": "const",
+				"value": false
+			},
+			{
+				"option": "textAlwaysReservePlaceForIcon",
+				"type": "checkbox",
+				"description": "If true, the text will leave place for the icon, even if it is invisible. Default: false.",
+				"role": "const",
+				"value": false,
+				"optionIndex": 20,
+				"roleOptions": ""
+			}
+		]
+    },
+	{
+        "commonType": "iconTextCombination",
+        "commonName": "Full Size State on",
+        "stackIndex": "0",
+        "outside": false,
+        "options": [
+			{
+				"option": "stackCycles",
+				"type": "checkbox",
+				"description": "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false.",
+				"role": "const",
+				"value": false,
+				"optionIndex": 0,
+				"roleOptions": ""
+			},
+			{
+				"option": "iconClasses",
+				"type": "string",
+				"description": "Optional. Add these CSS-Classes to the icon.",
+				"role": "const",
+				"value": "",
+				"optionIndex": 1,
+				"roleOptions": ""
+			},
+			{
+				"option": "iconState",
+				"type": "string",
+				"role": "deviceOption",
+				"roleOptions": "+deviceState",
+				"value": "icon_off",
+				"description": "The url of the icon.",
+				"optionIndex": 2
+			},
+			{
+				"option": "iconActive",
+				"type": "activeConditionArray",
+				"role": "array",
+				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
+				"description": "Optional. You can set conditions under which the element is active, that is, whether it is visible or not.",
+				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]",
+				"optionIndex": 3
+			},
+			{
+				"option": "iconZoomOnHover",
+				"type": "checkbox",
+				"description": "If true, the icon zooms in on mouse hover. Default: false.",
+				"role": "const",
+				"value": true,
+				"optionIndex": 4,
+				"roleOptions": ""
+			},
+			{
+				"option": "iconNoPointerEvents",
+				"type": "checkbox",
+				"description": "If true, the icon does not capture mouse or touch events. Default: false.",
+				"role": "const",
+				"value": false,
+				"optionIndex": 5,
+				"roleOptions": ""
+			},
+			{
+				"option": "iconClickAction",
+				"type": "select",
+				"selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
+				"description": "Defines, what happens, when you click on the icon. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false.",
+				"optionIndex": 6,
+				"roleOptions": "",
+				"role": "deviceOption",
+				"value": "clickOnIconAction"
+			},
+			{
+				"option": "iconClickActionToggleFunction",
+				"type": "string",
+				"description": "Only valid, if iconClickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values.",
+				"optionIndex": 7,
+				"roleOptions": "",
+				"role": "const",
+				"value": ""
+			},
+			{
+				"option": "iconClickActionURLState",
+				"type": "string",
+				"role": "deviceState",
+				"roleOptions": "+deviceState",
+				"value": "URL",
+				"description": "Only valid, if iconClickAction is openURLExternal. This is the url to open.",
+				"optionIndex": 8
+			},
+			{
+				"option": "iconClickActionRenderLinkedViewInParentInstance",
+				"type": "checkbox",
+				"description": "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a background view or a panel, then the linked view is opened in the parent instance. Default: false.",
+				"optionIndex": 9,
+				"roleOptions": "",
+				"role": "deviceOption",
+				"value": "renderLinkedViewInParentInstance"
+			},
+			{
+				"option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
+				"type": "checkbox",
+				"description": "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a panel, then the panel closes after the linked view is rendered. Default: false.",
+				"optionIndex": 10,
+				"roleOptions": "",
+				"role": "deviceOption",
+				"value": "renderLinkedViewInParentInstanceClosesPanel"
+			},
+			{
+				"option": "textClasses",
+				"type": "string",
+				"description": "Optional. Add these CSS-Classes to the text.",
+				"role": "const",
+				"value": "",
+				"optionIndex": 11,
+				"roleOptions": ""
+			},
+			{
+				"option": "textState",
+				"type": "string",
+				"role": "deviceState",
+				"roleOptions": "+deviceState",
+				"value": "STATE",
+				"description": "The text to display.",
+				"optionIndex": 12
+			},
+			{
+				"option": "textLevelState",
+				"type": "string",
+				"role": "deviceState",
+				"roleOptions": "+deviceState",
+				"value": "LEVEL",
+				"description": "Optional. The default textProcessing can combine two values, a state and a level. This ist the level.",
+				"optionIndex": 13
+			},
+			{
+				"option": "textActive",
+				"type": "activeConditionArray",
+				"role": "array",
+				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
+				"description": "Optional. You can set conditions under which the element is active, that is, whether it is visible or not.",
+				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]",
+				"optionIndex": 14
+			},
+			{
+				"option": "textAddTimestampMode",
+				"type": "string",
+				"description": "Optional. Add timestamp to text. Can be: empty = State only | SA = State only (if active) | ST = State + Timestamp | STA = State + Timestamp (if active) | SE = State + Elapsed | SEA = State + Elapsed (if active) | SE. = State + Elapsed (since) | SE.A = State + Elapsed (since, if active) | Se = State + Elapsed (short) | SeA = State + Elapsed (short, if active) | STE = State + Timestamp + Elapsed | STEA = State + Timestamp + Elapsed (if active) | STE. = State + Timestamp + Elapsed (since) | STE.A = State + Timestamp + Elapsed (since, if active) | STe = State + Timestamp + Elapsed (short) | STeA = State + Timestamp + Elapsed (short, if active) | T = Timestamp only | TA = Timestamp only (if active) | TE = Timestamp + Elapsed | TEA = Timestamp + Elapsed (if active) | TE. = Timestamp + Elapsed (since) | TE.A = Timestamp + Elapsed (since, if active) | Te = Timestamp + Elapsed (short) | TeA = Timestamp + Elapsed (short, if active) | E = Elapsed only | EA = Elapsed only (if active) | E. = Elapsed only (since) | E.A = Elapsed only (since, if active) | e = Elapsed only (short) | eA = Elapsed only (short, if active) | N = Nothing (Hide state). Default: empty.",
+				"optionIndex": 15,
+				"roleOptions": "",
+				"role": "deviceOption",
+				"value": "addTimestampToState"
+			},
+			{
+				"option": "textProcessingFunction",
+				"type": "textarea",
+				"description": "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction",
+				"role": "const",
+				"value": "",
+				"optionIndex": 16,
+				"roleOptions": ""
+			},
+			{
+				"option": "textProcessingOptions",
+				"type": "textarea",
+				"value": "{}",
+				"description": "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}.",
+				"role": "const",
+				"optionIndex": 17,
+				"roleOptions": ""
+			},
+			{
+				"option": "textMultiline",
+				"type": "checkbox",
+				"description": "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false.",
+				"role": "const",
+				"value": true,
+				"optionIndex": 18,
+				"roleOptions": ""
+			},
+			{
+				"option": "textNoPointerEvents",
+				"type": "checkbox",
+				"description": "If true, the text does not capture mouse or touch events. Default: false.",
+				"optionIndex": 19,
+				"roleOptions": "",
+				"role": "const",
+				"value": false
+			},
+			{
+				"option": "textAlwaysReservePlaceForIcon",
+				"type": "checkbox",
+				"description": "If true, the text will leave place for the icon, even if it is invisible. Default: false.",
+				"role": "const",
+				"value": false,
+				"optionIndex": 20,
+				"roleOptions": ""
+			}
+		]
     },
     {
         "commonType": "badge",
@@ -7647,7 +7835,8 @@ async function load(settings, onChange) {
 						var $tbody = $('#tableDialogDeviceEditTileSettingsElementOptions table tbody');
 						var options = [];
 						$tbody.find('tr').each(function(){
-							var option = $(this).data('option');
+							var option = {};
+							option.option = $(this).data('option').option;
 							option.role = $(this).find('td[data-name="role"]').find('select').val();
 							var $tdValue = $(this).find('td[data-name="value"]');
 							var value;
@@ -7657,7 +7846,7 @@ async function load(settings, onChange) {
 								break;
 
 								case "const": default:
-									switch(option.type){
+									switch($(this).data('option').type){
 										case "checkbox":
 											option.value = $tdValue.find('input').prop('checked');
 										break;
@@ -7769,7 +7958,7 @@ async function load(settings, onChange) {
 		});		
 	}
 
-	var dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable;
+	var dialogDeviceEditTileSettingsElementOptionsActiveConditionArrayTable;
 	function tableDialogDeviceEditTileSettingsElementOptionsCreate$ValueField (option){
 		var $value;
 		switch(option.role){
@@ -7779,14 +7968,14 @@ async function load(settings, onChange) {
 						var $input = $(`<input disabled id="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}" type="text" class="validate" style="width: calc(100% - 40px)">`).val(option.value || "");
 						var $editButton = $(`<a data-index="${option.optionIndex}" data-command="edit" class="values-buttons btn-floating btn-small waves-effect waves-light"><i class="material-icons">edit</i></a>`).on('click', function(){
 							var _optionIndex = $(this).data('index');
-							dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable = tryParseJSON($(`#tableDialogDeviceEditTileSettingsElementOptions_${_optionIndex}`).val() || '') || [];
-							initDialog('dialogDeviceEditTileSettingsElementOptionsActiveContidionArray', function(){ //save dialog
-								var _optionIndex = $('#dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayIndex').val();
-								$(`#tableDialogDeviceEditTileSettingsElementOptions_${_optionIndex}`).val(JSON.stringify(dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable));
+							dialogDeviceEditTileSettingsElementOptionsActiveConditionArrayTable = tryParseJSON($(`#tableDialogDeviceEditTileSettingsElementOptions_${_optionIndex}`).val() || '') || [];
+							initDialog('dialogDeviceEditTileSettingsElementOptionsActiveConditionArray', function(){ //save dialog
+								var _optionIndex = $('#dialogDeviceEditTileSettingsElementOptionsActiveConditionArrayIndex').val();
+								$(`#tableDialogDeviceEditTileSettingsElementOptions_${_optionIndex}`).val(JSON.stringify(dialogDeviceEditTileSettingsElementOptionsActiveConditionArrayTable));
 							}, function(){ //init dialog function
 								$('#dialogDeviceEditTileSettingsElementOptionsActiveConditionArrayName').html(option.option);
-								$('#dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayIndex').val(_optionIndex);
-								values2table('tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray', dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable, onChange, ontableDialogDeviceEditTileSettingsElementOptionsActiveConditionArrayReady);
+								$('#dialogDeviceEditTileSettingsElementOptionsActiveConditionArrayIndex').val(_optionIndex);
+								values2table('tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray', dialogDeviceEditTileSettingsElementOptionsActiveConditionArrayTable, onChange, ontableDialogDeviceEditTileSettingsElementOptionsActiveConditionArrayReady);
 							});
 						});
 						$value = $(`<div class="input-field"></div>`).append($input).append($editButton).append(`<label for="tableDialogDeviceEditTileSettingsElementOptions_${option.optionIndex}"></label>`);
@@ -7978,11 +8167,11 @@ async function load(settings, onChange) {
 				});
 				var tableResorted = [];
 				for(var i = 0; i < sequence.length; i++){
-					tableResorted.push(dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable[sequence[i]]);
+					tableResorted.push(dialogDeviceEditTileSettingsElementOptionsActiveConditionArrayTable[sequence[i]]);
 				}
-				dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable = tableResorted;
+				dialogDeviceEditTileSettingsElementOptionsActiveConditionArrayTable = tableResorted;
 				onChange();
-				values2table('tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray', dialogDeviceEditTileSettingsElementOptionsActiveContidionArrayTable, onChange, ontableDialogDeviceEditTileSettingsElementOptionsActiveConditionArrayReady);
+				values2table('tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray', dialogDeviceEditTileSettingsElementOptionsActiveConditionArrayTable, onChange, ontableDialogDeviceEditTileSettingsElementOptionsActiveConditionArrayReady);
 				$("#tableDialogDeviceEditTileSettingsElementOptionsActiveConditionArray tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -12810,6 +12999,12 @@ async function save(callback) {
 						let cssSelector = cssPrefixes.map(function(cssPrefix){ return `${cssPrefix}${cssPostfix}`; }).join(', ');
 						cssString += cssSelector + ' { /* ' + tileClass.commonName + ' - ' + stack.name + ' */ ';
 						cssString += 'height: ' + stack[key] + '; ';
+						cssString += '} ';
+					} else if (key == 'styleIcon-max-height'){
+						let cssPostfix = ' .stackClass_' + stackIndex + ' .uiElement.icon';
+						let cssSelector = cssPrefixes.map(function(cssPrefix){ return `${cssPrefix}${cssPostfix}`; }).join(', ');
+						cssString += cssSelector + ' { /* ' + tileClass.commonName + ' - ' + stack.name + ' */ ';
+						cssString += 'max-height: ' + stack[key] + '; ';
 						cssString += '} ';
 					}
 				}
