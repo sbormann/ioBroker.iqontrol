@@ -2341,11 +2341,16 @@ function updateState(stateId, ignorePreventUpdate){
 
 	// ##### replaces the functions after that
 	for(let collectionId in deviceCollections.updateFunctions){
-		(deviceCollections.updateFunctions[collectionId][stateId] || []).forEach(function(updateFunction){
-			if(!preventUpdate[stateId] || ignorePreventUpdate == collectionId) {
-				updateFunction(stateId);
-			}	
-		});
+		if(!preventUpdate[stateId] || ignorePreventUpdate == collectionId) {
+			(deviceCollections.updateFunctions[collectionId] || []).forEach(function(updateFunctionObject, updateFunctionObjectIndex){
+				if(updateFunctionObject.stateIds && updateFunctionObject.stateIds.indexOf(stateId) > -1){
+					if(!updateFunctionObject.debounceTimer) updateFunctionObject.debounceTimer = setTimeout(function(){
+						updateFunctionObject.debounceTimer = false;
+						updateFunctionObject.updateFunction(stateId);
+					}, 10);
+				}
+			});
+		}
 	}
 	// #####
 
@@ -2827,7 +2832,7 @@ function calculate(expression){
     try{
         var calcFunction = new Function("return " + expression);
         var calcResult = calcFunction();
-        console.log("Calculation: " + expression + " -->Result: " + calcResult);
+        console.debug("Calculation: " + expression + " -->Result: " + calcResult);
 		return calcResult;
     } catch {
         console.debug("Calculation without valid result: " + expression);
@@ -8226,11 +8231,11 @@ function getStateIdFromDeviceState(device, state){
 	function createStateUpdateFunction(identifier, variableLinkedStateId, stateIdToUpdate){
 		var updateFunction = new Function("updateState('" + stateIdToUpdate + "');");
 		if(!deviceCollections.updateFunctions[identifier]) deviceCollections.updateFunctions[identifier] = [];
-		if(!deviceCollections.updateFunctions[identifier][variableLinkedStateId]) deviceCollections.updateFunctions[identifier][variableLinkedStateId] = [];
-		if(!deviceCollections.updateFunctions[identifier][variableLinkedStateId].filter(function(f){ return f.toString() == updateFunction.toString(); }).length){
+		if(!deviceCollections.updateFunctions[identifier].filter(function(updateFunctionObject){ return updateFunctionObject.stateIds.indexOf(variableLinkedStateId) > -1 && updateFunctionObject.updateFunction.toString() == updateFunction.toString(); }).length){
 			console.log("Create stateVariable updateFunction for " + variableLinkedStateId + " to update " + stateIdToUpdate)
-			deviceCollections.updateFunctions[identifier][variableLinkedStateId].push(updateFunction);
+			deviceCollections.updateFunctions[identifier].push({stateIds: [variableLinkedStateId], updateFunction: updateFunction});	
 		}
+
 	}
 }
 
@@ -8805,7 +8810,28 @@ function UIElements(initialUiElements) {
 		return this;
 	}
 
-	this.addUpdateFunction = function(stateIds, updateFunction, calledRecoursive){
+
+	this.addUpdateFunction = function(stateIds, updateFunction){
+		if(typeof stateIds == udef || typeof updateFunction != "function") return this;
+		if(typeof stateIds == "string" && stateIds != '' && stateIds != null){
+			stateIds = [stateIds];
+		}
+		var processedStateIds = [];
+		processStateIds(stateIds);
+		function processStateIds(stateIds){
+			if(Array.isArray(stateIds)) for(let i = 0; i < stateIds.length; i++){
+				let stateId = stateIds[i];
+				if(typeof stateId == "string" && stateId != '' && stateIds != null) processedStateIds.push(stateId);
+				else if(Array.isArray(stateId)) processStateIds(stateId);
+			}
+		}
+		if(processedStateIds.length == 0) processedStateIds.push("UPDATE_ONCE");
+		this.updateFunctions.push({stateIds: processedStateIds, updateFunction: updateFunction});
+		return this;
+	}
+
+
+	this.addUpdateFunctionOLD = function(stateIds, updateFunction, calledRecoursive){
 		if(typeof stateIds == udef || typeof updateFunction != "function") return this;
 		var validState = false;
 		var that = this;
@@ -8884,38 +8910,6 @@ function UIElements(initialUiElements) {
 	}
 
 	//---------- iconTextCombination ----------
-	/** Adds a icon and text combination
-	 * @param {object} device 
-	 * @param {object} uiElementOptions 
-	 *
-	 * @param {string} uiElementOptions.stackId
-	 * @param {boolean} uiElementOptions.stackCycles
-	 *
-	 * @param {string} uiElementOptions.iconClasses
-	 * @param {string} uiElementOptions.iconState
-	 * @param {string} uiElementOptions.iconActive
-	 * @param {boolean} uiElementOptions.iconZoomOnHover
-	 * @param {boolean} uiElementOptions.iconNoPointerEvents
-	 * @param {string} uiElementOptions.iconClickAction
-	 * @param {string} uiElementOptions.iconClickActionToggleFunction
-	 * @param {string} uiElementOptions.iconClickActionURLState
-	 * @param {boolean} uiElementOptions.iconClickActionRenderLinkedViewInParentInstance
-	 * @param {boolean} uiElementOptions.iconClickActionRenderLinkedViewInParentInstanceClosesPanel
-	 *
-	 * @param {string} uiElementOptions.textClasses
-	 * @param {string} uiElementOptions.textState
-	 * @param {string} uiElementOptions.textLevelState
-	 * @param {string} uiElementOptions.textActive
-	 * @param {boolean} uiElementOptions.textNoPointerEvents
-	 * @param {boolean} uiElementOptions.textAlwaysReservePlaceForIcon
-	 * @param {boolean} uiElementOptions.textMultiline
-	 * @param {string} uiElementOptions.textAddTimestampMode
-	 * @param {function} uiElementOptions.textProcessingFunction
-	 * @param {object} uiElementOptions.textProcessingOptions
-	 * @param {string} uiElementOptions.textProcessingOptions.showStateAndLevelSeparatelyInTile
-	 * 
-	 * @returns {UIElements}  
-	 */
 	this.addIconTextCombination = function(device, uiElementOptions, arrayIndex){
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
 		//Recoursive call for arrays
@@ -9023,19 +9017,6 @@ function UIElements(initialUiElements) {
 	this.addText = this.addIconTextCombination;
 
 	//---------- Loading Icon ----------
-	/** Adds a icon and text combination
-	 * @param {object} device 
-	 * @param {object} uiElementOptions 
-	 *
-	 * @param {string} uiElementOptions.stackId
-	 * @param {boolean} uiElementOptions.stackCycles
-	 *
-	 * @param {string} uiElementOptions.iconClasses
-	 * @param {boolean} uiElementOptions.iconZoomOnHover
-	 * @param {boolean} uiElementOptions.iconNoPointerEvents
-	 * 
-	 * @returns {UIElements}  
-	 */	
 	this.addLoadingIcon = function(device, uiElementOptions){
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
 		var _uiElementIndex = this.uiElementIndex; //#####
@@ -9052,19 +9033,6 @@ function UIElements(initialUiElements) {
 	}
 
 	//---------- Badge ----------
-	/** Adds a Badge to uiElements
-	 * @param {object} device 
-	 * @param {object} uiElementOptions 
-	 *
-	 * @param {string} uiElementOptions.stackId
-	 * @param {boolean} uiElementOptions.stackCycles
-
-	 * @param {string} uiElementOptions.badgeClasses class
-	 * @param {string} uiElementOptions.badgeState badgeDeviceStateId
-	 * @param {string} uiElementOptions.badgeColorState badgeColorDeviceStateId 
-	 * 
-	 * @returns {UIElements}  
-	 */
 	this.addBadge = function(device, uiElementOptions, arrayIndex){
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
 		//Recoursive call for arrays
@@ -9140,20 +9108,6 @@ function UIElements(initialUiElements) {
 	}
 
 	//---------- enlargeButton ----------
-	/** Adds a enlarge/reduce Button
-	 * @param {object} device 
-	 * @param {object} uiElementOptions 
-	 *
-	 * @param {string} uiElementOptions.stackId
-	 * @param {boolean} uiElementOptions.stackCycles
-	 * 
-	 * @param {string} uiElementOptions.enlargeButtonClasses
-	 * @param {boolean} uiElementOptions.enlargeButtonActive
-	 * @param {boolean} uiElementOptions.enlargeButtonNoZoomOnHover
-	 * @param {boolean} uiElementOptions.enlargeButtonRotate
-	 * 	 
-	 * @returns {UIElements}  
-	 */
 	this.addEnlargeButton = function(device, uiElementOptions, arrayIndex){
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
 		//Recoursive call for arrays
@@ -9198,29 +9152,6 @@ function UIElements(initialUiElements) {
 	}	
 
 	//---------- clickAction ----------
-	/** Adds a general click action
-	 * @param {object} device 
-	 * @param {object} uiElementOptions 
-	 *
-	 * @param {string} uiElementOptions.stackId
-	 * @param {boolean} uiElementOptions.stackCycles
-	 *
-	 * @param {string} uiElementOptions.clickActionActive
-	 * @param {string} uiElementOptions.clickAction
-	 * @param {string} uiElementOptions.clickActionToggleFunction
-	 * @param {string} uiElementOptions.clickActionURLState
-	 * @param {boolean} uiElementOptions.clickActionRenderLinkedViewInParentInstance
-	 * @param {boolean} uiElementOptions.clickActionRenderLinkedViewInParentInstanceClosesPanel
-	 * 
-	 * @param {string} uiElementOptions.contextMenu
-	 * @param {string} uiElementOptions.contextMenuToggleActive
-	 * @param {string} uiElementOptions.contextMenuDialogActive
-	 * @param {string} uiElementOptions.contextMenuEnlargeActive
-	 * @param {string} uiElementOptions.contextMenuOpenLinkToOtherViewActive
-	 * @param {string} uiElementOptions.contextMenuOpenURLExternalActive
-	 * 
-	 * @returns {UIElements}  
-	 */
 	this.addClickAction = function(device, uiElementOptions, arrayIndex){
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
 		//Recoursive call for arrays
@@ -9248,7 +9179,6 @@ function UIElements(initialUiElements) {
 		}
 		var bindingFunction = function(){
 			var $clickActionElement = $(`div.uiElement.clickAction[data-device-id-escaped="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
-uiElementOptions.contextMenu = true; //#####
 			clickActionBindingFunction(device, uiElementOptions, arrayIndex, $clickActionElement);
 		};
 		var unbindingFunction = function(){

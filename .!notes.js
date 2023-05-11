@@ -4,10 +4,9 @@
 
 
 //++++++++++ Next Steps ++++++++++
-- invertActive
-- Beim Speichern von Options description etc. nicht speichen
 
-- updateFunction verbessern 
+
+- float full size state around icon
 
 - enlarge/active funktion erstellen, die resize-observer ersetzt
 - shrink to free space
