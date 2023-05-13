@@ -1094,7 +1094,7 @@ html.adjustHeightToBackgroundView {
 	max-height: 85vh; max-height: calc(100vh - 70px);
 }
 .tileBackgroundIframeWrapper.adjustHeight {
-	height: unset !important;
+	xheight: unset !important;
 	position: relative !important;
 	left: -3px;
 	width: calc(100% + 6px);
@@ -1105,8 +1105,8 @@ html.adjustHeightToBackgroundView {
 	   -moz-transition: none;
 			transition: none;
 }
-.iQontrolDevice.adjustHeight, .iQontrolDevice.active.adjustHeightIfActive:not(.enlarged:not(adjustHeightIfEnlarged)), .iQontrolDevice:not(.active).adjustHeightIfInactive:not(.enlarged:not(adjustHeightIfEnlarged)), .iQontrolDevice.enlarged.adjustHeightIfEnlarged {
-	height: unset !important;
+.tile.adjustHeight .setTileSize, .tile.active.adjustHeightIfActive:not(.enlarged:not(adjustHeightIfEnlarged))  .setTileSize, .tile:not(.active).adjustHeightIfInactive:not(.enlarged:not(adjustHeightIfEnlarged))  .setTileSize, .tile.enlarged.adjustHeightIfEnlarged  .setTileSize {
+	/* height will be set programmatically, but only if the conditions above match, min- and max-height are unset and therefore the height is respected */
 	min-height: unset !important;
 	max-height: unset !important;
 }
@@ -1474,6 +1474,7 @@ html.bigMode #View .ui-panel-wrapper {
 	pointer-events: none;
 	position: absolute;
 	overflow: visible;
+	opacity: 0;
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
@@ -1484,7 +1485,9 @@ html.bigMode #View .ui-panel-wrapper {
 	font-size: 9pt;
 	line-height: 1.2;
 }
-
+.uiElementStack.container.active{
+	opacity: 0.9999;
+}
 .uiElement{
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -1499,7 +1502,7 @@ html.bigMode #View .ui-panel-wrapper {
 			transition: all 0s, transform 1s, opacity 1s;
 }
 .uiElement.active{
-	opacity: 0.99;
+	opacity: 0.9999;
 	pointer-events: all;
 }
 .uiElement.noPointerEvents{
@@ -1559,7 +1562,9 @@ html.bigMode #View .ui-panel-wrapper {
 .uiElement.badge {
 	pointer-events:none !important;
     z-index: 1000;
+	width: unset;
     min-width: 14px;
+	max-width: 100%; max-width: calc(100% - 4px);
     border-radius: 8px;
     padding: 0px 2px 0px 2px;
 	color: white;

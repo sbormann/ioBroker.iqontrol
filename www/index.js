@@ -5440,7 +5440,7 @@ function applyViewTileResizeObserver(){
 								var _targetShuffleItemIndex = null;
 								for(var i = 0; i < viewShuffleInstances.length; i++){
 									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
-										if(viewShuffleInstances[i].items[j].element.dataset.device-id-escaped == _targetDeviceId){
+										if(viewShuffleInstances[i].items[j].element.dataset.deviceIdEscaped == _targetDeviceId){
 											_targetShuffleInstanceIndex = i;
 											_targetShuffleItemIndex = j;
 											break;
@@ -5481,7 +5481,7 @@ function applyViewTileResizeObserver(){
 								var _targetShuffleItemIndex = null;
 								for(var i = 0; i < viewShuffleInstances.length; i++){
 									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
-										if(viewShuffleInstances[i].items[j].element.dataset.device-id-escaped == _targetDeviceId){
+										if(viewShuffleInstances[i].items[j].element.dataset.deviceIdEscaped == _targetDeviceId){
 											_targetShuffleInstanceIndex = i;
 											_targetShuffleItemIndex = j;
 											break;
@@ -5557,8 +5557,8 @@ function adaptHeightOrStartMarqueeOnOverflow($elements, noDelay){
 		if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
 		if($element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfInactive') || $element.hasClass('adaptsHeightIfActive')){ //adapt height ##### ??
 			console.log("adaptHeight: " + element.className + JSON.stringify(element.dataset));
-			//Shuffle two times
-			viewShuffleReshuffle([100, 1250]);
+			$('.viewIsotopeContainer').isotope('layout');
+			//###### viewShuffleReshuffle([100, 1250]);
 		} else if(!$element.data('marquee-disabled') && !options.LayoutViewMarqueeDisabled && (options.LayoutViewMarqueeNamesEnabled || $element.parent('.uiElementStack').data('ui-element-stack-name') != "Name") && (element.scrollHeight > $element.innerHeight() || element.scrollWidth > $element.innerWidth())) { //element has overflowing content
 			var direction = 'left';
 			var speed = (Number(options.LayoutViewMarqueeSpeed) || 40);
@@ -5600,7 +5600,7 @@ function viewScrollToDevice(scrollToDeviceId){ //add "h" to scrollToDeviceId to 
 		let targetShuffleItemIndex = null;
 		for(let i = 0; i < viewShuffleInstances.length; i++){
 			for(let j = 0; j < viewShuffleInstances[i].items.length; j++){
-				if(viewShuffleInstances[i].items[j].element.dataset.device-id-escaped == scrollToDeviceId){
+				if(viewShuffleInstances[i].items[j].element.dataset.deviceIdEscaped == scrollToDeviceId){
 					scrollToShuffleInstanceIndex = i;
 					scrollToShuffleItemIndex = j;
 					break;
@@ -7354,7 +7354,7 @@ function resizeDevicesToFitScreen(){
 			addCustomCSS(customCSS, "resizeDevicesToFitScreen");
 		}
 	}
-	viewShuffleReshuffle(500, 1250);
+	$('.viewIsotopeContainer').isotope('layout');
 }
 function resizeFullWidthDevicesToFitScreen(){
 	var deviceMargin = parseInt($('.tile').css('margin-left'), 10) || 6;
@@ -7656,7 +7656,7 @@ $(document).ready(function(){
 						var stateId = event.data.stateId;
 						if(event.data.command == "getWidgetState" || event.data.command == "getWidgetStateSubscribed") stateId = namespace + ".Widgets." + event.data.stateId;
 						if(event.data.command == "getWidgetDeviceState" || event.data.command == "getWidgetDeviceStateSubscribed") {
-							var deviceIdEscaped = sourceIframe.dataset.device-id-escaped;
+							var deviceIdEscaped = sourceIframe.dataset.deviceIdEscaped;
 							var deviceId = unescape(deviceIdEscaped);
 							var device = getDevice(deviceId);
 							var stateId = getLinkedStateId(device, deviceId, event.data.stateId) || "";
@@ -7704,7 +7704,7 @@ $(document).ready(function(){
 						var stateId = event.data.stateId;
 						if(event.data.command == "setWidgetState") stateId = namespace + ".Widgets." + event.data.stateId;
 						if(event.data.command == "setWidgetDeviceState"){
-							var deviceIdEscaped = sourceIframe.dataset.device-id-escaped;
+							var deviceIdEscaped = sourceIframe.dataset.deviceIdEscaped;
 							var deviceIndex = parseInt(deviceIdEscaped.substring(deviceIdEscaped.lastIndexOf(".") + 1));
 							stateId = actualView.devices[deviceIndex] && (actualView.devices[deviceIndex].states.find(function(element){ return (element.state == event.data.stateId); }) || {}).value || "";
 						}
@@ -7754,7 +7754,7 @@ $(document).ready(function(){
 					case "backgroundViewLoaded":
 					if(event.data.value){
 						console.log("postMessage received: backgroundViewLoaded");
-						var deviceIdEscaped = sourceIframe.dataset.device-id-escaped;
+						var deviceIdEscaped = sourceIframe.dataset.deviceIdEscaped;
 						if($("[data-device-id-escaped='" + deviceIdEscaped + "'].tileBackgroundIframeWrapper").css('opacity') == '0' && $("[data-device-id-escaped='" + deviceIdEscaped + "'].tileBackgroundIframeWrapper").html() !== "") $("[data-device-id-escaped='" + deviceIdEscaped + "'].tileBackgroundIframeWrapper").css('opacity', '');
 					}
 					break;
@@ -7764,7 +7764,7 @@ $(document).ready(function(){
 						console.log("postMessage received: adjustHeight " + event.data.value);
 						let value;
 						if(event.data.value != null && !isNaN(event.data.value)) value = parseInt(event.data.value); else return;
-						let deviceIdEscaped = sourceIframe.dataset.device-id-escaped;
+						let deviceIdEscaped = sourceIframe.dataset.deviceIdEscaped;
 						let $iframe = $("[data-device-id-escaped='" + deviceIdEscaped + "'].tileBackgroundIframe");
 						if(!$iframe.data('allow-adjust-height')) return;
 						let deviceClasses = "";
@@ -7772,11 +7772,13 @@ $(document).ready(function(){
 						if(!$iframe.parent('.tileBackgroundIframeWrapper').hasClass('hideIfInactive')) deviceClasses += " adjustHeightIfInactive";
 						if(!$iframe.parent('.tileBackgroundIframeWrapper').hasClass('hideIfEnlarged') || $iframe.parent('.tileBackgroundIframeWrapper').hasClass('visibleIfEnlarged')) deviceClasses += " adjustHeightIfEnlarged";
 						if(value < 0) {
-							$iframe.removeClass('adjustHeight').css('height', '').parent('.tileBackgroundIframeWrapper').removeClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass(deviceClasses);
+							//$iframe.removeClass('adjustHeight').css('height', '').parent('.tileBackgroundIframeWrapper').removeClass('adjustHeight').parents('.tile').removeClass(deviceClasses);
+							$iframe.removeClass('adjustHeight').parent('.tileBackgroundIframeWrapper').removeClass('adjustHeight').parents('.tile').removeClass(deviceClasses).find('.setTileSize').removeClass('adjustHeight').css('height', '');
 						} else {
-							$iframe.addClass('adjustHeight').css('height', value).parent('.tileBackgroundIframeWrapper').addClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').addClass(deviceClasses);
+							//$iframe.addClass('adjustHeight').css('height', value).parent('.tileBackgroundIframeWrapper').addClass('adjustHeight').parents('.tile').addClass(deviceClasses);
+							$iframe.addClass('adjustHeight').parent('.tileBackgroundIframeWrapper').addClass('adjustHeight').parents('.tile').addClass(deviceClasses).find('.setTileSize').addClass('adjustHeight').css('height', value);
 						}
-						viewShuffleReshuffle(0, 100, 750, 1250, 1500, 2000, 2500, 3100);
+						$('.viewIsotopeContainer').isotope('layout');
 						let maxHeight = $iframe.css('max-height').replace('px', '') || "0";
 						if(maxHeight && maxHeight != null && !isNaN(maxHeight)) maxHeight = parseInt(maxHeight);
 						if(maxHeight && $iframe.innerHeight() > maxHeight - 100){
@@ -8046,8 +8048,8 @@ function startUiElementStacksTimer(collectionId, interval){
 			var stack = deviceCollections.uiElementStacks[collectionId].stacks[stackId];
 			if(stack.count > 1){ 
 				if(stack.index < stack.count - 1) stack.index++; else stack.index = 0;
-				$(`div.uiElementStack.container[data-ui-element-stack-id="${stackId}"]:not([data-ui-element-stack-index="${stack.index}"]):not([data-ui-element-stack-index="-1"])`).css('opacity', 0);
-				$(`div.uiElementStack.container[data-ui-element-stack-id="${stackId}"][data-ui-element-stack-index="${stack.index}"]`).css('opacity', 1);
+				$(`div.uiElementStack.container[data-ui-element-stack-id="${stackId}"]:not([data-ui-element-stack-index="${stack.index}"]):not([data-ui-element-stack-index="-1"])`).removeClass('active');
+				$(`div.uiElementStack.container[data-ui-element-stack-id="${stackId}"][data-ui-element-stack-index="${stack.index}"]`).addClass('active');
 			}
 		}
 	}, interval || 5000);
@@ -8759,7 +8761,7 @@ function getStateFromDeviceState(device, state){
 }
 
 //---------- UIElements ----------
-/**
+/** UIElements
  * @typedef {object} UIElements
  * @property {string} html
  * @property {function[]} updateFunctions
@@ -8781,10 +8783,6 @@ function UIElements(initialUiElements) {
 	this.uiElementIndex = initialUiElements.uiElementIndex || 0;
 	this.uiElementStacks = initialUiElements.uiElementStacks || {};
 
-	/** Adds given HTML-Code to uiElements
-	 * @param {*} html 
-	 * @returns {UIElements} 
-	 */
 	this.addHtml = function(html, htmlOptions){
 		this.html += html;
 		if(typeof htmlOptions == "object" && htmlOptions.increaseUiElementIndex) this.uiElementIndex++;
@@ -8793,6 +8791,7 @@ function UIElements(initialUiElements) {
 
 	this.addUIElement = function(device, element, elementIndex){
 		let options = {}
+		options.elementName = element.commonName;
 		options.stackId = element.commonName;
 		options.stackClasses = 'stackClass_' + element.stackIndex;
 		(element.options || []).forEach(function(option){
@@ -8828,31 +8827,6 @@ function UIElements(initialUiElements) {
 		if(processedStateIds.length == 0) processedStateIds.push("UPDATE_ONCE");
 		this.updateFunctions.push({stateIds: processedStateIds, updateFunction: updateFunction});
 		return this;
-	}
-
-
-	this.addUpdateFunctionOLD = function(stateIds, updateFunction, calledRecoursive){
-		if(typeof stateIds == udef || typeof updateFunction != "function") return this;
-		var validState = false;
-		var that = this;
-		if(typeof stateIds == "string" && stateIds != '' && stateIds != null){
-			if(!this.updateFunctions[stateIds]) this.updateFunctions[stateIds] = [];
-			this.updateFunctions[stateIds].push(updateFunction);
-			validState = true;
-		} else if(Array.isArray(stateIds)){
-			stateIds.forEach(function(stateId){ 
-				validState = that.addUpdateFunction(stateId, updateFunction, true); 
-			});
-		}
-		if(calledRecoursive){
-			return validState;
-		} else {
-			if(!validState){
-				if(!this.updateFunctions["UPDATE_ONCE"]) this.updateFunctions["UPDATE_ONCE"] = [];
-				this.updateFunctions["UPDATE_ONCE"].push(updateFunction);
-			}
-			return this;	
-		}
 	}
 
 	this.addBindingFunction = function(bindingFunction){
@@ -8901,6 +8875,7 @@ function UIElements(initialUiElements) {
 		}
 		return this;
 	}
+
 	this.closeElementStackContainer = function(){
 		if(this.uiElementStacks.open){
 			this.addHtml(`</div>`);
@@ -8934,6 +8909,7 @@ function UIElements(initialUiElements) {
 				class="uiElement icon ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''} ${iconClickAction ? 'iconLink' + capitalize(iconClickAction) : ''}"
 				data-device-id-escaped="${device.deviceIdEscaped}" 
 				data-ui-element-index="${_uiElementIndex}" 
+				data-ui-element-name="${getUiOption(device, uiElementOptions.elementName) || ''}" 
 				style="display: none;" 
 			>`);
 			var updateFunction = function(stateId, forceReloadOfImage){
@@ -8984,6 +8960,7 @@ function UIElements(initialUiElements) {
 				class="uiElement text ${getUiOption(device, uiElementOptions.textClasses) || ''} ${getUiOption(device, uiElementOptions.textNoPointerEvents) ? 'noPointerEvents' : ''}"
 				data-device-id-escaped="${device.deviceIdEscaped}"
 				data-ui-element-index="${_uiElementIndex}"
+				data-ui-element-name="${getUiOption(device, uiElementOptions.elementName) || ''}" 
 				style="${getUiOption(device, uiElementOptions.textMultiline) ? 'white-space: break-word;' : 'white-space: nowrap;'}" 
 			></div>`);
 			var updateFunction = function(stateId){
@@ -8996,11 +8973,28 @@ function UIElements(initialUiElements) {
 				var textAddTimestampMode = getUiOption(device, uiElementOptions.textAddTimestampMode);
 				if(textAddTimestampMode) textResult = addTimestamp(textResult, [textState, textLevelState], textActive, textAddTimestampMode);
 				setTimeout(function(){
+					//Reserve place for $iconElement
 					if(getUiOption(device, uiElementOptions.textAlwaysReservePlaceForIcon) || ($iconElement.hasClass('active') && $iconElement.attr('src'))){ //icon visible - reserve Place
 						$textElement.css('left', `${$iconElement.width()}px`).css('width', `calc(100% - ${$iconElement.width()}px)`);
 					} else {
 						$textElement.css('left', `0`).css('width', `100%`);	
 					}
+					//Float
+					let floatSelector = getUiOption(device, uiElementOptions.textFloatSelector);
+					if(floatSelector){
+						let floatSpace = getFloatSpace(`div.tile[data-device-id-escaped="${device.deviceIdEscaped}"]`, floatSelector, true);
+						$textElement.find('.floatPlaceholder').remove();
+						if(floatSpace.height && floatSpace.width && !$textElement.find('.js-marquee-wrapper').length){
+							$textElement.prepend(`<div class="floatPlaceholder" style="float: left; width: ${floatSpace.width/zoom}px; height: ${floatSpace.height/zoom}px;"></div>`);
+						}
+					}
+					//FreeSpace
+					let freeSpaceSelector = getUiOption(device, uiElementOptions.textFreeSpaceSelector);
+					if(freeSpaceSelector){
+						let freeSpace = getFreeSpace(`div.tile[data-device-id-escaped="${device.deviceIdEscaped}"]`, freeSpaceSelector, false);
+						$textElement.css('left', freeSpace.left/zoom).css('width', freeSpace.width/zoom).css('top', freeSpace.top/zoom).css('height', freeSpace.height/zoom);
+					}
+					//Font size
 					let fontSize = $textElement.height() / 1.2 + 'px';
 					if(!getUiOption(device, uiElementOptions.textMultiline)) $textElement.css('font-size', fontSize);
 				}, 50);
@@ -9013,20 +9007,23 @@ function UIElements(initialUiElements) {
 		this.uiElementIndex++;
 		return this;
 	}
+
 	this.addIcon = this.addIconTextCombination;
+
 	this.addText = this.addIconTextCombination;
 
 	//---------- Loading Icon ----------
 	this.addLoadingIcon = function(device, uiElementOptions){
 		if(typeof uiElementOptions != "object") uiElementOptions = {};
-		var _uiElementIndex = this.uiElementIndex; //#####
+		var _uiElementIndex = this.uiElementIndex;
 		this.newElementStackContainer(device, uiElementOptions)
 		.addHtml(`<img 
 			src='./images/loading.gif'
 			class="uiElement icon loadingIcon ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''}"
 			data-device-id-escaped="${device.deviceIdEscaped}" 
 			data-ui-element-index="${_uiElementIndex}" 
-		>`)
+			data-ui-element-name="${getUiOption(device, uiElementOptions.elementName) || ''}" 
+			>`)
 		.closeElementStackContainer();
 		this.uiElementIndex++;
 		return this;
@@ -9052,6 +9049,7 @@ function UIElements(initialUiElements) {
 				class="uiElement badge ${getUiOption(device, uiElementOptions.badgeClasses) || ''}"
 				data-device-id-escaped="${device.deviceIdEscaped}" 
 				data-ui-element-index="${_uiElementIndex}" 
+				data-ui-element-name="${getUiOption(device, uiElementOptions.elementName) || ''}" 
 				style="white-space: nowrap;" 
 			></div>`);
 			var updateFunction = function(stateId){
@@ -9072,6 +9070,9 @@ function UIElements(initialUiElements) {
 					var unit = badgeState.unit;
 					if(!isNaN(val)) val = Math.round(val * 10) / 10;
 					if(!badgeWithoutUnit && badgeState.plainText == badgeState.val) val = val + unit;
+					//Font size
+					let fontSize = $badgeElement.height() / 1.2 + 'px';
+					$badgeElement.css('font-size', fontSize);
 					updateMarqueeElement($badgeElement, val);
 					if(!$badgeElement.hasClass('active')){ //Not active until now
 						if(restartActivateDelay || $badgeElement.data('activate-delay-timeout') != "over"){ //ActivateDelay is not over
@@ -9127,6 +9128,7 @@ function UIElements(initialUiElements) {
 			class="uiElement enlargeButton ${getUiOption(device, uiElementOptions.enlargeButtonClasses) || ''} ${(getUiOption(device, uiElementOptions.enlargeButtonNoZoomOnHover) ? '' : 'zoomOnHover')}"
 			data-device-id-escaped="${device.deviceIdEscaped}" 
 			data-ui-element-index="${_uiElementIndex}" 
+			data-ui-element-name="${getUiOption(device, uiElementOptions.elementName) || ''}" 
 			style="display:none; ${rotate ? 'rotate:' + rotate + 'deg;' : ''}"
 		></div>`);
 		var updateFunction = function(stateId){
@@ -9170,6 +9172,7 @@ function UIElements(initialUiElements) {
 			class="uiElement clickAction ${clickAction ? 'clickActionLink' + capitalize(clickAction) : ''}"
 			data-device-id-escaped="${device.deviceIdEscaped}" 
 			data-ui-element-index="${_uiElementIndex}" 
+			data-ui-element-name="${getUiOption(device, uiElementOptions.elementName) || ''}" 
 			style="display:none;"
 		></div>`);
 		var updateFunction = function(stateId, forceReloadOfImage){
@@ -9333,23 +9336,23 @@ function UIElements(initialUiElements) {
 		}		
 	}
 
-	function getFreeSpace(containerSelector, childsSelector) {
+	function getFreeSpace(containerSelector, childsSelector, ignoreVisibility){
 		const $container = $(containerSelector);
 		if ($container.length === 0) {
 			console.error(`Element with selector "${containerSelector}" not found.`);
-			return [];
+			return {};
 		}
 		const containerRect = $container[0].getBoundingClientRect();
 		let left = containerRect.left;
 		let top = containerRect.top;
 		let right = containerRect.right;
 		let bottom = containerRect.bottom;
-		$container.find(childsSelector).each(function () {
+		$container.find(childsSelector).each(function(){
 			const rect = this.getBoundingClientRect();
 			const intersectsHorizontally = rect.left <= right && rect.right >= left;
 			const intersectsVertically = rect.top <= bottom && rect.bottom >= top;
 			if (intersectsHorizontally && intersectsVertically) {
-				const visible = $(this).css('opacity') != '0' && $(this).css('visibility') == 'visible' && $(this).css('display') != 'none';
+				const visible = ignoreVisibility || parseFloat($(this).css('opacity')) > 0.1 && $(this).css('visibility') == 'visible' && $(this).css('display') != 'none';
 				if(visible){
 					let diffTop = Math.abs(top - rect.bottom);
 					let diffBottom = Math.abs(bottom - rect.top);
@@ -9364,10 +9367,53 @@ function UIElements(initialUiElements) {
 			}
 		});
 		return {
-			left: left-containerRect.left,
-			top: top-containerRect.top,
-			width: right-left,
-			height: bottom-top,
+			left: left - containerRect.left,
+			right: right - containerRect.left,
+			top: top - containerRect.top,
+			bottom: bottom - containerRect.top,
+			width: right - left,
+			height: bottom - top
+		};
+	}
+
+	function getFloatSpace(containerSelector, childsSelector, ignoreVisibility, floatRight, floatBottom){
+		const $container = $(containerSelector);
+		if ($container.length === 0) {
+			console.error(`Element with selector "${containerSelector}" not found.`);
+			return {};
+		}
+		const containerRect = $container[0].getBoundingClientRect();
+		let left = containerRect.left;
+		let top = containerRect.top;
+		let right = containerRect.right;
+		let bottom = containerRect.bottom;
+		$container.find(childsSelector).each(function(){
+			const rect = this.getBoundingClientRect();
+			const intersectsHorizontally = rect.left <= right && rect.right >= left;
+			const intersectsVertically = rect.top <= bottom && rect.bottom >= top;
+			if (intersectsHorizontally && intersectsVertically) {
+				const visible = ignoreVisibility || parseFloat($(this).css('opacity')) > 0.1 && $(this).css('visibility') == 'visible' && $(this).css('display') != 'none';
+				if(visible){
+					if(floatRight){
+						right = rect.left;
+					} else {
+						left = rect.right;
+					}
+					if(floatBottom){
+						bottom = rect.top;
+					} else {
+						top = rect.bottom;
+					}
+				}
+			}
+		});
+		return {
+			left: floatRight ? left - containerRect.left : 0,
+			right: floatRight ? containerRect.right - containerRect.left : left - containerRect.left,
+			top: floatBottom ? bottom - containerRect.top : 0,
+			bottom: floatBottom ? containerRect.bottom - containerRect.top : top - containerRect.top,
+			width: floatRight ? containerRect.right - right : left - containerRect.left,
+			height: floatBottom ? containerRect.bottom - bottom : top - containerRect.top
 		};
 	}
 

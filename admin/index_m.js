@@ -1148,7 +1148,9 @@ var uiElementOptions = {
 		{option: "textProcessingFunction", type: "textarea", description: "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction"},
 		{option: "textProcessingOptions", type: "textarea", value: "{}", description: "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}."},
 		{option: "textMultiline", type: "checkbox", description: "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false."},
-		{option: "textNoPointerEvents", type: "checkbox", description: "If true, the text does not capture mouse or touch events. Default: false."}
+		{option: "textNoPointerEvents", type: "checkbox", description: "If true, the text does not capture mouse or touch events. Default: false."},
+		{option: "textFloatSelector", type: "string", description: "Optional. The text will float around this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."},
+		{option: "textFreeSpaceSelector", type: "string", description: "Optional. The textfield will be shrinked to not intersect with this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."}
 	],
 	iconTextCombination: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
@@ -1173,7 +1175,9 @@ var uiElementOptions = {
 		{option: "textProcessingOptions", type: "textarea", value: "{}", description: "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}."},
 		{option: "textMultiline", type: "checkbox", description: "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false."},
 		{option: "textNoPointerEvents", type: "checkbox", description: "If true, the text does not capture mouse or touch events. Default: false."},
-		{option: "textAlwaysReservePlaceForIcon", type: "checkbox", description: "If true, the text will leave place for the icon, even if it is invisible. Default: false."}
+		{option: "textAlwaysReservePlaceForIcon", type: "checkbox", description: "If true, the text will leave place for the icon, even if it is invisible. Default: false."},
+		{option: "textFloatSelector", type: "string", description: "Optional. The text will float around this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."},
+		{option: "textFreeSpaceSelector", type: "string", description: "Optional. The textfield will be shrinked to not intersect with this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."}
 	],
 	loadingIcon: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
@@ -4985,7 +4989,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 	$(targetInput).off('blur', onBlurFunction).on('blur', onBlurFunction);
 	function onBlurFunction(){
 		var that = this;
-		setTimeout(function(){ var _that = that; _that.scrollLeft = 100000; $(_that).trigger('change'); }, 10);
+		setTimeout(function(){ var _that = that; _that.scrollLeft = 100000; $(_that).trigger('change'); }, 100);
 	}
 	$(targetInput).trigger('blur');
 	$(targetInput).each(function(index, targetElement){

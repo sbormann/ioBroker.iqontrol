@@ -5,8 +5,7 @@
 
 //++++++++++ Next Steps ++++++++++
 
-
-- float full size state around icon
+- stateFillsDevice 5557 if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
 
 - enlarge/active funktion erstellen, die resize-observer ersetzt
 - shrink to free space
