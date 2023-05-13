@@ -9331,7 +9331,7 @@ function UIElements(initialUiElements) {
 				});
 			} else {
 				$element.html(text).data('old-text', text);
-				adaptHeightOrStartMarqueeOnOverflow($element);	
+				setTimeout(function(){adaptHeightOrStartMarqueeOnOverflow($element, true);}, 1000);
 			}
 		}		
 	}

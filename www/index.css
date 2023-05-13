@@ -1564,9 +1564,10 @@ html.bigMode #View .ui-panel-wrapper {
     z-index: 1000;
 	width: unset;
     min-width: 14px;
-	max-width: 100%; max-width: calc(100% - 4px);
-    border-radius: 8px;
-    padding: 0px 2px 0px 2px;
+	max-width: 100%; max-width: calc(100% - 1px);
+	height: 100%; height: calc(100% - 1px);
+    border-radius: 1000px;
+    padding: 1px 1px 0px 0px;
 	color: white;
     background-color: rgba(255,0,0,0.8);
     box-shadow: #0000001f 0 0 2px 2px;
