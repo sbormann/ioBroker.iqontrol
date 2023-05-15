@@ -5108,22 +5108,23 @@ function renderView(viewId, triggeredByReconnection){
 					$('.viewIsotopeContainer').isotope({
 						// options
 						itemSelector: '.tile',
-						layoutMode: 'masonry',
-						masonry: {columnWidth: '.isotopeSizer'},
-						stagger: '0.03s',
+						layoutMode: 'packery',
+						masonry: {columnWidth: '.isotopeSizer', horizontalOrder: true},
+						packery: {columnWidth: '.isotopeSizer'},
 						transitionDuration: '0.8s'
 					});  
 					applyViewTileResizeObserver();
 				}
 				//Show devices
-				var initialHideStagger = 0;
+				var hideDeviceInitialStagger = 100;
 				$('.viewIsotopeContainer .tile').each(function(){
 					var $this = $(this);
+					var hideDeviceIfActive = $this.hasClass('hideDeviceIfActive');
 					setTimeout(function(){
 						$this.removeClass('hideDeviceInitial');
 						$('.viewIsotopeContainer').isotope('layout');
-					}, $this.hasClass('hideDeviceIfActive') ? initialHideStagger + 1500 : initialHideStagger);
-					initialHideStagger += 30;
+					}, hideDeviceIfActive ? hideDeviceInitialStagger + 2000 : hideDeviceInitialStagger);
+					if(!hideDeviceIfActive) hideDeviceInitialStagger += 30;
 				});
 				//scroll to device or heading if anchor present in viewId
 				if(viewScrollToDeviceTimeout1) clearTimeout(viewScrollToDeviceTimeout1);

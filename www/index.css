@@ -1135,14 +1135,21 @@ html.bigMode #View .ui-panel-wrapper {
 	padding: 0; border: none;
 	overflow: visible;
 	opacity: 1;
+	transition: opacity 0.4s,;
 }
 .tile.hideDevice, .tile.hideDeviceInitial{
 	opacity: 0;
 	margin: 0px;
+	transform: translate(6px, 6px);
+	transition: opacity 0.4s;
 }
-.tile.hideDevice .setTileSize, .tile.hideDeviceInitial .setTileSize{
+.tile.hideDevice .tileSizer, .tile.hideDeviceInitial .tileSizer{
 	height: 0px !important; min-height: 0px !important; max-height: 0px !important;
 	width: 0px !important; min-width: 0px !important;	max-width: 0px !important;
+}
+.tile.hideDevice .setTileSize:not(.tileSizer), .tile.hideDeviceInitial .setTileSize:not(.tileSizer){
+	transform: scale3d(0.5,0.5,1);
+	transform-origin: 15% 15%;
 }
 
 .tileSizer{
@@ -1200,9 +1207,11 @@ html.bigMode #View .ui-panel-wrapper {
 	width: 100px; max-width: 100px;
 	height: 100px; max-height: 100px; min-height: 100px;
 	margin: 0; padding: 0; border: none;
-    -webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-    		transition: all 1s;
+	transform: scale3d(1,1,1);
+	transform-origin: 15% 15%;
+    -webkit-transition: all 1s, transform 0.4s;
+	   -moz-transition: all 1s, transform 0.4s;
+    		transition: all 1s, transform 0.4s;
 }
 .tile.narrow .setTileSize, .tile:not(.active).narrowIfInactive .setTileSize, .tile.active.narrowIfActive .setTileSize, .tile.enlarged.narrowIfEnlarged .setTileSize{
 	width: 44px; max-width: 44px;
