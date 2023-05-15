@@ -3307,9 +3307,9 @@ function createOptionsAndPanelObjectsFromConfig(){
 
 function handleOptions(){
 	if(!options) return;
-	var customCSS = "";
 	//tileClassesCSS
-	if(options.tileClassesCssString) customCSS += options.tileClassesCssString;
+	if(options.tileClassesCssString) addCustomCSS(options.tileClassesCssString, 'options_tileClasses');
+	var customCSS = "";
 	//Toolbar
 	if(options.LayoutToolbarFooterColor) {
 		customCSS += "#Toolbar.ui-footer{";
@@ -4772,7 +4772,9 @@ function renderView(viewId, triggeredByReconnection){
 
 				//---------- tile  ---------- 
 				var tileClass = 'tileClass_' + (device.tileSettings && typeof device.tileSettings.tileClass != udef && device.tileSettings.tileClass > -1 ? device.tileSettings.tileClass : options.LayoutTilesDefaultClass || '0');
-				tileClass += ' tileClass_' + (device.tileSettings && typeof device.tileSettings.tileClassEnlarged != udef && device.tileSettings.tileClassEnlarged > -1 ? device.tileSettings.tileClassEnlarged : options.LayoutTilesDefaultClassEnlarged || '0') + '_ifEnlarged'
+				tileClass += ' tileClass_' + (device.tileSettings && typeof device.tileSettings.tileClassActive != udef && device.tileSettings.tileClassActive > -1 ? device.tileSettings.tileClassActive : options.LayoutTilesDefaultClassActive || '0') + '_ifActiveNotenlarged'
+				tileClass += ' tileClass_' + (device.tileSettings && typeof device.tileSettings.tileClassEnlarged != udef && device.tileSettings.tileClassEnlarged > -1 ? device.tileSettings.tileClassEnlarged : options.LayoutTilesDefaultClassEnlarged || '0') + '_ifInactiveEnlarged'
+				tileClass += ' tileClass_' + (device.tileSettings && typeof device.tileSettings.tileClassActiveEnlarged != udef && device.tileSettings.tileClassActiveEnlarged > -1 ? device.tileSettings.tileClassActiveEnlarged : options.LayoutTilesDefaultClassActiveEnlarged || '0') + '_ifActiveEnlarged'
 				var tileEnlargedStateId = device.deviceStates["tileEnlarged"].stateId;
 				var tileEnlargedState = getState(tileEnlargedStateId);
 				var enlarged = tileEnlargedState && tileEnlargedState.val;
@@ -4784,7 +4786,7 @@ function renderView(viewId, triggeredByReconnection){
 				var stateHeightAdaptsContentActive = (getDeviceOptionValue(device, "stateHeightAdaptsContentActive") == "true");
 				var stateHeightAdaptsContentEnlarged = (getDeviceOptionValue(device, "stateHeightAdaptsContentEnlarged") == "true");
 				uiElements.addHtml(`<div
-					class="tile ${tileClass} ${
+					class="tile hideDeviceInitial ${tileClass} ${
 						((getDeviceOptionValue(device, 'transparentIfInactive') == 'true') ? ' transparentIfInactive' : '')
 						+ ((getDeviceOptionValue(device, 'transparentIfActive') == 'true') ? ' transparentIfActive' : '')
 						+ ((getDeviceOptionValue(device, 'transparentIfEnlarged') == 'true') ? ' transparentIfEnlarged' : '')
@@ -4802,8 +4804,33 @@ function renderView(viewId, triggeredByReconnection){
 						+ ((getDeviceOptionValue(device, 'hideDeviceIfActive') == 'true')?' hideDeviceIfActive':'')
 					}"
 					data-device-id-escaped="${deviceIdEscaped}"
-					style="${((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true" || getDeviceOptionValue(device, "hideDeviceIfActive") == "true") ? 'visibility: hidden; height:0px;' : '')}"
 				>`);
+
+				//--tileActive
+				var tileActiveStateId = getDeviceOptionValue(device, 'tileActiveStateId');
+				tileActiveStateId = (tileActiveStateId ? tileActiveStateId : getStateIdFromDeviceState(device, "STATE"));
+				tileActiveStateId = (tileActiveStateId ? tileActiveStateId : getStateIdFromDeviceState(device, "LEVEL"));
+				var tileActiveConditionValueId = getDeviceOptionValue(device, 'tileActiveConditionValue');
+				device.activeStateIds = [tileActiveStateId, tileActiveConditionValueId];
+				var updateFunction = function(){
+					var tileActiveState = getState(tileActiveStateId);
+					var tileActiveConditionValue = getState(tileActiveConditionValueId);
+					device.active = checkCondition(tileActiveState && tileActiveState.val || '', getDeviceOptionValue(device, 'tileActiveCondition') || 'eqt', tileActiveConditionValue && tileActiveConditionValue.val || null);
+					var $tile = $(`.tile[data-device-id-escaped="${device.deviceIdEscaped}"]`);
+					var oldActive = $tile.hasClass('active');
+					if(device.active){
+						$tile.addClass('active');
+						if($tile.hasClass('hideDeviceIfActive')) $tile.addClass('hideDevice'); else $tile.removeClass('hideDevice');
+					} else {
+						$tile.removeClass('active');
+						if($tile.hasClass('hideDeviceIfInactive')) $tile.addClass('hideDevice'); else $tile.removeClass('hideDevice');
+					}
+					if(device.active != oldActive){
+						$('.viewIsotopeContainer').isotope('layout');
+					} 
+				}
+				uiElements.addStatesToFetchAndUpdate([tileActiveStateId, tileActiveConditionValueId]);
+				uiElements.addUpdateFunction([tileActiveStateId, tileActiveConditionValueId], updateFunction);
 
 				//--tileEnlarged
 				var enlargeTileStateId = device.deviceStates["ENLARGE_TILE"].stateId;
@@ -4834,23 +4861,6 @@ function renderView(viewId, triggeredByReconnection){
 				};
 				uiElements.addUpdateFunction([tileEnlargedStateId], updateFunction)
 				.addUpdateFunction([enlargeTileStateId], enlargeStateUpdateFunction);
-
-				//--tileActive
-				var tileActiveStateId = getDeviceOptionValue(device, 'tileActiveStateId');
-				tileActiveStateId = (tileActiveStateId ? tileActiveStateId : getStateIdFromDeviceState(device, "STATE"));
-				tileActiveStateId = (tileActiveStateId ? tileActiveStateId : getStateIdFromDeviceState(device, "LEVEL"));
-				var tileActiveConditionValueId = getDeviceOptionValue(device, 'tileActiveConditionValue');
-				device.activeStateIds = [tileActiveStateId, tileActiveConditionValueId];
-				var updateFunction = function(){
-					var tileActiveState = getState(tileActiveStateId);
-					var tileActiveConditionValue = getState(tileActiveConditionValueId);
-					device.active = checkCondition(tileActiveState && tileActiveState.val || '', getDeviceOptionValue(device, 'tileActiveCondition') || 'eqt', tileActiveConditionValue && tileActiveConditionValue.val || null);
-					var oldActive = $(`.tile[data-device-id-escaped="${device.deviceIdEscaped}"]`).hasClass('active');
-					if(device.active) $(`.tile[data-device-id-escaped="${device.deviceIdEscaped}"]`).addClass('active'); else $(`.tile[data-device-id-escaped="${device.deviceIdEscaped}"]`).removeClass('active'); 
-					if(device.active != oldActive) $('.viewIsotopeContainer').isotope('layout');
-				}
-				uiElements.addStatesToFetchAndUpdate([tileActiveStateId, tileActiveConditionValueId]);
-				uiElements.addUpdateFunction([tileActiveStateId, tileActiveConditionValueId], updateFunction);
 
 				//--TileSizer
 				uiElements.addHtml('<div class="tileSizer setTileSize">');
@@ -4979,8 +4989,9 @@ function renderView(viewId, triggeredByReconnection){
 				if((device.deviceStates["BACKGROUND_VIEW"] && device.deviceStates["BACKGROUND_VIEW"].stateId) || (device.deviceStates["BACKGROUND_URL"] && device.deviceStates["BACKGROUND_URL"].stateId) || (device.deviceStates["BACKGROUND_URL"] && device.deviceStates["BACKGROUND_URL"].stateId)){
 					var hideBackgroundURLInactive = (getDeviceOptionValue(device, "hideBackgroundURLInactive") == "true");
 					var hideBackgroundURLActive = (getDeviceOptionValue(device, "hideBackgroundURLActive") == "true");
-					var visibilityBackgroundURLEnlarged = (getDeviceOptionValue(device, "visibilityBackgroundURLEnlarged") ? " " + getDeviceOptionValue(device, "visibilityBackgroundURLEnlarged") : "");
-					uiElements.addHtml("<div class='tileBackgroundIframeWrapper" + (hideBackgroundURLInactive ? " hideIfInactive" : "") + (hideBackgroundURLActive ? " hideIfActive" : "") + visibilityBackgroundURLEnlarged + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' style='opacity: 0;" + ((getDeviceOptionValue(device, "backgroundURLNoPointerEvents") == "true") ? " pointer-events:none !important;" : "") + "'></div>");
+					var hideBackgroundURLInactiveEnlarged = (getDeviceOptionValue(device, "hideBackgroundURLInactiveEnlarged") == "true");
+					var hideBackgroundURLActiveEnlarged = (getDeviceOptionValue(device, "hideBackgroundURLActiveEnlarged") == "true");
+					uiElements.addHtml("<div class='tileBackgroundIframeWrapper" + (hideBackgroundURLInactive ? " hideIfInactiveNotenlarged" : "") + (hideBackgroundURLActive ? " hideIfActiveNotenlarged" : "") + (hideBackgroundURLInactiveEnlarged ? " hideIfInactiveEnlarged" : "") + (hideBackgroundURLActiveEnlarged ? " hideIfActiveEnlarged" : "") + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-device-id-escaped='" + deviceIdEscaped + "' style='opacity: 0;" + ((getDeviceOptionValue(device, "backgroundURLNoPointerEvents") == "true") ? " pointer-events:none !important;" : "") + "'></div>");
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _device = device;
@@ -5100,10 +5111,20 @@ function renderView(viewId, triggeredByReconnection){
 						layoutMode: 'masonry',
 						masonry: {columnWidth: '.isotopeSizer'},
 						stagger: '0.03s',
-						transitionDuration: '0.8s'						
+						transitionDuration: '0.8s'
 					});  
 					applyViewTileResizeObserver();
 				}
+				//Show devices
+				var initialHideStagger = 0;
+				$('.viewIsotopeContainer .tile').each(function(){
+					var $this = $(this);
+					setTimeout(function(){
+						$this.removeClass('hideDeviceInitial');
+						$('.viewIsotopeContainer').isotope('layout');
+					}, $this.hasClass('hideDeviceIfActive') ? initialHideStagger + 1500 : initialHideStagger);
+					initialHideStagger += 30;
+				});
 				//scroll to device or heading if anchor present in viewId
 				if(viewScrollToDeviceTimeout1) clearTimeout(viewScrollToDeviceTimeout1);
 				if(viewScrollToDeviceTimeout2) clearTimeout(viewScrollToDeviceTimeout2);
@@ -8906,7 +8927,7 @@ function UIElements(initialUiElements) {
 		if(uiElementOptions.iconState){
 			let iconClickAction = getUiOption(device, uiElementOptions.iconClickAction);
 			this.addHtml(`<img 
-				class="uiElement icon ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''} ${iconClickAction ? 'iconLink' + capitalize(iconClickAction) : ''}"
+				class="uiElement icon ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconNoZoomOnHover) ? '' : 'zoomOnHover')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''} ${iconClickAction ? 'iconLink' + capitalize(iconClickAction) : ''}"
 				data-device-id-escaped="${device.deviceIdEscaped}" 
 				data-ui-element-index="${_uiElementIndex}" 
 				data-ui-element-name="${getUiOption(device, uiElementOptions.elementName) || ''}" 
@@ -9019,7 +9040,7 @@ function UIElements(initialUiElements) {
 		this.newElementStackContainer(device, uiElementOptions)
 		.addHtml(`<img 
 			src='./images/loading.gif'
-			class="uiElement icon loadingIcon ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconZoomOnHover) ? 'zoomOnHover' : '')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''}"
+			class="uiElement icon loadingIcon ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconNoZoomOnHover) ? '' : 'zoomOnHover')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''}"
 			data-device-id-escaped="${device.deviceIdEscaped}" 
 			data-ui-element-index="${_uiElementIndex}" 
 			data-ui-element-name="${getUiOption(device, uiElementOptions.elementName) || ''}" 
@@ -9285,11 +9306,12 @@ function UIElements(initialUiElements) {
 				if(active.modifier && active.modifier == "||"){ //New OR-Part
 					if(result) return invert ? false : true;
 					result = true;
-				} 
-				let activeState = getUiOptionState(device, {role: active.activeStateRole, value: active.activeStateValue}, arrayIndex);
-				let activeConditionValueState = getUiOptionState(device, {role: active.activeConditionValueRole, value: active.activeConditionValueValue}, arrayIndex);
-				let check = (active.activeStateValue != '' && activeState ? checkCondition(activeState.val, active.activeCondition || "eqt", activeConditionValueState.val) : active.activeStateValue != '' ? false : true);
-				result = result && check;
+				} else if (result) {
+					let activeState = getUiOptionState(device, {role: active.activeStateRole, value: active.activeStateValue}, arrayIndex);
+					let activeConditionValueState = getUiOptionState(device, {role: active.activeConditionValueRole, value: active.activeConditionValueValue}, arrayIndex);
+					let check = (active.activeStateValue != '' && activeState ? checkCondition(activeState.val, active.activeCondition || "eqt", activeConditionValueState.val) : active.activeStateValue != '' ? false : true);
+					result = result && check;	
+				}
 			}
 		} else {
 			result = true;

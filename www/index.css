@@ -622,17 +622,6 @@ html.noscroll body {
 }
 
 
-/* ++++++++++ View / Device ++++++++++ */ 
-.iQontrolDevice:not(.active) .hideIfInactive, .iQontrolDevice.active .hideIfActive, .iQontrolDevice.enlarged .hideIfEnlarged {
-	pointer-events:none !important;
-	opacity: 0 !important;
-}
-
-.iQontrolDevice.enlarged .visibleIfEnlarged {
-	pointer-events:unset !important;
-	opacity: 1 !important;
-}
-
 /* ++++++++++ Dialog ++++++++++ */ 
 #Dialog {
 	min-width: 300px;
@@ -1145,6 +1134,15 @@ html.bigMode #View .ui-panel-wrapper {
 	margin: 6px;
 	padding: 0; border: none;
 	overflow: visible;
+	opacity: 1;
+}
+.tile.hideDevice, .tile.hideDeviceInitial{
+	opacity: 0;
+	margin: 0px;
+}
+.tile.hideDevice .setTileSize, .tile.hideDeviceInitial .setTileSize{
+	height: 0px !important; min-height: 0px !important; max-height: 0px !important;
+	width: 0px !important; min-width: 0px !important;	max-width: 0px !important;
 }
 
 .tileSizer{

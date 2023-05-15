@@ -1129,7 +1129,7 @@ var uiElementOptions = {
 		{option: "iconState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "The url of the icon."},
 		{option: "iconActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
 		{option: "iconActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
-		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
+		{option: "iconNoZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
 		{option: "iconNoPointerEvents", type: "checkbox", description: "If true, the icon does not capture mouse or touch events. Default: false."},
 		{option: "iconClickAction", type: "select", selectOptions: ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView", description: "Defines, what happens, when you click on the icon. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false."},
 		{option: "iconClickActionToggleFunction", type: "string", description: "Only valid, if iconClickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values."},
@@ -1158,7 +1158,7 @@ var uiElementOptions = {
 		{option: "iconState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "The url of the icon."},
 		{option: "iconActive", type: "activeConditionArray", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. You can set conditions under which the element is active, that is, whether it is visible or not."},
 		{option: "iconActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
-		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
+		{option: "iconNoZoomOnHover", type: "checkbox", description: "If false, the icon zooms in on mouse hover. Default: false."},
 		{option: "iconNoPointerEvents", type: "checkbox", description: "If true, the icon does not capture mouse or touch events. Default: false."},
 		{option: "iconClickAction", type: "select", selectOptions: ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView", description: "Defines, what happens, when you click on the icon. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false."},
 		{option: "iconClickActionToggleFunction", type: "string", description: "Only valid, if iconClickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values."},
@@ -1182,7 +1182,7 @@ var uiElementOptions = {
 	loadingIcon: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
 		{option: "iconClasses", type: "string", description: "Optional. Add these CSS-Classes to the icon."},
-		{option: "iconZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
+		{option: "iconNoZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
 		{option: "iconNoPointerEvents", type: "checkbox", description: "If true, the icon does not capture mouse or touch events. Default: false."}
 	],
 	badge: [
@@ -1910,6 +1910,9 @@ var iQontrolRoles = {
 			SECTION_TILE_ENLARGED: {options: {
 				sizeEnlarged: {selectOptions: " /Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"}
 			}},
+			SECTION_TILE_ACTIVE_ENLARGED: {options: {
+				sizeActiveEnlarged: {selectOptions: " /Normal (1x1);narrowIfActiveEnlarged shortIfActiveEnlarged/Just Icon (0.5x0.5);narrowIfActiveEnlarged/Narrow (0.5x1);narrowIfActiveEnlarged highIfActiveEnlarged/Narrow High (0.5x2);narrowIfActiveEnlarged xhighIfActiveEnlarged/Narrow Extra High(0.5x3);shortIfActiveEnlarged/Short (1x0.5);shortIfActiveEnlarged wideIfActiveEnlarged/Short Wide (2x0.5);shortIfActiveEnlarged xwideIfActiveEnlarged/Short Extra Wide (3x0.5);wideIfActiveEnlarged/Wide (2x1);xwideIfActiveEnlarged/Extra Wide (3x1);highIfActiveEnlarged/High (1x2);xhighIfActiveEnlarged/Extra High (1x3);wideIfActiveEnlarged highIfActiveEnlarged/Big (2x2);xwideIfActiveEnlarged highIfActiveEnlarged/Big Wide (3x2);wideIfActiveEnlarged xhighIfActiveEnlarged/Big High (2x3);xwideIfActiveEnlarged xhighIfActiveEnlarged/Extra Big (3x3);fullWidthIfActiveEnlarged aspect-1-1IfActiveEnlarged/Full Width, 1:1;fullWidthIfActiveEnlarged aspect-4-3IfActiveEnlarged/Full Width, 4:3;fullWidthIfActiveEnlarged aspect-3-2IfActiveEnlarged/Full Width, 3:2;fullWidthIfActiveEnlarged aspect-16-9IfActiveEnlarged/Full Width, 16:9;fullWidthIfActiveEnlarged aspect-21-9IfActiveEnlarged/Full Width, 21:9;fullWidthIfActiveEnlarged aspect-1-1-limitedIfActiveEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfActiveEnlarged aspect-4-3-limitedIfActiveEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfActiveEnlarged aspect-3-2-limitedIfActiveEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfActiveEnlarged aspect-16-9-limitedIfActiveEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfActiveEnlarged aspect-21-9-limitedIfActiveEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfActiveEnlarged fullHeightIfActiveEnlarged/Full Screen", default: "fullWidthIfActiveEnlarged fullHeightIfActiveEnlarged"}
+			}},
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
 				levelCaption: "delete",
 				levelFavorites: "delete",
@@ -1967,6 +1970,12 @@ var iQontrolRoles = {
 				stateFillsDeviceEnlarged: {default: "true"},
 				stateBigFontEnlarged: {default: "true"},
 				hideDeviceNameIfEnlarged: {default: "true"}
+			}},
+			SECTION_TILE_ACTIVE_ENLARGED: {options: {
+				stateHeightAdaptsContentActiveEnlarged: {default: "true"},
+				stateFillsDeviceActiveEnlarged: {default: "true"},
+				stateBigFontActiveEnlarged: {default: "true"},
+				hideDeviceNameIfActiveEnlarged: {default: "true"}
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
@@ -2038,22 +2047,39 @@ var iQontrolRolesStandardOptions = {
 		hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 		hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"}
 	}},
-	SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section", options: {
-		sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
-		stateHeightAdaptsContentEnlarged: {name: "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is enlarged", type: "checkbox", default: "false"},
-		stateFillsDeviceEnlarged: {name: "Size of STATE fills the complete device (this may interfere with other content), if the device is enlarged", type: "checkbox", default: "false"},
-		stateBigFontEnlarged: {name: "Use big font for STATE, if the device is enlarged", type: "checkbox", default: "false"},
-		bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
-		iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-		transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
-		noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
-		visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
-		hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
-		hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
-		hideIndicatorIfEnlarged: {name: "Hide Indicator Icons (ERROR, UNREACH, BATTERY), if the device is enlarged", type: "checkbox", default: "false"},
-		hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
-		hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
-		hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"}
+	SECTION_TILE_INACTIVE_ENLARGED: {name: "Tile-Behaviour if device is inactive and enlarged", type: "section", options: {
+		sizeInactiveEnlarged: {name: "Size of tile, if device is inactive and enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
+		stateHeightAdaptsContentInactiveEnlarged: {name: "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is inactive and enlarged", type: "checkbox", default: "false"},
+		stateFillsDeviceInactiveEnlarged: {name: "Size of STATE fills the complete device (this may interfere with other content), if the device is inactive and enlarged", type: "checkbox", default: "false"},
+		stateBigFontInactiveEnlarged: {name: "Use big font for STATE, if the device is inactive and enlarged", type: "checkbox", default: "false"},
+		bigIconInactiveEnlarged: {name: "Show big icon, if device is inactive and enlarged", type: "checkbox", default: "true"},
+		iconNoPointerEventsInactiveEnlarged: {name: "Ignore mouse events for the icon, if device is inactive and enlarged", type: "checkbox", default: "false"},
+		transparentIfInactiveEnlarged: {name: "Make background transparent, if device is inactive and enlarged", type: "checkbox", default: "false"},
+		noOverlayInactiveEnlarged: {name: "Remove overlay of tile, if device is inactive and enlarged", type: "checkbox", default: "false"},
+		hideBackgroundURLInactiveEnlarged: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive and enlarged", type: "checkbox", default: "false"},
+		hideDeviceNameIfInactiveEnlarged: {name: "Hide device name, if the device is inactive and enlarged", type: "checkbox", default: "false"},
+		hideStateIfInactiveEnlarged: {name: "Hide state, if the device is inactive and enlarged", type: "checkbox", default: "false"},
+		hideIndicatorIfInactiveEnlarged: {name: "Hide Indicator Icons (ERROR, UNREACH, BATTERY), if the device is inactive and enlarged", type: "checkbox", default: "false"},
+		hideInfoAIfInactiveEnlarged: {name: "Hide INFO_A, if the device is inactive and enlarged", type: "checkbox", default: "false"},
+		hideInfoBIfInactiveEnlarged: {name: "Hide INFO_B, if the device is inactive and enlarged", type: "checkbox", default: "false"},
+		hideIconInactiveEnlarged: {name: "Hide icon, if device is inactive and enlarged", type: "checkbox", default: "false"}
+	}},
+	SECTION_TILE_ACTIVE_ENLARGED: {name: "Tile-Behaviour if device is active and enlarged", type: "section", options: {
+		sizeActiveEnlarged: {name: "Size of tile, if device is active and enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfActiveEnlarged shortIfActiveEnlarged/Just Icon (0.5x0.5);narrowIfActiveEnlarged/Narrow (0.5x1);narrowIfActiveEnlarged highIfActiveEnlarged/Narrow High (0.5x2);narrowIfActiveEnlarged xhighIfActiveEnlarged/Narrow Extra High(0.5x3);shortIfActiveEnlarged/Short (1x0.5);shortIfActiveEnlarged wideIfActiveEnlarged/Short Wide (2x0.5);shortIfActiveEnlarged xwideIfActiveEnlarged/Short Extra Wide (3x0.5);wideIfActiveEnlarged/Wide (2x1);xwideIfActiveEnlarged/Extra Wide (3x1);highIfActiveEnlarged/High (1x2);xhighIfActiveEnlarged/Extra High (1x3);wideIfActiveEnlarged highIfActiveEnlarged/Big (2x2);xwideIfActiveEnlarged highIfActiveEnlarged/Big Wide (3x2);wideIfActiveEnlarged xhighIfActiveEnlarged/Big High (2x3);xwideIfActiveEnlarged xhighIfActiveEnlarged/Extra Big (3x3);fullWidthIfActiveEnlarged aspect-1-1IfActiveEnlarged/Full Width, 1:1;fullWidthIfActiveEnlarged aspect-4-3IfActiveEnlarged/Full Width, 4:3;fullWidthIfActiveEnlarged aspect-3-2IfActiveEnlarged/Full Width, 3:2;fullWidthIfActiveEnlarged aspect-16-9IfActiveEnlarged/Full Width, 16:9;fullWidthIfActiveEnlarged aspect-21-9IfActiveEnlarged/Full Width, 21:9;fullWidthIfActiveEnlarged aspect-1-1-limitedIfActiveEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfActiveEnlarged aspect-4-3-limitedIfActiveEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfActiveEnlarged aspect-3-2-limitedIfActiveEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfActiveEnlarged aspect-16-9-limitedIfActiveEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfActiveEnlarged aspect-21-9-limitedIfActiveEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfActiveEnlarged fullHeightIfActiveEnlarged/Full Screen", default: "fullWidthIfActiveEnlarged fullHeightIfActiveEnlarged"},
+		stateHeightAdaptsContentActiveEnlarged: {name: "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is active and enlarged", type: "checkbox", default: "false"},
+		stateFillsDeviceActiveEnlarged: {name: "Size of STATE fills the complete device (this may interfere with other content), if the device is active and enlarged", type: "checkbox", default: "false"},
+		stateBigFontActiveEnlarged: {name: "Use big font for STATE, if the device is active and enlarged", type: "checkbox", default: "false"},
+		bigIconActiveEnlarged: {name: "Show big icon, if device is active and enlarged", type: "checkbox", default: "true"},
+		iconNoPointerEventsActiveEnlarged: {name: "Ignore mouse events for the icon, if device is active and enlarged", type: "checkbox", default: "false"},
+		transparentIfActiveEnlarged: {name: "Make background transparent, if device is active and enlarged", type: "checkbox", default: "false"},
+		noOverlayActiveEnlarged: {name: "Remove overlay of tile, if device is active and enlarged", type: "checkbox", default: "false"},
+		hideBackgroundURLActiveEnlarged: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active and enlarged", type: "checkbox", default: "false"},
+		hideDeviceNameIfActiveEnlarged: {name: "Hide device name, if the device is active and enlarged", type: "checkbox", default: "false"},
+		hideStateIfActiveEnlarged: {name: "Hide state, if the device is active and enlarged", type: "checkbox", default: "false"},
+		hideIndicatorIfActiveEnlarged: {name: "Hide Indicator Icons (ERROR, UNREACH, BATTERY), if the device is active and enlarged", type: "checkbox", default: "false"},
+		hideInfoAIfActiveEnlarged: {name: "Hide INFO_A, if the device is active and enlarged", type: "checkbox", default: "false"},
+		hideInfoBIfActiveEnlarged: {name: "Hide INFO_B, if the device is active and enlarged", type: "checkbox", default: "false"},
+		hideIconActiveEnlarged: {name: "Hide icon, if device is active and enlarged", type: "checkbox", default: "false"}
 	}},
 	SECTION_TIMESTAMP: {name: "STATE, LEVEL and Timestamp", type: "section", options: {
 		stateCaption: {name: "Caption of STATE", type: "text", default: ""},
@@ -2873,480 +2899,173 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
-                "value": false
+                "value": true
             },
             {
                 "option": "clickActionActive",
-                "type": "activeConditionArray",
                 "role": "array",
                 "value": ""
             },
             {
+                "option": "clickActionActiveInvert",
+                "role": "const",
+                "value": false
+            },
+            {
                 "option": "clickAction",
-                "type": "select",
-                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
-                "value": "clickOnTileAction",
-                "role": "deviceOption"
+                "role": "deviceOption",
+                "value": "clickOnTileAction"
             },
             {
                 "option": "clickActionToggleFunction",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "clickActionURLState",
-                "type": "string",
                 "role": "deviceState",
                 "value": "URL"
             },
             {
                 "option": "clickActionRenderLinkedViewInParentInstance",
-                "type": "checkbox",
-                "value": "renderLinkedViewInParentInstance",
-                "role": "deviceOption"
+                "role": "deviceOption",
+                "value": "renderLinkedViewInParentInstance"
             },
             {
                 "option": "clickActionRenderLinkedViewInParentInstanceClosesPanel",
-                "type": "checkbox",
-                "value": "renderLinkedViewInParentInstanceClosesPanel",
-                "role": "deviceOption"
+                "role": "deviceOption",
+                "value": "renderLinkedViewInParentInstanceClosesPanel"
             },
             {
                 "option": "contextMenu",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
             },
             {
                 "option": "contextMenuToggleActive",
-                "type": "activeConditionArray",
                 "role": "array",
                 "value": ""
+            },
+            {
+                "option": "contextMenuToggleActiveInvert",
+                "role": "const",
+                "value": false
             },
             {
                 "option": "contextMenuDialogActive",
-                "type": "activeConditionArray",
                 "role": "array",
                 "value": ""
+            },
+            {
+                "option": "contextMenuDialogActiveInvert",
+                "role": "const",
+                "value": false
             },
             {
                 "option": "contextMenuEnlargeActive",
-                "type": "activeConditionArray",
                 "role": "array",
-                "value": ""
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"tileEnlargeShowInPressureMenuInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"tileEnlargeShowInPressureMenuActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "contextMenuEnlargeActiveInvert",
+                "role": "const",
+                "value": false
             },
             {
                 "option": "contextMenuOpenLinkToOtherViewActive",
-                "type": "activeConditionArray",
                 "role": "array",
                 "value": ""
             },
             {
+                "option": "contextMenuOpenLinkToOtherViewActiveInvert",
+                "role": "const",
+                "value": false
+            },
+            {
                 "option": "contextMenuOpenURLExternalActive",
-                "type": "activeConditionArray",
                 "role": "array",
                 "value": ""
+            },
+            {
+                "option": "contextMenuOpenURLExternalActiveInvert",
+                "role": "const",
+                "value": false
             }
         ]
     },
     {
-        "commonType": "iconTextCombination",
-        "commonName": "Full Size State off",
+        "commonType": "text",
+        "commonName": "Full Size State",
         "stackIndex": "0",
         "outside": false,
         "options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"description": "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false.",
-				"role": "const",
-				"value": false,
-				"optionIndex": 0,
-				"roleOptions": ""
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"description": "Optional. Add these CSS-Classes to the icon.",
-				"role": "const",
-				"value": "",
-				"optionIndex": 1,
-				"roleOptions": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "deviceOption",
-				"roleOptions": "+deviceState",
-				"value": "icon_off",
-				"description": "The url of the icon.",
-				"optionIndex": 2
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
-				"description": "Optional. You can set conditions under which the element is active, that is, whether it is visible or not.",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]",
-				"optionIndex": 3
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"description": "If true, the icon zooms in on mouse hover. Default: false.",
-				"role": "const",
-				"value": true,
-				"optionIndex": 4,
-				"roleOptions": ""
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"description": "If true, the icon does not capture mouse or touch events. Default: false.",
-				"role": "const",
-				"value": false,
-				"optionIndex": 5,
-				"roleOptions": ""
-			},
-			{
-				"option": "iconClickAction",
-				"type": "select",
-				"selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
-				"description": "Defines, what happens, when you click on the icon. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false.",
-				"optionIndex": 6,
-				"roleOptions": "",
-				"role": "deviceOption",
-				"value": "clickOnIconAction"
-			},
-			{
-				"option": "iconClickActionToggleFunction",
-				"type": "string",
-				"description": "Only valid, if iconClickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values.",
-				"optionIndex": 7,
-				"roleOptions": "",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconClickActionURLState",
-				"type": "string",
-				"role": "deviceState",
-				"roleOptions": "+deviceState",
-				"value": "URL",
-				"description": "Only valid, if iconClickAction is openURLExternal. This is the url to open.",
-				"optionIndex": 8
-			},
-			{
-				"option": "iconClickActionRenderLinkedViewInParentInstance",
-				"type": "checkbox",
-				"description": "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a background view or a panel, then the linked view is opened in the parent instance. Default: false.",
-				"optionIndex": 9,
-				"roleOptions": "",
-				"role": "deviceOption",
-				"value": "renderLinkedViewInParentInstance"
-			},
-			{
-				"option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
-				"type": "checkbox",
-				"description": "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a panel, then the panel closes after the linked view is rendered. Default: false.",
-				"optionIndex": 10,
-				"roleOptions": "",
-				"role": "deviceOption",
-				"value": "renderLinkedViewInParentInstanceClosesPanel"
-			},
-			{
-				"option": "textClasses",
-				"type": "string",
-				"description": "Optional. Add these CSS-Classes to the text.",
-				"role": "const",
-				"value": "",
-				"optionIndex": 11,
-				"roleOptions": ""
-			},
-			{
-				"option": "textState",
-				"type": "string",
-				"role": "deviceState",
-				"roleOptions": "+deviceState",
-				"value": "STATE",
-				"description": "The text to display.",
-				"optionIndex": 12
-			},
-			{
-				"option": "textLevelState",
-				"type": "string",
-				"role": "deviceState",
-				"roleOptions": "+deviceState",
-				"value": "LEVEL",
-				"description": "Optional. The default textProcessing can combine two values, a state and a level. This ist the level.",
-				"optionIndex": 13
-			},
-			{
-				"option": "textActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
-				"description": "Optional. You can set conditions under which the element is active, that is, whether it is visible or not.",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]",
-				"optionIndex": 14
-			},
-			{
-				"option": "textAddTimestampMode",
-				"type": "string",
-				"description": "Optional. Add timestamp to text. Can be: empty = State only | SA = State only (if active) | ST = State + Timestamp | STA = State + Timestamp (if active) | SE = State + Elapsed | SEA = State + Elapsed (if active) | SE. = State + Elapsed (since) | SE.A = State + Elapsed (since, if active) | Se = State + Elapsed (short) | SeA = State + Elapsed (short, if active) | STE = State + Timestamp + Elapsed | STEA = State + Timestamp + Elapsed (if active) | STE. = State + Timestamp + Elapsed (since) | STE.A = State + Timestamp + Elapsed (since, if active) | STe = State + Timestamp + Elapsed (short) | STeA = State + Timestamp + Elapsed (short, if active) | T = Timestamp only | TA = Timestamp only (if active) | TE = Timestamp + Elapsed | TEA = Timestamp + Elapsed (if active) | TE. = Timestamp + Elapsed (since) | TE.A = Timestamp + Elapsed (since, if active) | Te = Timestamp + Elapsed (short) | TeA = Timestamp + Elapsed (short, if active) | E = Elapsed only | EA = Elapsed only (if active) | E. = Elapsed only (since) | E.A = Elapsed only (since, if active) | e = Elapsed only (short) | eA = Elapsed only (short, if active) | N = Nothing (Hide state). Default: empty.",
-				"optionIndex": 15,
-				"roleOptions": "",
-				"role": "deviceOption",
-				"value": "addTimestampToState"
-			},
-			{
-				"option": "textProcessingFunction",
-				"type": "textarea",
-				"description": "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction",
-				"role": "const",
-				"value": "",
-				"optionIndex": 16,
-				"roleOptions": ""
-			},
-			{
-				"option": "textProcessingOptions",
-				"type": "textarea",
-				"value": "{}",
-				"description": "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}.",
-				"role": "const",
-				"optionIndex": 17,
-				"roleOptions": ""
-			},
-			{
-				"option": "textMultiline",
-				"type": "checkbox",
-				"description": "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false.",
-				"role": "const",
-				"value": true,
-				"optionIndex": 18,
-				"roleOptions": ""
-			},
-			{
-				"option": "textNoPointerEvents",
-				"type": "checkbox",
-				"description": "If true, the text does not capture mouse or touch events. Default: false.",
-				"optionIndex": 19,
-				"roleOptions": "",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "textAlwaysReservePlaceForIcon",
-				"type": "checkbox",
-				"description": "If true, the text will leave place for the icon, even if it is invisible. Default: false.",
-				"role": "const",
-				"value": false,
-				"optionIndex": 20,
-				"roleOptions": ""
-			}
-		]
-    },
-	{
-        "commonType": "iconTextCombination",
-        "commonName": "Full Size State on",
-        "stackIndex": "0",
-        "outside": false,
-        "options": [
-			{
-				"option": "stackCycles",
-				"type": "checkbox",
-				"description": "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false.",
-				"role": "const",
-				"value": false,
-				"optionIndex": 0,
-				"roleOptions": ""
-			},
-			{
-				"option": "iconClasses",
-				"type": "string",
-				"description": "Optional. Add these CSS-Classes to the icon.",
-				"role": "const",
-				"value": "",
-				"optionIndex": 1,
-				"roleOptions": ""
-			},
-			{
-				"option": "iconState",
-				"type": "string",
-				"role": "deviceOption",
-				"roleOptions": "+deviceState",
-				"value": "icon_off",
-				"description": "The url of the icon.",
-				"optionIndex": 2
-			},
-			{
-				"option": "iconActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
-				"description": "Optional. You can set conditions under which the element is active, that is, whether it is visible or not.",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]",
-				"optionIndex": 3
-			},
-			{
-				"option": "iconZoomOnHover",
-				"type": "checkbox",
-				"description": "If true, the icon zooms in on mouse hover. Default: false.",
-				"role": "const",
-				"value": true,
-				"optionIndex": 4,
-				"roleOptions": ""
-			},
-			{
-				"option": "iconNoPointerEvents",
-				"type": "checkbox",
-				"description": "If true, the icon does not capture mouse or touch events. Default: false.",
-				"role": "const",
-				"value": false,
-				"optionIndex": 5,
-				"roleOptions": ""
-			},
-			{
-				"option": "iconClickAction",
-				"type": "select",
-				"selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
-				"description": "Defines, what happens, when you click on the icon. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false.",
-				"optionIndex": 6,
-				"roleOptions": "",
-				"role": "deviceOption",
-				"value": "clickOnIconAction"
-			},
-			{
-				"option": "iconClickActionToggleFunction",
-				"type": "string",
-				"description": "Only valid, if iconClickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values.",
-				"optionIndex": 7,
-				"roleOptions": "",
-				"role": "const",
-				"value": ""
-			},
-			{
-				"option": "iconClickActionURLState",
-				"type": "string",
-				"role": "deviceState",
-				"roleOptions": "+deviceState",
-				"value": "URL",
-				"description": "Only valid, if iconClickAction is openURLExternal. This is the url to open.",
-				"optionIndex": 8
-			},
-			{
-				"option": "iconClickActionRenderLinkedViewInParentInstance",
-				"type": "checkbox",
-				"description": "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a background view or a panel, then the linked view is opened in the parent instance. Default: false.",
-				"optionIndex": 9,
-				"roleOptions": "",
-				"role": "deviceOption",
-				"value": "renderLinkedViewInParentInstance"
-			},
-			{
-				"option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
-				"type": "checkbox",
-				"description": "Only valid, if iconClickAction is openLinkToOtherView. If true and the element is part of a panel, then the panel closes after the linked view is rendered. Default: false.",
-				"optionIndex": 10,
-				"roleOptions": "",
-				"role": "deviceOption",
-				"value": "renderLinkedViewInParentInstanceClosesPanel"
-			},
-			{
-				"option": "textClasses",
-				"type": "string",
-				"description": "Optional. Add these CSS-Classes to the text.",
-				"role": "const",
-				"value": "",
-				"optionIndex": 11,
-				"roleOptions": ""
-			},
-			{
-				"option": "textState",
-				"type": "string",
-				"role": "deviceState",
-				"roleOptions": "+deviceState",
-				"value": "STATE",
-				"description": "The text to display.",
-				"optionIndex": 12
-			},
-			{
-				"option": "textLevelState",
-				"type": "string",
-				"role": "deviceState",
-				"roleOptions": "+deviceState",
-				"value": "LEVEL",
-				"description": "Optional. The default textProcessing can combine two values, a state and a level. This ist the level.",
-				"optionIndex": 13
-			},
-			{
-				"option": "textActive",
-				"type": "activeConditionArray",
-				"role": "array",
-				"roleOptions": "+array;-const;-deviceOption;-deviceSetting;-deviceCondition",
-				"description": "Optional. You can set conditions under which the element is active, that is, whether it is visible or not.",
-				"value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]",
-				"optionIndex": 14
-			},
-			{
-				"option": "textAddTimestampMode",
-				"type": "string",
-				"description": "Optional. Add timestamp to text. Can be: empty = State only | SA = State only (if active) | ST = State + Timestamp | STA = State + Timestamp (if active) | SE = State + Elapsed | SEA = State + Elapsed (if active) | SE. = State + Elapsed (since) | SE.A = State + Elapsed (since, if active) | Se = State + Elapsed (short) | SeA = State + Elapsed (short, if active) | STE = State + Timestamp + Elapsed | STEA = State + Timestamp + Elapsed (if active) | STE. = State + Timestamp + Elapsed (since) | STE.A = State + Timestamp + Elapsed (since, if active) | STe = State + Timestamp + Elapsed (short) | STeA = State + Timestamp + Elapsed (short, if active) | T = Timestamp only | TA = Timestamp only (if active) | TE = Timestamp + Elapsed | TEA = Timestamp + Elapsed (if active) | TE. = Timestamp + Elapsed (since) | TE.A = Timestamp + Elapsed (since, if active) | Te = Timestamp + Elapsed (short) | TeA = Timestamp + Elapsed (short, if active) | E = Elapsed only | EA = Elapsed only (if active) | E. = Elapsed only (since) | E.A = Elapsed only (since, if active) | e = Elapsed only (short) | eA = Elapsed only (short, if active) | N = Nothing (Hide state). Default: empty.",
-				"optionIndex": 15,
-				"roleOptions": "",
-				"role": "deviceOption",
-				"value": "addTimestampToState"
-			},
-			{
-				"option": "textProcessingFunction",
-				"type": "textarea",
-				"description": "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction",
-				"role": "const",
-				"value": "",
-				"optionIndex": 16,
-				"roleOptions": ""
-			},
-			{
-				"option": "textProcessingOptions",
-				"type": "textarea",
-				"value": "{}",
-				"description": "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}.",
-				"role": "const",
-				"optionIndex": 17,
-				"roleOptions": ""
-			},
-			{
-				"option": "textMultiline",
-				"type": "checkbox",
-				"description": "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false.",
-				"role": "const",
-				"value": true,
-				"optionIndex": 18,
-				"roleOptions": ""
-			},
-			{
-				"option": "textNoPointerEvents",
-				"type": "checkbox",
-				"description": "If true, the text does not capture mouse or touch events. Default: false.",
-				"optionIndex": 19,
-				"roleOptions": "",
-				"role": "const",
-				"value": false
-			},
-			{
-				"option": "textAlwaysReservePlaceForIcon",
-				"type": "checkbox",
-				"description": "If true, the text will leave place for the icon, even if it is invisible. Default: false.",
-				"role": "const",
-				"value": false,
-				"optionIndex": 20,
-				"roleOptions": ""
-			}
-		]
+            {
+                "option": "stackCycles",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "textClasses",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textState",
+                "role": "deviceState",
+                "value": "STATE"
+            },
+            {
+                "option": "textLevelState",
+                "role": "deviceState",
+                "value": "LEVEL"
+            },
+            {
+                "option": "textActive",
+                "role": "array",
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "textActiveInvert",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "textAddTimestampMode",
+                "role": "deviceOption",
+                "value": "addTimestampToState"
+            },
+            {
+                "option": "textProcessingFunction",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textProcessingOptions",
+                "role": "const",
+                "value": "{}"
+            },
+            {
+                "option": "textMultiline",
+                "role": "const",
+                "value": true
+            },
+            {
+                "option": "textNoPointerEvents",
+                "role": "const",
+                "value": false
+            },
+            {
+                "option": "textFloatSelector",
+                "role": "const",
+                "value": ".uiElement[data-ui-element-name=\"Icon on\"]"
+            },
+            {
+                "option": "textFreeSpaceSelector",
+                "role": "const",
+                "value": ".uiElement[data-ui-element-name=\"Badge\"]"
+            }
+        ]
     },
     {
         "commonType": "badge",
@@ -3355,39 +3074,33 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "badgeClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "badgeState",
-                "type": "string",
                 "role": "deviceState",
                 "value": "BADGE"
             },
             {
                 "option": "badgeColorState",
-                "type": "string",
                 "role": "deviceState",
                 "value": "BADGE_COLOR"
             },
             {
                 "option": "badgeWithoutUnit",
-                "type": "checkbox",
-                "role": "const",
-                "value": false
+                "role": "deviceOption",
+                "value": "badgeWithoutUnit"
             },
             {
                 "option": "badgeShowIfZero",
-                "type": "checkbox",
-                "role": "const",
-                "value": false
+                "role": "deviceOption",
+                "value": "showBadgeIfZero"
             }
         ],
         "outside": true
@@ -3400,31 +3113,31 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "enlargeButtonClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "enlargeButtonActive",
-                "type": "activeConditionArray",
                 "role": "array",
                 "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"tileEnlargeShowButtonInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"tileEnlargeShowButtonActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
             },
             {
+                "option": "enlargeButtonActiveInvert",
+                "role": "const",
+                "value": false
+            },
+            {
                 "option": "enlargeButtonNoZoomOnHover",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "enlargeButtonRotate",
-                "type": "string",
                 "role": "const",
                 "value": ""
             }
@@ -3438,70 +3151,63 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconState",
-                "type": "string",
                 "role": "deviceOption",
                 "value": "icon_off"
             },
             {
                 "option": "iconActive",
-                "type": "activeConditionArray",
                 "role": "array",
                 "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
             },
             {
-                "option": "iconZoomOnHover",
-                "type": "checkbox",
+                "option": "iconActiveInvert",
                 "role": "const",
-                "value": true
+                "value": false
+            },
+            {
+                "option": "iconNoZoomOnHover",
+                "role": "deviceOption",
+                "value": "iconNoZoomOnHover"
             },
             {
                 "option": "iconNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClickAction",
-                "type": "select",
-                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
                 "role": "deviceOption",
                 "value": "clickOnIconAction"
             },
             {
                 "option": "iconClickActionToggleFunction",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionURLState",
-                "type": "string",
                 "role": "deviceState",
                 "value": "URL"
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstance",
-                "type": "checkbox",
-                "value": "renderLinkedViewInParentInstance",
-                "role": "deviceOption"
+                "role": "deviceOption",
+                "value": "renderLinkedViewInParentInstance"
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
-                "type": "checkbox",
-                "value": "renderLinkedViewInParentInstanceClosesPanel",
-                "role": "deviceOption"
+                "role": "deviceOption",
+                "value": "renderLinkedViewInParentInstanceClosesPanel"
             }
         ]
     },
@@ -3513,70 +3219,63 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconState",
-                "type": "string",
                 "role": "deviceOption",
                 "value": "icon_on"
             },
             {
                 "option": "iconActive",
-                "type": "activeConditionArray",
                 "role": "array",
                 "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
             },
             {
-                "option": "iconZoomOnHover",
-                "type": "checkbox",
+                "option": "iconActiveInvert",
                 "role": "const",
-                "value": true
+                "value": false
+            },
+            {
+                "option": "iconNoZoomOnHover",
+                "role": "deviceOption",
+                "value": "iconNoZoomOnHover"
             },
             {
                 "option": "iconNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClickAction",
-                "type": "select",
-                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
                 "role": "deviceOption",
                 "value": "clickOnIconAction"
             },
             {
                 "option": "iconClickActionToggleFunction",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionURLState",
-                "type": "string",
                 "role": "deviceState",
                 "value": "URL"
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstance",
-                "type": "checkbox",
-                "value": "renderLinkedViewInParentInstance",
-                "role": "deviceOption"
+                "role": "deviceOption",
+                "value": "renderLinkedViewInParentInstance"
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
-                "type": "checkbox",
-                "value": "renderLinkedViewInParentInstanceClosesPanel",
-                "role": "deviceOption"
+                "role": "deviceOption",
+                "value": "renderLinkedViewInParentInstanceClosesPanel"
             }
         ]
     },
@@ -3588,25 +3287,21 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
-                "option": "iconZoomOnHover",
-                "type": "checkbox",
+                "option": "iconNoZoomOnHover",
                 "role": "const",
-                "value": false
+                "value": true
             },
             {
                 "option": "iconNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
             }
@@ -3620,68 +3315,61 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconState",
-                "type": "string",
                 "role": "deviceOption",
                 "value": "errorIcon_on"
             },
             {
                 "option": "iconActive",
-                "type": "activeConditionArray",
                 "role": "array",
-                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"ERROR\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"ERROR\",\"activeCondition\":\"eqf\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"invertError\",\"activeCondition\":\"eqf\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"ERROR\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"invertError\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideIndicatorIfInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideIndicatorIfActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideIndicatorIfEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
             },
             {
-                "option": "iconZoomOnHover",
-                "type": "checkbox",
+                "option": "iconActiveInvert",
                 "role": "const",
-                "value": false
+                "value": true
+            },
+            {
+                "option": "iconNoZoomOnHover",
+                "role": "const",
+                "value": true
             },
             {
                 "option": "iconNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
             },
             {
                 "option": "iconClickAction",
-                "type": "select",
-                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionToggleFunction",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionURLState",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstance",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             }
@@ -3695,68 +3383,61 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconState",
-                "type": "string",
                 "role": "deviceOption",
                 "value": "unreachIcon_on"
             },
             {
                 "option": "iconActive",
-                "type": "activeConditionArray",
                 "role": "array",
-                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"UNREACH\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"UNREACH\",\"activeCondition\":\"eqf\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"invertUnreach\",\"activeCondition\":\"eqf\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"UNREACH\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"invertUnreach\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideIndicatorIfInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideIndicatorIfActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideIndicatorIfEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideUnreachIfInactive\",\"activeCondition\":\"\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
             },
             {
-                "option": "iconZoomOnHover",
-                "type": "checkbox",
+                "option": "iconActiveInvert",
                 "role": "const",
-                "value": false
+                "value": true
+            },
+            {
+                "option": "iconNoZoomOnHover",
+                "role": "const",
+                "value": true
             },
             {
                 "option": "iconNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
             },
             {
                 "option": "iconClickAction",
-                "type": "select",
-                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionToggleFunction",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionURLState",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstance",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             }
@@ -3770,68 +3451,61 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconState",
-                "type": "string",
                 "role": "deviceOption",
                 "value": "batteryIcon_on"
             },
             {
                 "option": "iconActive",
-                "type": "activeConditionArray",
                 "role": "array",
-                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"BATTERY\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"BATTERY\",\"activeCondition\":\"eqf\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideIndicatorIfInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideIndicatorIfActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideIndicatorIfEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
             },
             {
-                "option": "iconZoomOnHover",
-                "type": "checkbox",
+                "option": "iconActiveInvert",
                 "role": "const",
-                "value": false
+                "value": true
+            },
+            {
+                "option": "iconNoZoomOnHover",
+                "role": "const",
+                "value": true
             },
             {
                 "option": "iconNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
             },
             {
                 "option": "iconClickAction",
-                "type": "select",
-                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionToggleFunction",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionURLState",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstance",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             }
@@ -3845,131 +3519,128 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconState",
-                "type": "string",
                 "role": "deviceState",
                 "value": "INFO_A.icon"
             },
             {
                 "option": "iconActive",
-                "type": "activeConditionArray",
                 "role": "array",
-                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_A.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_A.state\",\"activeCondition\":\"eqf\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoAIfInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoAIfActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoAIfEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
             },
             {
-                "option": "iconZoomOnHover",
-                "type": "checkbox",
+                "option": "iconActiveInvert",
                 "role": "const",
-                "value": false
+                "value": true
+            },
+            {
+                "option": "iconNoZoomOnHover",
+                "role": "const",
+                "value": true
             },
             {
                 "option": "iconNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
             },
             {
                 "option": "iconClickAction",
-                "type": "select",
-                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionToggleFunction",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionURLState",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstance",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "textClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textState",
-                "type": "string",
                 "role": "deviceState",
                 "value": "INFO_A.state"
             },
             {
                 "option": "textLevelState",
-                "type": "string",
                 "role": "deviceState",
                 "value": ""
             },
             {
                 "option": "textActive",
-                "type": "activeConditionArray",
                 "role": "array",
-                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_A.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_A.state\",\"activeCondition\":\"eqf\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoAIfInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoAIfActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoAIfEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "textActiveInvert",
+                "role": "const",
+                "value": true
             },
             {
                 "option": "textAddTimestampMode",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textProcessingFunction",
-                "type": "textarea",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textProcessingOptions",
-                "type": "textarea",
-                "value": "{}",
-                "role": "const"
+                "role": "const",
+                "value": "{}"
             },
             {
                 "option": "textMultiline",
-                "type": "checkbox",
                 "role": "const",
-                "value": false,
-                "selectOptions": "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal"
+                "value": false
             },
             {
                 "option": "textNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
             },
             {
                 "option": "textAlwaysReservePlaceForIcon",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
+            },
+            {
+                "option": "textFloatSelector",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textFreeSpaceSelector",
+                "role": "const",
+                "value": ""
             }
         ]
     },
@@ -3981,130 +3652,128 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconState",
-                "type": "string",
                 "role": "deviceState",
                 "value": "INFO_B.icon"
             },
             {
                 "option": "iconActive",
-                "type": "activeConditionArray",
                 "role": "array",
-                "value": "[{\"modifier\":\"&&\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_B.state\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_B.state\",\"activeCondition\":\"eqf\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoBIfInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoBIfActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoBIfEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
             },
             {
-                "option": "iconZoomOnHover",
-                "type": "checkbox",
+                "option": "iconActiveInvert",
                 "role": "const",
-                "value": false
+                "value": true
+            },
+            {
+                "option": "iconNoZoomOnHover",
+                "role": "const",
+                "value": true
             },
             {
                 "option": "iconNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
             },
             {
                 "option": "iconClickAction",
-                "type": "select",
-                "selectOptions": ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionToggleFunction",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionURLState",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstance",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "iconClickActionRenderLinkedViewInParentInstanceClosesPanel",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "textClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textState",
-                "type": "string",
                 "role": "deviceState",
                 "value": "INFO_B.state"
             },
             {
                 "option": "textLevelState",
-                "type": "string",
                 "role": "deviceState",
                 "value": ""
             },
             {
                 "option": "textActive",
-                "type": "activeConditionArray",
                 "role": "array",
-                "value": ""
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceState\",\"activeStateValue\":\"INFO_B.state\",\"activeCondition\":\"eqf\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoBIfInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoBIfActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideInfoBIfEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "textActiveInvert",
+                "role": "const",
+                "value": true
             },
             {
                 "option": "textAddTimestampMode",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textProcessingFunction",
-                "type": "textarea",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textProcessingOptions",
-                "type": "textarea",
-                "value": "{}",
-                "role": "const"
+                "role": "const",
+                "value": "{}"
             },
             {
                 "option": "textMultiline",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "textNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
             },
             {
                 "option": "textAlwaysReservePlaceForIcon",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
+            },
+            {
+                "option": "textFloatSelector",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textFreeSpaceSelector",
+                "role": "const",
+                "value": ""
             }
         ]
     },
@@ -4116,63 +3785,68 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "textClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textState",
-                "type": "string",
                 "role": "deviceSetting",
                 "value": "commonName"
             },
             {
                 "option": "textLevelState",
-                "type": "string",
                 "role": "deviceState",
                 "value": ""
             },
             {
                 "option": "textActive",
-                "type": "activeConditionArray",
                 "role": "array",
-                "value": "[]"
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideDeviceName\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideDeviceNameIfInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideDeviceNameIfActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideDeviceNameIfEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "textActiveInvert",
+                "role": "const",
+                "value": true
             },
             {
                 "option": "textAddTimestampMode",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textProcessingFunction",
-                "type": "textarea",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textProcessingOptions",
-                "type": "textarea",
-                "value": "{}",
-                "role": "const"
+                "role": "const",
+                "value": "{}"
             },
             {
                 "option": "textMultiline",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
             },
             {
                 "option": "textNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
+            },
+            {
+                "option": "textFloatSelector",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textFreeSpaceSelector",
+                "role": "const",
+                "value": ""
             }
         ]
     },
@@ -4184,63 +3858,68 @@ var iQontrolRolesStandardTileSettingElements = [
         "options": [
             {
                 "option": "stackCycles",
-                "type": "checkbox",
                 "role": "const",
                 "value": false
             },
             {
                 "option": "textClasses",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textState",
-                "type": "string",
                 "role": "deviceState",
                 "value": "STATE"
             },
             {
                 "option": "textLevelState",
-                "type": "string",
                 "role": "deviceState",
                 "value": "LEVEL"
             },
             {
                 "option": "textActive",
-                "type": "activeConditionArray",
                 "role": "array",
-                "value": ""
+                "value": "[{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideStateIfInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceInactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"inactive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideStateIfActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceActive\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"active\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"hideStateIfEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"||\",\"activeStateRole\":\"deviceOption\",\"activeStateValue\":\"stateFillsDeviceEnlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"},{\"modifier\":\"&&\",\"activeStateRole\":\"deviceCondition\",\"activeStateValue\":\"enlarged\",\"activeCondition\":\"eqt\",\"activeConditionValueRole\":\"const\",\"activeConditionValueValue\":\"\"}]"
+            },
+            {
+                "option": "textActiveInvert",
+                "role": "const",
+                "value": true
             },
             {
                 "option": "textAddTimestampMode",
-                "type": "string",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textProcessingFunction",
-                "type": "textarea",
                 "role": "const",
                 "value": ""
             },
             {
                 "option": "textProcessingOptions",
-                "type": "textarea",
-                "value": "{}",
-                "role": "const"
+                "role": "const",
+                "value": "{}"
             },
             {
                 "option": "textMultiline",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
             },
             {
                 "option": "textNoPointerEvents",
-                "type": "checkbox",
                 "role": "const",
                 "value": true
+            },
+            {
+                "option": "textFloatSelector",
+                "role": "const",
+                "value": ""
+            },
+            {
+                "option": "textFreeSpaceSelector",
+                "role": "const",
+                "value": ""
             }
         ]
     }
@@ -6822,7 +6501,9 @@ async function load(settings, onChange) {
 		dialogDeviceEditOptionsBuildOptionsContent();
 		//TileSettings
 		dialogDeviceEditTileSettings.tileClass = typeof dialogDeviceEditTileSettings.tileClass != 'undefined' && (dialogDeviceEditTileSettings.tileClass != (iQontrolRoles[dialogDeviceEditOldCommonRole]?.tileSettings?.tileClass || -1)) ? dialogDeviceEditTileSettings.tileClass : iQontrolRoles[dialogDeviceEditCommonRole]?.tileSettings?.tileClass || -1; //if old settings differs from role´s default: keep it. Otherwise take default from new role
+		dialogDeviceEditTileSettings.tileClassActive = typeof dialogDeviceEditTileSettings.tileClassActive != 'undefined' && (dialogDeviceEditTileSettings.tileClassActive != (iQontrolRoles[dialogDeviceEditOldCommonRole]?.tileSettings?.tileClassActive || -1)) ? dialogDeviceEditTileSettings.tileClassActive : iQontrolRoles[dialogDeviceEditCommonRole]?.tileSettings?.tileClassActive || -1; //if old settings differs from role´s default: keep it. Otherwise take default from new role
 		dialogDeviceEditTileSettings.tileClassEnlarged = typeof dialogDeviceEditTileSettings.tileClassEnlarged != 'undefined' && (dialogDeviceEditTileSettings.tileClassEnlarged != (iQontrolRoles[dialogDeviceEditOldCommonRole]?.tileSettings?.tileClassEnlarged || -1)) ? dialogDeviceEditTileSettings.tileClassEnlarged : iQontrolRoles[dialogDeviceEditCommonRole]?.tileSettings?.tileClassEnlarged || -1; //if old settings differs from role´s default: keep it. Otherwise take default from new role
+		dialogDeviceEditTileSettings.tileClassActiveEnlarged = typeof dialogDeviceEditTileSettings.tileClassActiveEnlarged != 'undefined' && (dialogDeviceEditTileSettings.tileClassActiveEnlarged != (iQontrolRoles[dialogDeviceEditOldCommonRole]?.tileSettings?.tileClassActiveEnlarged || -1)) ? dialogDeviceEditTileSettings.tileClassActiveEnlarged : iQontrolRoles[dialogDeviceEditCommonRole]?.tileSettings?.tileClassActiveEnlarged || -1; //if old settings differs from role´s default: keep it. Otherwise take default from new role
 		if(!dialogDeviceEditTileSettings.elements) { //no tileSettings present - use role Settings
 			dialogDeviceEditTileSettings.elements = [];
 			(iQontrolRoles[dialogDeviceEditCommonRole] && iQontrolRoles[dialogDeviceEditCommonRole].tileSettings.elements || []).forEach(function(roleElement, roleElementIndex){
@@ -7706,9 +7387,12 @@ async function load(settings, onChange) {
 	//Init TileSettings
 	function dialogDeviceEditTileSettingsInit(){
 		dialogDeviceEditTileSettings.tileClass = dialogDeviceEditTileSettings.tileClass || 0;
+		dialogDeviceEditTileSettings.tileClassActive = dialogDeviceEditTileSettings.tileClassActive || 0;
 		dialogDeviceEditTileSettings.tileClassEnlarged = dialogDeviceEditTileSettings.tileClassEnlarged || 0;
+		dialogDeviceEditTileSettings.tileClassActiveEnlarged = dialogDeviceEditTileSettings.tileClassActiveEnlarged || 0;
 		dialogDeviceEditTileSettings.elements = dialogDeviceEditTileSettings.elements || [];
 		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', false);
+		$('#dialogDeviceEditTileSettingsDemoShowActive').prop('checked', false);
 		//Fill and select dialogDeviceEditTileSettingsTileClass selectbox 
 		$('.dialogDeviceEditTileSettingsTileClass').html("");
 		$('.dialogDeviceEditTileSettingsTileClass').append(`<option value="-1">${_('Default')}</option>`);
@@ -7716,7 +7400,9 @@ async function load(settings, onChange) {
 			$('.dialogDeviceEditTileSettingsTileClass').append(`<option value="${tileClassIndex}">${tileClass.commonName || tileClassIndex}</option>`);
 		});
 		$('#dialogDeviceEditTileSettingsTileClass').val(dialogDeviceEditTileSettings.tileClass);
+		$('#dialogDeviceEditTileSettingsTileClassActive').val(dialogDeviceEditTileSettings.tileClassActive);
 		$('#dialogDeviceEditTileSettingsTileClassEnlarged').val(dialogDeviceEditTileSettings.tileClassEnlarged);
+		$('#dialogDeviceEditTileSettingsTileClassActiveEnlarged').val(dialogDeviceEditTileSettings.tileClassActiveEnlarged);
 		$('.dialogDeviceEditTileSettingsTileClass').select();
 		dialogDeviceEditTileSettingsUpdateDemo();
 		//Elements	
@@ -7725,17 +7411,33 @@ async function load(settings, onChange) {
 	//Enhance dialogDeviceEditTileSettingsTileClass
 	$('.dialogDeviceEditTileSettingsTileClass').on('change', function(){
 		dialogDeviceEditTileSettings[$(this).data('type')] = $(this).val() || 0;
-		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', $(this).data('type') == 'tileClassEnlarged').trigger('change');
+		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', $(this).data('type') == 'tileClassEnlarged' || $(this).data('type') == 'tileClassActiveEnlarged').trigger('change');
+		$('#dialogDeviceEditTileSettingsDemoShowActive').prop('checked', $(this).data('type') == 'tileClassActive' || $(this).data('type') == 'tileClassActiveEnlarged').trigger('change');
 	});	
 	$('.dialogDeviceEditTileSettingsTileClassContainer').on('click', function(){
-		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', $(this).data('type') == 'tileClassEnlarged').trigger('change');
+		$('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked', $(this).data('type') == 'tileClassEnlarged' || $(this).data('type') == 'tileClassActiveEnlarged').trigger('change');
+		$('#dialogDeviceEditTileSettingsDemoShowActive').prop('checked', $(this).data('type') == 'tileClassActive' || $(this).data('type') == 'tileClassActiveEnlarged').trigger('change');
 	});
 	function dialogDeviceEditTileSettingsUpdateDemo(){
 		$('#dialogDeviceEditTileSettingsDemoTile').html('');
+		let active = $('#dialogDeviceEditTileSettingsDemoShowActive').prop('checked');
 		let enlarged = $('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked');
-		let tileClass = (enlarged ? (dialogDeviceEditTileSettings.tileClassEnlarged > -1 ? dialogDeviceEditTileSettings.tileClassEnlarged : $('#optionsLayoutTilesDefaultClassEnlarged').val()) : (dialogDeviceEditTileSettings.tileClass > -1 ? dialogDeviceEditTileSettings.tileClass : $('#optionsLayoutTilesDefaultClass').val())) || 0;
+		//let tileClass = (enlarged ? (dialogDeviceEditTileSettings.tileClassEnlarged > -1 ? dialogDeviceEditTileSettings.tileClassEnlarged : $('#optionsLayoutTilesDefaultClassEnlarged').val()) : (dialogDeviceEditTileSettings.tileClass > -1 ? dialogDeviceEditTileSettings.tileClass : $('#optionsLayoutTilesDefaultClass').val())) || 0;
+		let tileClass = 0;
+		if(active && enlarged) { 
+			tileClass = (dialogDeviceEditTileSettings.tileClassActiveEnlarged > -1 ? dialogDeviceEditTileSettings.tileClassActiveEnlarged : $('#optionsLayoutTilesDefaultClassActiveEnlarged').val()) || 0;
+		}
+		else if(active) { 
+			tileClass = (dialogDeviceEditTileSettings.tileClassActive > -1 ? dialogDeviceEditTileSettings.tileClassActive : $('#optionsLayoutTilesDefaultClassActive').val()) || 0;
+		}
+		else if(enlarged) { 
+			tileClass = (dialogDeviceEditTileSettings.tileClassEnlarged > -1 ? dialogDeviceEditTileSettings.tileClassEnlarged : $('#optionsLayoutTilesDefaultClassEnlarged').val()) || 0;
+		}
+		else { 
+			tileClass = (dialogDeviceEditTileSettings.tileClass > -1 ? dialogDeviceEditTileSettings.tileClass : $('#optionsLayoutTilesDefaultClass').val()) || 0;
+		}
 		$('.dialogDeviceEditTileSettingsTileClassContainer').removeClass('selected');
-		$(`.dialogDeviceEditTileSettingsTileClassContainer[data-type="${enlarged ? 'tileClassEnlarged' : 'tileClass'}"]`).addClass('selected');
+		$(`.dialogDeviceEditTileSettingsTileClassContainer[data-type="tileClass${active ? 'Active' : ''}${enlarged ? 'Enlarged' : ''}"]`).addClass('selected');
 		//Tile Border radius
 		for(let tileOption in tileClasses[tileClass].value.tile || {}){
 			if(tileOption.indexOf('border-') == 0 && tileOption.endsWith('-radius')){
@@ -7753,7 +7455,7 @@ async function load(settings, onChange) {
 	$('.dialogDeviceEditTileSettingsDemoScale').on('input change', function(){
 		$('#dialogDeviceEditTileSettingsDemoTile').data('scale', $(this).val()).css('transform', `scale(${$(this).val()})`);
 	});
-	$('#dialogDeviceEditTileSettingsDemoShowEnlarged').on('change', function(){
+	$('#dialogDeviceEditTileSettingsDemoShowEnlarged, #dialogDeviceEditTileSettingsDemoShowActive').on('change', function(){
 		dialogDeviceEditTileSettingsUpdateDemo();
 	});
 	//Add Stacks
@@ -7811,8 +7513,21 @@ async function load(settings, onChange) {
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
 		//Stack selectbox
+		let active = $('#dialogDeviceEditTileSettingsDemoShowActive').prop('checked');
 		let enlarged = $('#dialogDeviceEditTileSettingsDemoShowEnlarged').prop('checked');
-		let tileClass = (enlarged ? (dialogDeviceEditTileSettings.tileClassEnlarged > -1 ? dialogDeviceEditTileSettings.tileClassEnlarged : $('#optionsLayoutTilesDefaultClassEnlarged').val()) : (dialogDeviceEditTileSettings.tileClass > -1 ? dialogDeviceEditTileSettings.tileClass : $('#optionsLayoutTilesDefaultClass').val())) || 0;
+		let tileClass = 0;
+		if(active && enlarged) { 
+			tileClass = (dialogDeviceEditTileSettings.tileClassActiveEnlarged > -1 ? dialogDeviceEditTileSettings.tileClassActiveEnlarged : $('#optionsLayoutTilesDefaultClassActiveEnlarged').val()) || 0;
+		}
+		else if(active) { 
+			tileClass = (dialogDeviceEditTileSettings.tileClassActive > -1 ? dialogDeviceEditTileSettings.tileClassActive : $('#optionsLayoutTilesDefaultClassActive').val()) || 0;
+		}
+		else if(enlarged) { 
+			tileClass = (dialogDeviceEditTileSettings.tileClassEnlarged > -1 ? dialogDeviceEditTileSettings.tileClassEnlarged : $('#optionsLayoutTilesDefaultClassEnlarged').val()) || 0;
+		}
+		else { 
+			tileClass = (dialogDeviceEditTileSettings.tileClass > -1 ? dialogDeviceEditTileSettings.tileClass : $('#optionsLayoutTilesDefaultClass').val()) || 0;
+		}
 		var stackOptions = [];
 		tileClasses[tileClass].value.stacks.forEach(function(stack, stackIndex){
 			stackOptions.push(stackIndex + "/" + stackIndex + " - " + stack.name);
@@ -10149,22 +9864,22 @@ async function load(settings, onChange) {
 	 	materialIcon: "chat_bubble_outline", 
 		description: _("Adds lists and a widget that counts service messages like unreachable devices or devices with empty battery, firmware-updates and so on"),
 		lists: [{"active":true,"name":"UNREACH","selectors":[{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.unreach"},{"modifier":"remove","type":"id","operator":"c","value":"STICKY_"}],"filterAliases":true,"counters":[{"name":"ACTUAL","type":"value","operator":"eqt","value":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""},{"modifier":"&&","type":"lcs","operator":"gt","value":"180"}],"unit":"Geräte"}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"LOWBAT","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".LOWBAT"},{"modifier":"add","type":"commonRole","operator":"ew","value":"lowbat"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"Geräte","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"ERROR","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".ERROR"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.error"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""},{"modifier":"&&","type":"valuelistValue","operator":"ne","value":"SABOTAGE"}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"MAINTENANCE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".MAINTAIN"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.maintenance"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"SABOTAGE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".ERROR"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.error"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"valuelistValue","operator":"eq","value":"SABOTAGE"}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"CONFIG_PENDING","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".CONFIG_PENDING"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"FIRMWARE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".firmware"},{"modifier":"remove","type":"commonType","operator":"ne","value":"boolean"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"Servicemessages","selectors":[],"filterAliases":false,"counters":[],"triggerInterval":"","calculations":[{"name":"ACTUAL","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL"}]}],"combinations":[{"name":"ACTUAL_TEXT","unit":"","combinationSteps":[{"prefix":"","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL","postfix":_(" inaccessible device: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL","postfix":_(" inaccessible device: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"\\r\\n","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL","postfix":_(" device with empty battery: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL","postfix":_(" devices with empty battery: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL","postfix":_(" faulty device: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL","postfix":_(" faulty devices: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL","postfix":_(" time maintenance required: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL","postfix":_(" times maintenance required: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL","postfix":_(" device with sabotage alarm: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL","postfix":_(" devices with sabotage alarm: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL","postfix":_(" time configuration data pending for transmission: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL","postfix":_(" times configuration data pending for transmission: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL","postfix":_(" device with firmware-update: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL","postfix":_(" devices with firmware-update: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""}]}],"createNamesList":false,"createParentNamesList":false,"logs":[{"name":"LOG_JSON","onChangeIDs":[{"id": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL_TEXT"}],"onChangeDebounce":"","logSteps":[{"key":_("No."),"type":"count","id":""},{"key":_("Time"),"type":"octsDMYHMS","id":""},{"key":_("Quantity"),"type":"value","id": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL"},{"key":_("Messages"),"type":"value","id": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL_TEXT"}],"onChangeAddAllStepIDs":true,"addTo":"top","onChangeAddAllLogStepIDs":true,"onChangeIds":[{"id": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL_TEXT"}],"onChangeAddAllLogStepIds":false}]}],
-		devices: [{"commonName":_("Service") + "&shy;" + _("messages") + "|{" + adapter + "." + instance + ".Lists.Servicemessages.ACTUAL} " + _("Service") + "&shy;" + _("messages"),"nativeHeading":"","nativeLinkedView":"","nativeBackgroundImage":"","commonRole":"iQontrolValue","states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL_TEXT"},{"state":"LEVEL","commonRole":"linkedState","value":""},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL"},{"state":"UNREACH","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.UNREACH.ACTUAL"},{"state":"ERROR","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.ERROR.ACTUAL"},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},{"state":"BACKGROUND_URL","commonRole":"const","value":""},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"const","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"options":[{"option":"icon_on","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_on.png"},{"option":"icon_off","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_off.png"},{"option":"readonly","type":"checkbox","value":"true"},{"option":"stateCaption","type":"text","value":""},{"option":"levelCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"openDialog"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"false"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"false"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":""},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"false"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"false"},{"option":"hideStateIfInactive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":""},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"false"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"false"},{"option":"hideStateIfActive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"false"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"visibilityBackgroundURLEnlarged","type":"select","value":""},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"false"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":""},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"false"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"false"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"showStateAndLevelSeparatelyInTile","type":"select","value":""}],"nativeBackgroundImageActive":"","nativeHeadingOptions":""},
-				  {"commonName":"Service-Log","nativeHeading":"","nativeLinkedView":"","nativeBackgroundImage":"","nativeBackgroundImageActive":"","commonRole":"iQontrolButton","states":[{"state":"STATE","commonRole":"linkedState","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_CLEAR"},{"state":"SET_VALUE","commonRole":"const","value":"true"},{"state":"OFF_SET_VALUE","commonRole":"const","value":""},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value":""},{"state":"UNREACH","commonRole":"linkedState","value":""},{"state":"ERROR","commonRole":"linkedState","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_COUNT"},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},{"state":"BACKGROUND_URL","commonRole":"const","value":"./images/widgets/json-table/json-table.html?tableMode=columntoggle&colsSort=timestamp%3Bcount%3Bmessages&colsFilter=&translations=&useThisDatapoint=" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists.Servicemessages.LOG_JSON&breakpoints=20%3B30%3B40%3B50%3B60%3B70%3B80&colsAlwaysVisible=&colsPreferablyVisible=" + encodeURI(_("Messages")) + "&colsPreferablyVisibleAreVisibleAtStart=true&headHideColumntoggleButton=false&dataTranspose=false&dataTransposeKeycolCaption=Key&dataTransposeValcolsPrefix=Value%20&dataConvertObjectToArrayKeycolCaption=Nr.&columnSortEnabled=true&columnSortEnabledColsFilter=true&columnSortCol=Nr.&columnSortColDesc=true&columnSortColHideIndicator=false&rowsLimit=25&rowsLimitLoadMore=true&rowsLimitLoadMoreCaption=...&headHide=false&scrollbarHide=true&replaceCRwithBR=true&colorBackground=&colorBackgroundOdd=&colorText=&colorTextOdd=&colorTextShadow=&colorTextShadowOdd=&colorBackgroundDark=&colorBackgroundOddDark=&colorTextDark=&colorTextOddDark=&colorTextShadowDark=&colorTextShadowOddDark=&iconCols=&icon1Url=&icon1Caption=&icon1String=&icon2Url=&icon2Caption=&icon2String=&icon3Url=&icon3Caption=&icon3String=&icon4Url=&icon4Caption=&icon4String=&icon5Url=&icon5Caption=&icon5String=&icon6Url=&icon6Caption=&icon6String=&icon7Url=&icon7Caption=&icon7String=&icon8Url=&icon8Caption=&icon8String=&icon9Url=&icon9Caption=&icon9String=&icon10Url=&icon10Caption=&icon10String=&icon11Url=&icon11Caption=&icon11String=&icon12Url=&icon12Caption=&icon12String=&datapointDetectionEnabled=true&datapointIdCol=id&datapointIdColFilter=true&datapointExtendTableCols=parentName%3BplainText&datapointExtendTableColsDefaultTranslationLanguage=en&datapointToggleCols=plainText&="},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_COUNT"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"linkedState","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"options":[{"option":"icon_on","type":"icon","value":""},{"option":"icon_off","type":"icon","value":""},{"option":"readonly","type":"checkbox","value":"false"},{"option":"stateCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"toggle"},{"option":"clickOnTileAction","type":"select","value":"enlarge"},{"option":"noZoomOnHover","type":"checkbox","value":"true"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"false"},{"option":"tileActiveStateId","type":"text","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_COUNT"},{"option":"tileActiveCondition","type":"select","value":"gt"},{"option":"tileActiveConditionValue","type":"text","value":"0"},{"option":"sizeInactive","type":"select","value":""},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"false"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"true"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"false"},{"option":"hideStateIfInactive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":""},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"false"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"true"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"false"},{"option":"hideStateIfActive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"true"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"true"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"visibilityBackgroundURLEnlarged","type":"select","value":"visibleIfEnlarged"},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"true"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"true"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"true"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIconEnlarged","type":"checkbox","value":"true"},{"option":"addTimestampToState","type":"select","value":""},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"true"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"true"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"showState","type":"checkbox","value":"false"},{"option":"buttonCaption","type":"text","value":"Log leeren"},{"option":"returnToOffSetValueAfter","type":"number","value":""},{"option":"closeDialogAfterExecution","type":"checkbox","value":"false"}],"nativeHeadingOptions":""}]
+		devices: [{"commonName":_("Service") + "&shy;" + _("messages") + "|{" + adapter + "." + instance + ".Lists.Servicemessages.ACTUAL} " + _("Service") + "&shy;" + _("messages"),"nativeHeading":"","nativeLinkedView":"","nativeBackgroundImage":"","commonRole":"iQontrolValue","states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL_TEXT"},{"state":"LEVEL","commonRole":"linkedState","value":""},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL"},{"state":"UNREACH","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.UNREACH.ACTUAL"},{"state":"ERROR","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.ERROR.ACTUAL"},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},{"state":"BACKGROUND_URL","commonRole":"const","value":""},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"const","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"options":[{"option":"icon_on","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_on.png"},{"option":"icon_off","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_off.png"},{"option":"readonly","type":"checkbox","value":"true"},{"option":"stateCaption","type":"text","value":""},{"option":"levelCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"openDialog"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"false"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"false"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":""},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"false"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"false"},{"option":"hideStateIfInactive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":""},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"false"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"false"},{"option":"hideStateIfActive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"false"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"false"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":""},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"false"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"false"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"showStateAndLevelSeparatelyInTile","type":"select","value":""}],"nativeBackgroundImageActive":"","nativeHeadingOptions":""},
+				  {"commonName":"Service-Log","nativeHeading":"","nativeLinkedView":"","nativeBackgroundImage":"","nativeBackgroundImageActive":"","commonRole":"iQontrolButton","states":[{"state":"STATE","commonRole":"linkedState","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_CLEAR"},{"state":"SET_VALUE","commonRole":"const","value":"true"},{"state":"OFF_SET_VALUE","commonRole":"const","value":""},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value":""},{"state":"UNREACH","commonRole":"linkedState","value":""},{"state":"ERROR","commonRole":"linkedState","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_COUNT"},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},{"state":"BACKGROUND_URL","commonRole":"const","value":"./images/widgets/json-table/json-table.html?tableMode=columntoggle&colsSort=timestamp%3Bcount%3Bmessages&colsFilter=&translations=&useThisDatapoint=" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists.Servicemessages.LOG_JSON&breakpoints=20%3B30%3B40%3B50%3B60%3B70%3B80&colsAlwaysVisible=&colsPreferablyVisible=" + encodeURI(_("Messages")) + "&colsPreferablyVisibleAreVisibleAtStart=true&headHideColumntoggleButton=false&dataTranspose=false&dataTransposeKeycolCaption=Key&dataTransposeValcolsPrefix=Value%20&dataConvertObjectToArrayKeycolCaption=Nr.&columnSortEnabled=true&columnSortEnabledColsFilter=true&columnSortCol=Nr.&columnSortColDesc=true&columnSortColHideIndicator=false&rowsLimit=25&rowsLimitLoadMore=true&rowsLimitLoadMoreCaption=...&headHide=false&scrollbarHide=true&replaceCRwithBR=true&colorBackground=&colorBackgroundOdd=&colorText=&colorTextOdd=&colorTextShadow=&colorTextShadowOdd=&colorBackgroundDark=&colorBackgroundOddDark=&colorTextDark=&colorTextOddDark=&colorTextShadowDark=&colorTextShadowOddDark=&iconCols=&icon1Url=&icon1Caption=&icon1String=&icon2Url=&icon2Caption=&icon2String=&icon3Url=&icon3Caption=&icon3String=&icon4Url=&icon4Caption=&icon4String=&icon5Url=&icon5Caption=&icon5String=&icon6Url=&icon6Caption=&icon6String=&icon7Url=&icon7Caption=&icon7String=&icon8Url=&icon8Caption=&icon8String=&icon9Url=&icon9Caption=&icon9String=&icon10Url=&icon10Caption=&icon10String=&icon11Url=&icon11Caption=&icon11String=&icon12Url=&icon12Caption=&icon12String=&datapointDetectionEnabled=true&datapointIdCol=id&datapointIdColFilter=true&datapointExtendTableCols=parentName%3BplainText&datapointExtendTableColsDefaultTranslationLanguage=en&datapointToggleCols=plainText&="},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_COUNT"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"linkedState","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"options":[{"option":"icon_on","type":"icon","value":""},{"option":"icon_off","type":"icon","value":""},{"option":"readonly","type":"checkbox","value":"false"},{"option":"stateCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"toggle"},{"option":"clickOnTileAction","type":"select","value":"enlarge"},{"option":"noZoomOnHover","type":"checkbox","value":"true"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"false"},{"option":"tileActiveStateId","type":"text","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_COUNT"},{"option":"tileActiveCondition","type":"select","value":"gt"},{"option":"tileActiveConditionValue","type":"text","value":"0"},{"option":"sizeInactive","type":"select","value":""},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"false"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"true"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"false"},{"option":"hideStateIfInactive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":""},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"false"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"true"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"false"},{"option":"hideStateIfActive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"true"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"true"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"true"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"true"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"true"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIconEnlarged","type":"checkbox","value":"true"},{"option":"addTimestampToState","type":"select","value":""},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"true"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"true"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"showState","type":"checkbox","value":"false"},{"option":"buttonCaption","type":"text","value":"Log leeren"},{"option":"returnToOffSetValueAfter","type":"number","value":""},{"option":"closeDialogAfterExecution","type":"checkbox","value":"false"}],"nativeHeadingOptions":""}]
 	}, {
 		name: "Adapter-Monitor",
 	 	materialIcon: "apps", 
 		description: _("Adds lists and a widget that monitors the ioBroker-Adapters and lists Adapter-Errors"),
 		lists: [{"active":true,"name":"ADAPTER","selectors":[{"modifier":"add","type":"type","operator":"eq","value":"instance"}],"filterAliases":false,"sorting":"parentNames asc","separator":", ","createNamesList":true,"createParentNamesList":false,"createValuesList":false,"counters":[],"triggerInterval":"","calculations":[],"combinations":[]},{"active":true,"name":"Adapter-Monitor","selectors":[{"modifier":"add","type":"type","operator":"eq","value":"instance"},{"modifier":"remove","type":"commonMode","operator":"ne","value":"daemon"},{"modifier":"remove","type":"commonEnabled","operator":"ne","value":"true"}],"filterAliases":false,"sorting":"names asc","separator":", ","createNamesList":true,"createParentNamesList":false,"createValuesList":false,"counters":[{"name":"Green","unit":"","conditions":[{"modifier":"&&","type":"alive","operator":"eqt","value":""},{"modifier":"&&","type":"connection","operator":"eqt","value":""},{"modifier":"||","type":"alive","operator":"eqt","value":""},{"modifier":"&&","type":"connection","operator":"eq","value":"null"}]},{"name":"Yellow","unit":"","conditions":[{"modifier":"&&","type":"alive","operator":"eqt","value":""},{"modifier":"&&","type":"connection","operator":"eqf","value":""},{"modifier":"&&","type":"connection","operator":"ne","value":"null"}]},{"name":"Red","unit":"","conditions":[{"modifier":"&&","type":"alive","operator":"eqf","value":""}]}],"triggerInterval":"","calculations":[{"name":"Grey","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.ADAPTER.TOTAL"},{"operator":"-","id": adapter + "." + instance + ".Lists.Adapter-Monitor.TOTAL"}]},{"name":"Grey_LIST","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.ADAPTER.TOTAL_LIST"},{"operator":"-","id": adapter + "." + instance + ".Lists.Adapter-Monitor.TOTAL_LIST"}]},{"name":"Grey_LIST_JSON","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.ADAPTER.TOTAL_LIST_JSON"},{"operator":"-","id": adapter + "." + instance + ".Lists.Adapter-Monitor.TOTAL_LIST_JSON"}]},{"name":"Grey_NAMES_LIST","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.ADAPTER.TOTAL_NAMES_LIST"},{"operator":"-","id": adapter + "." + instance + ".Lists.Adapter-Monitor.TOTAL_NAMES_LIST"}]},{"name":"Red+Yellow","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Red"},{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Yellow"}]},{"name":"Red+Yellow_LIST","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Red_LIST"},{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Yellow_LIST"}],"resortList":false},{"name":"Red+Yellow_LIST_JSON","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Red_LIST_JSON"},{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Yellow_LIST_JSON"}],"resortList":false},{"name":"Red+Yellow_NAMES_LIST","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Red_NAMES_LIST"},{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Yellow_NAMES_LIST"}],"resortList":false},{"name":"Green+Grey","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Green"},{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Grey"}],"resortList":false},{"name":"Green+Grey_LIST","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Green_LIST"},{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Grey_LIST"}],"resortList":false},{"name":"Green+Grey_LIST_JSON","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Green_LIST_JSON"},{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Grey_LIST_JSON"}],"resortList":false},{"name":"Green+Grey_NAMES_LIST","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Green_NAMES_LIST"},{"operator":"+","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Grey_NAMES_LIST"}],"resortList":false}],"combinations":[{"name":"HTML","unit":"","combinationSteps":[{"prefix":"<h3><u>" + _("Faulty") + " (","type":"value","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Red","postfix":")</u>:</h3>","onlyIfOperator":"gt","onlyIfValue":"0","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"<span style='color:red;'>&#9679;</span>&nbsp;","type":"value","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Red_NAMES_LIST","postfix":"<br><br><br>","onlyIfOperator":"ne","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":"","separator":"<br><span style='color:red;'>&#9679;</span>&nbsp;"},{"prefix":"<h3><u>" + _("Not Connected") + " (","type":"value","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Yellow","postfix":")</u>:</h3>","onlyIfOperator":"gt","onlyIfValue":"0","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"<span style='color:yellow;'>&#9679;</span>&nbsp;","type":"value","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Yellow_NAMES_LIST","postfix":"<br><br><br>","onlyIfOperator":"ne","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":"","separator":"<br><span style='color:yellow;'>&#9679;</span>&nbsp;"},{"prefix":"<h3><u>" + _("Normal") + " (","type":"value","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Green+Grey","postfix":")</u>:</h3>","onlyIfOperator":"gt","onlyIfValue":"0","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"<u>Active</u>:<br><span style='color:green;'>&#9679;</span>&nbsp;","type":"value","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Green_NAMES_LIST","postfix":"<br><br>","onlyIfOperator":"ne","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":"","separator":"<br><span style='color:green;'>&#9679;</span>&nbsp;"},{"prefix":"<u>" + _("Disabled or passive") + "</u>:<br><span style='color:grey;'>&#9679;</span>&nbsp;","type":"value","id": adapter + "." + instance + ".Lists.Adapter-Monitor.Grey_NAMES_LIST","separator":"<br><span style='color:grey;'>&#9679;</span>&nbsp;","postfix":"<br><br>","onlyIfOperator":"ne","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""}]}]}],
-		devices: [{"commonName":_("Adapter") + "&shy;" + _("errors") + "|{" + adapter + "." + instance + ".Lists.Adapter-Monitor.Red+Yellow} " + _("Adapter") + "&shy;" + _("errors"),"nativeHeading":"","nativeLinkedView":"","nativeBackgroundImage":"","commonRole":"iQontrolValue","states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Adapter-Monitor.Red+Yellow_NAMES_LIST"},{"state":"LEVEL","commonRole":"linkedState","value":""},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value":""},{"state":"UNREACH","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Adapter-Monitor.Yellow"},{"state":"ERROR","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Adapter-Monitor.Red"},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},{"state":"BACKGROUND_URL","commonRole":"const","value":""},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Adapter-Monitor.Red+Yellow"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Adapter-Monitor.HTML"},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"options":[{"option":"icon_on","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_on.png"},{"option":"icon_off","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_off.png"},{"option":"readonly","type":"checkbox","value":"true"},{"option":"stateCaption","type":"text","value":"List"},{"option":"levelCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"openDialog"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"false"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"false"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":""},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"false"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"false"},{"option":"hideStateIfInactive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":""},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"false"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"false"},{"option":"hideStateIfActive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"false"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"visibilityBackgroundURLEnlarged","type":"select","value":""},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"false"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":""},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"false"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":"400"},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"false"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"showStateAndLevelSeparatelyInTile","type":"select","value":""}],"nativeBackgroundImageActive":"","nativeHeadingOptions":""}]
+		devices: [{"commonName":_("Adapter") + "&shy;" + _("errors") + "|{" + adapter + "." + instance + ".Lists.Adapter-Monitor.Red+Yellow} " + _("Adapter") + "&shy;" + _("errors"),"nativeHeading":"","nativeLinkedView":"","nativeBackgroundImage":"","commonRole":"iQontrolValue","states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Adapter-Monitor.Red+Yellow_NAMES_LIST"},{"state":"LEVEL","commonRole":"linkedState","value":""},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value":""},{"state":"UNREACH","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Adapter-Monitor.Yellow"},{"state":"ERROR","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Adapter-Monitor.Red"},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},{"state":"BACKGROUND_URL","commonRole":"const","value":""},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Adapter-Monitor.Red+Yellow"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Adapter-Monitor.HTML"},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"options":[{"option":"icon_on","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_on.png"},{"option":"icon_off","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_off.png"},{"option":"readonly","type":"checkbox","value":"true"},{"option":"stateCaption","type":"text","value":"List"},{"option":"levelCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"openDialog"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"false"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"false"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":""},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"false"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"false"},{"option":"hideStateIfInactive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":""},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"false"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"false"},{"option":"hideStateIfActive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"false"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"false"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":""},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"false"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":"400"},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"false"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"showStateAndLevelSeparatelyInTile","type":"select","value":""}],"nativeBackgroundImageActive":"","nativeHeadingOptions":""}]
 	}, {
 		name: _("Windows"),
 		materialIcon: "aspect_ratio",
 		description: _("Adds lists with corresponding widgets to display (opened) windows. You may need to adjust the list a little bit, if too much states are found. Best way to do is to create a ioBroker-Enumeration with all your windows and add the enumeration (with childs) to the list instead of all datapoints. Have a look at the wiki on github, there are some examples how to do that."),
 		lists: [{"active":true,"name":_("Windows"),"selectors":[{"modifier":"add","type":"commonRole","operator":"eq","value":"sensor.window"},{"modifier":"remove","type":"id","operator":"ew","value":"WINDOW_OPEN_REPORTING"},{"modifier":"remove","type":"id","operator":"c","value":"hm-rpc.,.INT,.2.STATE"}],"filterAliases":true,"sorting":"parentNames asc","separator":", ","createNamesList":false,"createParentNamesList":true,"createValuesList":false,"counters":[{"name":"OPEN","unit":_("Windows"),"conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]},{"name":"LONG_OPEN","unit":_("Windows"),"conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""},{"modifier":"&&","type":"lcs","operator":"gt","value":"1800"}]}],"triggerInterval":"","calculations":[],"combinations":[],"logs":[]}],
-		devices: [{"commonName":_("Windows"),"commonRole":"iQontrolWidget","nativeBackgroundImage":"","nativeBackgroundImageActive":"","nativeHeading":"","nativeLinkedView":"","nativeNewLine":false,"options":[{"option":"icon_on","type":"icon","value":""},{"option":"icon_off","type":"icon","value":""},{"option":"readonly","type":"checkbox","value":"false"},{"option":"stateCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"toggle"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"true"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"true"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":"xwideIfInactive highIfInactive"},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"true"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"true"},{"option":"hideStateIfInactive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":"xwideIfActive highIfActive"},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"true"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"true"},{"option":"hideStateIfActive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"true"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"true"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"visibilityBackgroundURLEnlarged","type":"select","value":""},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"true"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":"N"},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"true"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"true"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"noVirtualState","type":"checkbox","value":"false"}],				"states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") + ".OPEN"},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value":""},{"state":"UNREACH","commonRole":"linkedState","value":""},{"state":"ERROR","commonRole":"linkedState","value":""},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},		{"state":"BACKGROUND_URL","commonRole":"const","value":"./images/widgets/json-table/device-counter.html?heading=%3Ccenter%3E" + encodeURI(_("Window")) + "%3C%2Fcenter%3E%7C%3Ccenter%3E" + encodeURI(_("Window")) + "%20%28%7B" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists." + encodeURI(_("Windows")) + ".OPEN%7D%20" + encodeURI(_("opened")) + "%29%3C%2Fcenter%3E&tableMode=none&useThisDatapoint=" + adapter + "." + instance + ".Lists." + _("Windows") + ".TOTAL_LIST_JSON&rowsLimit=&rowsLimitLoadMore=true&rowsLimitLoadMoreCaption=...&headHide=true&scrollbarHide=true&fontFamily=&fontSize=&fontWeight=null&fontStyle=null&colorBackground=rgba%280%2C0%2C0%2C0%29&colorBackgroundOdd=rgba%280%2C0%2C0%2C0%29&colorText=black&colorTextOdd=black&colorTextShadow=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOdd=rgba%280%2C0%2C0%2C0.3%29&colorBackgroundDark=rgba%280%2C0%2C0%2C0%29&colorBackgroundOddDark=rgba%280%2C0%2C0%2C0%29&colorBorders=&colorTextDark=black&colorTextOddDark=black&colorTextShadowDark=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOddDark=rgba%280%2C0%2C0%2C0.3%29&iconCols=val%3BvalFull%3BplainText&icon1Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_closed.png&icon1Caption=&icon1String=" + encodeURI(_("closed")) + "&icon2Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_opened.png&icon2Caption=&icon2String=" + encodeURI(_("opened")) + "&icon3Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_tilted.png&icon3Caption=&icon3String=" + encodeURI(_("tilted")) + "&icon4Url=&icon4Caption=&icon4String=&icon5Url=&icon5Caption=&icon5String=&icon6Url=&icon6Caption=&icon6String=&icon7Url=&icon7Caption=&icon7String=&icon8Url=&icon8Caption=&icon8String=&icon9Url=&icon9Caption=&icon9String=&icon10Url=&icon10Caption=&icon10String=&icon11Url=&icon11Caption=&icon11String=&icon12Url=&icon12Caption=&icon12String=&datapointDetectionEnabled=true&datapointIdCol=id&datapointIdColFilter=true&datapointExtendTableCols=parentName%3BplainText&datapointExtendTableColsDefaultTranslationLanguage=en&datapointToggleCols=plainText&widgetReplaceurl=.%2Fimages%2Fwidgets%2Fjson-table%2Fjson-table.html&widgetReplaceurlAbsolute=true"},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") + ".OPEN"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"const","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"nativeHeadingOptions":""},
-				  {"commonName":_("Opened Windows"),"commonRole":"iQontrolWidget","nativeBackgroundImage":"","nativeBackgroundImageActive":"","nativeHeading":"","nativeLinkedView":"","nativeNewLine":false,"options":[{"option":"icon_on","type":"icon","value":""},{"option":"icon_off","type":"icon","value":""},{"option":"readonly","type":"checkbox","value":"false"},{"option":"stateCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"toggle"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"true"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"true"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":"xwideIfInactive highIfInactive"},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"true"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"true"},{"option":"hideStateIfInactive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":"xwideIfActive highIfActive"},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"true"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"true"},{"option":"hideStateIfActive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"true"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"true"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"visibilityBackgroundURLEnlarged","type":"select","value":""},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"true"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":"N"},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"true"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"true"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"noVirtualState","type":"checkbox","value":"false"}],		"states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") + ".OPEN"},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value":""},{"state":"UNREACH","commonRole":"linkedState","value":""},{"state":"ERROR","commonRole":"linkedState","value":""},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},		{"state":"BACKGROUND_URL","commonRole":"const","value":"./images/widgets/json-table/device-counter.html?heading=%3Ccenter%3E" + encodeURI(_("Opened Windows")) + "%3C%2Fcenter%3E%7C%3Ccenter%3E%7B" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists." + encodeURI(_("Windows")) + ".OPEN%7D%20" + encodeURI(_("opened")) + "%3C%2Fcenter%3E&tableMode=none&useThisDatapoint=" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists." + encodeURI(_("Windows")) + ".OPEN_LIST_JSON&rowsLimit=&rowsLimitLoadMore=true&rowsLimitLoadMoreCaption=...&headHide=true&scrollbarHide=true&fontFamily=&fontSize=&fontWeight=null&fontStyle=null&colorBackground=rgba%280%2C0%2C0%2C0%29&colorBackgroundOdd=rgba%280%2C0%2C0%2C0%29&colorText=black&colorTextOdd=black&colorTextShadow=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOdd=rgba%280%2C0%2C0%2C0.3%29&colorBackgroundDark=rgba%280%2C0%2C0%2C0%29&colorBackgroundOddDark=rgba%280%2C0%2C0%2C0%29&colorBorders=&colorTextDark=black&colorTextOddDark=black&colorTextShadowDark=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOddDark=rgba%280%2C0%2C0%2C0.3%29&iconCols=val%3BvalFull%3BplainText&icon1Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_closed.png&icon1Caption=&icon1String=" + encodeURI(_("closed")) + "&icon2Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_opened.png&icon2Caption=&icon2String=" + encodeURI(_("opened")) + "&icon3Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_tilted.png&icon3Caption=&icon3String=" + encodeURI(_("tilted")) + "&icon4Url=&icon4Caption=&icon4String=&icon5Url=&icon5Caption=&icon5String=&icon6Url=&icon6Caption=&icon6String=&icon7Url=&icon7Caption=&icon7String=&icon8Url=&icon8Caption=&icon8String=&icon9Url=&icon9Caption=&icon9String=&icon10Url=&icon10Caption=&icon10String=&icon11Url=&icon11Caption=&icon11String=&icon12Url=&icon12Caption=&icon12String=&datapointDetectionEnabled=true&datapointIdCol=id&datapointIdColFilter=true&datapointExtendTableCols=parentName%3BplainText&datapointExtendTableColsDefaultTranslationLanguage=en&datapointToggleCols=plainText&widgetReplaceurl=.%2Fimages%2Fwidgets%2Fjson-table%2Fjson-table.html&widgetReplaceurlAbsolute=true"},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") + ".OPEN"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"const","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"nativeHeadingOptions":""},
-				  {"commonName":_("Long Opened Windows"),"commonRole":"iQontrolWidget","nativeBackgroundImage":"","nativeBackgroundImageActive":"","nativeHeading":"","nativeLinkedView":"","nativeNewLine":false,"options":[{"option":"icon_on","type":"icon","value":""},{"option":"icon_off","type":"icon","value":""},{"option":"readonly","type":"checkbox","value":"false"},{"option":"stateCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"toggle"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"true"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"true"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":"xwideIfInactive highIfInactive"},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"true"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"true"},{"option":"hideStateIfInactive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":"xwideIfActive highIfActive"},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"true"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"true"},{"option":"hideStateIfActive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"true"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"true"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"visibilityBackgroundURLEnlarged","type":"select","value":""},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"true"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":"N"},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"true"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"true"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"noVirtualState","type":"checkbox","value":"false"}],	"states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") + ".LONG_OPEN"},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value":""},{"state":"UNREACH","commonRole":"linkedState","value":""},{"state":"ERROR","commonRole":"linkedState","value":""},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},	{"state":"BACKGROUND_URL","commonRole":"const","value":"./images/widgets/json-table/device-counter.html?heading=%3Ccenter%3E" + encodeURI(_("Long Opened Windows")) + "%3C%2Fcenter%3E%7C%3Ccenter%3E%7B" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists." + encodeURI(_("Windows")) + ".LONG_OPEN%7D%20" + encodeURI(_("long opened")) + "%3C%2Fcenter%3E&tableMode=none&useThisDatapoint=" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists." + encodeURI(_("Windows")) + ".LONG_OPEN_LIST_JSON&rowsLimit=&rowsLimitLoadMore=true&rowsLimitLoadMoreCaption=...&headHide=true&scrollbarHide=true&fontFamily=&fontSize=&fontWeight=null&fontStyle=null&colorBackground=rgba%280%2C0%2C0%2C0%29&colorBackgroundOdd=rgba%280%2C0%2C0%2C0%29&colorText=black&colorTextOdd=black&colorTextShadow=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOdd=rgba%280%2C0%2C0%2C0.3%29&colorBackgroundDark=rgba%280%2C0%2C0%2C0%29&colorBackgroundOddDark=rgba%280%2C0%2C0%2C0%29&colorBorders=&colorTextDark=black&colorTextOddDark=black&colorTextShadowDark=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOddDark=rgba%280%2C0%2C0%2C0.3%29&iconCols=val%3BvalFull%3BplainText&icon1Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_closed.png&icon1Caption=&icon1String=" + encodeURI(_("closed")) + "&icon2Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_opened.png&icon2Caption=&icon2String=" + encodeURI(_("opened")) + "&icon3Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_tilted.png&icon3Caption=&icon3String=" + encodeURI(_("tilted")) + "&icon4Url=&icon4Caption=&icon4String=&icon5Url=&icon5Caption=&icon5String=&icon6Url=&icon6Caption=&icon6String=&icon7Url=&icon7Caption=&icon7String=&icon8Url=&icon8Caption=&icon8String=&icon9Url=&icon9Caption=&icon9String=&icon10Url=&icon10Caption=&icon10String=&icon11Url=&icon11Caption=&icon11String=&icon12Url=&icon12Caption=&icon12String=&datapointDetectionEnabled=true&datapointIdCol=id&datapointIdColFilter=true&datapointExtendTableCols=parentName%3BplainText&datapointExtendTableColsDefaultTranslationLanguage=en&datapointToggleCols=plainText&widgetReplaceurl=.%2Fimages%2Fwidgets%2Fjson-table%2Fjson-table.html&widgetReplaceurlAbsolute=true"},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") +".LONG_OPEN"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"const","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"nativeHeadingOptions":""}]
+		devices: [{"commonName":_("Windows"),"commonRole":"iQontrolWidget","nativeBackgroundImage":"","nativeBackgroundImageActive":"","nativeHeading":"","nativeLinkedView":"","nativeNewLine":false,"options":[{"option":"icon_on","type":"icon","value":""},{"option":"icon_off","type":"icon","value":""},{"option":"readonly","type":"checkbox","value":"false"},{"option":"stateCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"toggle"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"true"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"true"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":"xwideIfInactive highIfInactive"},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"true"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"true"},{"option":"hideStateIfInactive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":"xwideIfActive highIfActive"},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"true"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"true"},{"option":"hideStateIfActive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"true"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"true"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"true"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":"N"},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"true"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"true"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"noVirtualState","type":"checkbox","value":"false"}],				"states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") + ".OPEN"},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value":""},{"state":"UNREACH","commonRole":"linkedState","value":""},{"state":"ERROR","commonRole":"linkedState","value":""},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},		{"state":"BACKGROUND_URL","commonRole":"const","value":"./images/widgets/json-table/device-counter.html?heading=%3Ccenter%3E" + encodeURI(_("Window")) + "%3C%2Fcenter%3E%7C%3Ccenter%3E" + encodeURI(_("Window")) + "%20%28%7B" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists." + encodeURI(_("Windows")) + ".OPEN%7D%20" + encodeURI(_("opened")) + "%29%3C%2Fcenter%3E&tableMode=none&useThisDatapoint=" + adapter + "." + instance + ".Lists." + _("Windows") + ".TOTAL_LIST_JSON&rowsLimit=&rowsLimitLoadMore=true&rowsLimitLoadMoreCaption=...&headHide=true&scrollbarHide=true&fontFamily=&fontSize=&fontWeight=null&fontStyle=null&colorBackground=rgba%280%2C0%2C0%2C0%29&colorBackgroundOdd=rgba%280%2C0%2C0%2C0%29&colorText=black&colorTextOdd=black&colorTextShadow=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOdd=rgba%280%2C0%2C0%2C0.3%29&colorBackgroundDark=rgba%280%2C0%2C0%2C0%29&colorBackgroundOddDark=rgba%280%2C0%2C0%2C0%29&colorBorders=&colorTextDark=black&colorTextOddDark=black&colorTextShadowDark=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOddDark=rgba%280%2C0%2C0%2C0.3%29&iconCols=val%3BvalFull%3BplainText&icon1Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_closed.png&icon1Caption=&icon1String=" + encodeURI(_("closed")) + "&icon2Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_opened.png&icon2Caption=&icon2String=" + encodeURI(_("opened")) + "&icon3Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_tilted.png&icon3Caption=&icon3String=" + encodeURI(_("tilted")) + "&icon4Url=&icon4Caption=&icon4String=&icon5Url=&icon5Caption=&icon5String=&icon6Url=&icon6Caption=&icon6String=&icon7Url=&icon7Caption=&icon7String=&icon8Url=&icon8Caption=&icon8String=&icon9Url=&icon9Caption=&icon9String=&icon10Url=&icon10Caption=&icon10String=&icon11Url=&icon11Caption=&icon11String=&icon12Url=&icon12Caption=&icon12String=&datapointDetectionEnabled=true&datapointIdCol=id&datapointIdColFilter=true&datapointExtendTableCols=parentName%3BplainText&datapointExtendTableColsDefaultTranslationLanguage=en&datapointToggleCols=plainText&widgetReplaceurl=.%2Fimages%2Fwidgets%2Fjson-table%2Fjson-table.html&widgetReplaceurlAbsolute=true"},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") + ".OPEN"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"const","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"nativeHeadingOptions":""},
+				  {"commonName":_("Opened Windows"),"commonRole":"iQontrolWidget","nativeBackgroundImage":"","nativeBackgroundImageActive":"","nativeHeading":"","nativeLinkedView":"","nativeNewLine":false,"options":[{"option":"icon_on","type":"icon","value":""},{"option":"icon_off","type":"icon","value":""},{"option":"readonly","type":"checkbox","value":"false"},{"option":"stateCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"toggle"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"true"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"true"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":"xwideIfInactive highIfInactive"},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"true"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"true"},{"option":"hideStateIfInactive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":"xwideIfActive highIfActive"},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"true"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"true"},{"option":"hideStateIfActive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"true"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"true"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"true"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":"N"},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"true"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"true"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"noVirtualState","type":"checkbox","value":"false"}],		"states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") + ".OPEN"},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value":""},{"state":"UNREACH","commonRole":"linkedState","value":""},{"state":"ERROR","commonRole":"linkedState","value":""},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},		{"state":"BACKGROUND_URL","commonRole":"const","value":"./images/widgets/json-table/device-counter.html?heading=%3Ccenter%3E" + encodeURI(_("Opened Windows")) + "%3C%2Fcenter%3E%7C%3Ccenter%3E%7B" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists." + encodeURI(_("Windows")) + ".OPEN%7D%20" + encodeURI(_("opened")) + "%3C%2Fcenter%3E&tableMode=none&useThisDatapoint=" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists." + encodeURI(_("Windows")) + ".OPEN_LIST_JSON&rowsLimit=&rowsLimitLoadMore=true&rowsLimitLoadMoreCaption=...&headHide=true&scrollbarHide=true&fontFamily=&fontSize=&fontWeight=null&fontStyle=null&colorBackground=rgba%280%2C0%2C0%2C0%29&colorBackgroundOdd=rgba%280%2C0%2C0%2C0%29&colorText=black&colorTextOdd=black&colorTextShadow=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOdd=rgba%280%2C0%2C0%2C0.3%29&colorBackgroundDark=rgba%280%2C0%2C0%2C0%29&colorBackgroundOddDark=rgba%280%2C0%2C0%2C0%29&colorBorders=&colorTextDark=black&colorTextOddDark=black&colorTextShadowDark=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOddDark=rgba%280%2C0%2C0%2C0.3%29&iconCols=val%3BvalFull%3BplainText&icon1Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_closed.png&icon1Caption=&icon1String=" + encodeURI(_("closed")) + "&icon2Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_opened.png&icon2Caption=&icon2String=" + encodeURI(_("opened")) + "&icon3Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_tilted.png&icon3Caption=&icon3String=" + encodeURI(_("tilted")) + "&icon4Url=&icon4Caption=&icon4String=&icon5Url=&icon5Caption=&icon5String=&icon6Url=&icon6Caption=&icon6String=&icon7Url=&icon7Caption=&icon7String=&icon8Url=&icon8Caption=&icon8String=&icon9Url=&icon9Caption=&icon9String=&icon10Url=&icon10Caption=&icon10String=&icon11Url=&icon11Caption=&icon11String=&icon12Url=&icon12Caption=&icon12String=&datapointDetectionEnabled=true&datapointIdCol=id&datapointIdColFilter=true&datapointExtendTableCols=parentName%3BplainText&datapointExtendTableColsDefaultTranslationLanguage=en&datapointToggleCols=plainText&widgetReplaceurl=.%2Fimages%2Fwidgets%2Fjson-table%2Fjson-table.html&widgetReplaceurlAbsolute=true"},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") + ".OPEN"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"const","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"nativeHeadingOptions":""},
+				  {"commonName":_("Long Opened Windows"),"commonRole":"iQontrolWidget","nativeBackgroundImage":"","nativeBackgroundImageActive":"","nativeHeading":"","nativeLinkedView":"","nativeNewLine":false,"options":[{"option":"icon_on","type":"icon","value":""},{"option":"icon_off","type":"icon","value":""},{"option":"readonly","type":"checkbox","value":"false"},{"option":"stateCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"toggle"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"true"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"true"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":"xwideIfInactive highIfInactive"},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"true"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"true"},{"option":"hideStateIfInactive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":"xwideIfActive highIfActive"},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"true"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"true"},{"option":"hideStateIfActive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"true"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"true"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"true"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":"N"},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"true"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"true"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"noVirtualState","type":"checkbox","value":"false"}],	"states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") + ".LONG_OPEN"},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value":""},{"state":"UNREACH","commonRole":"linkedState","value":""},{"state":"ERROR","commonRole":"linkedState","value":""},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},	{"state":"BACKGROUND_URL","commonRole":"const","value":"./images/widgets/json-table/device-counter.html?heading=%3Ccenter%3E" + encodeURI(_("Long Opened Windows")) + "%3C%2Fcenter%3E%7C%3Ccenter%3E%7B" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists." + encodeURI(_("Windows")) + ".LONG_OPEN%7D%20" + encodeURI(_("long opened")) + "%3C%2Fcenter%3E&tableMode=none&useThisDatapoint=" + encodeURI(adapter) + "." + encodeURI(instance) + ".Lists." + encodeURI(_("Windows")) + ".LONG_OPEN_LIST_JSON&rowsLimit=&rowsLimitLoadMore=true&rowsLimitLoadMoreCaption=...&headHide=true&scrollbarHide=true&fontFamily=&fontSize=&fontWeight=null&fontStyle=null&colorBackground=rgba%280%2C0%2C0%2C0%29&colorBackgroundOdd=rgba%280%2C0%2C0%2C0%29&colorText=black&colorTextOdd=black&colorTextShadow=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOdd=rgba%280%2C0%2C0%2C0.3%29&colorBackgroundDark=rgba%280%2C0%2C0%2C0%29&colorBackgroundOddDark=rgba%280%2C0%2C0%2C0%29&colorBorders=&colorTextDark=black&colorTextOddDark=black&colorTextShadowDark=rgba%280%2C0%2C0%2C0.3%29&colorTextShadowOddDark=rgba%280%2C0%2C0%2C0.3%29&iconCols=val%3BvalFull%3BplainText&icon1Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_closed.png&icon1Caption=&icon1String=" + encodeURI(_("closed")) + "&icon2Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_opened.png&icon2Caption=&icon2String=" + encodeURI(_("opened")) + "&icon3Url=.%2Fimages%2Ficons%2Ffluent%2Ffluent_window_tilted.png&icon3Caption=&icon3String=" + encodeURI(_("tilted")) + "&icon4Url=&icon4Caption=&icon4String=&icon5Url=&icon5Caption=&icon5String=&icon6Url=&icon6Caption=&icon6String=&icon7Url=&icon7Caption=&icon7String=&icon8Url=&icon8Caption=&icon8String=&icon9Url=&icon9Caption=&icon9String=&icon10Url=&icon10Caption=&icon10String=&icon11Url=&icon11Caption=&icon11String=&icon12Url=&icon12Caption=&icon12String=&datapointDetectionEnabled=true&datapointIdCol=id&datapointIdColFilter=true&datapointExtendTableCols=parentName%3BplainText&datapointExtendTableColsDefaultTranslationLanguage=en&datapointToggleCols=plainText&widgetReplaceurl=.%2Fimages%2Fwidgets%2Fjson-table%2Fjson-table.html&widgetReplaceurlAbsolute=true"},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists." + _("Windows") +".LONG_OPEN"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"const","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"nativeHeadingOptions":""}]
 	}];
 	defaultLists.forEach(function(defaultList, index){
 		$('#listsAddDefaultDropdown').append("<li><a class='istsAddDefaultDropdownItem' data-index='" + index + "' href='#!'><i class='material-icons'>" + defaultList.materialIcon + "</i>" + defaultList.name + "</a></li>");	
@@ -12944,7 +12659,7 @@ async function save(callback) {
 		obj.tileClassesCssString += createCssStringFromTileClass(tileClass, tileClassIndex) + " ";
 	});
 	function createCssStringFromTileClass(tileClass, tileClassIndex){
-		let cssPrefixes = ['.tile:not(.enlarged).tileClass_' + tileClassIndex, '.tile.enlarged.tileClass_' + tileClassIndex + '_ifEnlarged'];
+		let cssPrefixes = ['.tile:not(.enlarged):not(.active).tileClass_' + tileClassIndex, '.tile.active:not(.enlarged).tileClass_' + tileClassIndex + '_ifActiveNotenlarged', '.tile.enlarged:not(.active).tileClass_' + tileClassIndex + '_ifInactiveEnlarged', '.tile.active.enlarged.tileClass_' + tileClassIndex + '_ifActiveEnlarged'];
 		let cssString = '';
 		let borderRadiusCssString = '';
 		if(!tileClass.value) tileClass.value = {};

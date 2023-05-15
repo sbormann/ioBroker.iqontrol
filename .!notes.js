@@ -2,15 +2,31 @@
 //Notes and snippets
 //#####################################################################################
 
+hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "checkbox", default: "false"},
+hideBackgroundURLEnlarged
+hideBackgroundURLActiveEnlarged
 
 //++++++++++ Next Steps ++++++++++
+- iconIgnoreIconHeight
+- iconIgnoreMaxIconHeight
+- textIgnoreMaxFontSize
 
 - stateFillsDevice 5557 if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
+- StateAdaptsHeight_ifIAE
+- bigFontSTATE_ifIEA
+- bigIcon_ieIAE
+- BATTERY condition as role -> Condition Role&Value implementieren
+- ShowStateAndLevelSeperatelyInTile -> textProcessingOptions als array implementieren
+- INFO_A/B runden, zeige Namen -> auch als textProcessingOptions?
+
 
 - enlarge/active funktion erstellen, die resize-observer ersetzt
-- shrink to free space
+- shrink to free space bei Badge verkleinert vertikal - neu überlegen
 - clickOnIconConfirmToggle: wie, wenn nicht über clickIconOption?? im toggleState() die device-option abfragen?<-- Option bei garage door invertieren beim converten
-- define standard Tile Elements per Role
+- define standard Tile Elements per Role: 
+	elements = views[0].devices[0].tileSettings.elements
+	elements.forEach(function(element){  element.options.forEach(function(option){ delete option.optionIndex; delete option.description; delete option.roleOptions;  }); });
+
 - variableSrc in icons & Bg-images, die über options kamen
 
 - Remove pressure and shuffle from file system and index.html
@@ -175,8 +191,24 @@
 					}
 				}
 
+ 
+* OptionsEnlarged -> OptionsInactiveEnlarged + OptionsActiveEnlarged:
+	sizeEnlarged ->
+	stateHeightAdaptsContentEnlarged ->
+	stateFillsDeviceEnlarged ->
+	stateBigFontEnlarged ->
+	iconNoPointerEventsEnlarged ->
+	transparentIfEnlarged ->
+	noOverlayEnlarged ->
+	visibilityBackgroundURLEnlarged -> "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible" -> hideBackgroundURLEnlarged hideBackgroundURLActiveEnlarged
+	hideDeviceNameIfEnlarged ->
+	hideStateIfEnlarged ->
+	hideIndicatorIfEnlarged ->
+	hideInfoAIfEnlarged ->
+	hideInfoBIfEnlarged ->
+	hideIconEnlarged ->
 
-
+* bigIconEnlarged -> TileClass wechseln
 
 * VALVE_STATES -> ADD INFO
 * Garage-Door Option noConfirmationForTogglingViaIcon -> Invert and clickOnIconConfirmToggle auf diese Option, Garage-Door: iconToggleAction = startProgram(TOGGLE)
@@ -294,6 +326,30 @@ fetchStates(viewLinkedStateIdsToFetchAndUpdate, function(){
 updateState("javascript.0.Test.Teststring");
 
 
+
+
+//#####################################################################################
+//++++++++++ Use jQuery in widget ++++++++++
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="widget-description" content="This is a demo widget-preset. It has no useful funcion. (C) by Sebastian Bormann"/> 
+	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'fullWidthIfActive fullHeightIfActive', 'bigIconActive': 'true', 'iconNoPointerEventsActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'iconNoPointerEventsEnlarged': 'false', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false'}"/>
+	<title>iQontrol Widget Test</title>
+</head>
+<body>
+	<div id="testDiv">Loading...</div>
+	<script type="text/javascript">
+		console.log("JQUERY-TEST");
+		window.$=window.jQuery=parent.jQuery.extend(function(s){return parent.jQuery(s,document)},parent.jQuery);
+		$(document).ready(function(){
+			console.log("jQuery works!!");
+			$('#testDiv').html("<h1>Hello World</h1)");
+		});
+	</script>	
+</body>
+</html>
 
 
 //#####################################################################################

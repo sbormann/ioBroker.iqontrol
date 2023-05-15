@@ -1306,7 +1306,21 @@
 								<div class="input-field col s12 m6 l6">
 									<select class="optionsLayoutTilesDefaultClassSelectbox" name='optionsLayoutTilesDefaultClassEnlargedSelectbox' id='optionsLayoutTilesDefaultClassEnlargedSelectbox' data-for="optionsLayoutTilesDefaultClassEnlarged">
 									</select>
-									<label for='optionsLayoutTilesDefaultClassSelectbox' class="translate">Default Tile-Class for enlarged Tiles:</label>
+									<label for='optionsLayoutTilesDefaultClassSelectbox' class="translate">Default Tile-Class for enlarged tiles:</label>
+									<span class="helper-text"></span>
+								</div>
+								<input type="hidden" class="value optionsLayoutTilesDefaultClass" name='optionsLayoutTilesDefaultClassActive' id='optionsLayoutTilesDefaultClassActive'>
+								<div class="input-field col s12 m6 l6">
+									<select class="optionsLayoutTilesDefaultClassSelectbox" name='optionsLayoutTilesDefaultClassSelectbox' id='optionsLayoutTilesDefaultClassSelectbox' data-for="optionsLayoutTilesDefaultClassActive">
+									</select>
+									<label for='optionsLayoutTilesDefaultClassSelectbox' class="translate">Default Tile-Class for active tiles:</label>
+									<span class="helper-text"></span>
+								</div>
+								<input type="hidden" class="value optionsLayoutTilesDefaultClass" name='optionsLayoutTilesDefaultClassActiveEnlarged' id='optionsLayoutTilesDefaultClassActiveEnlarged'>
+								<div class="input-field col s12 m6 l6">
+									<select class="optionsLayoutTilesDefaultClassSelectbox" name='optionsLayoutTilesDefaultClassEnlargedSelectbox' id='optionsLayoutTilesDefaultClassEnlargedSelectbox' data-for="optionsLayoutTilesDefaultClassActiveEnlarged">
+									</select>
+									<label for='optionsLayoutTilesDefaultClassSelectbox' class="translate">Default Tile-Class for active and enlarged tiles:</label>
 									<span class="helper-text"></span>
 								</div>
 							</div>
@@ -3130,6 +3144,11 @@
 											<span class="helper-text"></span>
 										</div>
 										<div class="input-field col s12 m6 l6">
+											<input class="value" type="checkbox" id="dialogDeviceEditTileSettingsDemoShowActive" />
+											<label for="dialogDeviceEditTileSettingsDemoShowActive" class="translate">Show active state</label>
+											<span class="helper-text"></span>
+										</div>
+										<div class="input-field col s12 m6 l6">
 											<p class="translate">Zoom:</p>
 											<p class="range-field"><input type="range" class="dialogDeviceEditTileSettingsDemoScale" data-mode="width" min="0.5" max="5" step="0.1" value="3"></p>
 										</div>
@@ -3146,7 +3165,19 @@
 										<div class="input-field col s12 m6 l6 dialogDeviceEditTileSettingsTileClassContainer" data-type="tileClassEnlarged" style="cursor: pointer;">
 											<select class="dialogDeviceEditTileSettingsTileClass" name='dialogDeviceEditTileSettingsTileClassEnlarged' id='dialogDeviceEditTileSettingsTileClassEnlarged' data-type="tileClassEnlarged">
 											</select>
-											<label for='dialogDeviceEditTileSettingsTileClassEnlarged' class="translate">Tile-Class if Tile is enlarged:</label>
+											<label for='dialogDeviceEditTileSettingsTileClassEnlarged' class="translate">Tile-Class if tile is enlarged:</label>
+											<span class="helper-text"></span>
+										</div>
+										<div class="input-field col s12 m6 l6 dialogDeviceEditTileSettingsTileClassContainer" data-type="tileClassActive" style="cursor: pointer;">
+											<select class="dialogDeviceEditTileSettingsTileClass" name='dialogDeviceEditTileSettingsTileClassActive' id='dialogDeviceEditTileSettingsTileClassActive' data-type="tileClassActive">
+											</select>
+											<label for='dialogDeviceEditTileSettingsTileClassActive' class="translate">Tile-Class if tile is active:</label>
+											<span class="helper-text"></span>
+										</div>
+										<div class="input-field col s12 m6 l6 dialogDeviceEditTileSettingsTileClassContainer" data-type="tileClassActiveEnlarged" style="cursor: pointer;">
+											<select class="dialogDeviceEditTileSettingsTileClass" name='dialogDeviceEditTileSettingsTileClassActiveEnlarged' id='dialogDeviceEditTileSettingsTileClassActiveEnlarged' data-type="tileClassActiveEnlarged">
+											</select>
+											<label for='dialogDeviceEditTileSettingsTileClassActiveEnlarged' class="translate">Tile-Class if tile is active and enlarged:</label>
 											<span class="helper-text"></span>
 										</div>
 									</div>
