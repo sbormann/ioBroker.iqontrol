@@ -4826,7 +4826,7 @@ function renderView(viewId, triggeredByReconnection){
 						if($tile.hasClass('hideDeviceIfInactive')) $tile.addClass('hideDevice'); else $tile.removeClass('hideDevice');
 					}
 					if(device.active != oldActive){
-						$('.viewIsotopeContainer').isotope('layout');
+						viewIsotopeLayout();
 					} 
 				}
 				uiElements.addStatesToFetchAndUpdate([tileActiveStateId, tileActiveConditionValueId]);
@@ -4842,7 +4842,7 @@ function renderView(viewId, triggeredByReconnection){
 					} else {
 						$(".tile[data-device-id-escaped='" + device.deviceIdEscaped + "']").removeClass("enlarged");
 					}
-					$('.viewIsotopeContainer').isotope('layout');
+					viewIsotopeLayout();
 				};
 				var enlargeStateUpdateFunction = function(stateId){
 					var enlargeTileState = getState(enlargeTileStateId);
@@ -5122,9 +5122,9 @@ function renderView(viewId, triggeredByReconnection){
 					var hideDeviceIfActive = $this.hasClass('hideDeviceIfActive');
 					setTimeout(function(){
 						$this.removeClass('hideDeviceInitial');
-						$('.viewIsotopeContainer').isotope('layout');
+						viewIsotopeLayout();
 					}, hideDeviceIfActive ? hideDeviceInitialStagger + 2000 : hideDeviceInitialStagger);
-					if(!hideDeviceIfActive) hideDeviceInitialStagger += 30;
+					if(!hideDeviceIfActive) hideDeviceInitialStagger += 50;
 				});
 				//scroll to device or heading if anchor present in viewId
 				if(viewScrollToDeviceTimeout1) clearTimeout(viewScrollToDeviceTimeout1);
@@ -5445,85 +5445,48 @@ function applyViewTileResizeObserver(){
 								}
 							}, 1500);
 						}
-						//Shuffle two times
-						viewShuffleReshuffle([100, 1250]);
+						viewIsotopeLayout();
 						if(
 							added.indexOf('fullHeight') != -1
 							|| (added.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfActive') != -1)
 							|| (removed.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfInactive') != -1)
 							|| (added.indexOf('enlarged') != -1 && oldAndNew.indexOf('fullHeightIfEnlarged') != -1)
 						){ //fullHeight activated
-							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-								console.log("fullHeight activated");
-								addCustomCSS("#ViewContent { padding-bottom: 100vh; }", "addViewPaddingBottomAfterMinimizingTile");
-								var _$target = $(mutation.target);
-								var _targetDeviceId = _$target.parent('.pressureIndicator').data('device-id-escaped');
-								var _targetShuffleInstanceIndex = null;
-								var _targetShuffleItemIndex = null;
-								for(var i = 0; i < viewShuffleInstances.length; i++){
-									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
-										if(viewShuffleInstances[i].items[j].element.dataset.deviceIdEscaped == _targetDeviceId){
-											_targetShuffleInstanceIndex = i;
-											_targetShuffleItemIndex = j;
-											break;
-										}
-									}
-									if(_targetShuffleInstanceIndex != null) break;
-								}
-								if(_targetShuffleInstanceIndex != null){
-									console.log("fullHeight activated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
-									if(viewTileResizeObserverTimeout1) clearTimeout(viewTileResizeObserverTimeout1);
-									if(viewTileResizeObserverTimeout2) clearTimeout(viewTileResizeObserverTimeout2);
-									viewTileResizeObserverTimeout2 = setTimeout(function(){
-										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
-										console.log("fullHeight activated - scroll to " + scrollTop);
-										$('html,body').animate({
-											scrollTop: scrollTop
-										}, 1000);
-									}, 1300);
-									viewTileResizeObserverTimeout1 = setTimeout(function(){
-										resizeDevicesToFitScreen();
-										removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
-									}, 2300);
-								}
-							})(); //<--End Closure
+							console.log("fullHeight activated");
+							addCustomCSS("#ViewContent { padding-bottom: 100vh; }", "addViewPaddingBottomAfterMinimizingTile");
+							var $target = $(mutation.target);
+							if(viewTileResizeObserverTimeout1) clearTimeout(viewTileResizeObserverTimeout1);
+							if(viewTileResizeObserverTimeout2) clearTimeout(viewTileResizeObserverTimeout2);
+							viewTileResizeObserverTimeout1 = setTimeout(function(){
+								var scrollTop = $target.offset().top - 12;
+								console.log("fullHeight activated - scroll to " + scrollTop);
+								$('html,body').animate({
+									scrollTop: scrollTop
+								}, 800);	
+							}, 1000);
+							viewTileResizeObserverTimeout2 = setTimeout(function(){
+								resizeDevicesToFitScreen();
+								removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
+							}, 2000);
 						} else if(
 							removed.indexOf('fullHeight') != -1
 							|| (removed.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfActive') != -1)
 							|| (added.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfInactive') != -1)
 							|| (removed.indexOf('enlarged') != -1 && oldAndNew.indexOf('fullHeightIfEnlarged') != -1)
 						){ //fullHeight deactivated
-							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-								console.log("fullHeight deactivated");
-								removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
-								addCustomCSS("#ViewContent { padding-bottom: 90vh; padding-bottom: calc(100vh - 200px); }", "addViewPaddingBottomAfterMinimizingTile");
-								var _$target = $(mutation.target);
-								var _targetDeviceId = _$target.parent('.pressureIndicator').data('device-id-escaped');
-								var _targetShuffleInstanceIndex = null;
-								var _targetShuffleItemIndex = null;
-								for(var i = 0; i < viewShuffleInstances.length; i++){
-									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
-										if(viewShuffleInstances[i].items[j].element.dataset.deviceIdEscaped == _targetDeviceId){
-											_targetShuffleInstanceIndex = i;
-											_targetShuffleItemIndex = j;
-											break;
-										}
-									}
-									if(_targetShuffleInstanceIndex != null) break;
-								}
-								if(_targetShuffleInstanceIndex != null){
-									console.log("fullHeight deactivated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
-									if(viewTileResizeObserverTimeout1) clearTimeout(viewTileResizeObserverTimeout1);
-									if(viewTileResizeObserverTimeout2) clearTimeout(viewTileResizeObserverTimeout2);
-									viewTileResizeObserverTimeout1 = setTimeout(function(){
-										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
-										console.log("fullHeight deactivated - scroll to " + scrollTop);
-										$('html,body').animate({
-											scrollTop: scrollTop
-										}, 1000);
-									}, 1300);
-								}
-							})(); //<--End Closure
+							console.log("fullHeight deactivated");
+							removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
+							addCustomCSS("#ViewContent { padding-bottom: 90vh; padding-bottom: calc(100vh - 200px); }", "addViewPaddingBottomAfterMinimizingTile");
+							var $target = $(mutation.target);
+							if(viewTileResizeObserverTimeout1) clearTimeout(viewTileResizeObserverTimeout1);
+							if(viewTileResizeObserverTimeout2) clearTimeout(viewTileResizeObserverTimeout2);
+							viewTileResizeObserverTimeout1 = setTimeout(function(){
+								var scrollTop = $target.offset().top - 12;
+								console.log("fullHeight deactivated - scroll to " + scrollTop);
+								$('html,body').animate({
+									scrollTop: scrollTop
+								}, 800);
+							}, 1000);
 						}
 					}
 				}
@@ -5571,6 +5534,23 @@ function viewShuffleReshuffle(delays){ return; //#######
 	if(delays.length > 0) viewShuffleReshuffle(delays);
 }
 
+var viewIsotopeLayoutDebounceTimeout = false;
+var viewIsotopeLayoutRunAfterDebounceTimeout = false;
+function viewIsotopeLayout(){
+	if(!viewIsotopeLayoutDebounceTimeout){
+		$('.viewIsotopeContainer').isotope('layout');
+		viewIsotopeLayoutDebounceTimeout = setTimeout(function(){
+			viewIsotopeLayoutDebounceTimeout = false;
+			if(viewIsotopeLayoutRunAfterDebounceTimeout){
+				$('.viewIsotopeContainer').isotope('layout');
+			}
+			viewIsotopeLayoutRunAfterDebounceTimeout = false;
+		}, 30);
+	} else {
+		viewIsotopeLayoutRunAfterDebounceTimeout = true;
+	} 
+}
+
 function adaptHeightOrStartMarqueeOnOverflow($elements, noDelay){  
 	if(!$elements) return;
 	$elements.each(function(){
@@ -5579,7 +5559,7 @@ function adaptHeightOrStartMarqueeOnOverflow($elements, noDelay){
 		if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
 		if($element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfInactive') || $element.hasClass('adaptsHeightIfActive')){ //adapt height ##### ??
 			console.log("adaptHeight: " + element.className + JSON.stringify(element.dataset));
-			$('.viewIsotopeContainer').isotope('layout');
+			viewIsotopeLayout();
 			//###### viewShuffleReshuffle([100, 1250]);
 		} else if(!$element.data('marquee-disabled') && !options.LayoutViewMarqueeDisabled && (options.LayoutViewMarqueeNamesEnabled || $element.parent('.uiElementStack').data('ui-element-stack-name') != "Name") && (element.scrollHeight > $element.innerHeight() || element.scrollWidth > $element.innerWidth())) { //element has overflowing content
 			var direction = 'left';
@@ -7376,7 +7356,7 @@ function resizeDevicesToFitScreen(){
 			addCustomCSS(customCSS, "resizeDevicesToFitScreen");
 		}
 	}
-	$('.viewIsotopeContainer').isotope('layout');
+	viewIsotopeLayout();
 }
 function resizeFullWidthDevicesToFitScreen(){
 	var deviceMargin = parseInt($('.tile').css('margin-left'), 10) || 6;
@@ -7800,7 +7780,7 @@ $(document).ready(function(){
 							//$iframe.addClass('adjustHeight').css('height', value).parent('.tileBackgroundIframeWrapper').addClass('adjustHeight').parents('.tile').addClass(deviceClasses);
 							$iframe.addClass('adjustHeight').parent('.tileBackgroundIframeWrapper').addClass('adjustHeight').parents('.tile').addClass(deviceClasses).find('.setTileSize').addClass('adjustHeight').css('height', value);
 						}
-						$('.viewIsotopeContainer').isotope('layout');
+						viewIsotopeLayout();
 						let maxHeight = $iframe.css('max-height').replace('px', '') || "0";
 						if(maxHeight && maxHeight != null && !isNaN(maxHeight)) maxHeight = parseInt(maxHeight);
 						if(maxHeight && $iframe.innerHeight() > maxHeight - 100){
