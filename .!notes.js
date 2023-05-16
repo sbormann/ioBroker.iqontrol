@@ -7,6 +7,55 @@ hideBackgroundURLEnlarged
 hideBackgroundURLActiveEnlarged
 
 //++++++++++ Next Steps ++++++++++
+
+
+console.log($target.css('transform'));
+if(viewTileResizeObserverTimeout1) clearTimeout(viewTileResizeObserverTimeout1);
+if(viewTileResizeObserverTimeout2) clearTimeout(viewTileResizeObserverTimeout2);
+viewTileResizeObserverTimeout1 = setTimeout(function(){
+	var scrollTop = $target.offset().top - 12;
+	console.log("fullHeight activated - scroll to " + scrollTop);
+	$('html,body').animate({
+		scrollTop: scrollTop
+	}, 800);	
+}, 1000);
+
+
+
+(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+	console.log("fullHeight deactivated");
+	removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
+	addCustomCSS("#ViewContent { padding-bottom: 90vh; padding-bottom: calc(100vh - 200px); }", "addViewPaddingBottomAfterMinimizingTile");
+	var _$target = $(mutation.target);
+	var _targetDeviceId = _$target.parent('.pressureIndicator').data('device-id-escaped');
+	var _targetShuffleInstanceIndex = null;
+	var _targetShuffleItemIndex = null;
+	for(var i = 0; i < viewShuffleInstances.length; i++){
+		for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
+			if(viewShuffleInstances[i].items[j].element.dataset.deviceIdEscaped == _targetDeviceId){
+				_targetShuffleInstanceIndex = i;
+				_targetShuffleItemIndex = j;
+				break;
+			}
+		}
+		if(_targetShuffleInstanceIndex != null) break;
+	}
+	if(_targetShuffleInstanceIndex != null){
+		console.log("fullHeight deactivated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
+		if(viewTileResizeObserverTimeout1) clearTimeout(viewTileResizeObserverTimeout1);
+		if(viewTileResizeObserverTimeout2) clearTimeout(viewTileResizeObserverTimeout2);
+		viewTileResizeObserverTimeout1 = setTimeout(function(){
+			var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
+			console.log("fullHeight deactivated - scroll to " + scrollTop);
+			$('html,body').animate({
+				scrollTop: scrollTop
+			}, 1000);
+		}, 1300);
+	}
+})(); //<--End Closure
+
+
+
 - iconIgnoreIconHeight
 - iconIgnoreMaxIconHeight
 - textIgnoreMaxFontSize
