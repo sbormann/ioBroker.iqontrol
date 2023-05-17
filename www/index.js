@@ -2610,8 +2610,9 @@ function getUrlParameterFromUrl(url, name) {
 	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
-function addCustomCSS(customCSS, customID){
+function addCustomCSS(customCSS, customID, replace){
 	customID = customID || "default";
+	if(replace) removeCustomCSS(customID);
 	$('head').append('<style class="customCSS_' + customID + '">' + customCSS + '</style>');
 }
 
@@ -3308,7 +3309,7 @@ function createOptionsAndPanelObjectsFromConfig(){
 function handleOptions(){
 	if(!options) return;
 	//tileClassesCSS
-	if(options.tileClassesCssString) addCustomCSS(options.tileClassesCssString, 'options_tileClasses');
+	if(options.tileClassesCssString) addCustomCSS(options.tileClassesCssString, 'options_tileClasses', true);
 	var customCSS = "";
 	//Toolbar
 	if(options.LayoutToolbarFooterColor) {
@@ -4330,7 +4331,7 @@ function handleOptions(){
 		return option;
 	}
 	//Add customCSS
-	if(customCSS) addCustomCSS(customCSS, 'options');
+	if(customCSS) addCustomCSS(customCSS, 'options', true);
 	//Return after time
 	if(getUrlParameter('returnAfterTimeTreshold') != "0" && (getUrlParameter('returnAfterTimeTreshold') || options.LayoutViewReturnAfterTimeEnabled)) {
 		returnAfterTimeDestinationView = getUrlParameter('returnAfterTimeDestinationView') || options.LayoutViewReturnAfterTimeDestinationView || homeId;
@@ -9289,8 +9290,9 @@ function UIElements(initialUiElements) {
 					result = true;
 				} else if (result) {
 					let activeState = getUiOptionState(device, {role: active.activeStateRole, value: active.activeStateValue}, arrayIndex);
-					let activeConditionValueState = getUiOptionState(device, {role: active.activeConditionValueRole, value: active.activeConditionValueValue}, arrayIndex);
-					let check = (active.activeStateValue != '' && activeState ? checkCondition(activeState.val, active.activeCondition || "eqt", activeConditionValueState.val) : active.activeStateValue != '' ? false : true);
+					let activeCondition = getUiOptionState(device, {role: active.activeConditionRole, value: active.activeConditionValue}, arrayIndex);
+					let activeConditionTreshold = getUiOptionState(device, {role: active.activeConditionTresholdRole, value: active.activeConditionTresholdValue}, arrayIndex);
+					let check = (active.activeStateValue != '' && activeState ? checkCondition(activeState.val, activeCondition && activeCondition.val || "eqt", activeConditionTreshold && activeConditionTreshold.val) : active.activeStateValue != '' ? false : true);
 					result = result && check;	
 				}
 			}
@@ -9799,7 +9801,4 @@ function UIElements(initialUiElements) {
 		}
 		return resultText;
 	} 
-
 } //End UIElements
-
-
