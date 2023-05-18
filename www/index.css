@@ -1522,11 +1522,17 @@ html.bigMode #View .ui-panel-wrapper {
 	transform: scale3d(1.2,1.2,1);
 }
 
-.uiElement.icon {
+.uiElement.icon{
 	height: 100%;
 	max-height: min(100%, 38px);
 	width: auto;
 	max-width: 100%;
+}
+.uiElement.icon.ignoreIconHeight{
+	height: unset !important;
+}
+.uiElement.icon.ignoreMaxIconHeight{
+	max-height: unset !important;
 }
 .uiElement.icon.iconLinkToggle{
 	cursor: pointer;

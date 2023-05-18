@@ -1131,6 +1131,8 @@ var uiElementOptions = {
 		{option: "iconActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
 		{option: "iconNoZoomOnHover", type: "checkbox", description: "If true, the icon zooms in on mouse hover. Default: false."},
 		{option: "iconNoPointerEvents", type: "checkbox", description: "If true, the icon does not capture mouse or touch events. Default: false."},
+		{option: "iconIgnoreIconHeight", type: "checkbox", description: "If true, the icon ignores an eventually given icon height in the tile class. Default: false."},
+		{option: "iconIgnoreMaxIconHeight", type: "checkbox", description: "If true, the icon ignores an eventually given icon max-height in the tile class. Default: false."},
 		{option: "iconClickAction", type: "select", selectOptions: ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView", description: "Defines, what happens, when you click on the icon. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false."},
 		{option: "iconClickActionToggleFunction", type: "string", description: "Only valid, if iconClickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values."},
 		{option: "iconClickActionURLState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "Only valid, if iconClickAction is openURLExternal. This is the url to open."},
@@ -1148,6 +1150,7 @@ var uiElementOptions = {
 		{option: "textProcessingFunction", type: "textarea", description: "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction"},
 		{option: "textProcessingOptions", type: "textarea", value: "{}", description: "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}."},
 		{option: "textMultiline", type: "checkbox", description: "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false."},
+		{option: "textNoAutoScale", type: "checkbox", description: "If true, the text respects the font-size setting of the stack. Otherwise the text height is scaled to fit into exactly one line. Default: false."},
 		{option: "textNoPointerEvents", type: "checkbox", description: "If true, the text does not capture mouse or touch events. Default: false."},
 		{option: "textFloatSelector", type: "string", description: "Optional. The text will float around this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."},
 		{option: "textFreeSpaceSelector", type: "string", description: "Optional. The textfield will be shrinked to not intersect with this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."}
@@ -1160,6 +1163,8 @@ var uiElementOptions = {
 		{option: "iconActiveInvert", type: "checkbox", description: "If true, the active conditions are inverted, which means, the element is hidden, if the active conditions are true. Default: false."},
 		{option: "iconNoZoomOnHover", type: "checkbox", description: "If false, the icon zooms in on mouse hover. Default: false."},
 		{option: "iconNoPointerEvents", type: "checkbox", description: "If true, the icon does not capture mouse or touch events. Default: false."},
+		{option: "iconIgnoreIconHeight", type: "checkbox", description: "If true, the icon ignores an eventually given icon height in the tile class. Default: false."},
+		{option: "iconIgnoreMaxIconHeight", type: "checkbox", description: "If true, the icon ignores an eventually given icon max-height in the tile class. Default: false."},
 		{option: "iconClickAction", type: "select", selectOptions: ";toggle;openDialog;enlarge;openURLExternal;openLinkToOtherView", description: "Defines, what happens, when you click on the icon. Can be toggle | openDialog | enlarge | openURLExternal | openLinkToOtherView | false. Default: false."},
 		{option: "iconClickActionToggleFunction", type: "string", description: "Only valid, if iconClickAction is toggle. It then defines, what toggle does. Can be toggleState/STATE/LEVEL | startProgram/STATE | toggleScene/STATE | toggleMedia/STATE | startButton/STATE/SET_VALUE/OFF_SET_VALUE/100. Default: toggleState/STATE/LEVEL. The trailing states define, which deviceStates should be used for the toggle-function, they can be ommited to use default values."},
 		{option: "iconClickActionURLState", type: "string", role: "deviceOption", roleOptions: "+deviceState", value: "icon_on", description: "Only valid, if iconClickAction is openURLExternal. This is the url to open."},
@@ -1174,6 +1179,7 @@ var uiElementOptions = {
 		{option: "textProcessingFunction", type: "textarea", description: "The function used to process the text to display. May be the name of a predefined default function (defaultProcessTextFunction, #####) or a function like myFunction(state, level, textProcessingOptions){ return 'Hello world!';}. Default: defaultProcessTextFunction"},
 		{option: "textProcessingOptions", type: "textarea", value: "{}", description: "An object of options that will be submitted to the textProcessingFunction as third argument. Default: {}."},
 		{option: "textMultiline", type: "checkbox", description: "If true, the text can break and respects the font-size setting of the stack and overflow marquees vertically. Otherwise the text height is scaled to fit into exactly one line and overflow marquees horizontally. Default: false."},
+		{option: "textNoAutoScale", type: "checkbox", description: "If true, the text respects the font-size setting of the stack. Otherwise the text height is scaled to fit into exactly one line. Default: false."},
 		{option: "textNoPointerEvents", type: "checkbox", description: "If true, the text does not capture mouse or touch events. Default: false."},
 		{option: "textAlwaysReservePlaceForIcon", type: "checkbox", description: "If true, the text will leave place for the icon, even if it is invisible. Default: false."},
 		{option: "textFloatSelector", type: "string", description: "Optional. The text will float around this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."},
@@ -7812,7 +7818,7 @@ async function load(settings, onChange) {
 				var $target = $(target);
 				switch(val){
 					case "deviceCondition": 
-						var comboboxOptions = ";active/Active;inactive/Inactive;enlarged/Enlarged;not-enlarged/Not Enlarged;loading/Loading;not-loading/Not Loading";
+						var comboboxOptions = ";active/Active;inactive/Inactive;enlarged/Enlarged;notEnlarged/Not Enlarged";
 						enhanceTextInputToCombobox(target, comboboxOptions, false);
 						$target.next("a.comboboxDropdownTrigger").prop('style','');
 					break;
