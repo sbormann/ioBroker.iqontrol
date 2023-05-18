@@ -9002,6 +9002,10 @@ function UIElements(initialUiElements) {
 						$textElement.css('font-size', fontSize);
 						console.log("FS " + fontSize);
 					}
+					//adjustHeight
+					if(textActive && getUiOptionActive(device, uiElementOptions.textAdjustsHeight, uiElementOptions.textAdjustHeightInvert, arrayIndex)){
+						$iframe.addClass('adjustHeight').parent('.tileBackgroundIframeWrapper').addClass('adjustHeight').parents('.tile').addClass(deviceClasses).find('.setTileSize').addClass('adjustHeight').css('height', value);
+					}
 				}, 50);
 				updateMarqueeElement($textElement, textResult);
 				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');	
