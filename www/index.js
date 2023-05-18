@@ -4836,6 +4836,7 @@ function renderView(viewId, triggeredByReconnection){
 				//--tileEnlarged
 				var enlargeTileStateId = device.deviceStates["ENLARGE_TILE"].stateId;
 				//tileEnlarged is fetched above and is NOT the same as enlargeTile!
+				device.enlargeStateIds = [tileEnlargedStateId, enlargeTileStateId];
 				var updateFunction = function(){
 					var tileEnlargedState = getState(tileEnlargedStateId);
 					if(typeof tileEnlargedState !== udef && tileEnlargedState.val){
@@ -7775,10 +7776,8 @@ $(document).ready(function(){
 						if(!$iframe.parent('.tileBackgroundIframeWrapper').hasClass('hideIfInactive')) deviceClasses += " adjustHeightIfInactive";
 						if(!$iframe.parent('.tileBackgroundIframeWrapper').hasClass('hideIfEnlarged') || $iframe.parent('.tileBackgroundIframeWrapper').hasClass('visibleIfEnlarged')) deviceClasses += " adjustHeightIfEnlarged";
 						if(value < 0) {
-							//$iframe.removeClass('adjustHeight').css('height', '').parent('.tileBackgroundIframeWrapper').removeClass('adjustHeight').parents('.tile').removeClass(deviceClasses);
 							$iframe.removeClass('adjustHeight').parent('.tileBackgroundIframeWrapper').removeClass('adjustHeight').parents('.tile').removeClass(deviceClasses).find('.setTileSize').removeClass('adjustHeight').css('height', '');
 						} else {
-							//$iframe.addClass('adjustHeight').css('height', value).parent('.tileBackgroundIframeWrapper').addClass('adjustHeight').parents('.tile').addClass(deviceClasses);
 							$iframe.addClass('adjustHeight').parent('.tileBackgroundIframeWrapper').addClass('adjustHeight').parents('.tile').addClass(deviceClasses).find('.setTileSize').addClass('adjustHeight').css('height', value);
 						}
 						viewIsotopeLayout();
@@ -8909,7 +8908,7 @@ function UIElements(initialUiElements) {
 		if(uiElementOptions.iconState){
 			let iconClickAction = getUiOption(device, uiElementOptions.iconClickAction);
 			this.addHtml(`<img 
-				class="uiElement icon ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconNoZoomOnHover) ? '' : 'zoomOnHover')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''} ${iconClickAction ? 'iconLink' + capitalize(iconClickAction) : ''}"
+				class="uiElement icon ${getUiOption(device, uiElementOptions.iconClasses) || ''} ${(getUiOption(device, uiElementOptions.iconNoZoomOnHover) ? '' : 'zoomOnHover')} ${getUiOption(device, uiElementOptions.iconNoPointerEvents) ? 'noPointerEvents' : ''} ${iconClickAction ? 'iconLink' + capitalize(iconClickAction) : ''} ${(getUiOption(device, uiElementOptions.iconIgnoreIconHeight) ? '' : 'ignoreIconHeight')} ${(getUiOption(device, uiElementOptions.iconIgnoreMaxIconHeight) ? '' : 'ignoreMaxIconHeight')}"
 				data-device-id-escaped="${device.deviceIdEscaped}" 
 				data-ui-element-index="${_uiElementIndex}" 
 				data-ui-element-name="${getUiOption(device, uiElementOptions.elementName) || ''}" 
@@ -8998,8 +8997,11 @@ function UIElements(initialUiElements) {
 						$textElement.css('left', freeSpace.left/zoom).css('width', freeSpace.width/zoom).css('top', freeSpace.top/zoom).css('height', freeSpace.height/zoom);
 					}
 					//Font size
-					let fontSize = $textElement.height() / 1.2 + 'px';
-					if(!getUiOption(device, uiElementOptions.textMultiline)) $textElement.css('font-size', fontSize);
+					if(!getUiOption(device, uiElementOptions.textNoAutoScale) && !getUiOption(device, uiElementOptions.textMultiline)){
+						let fontSize = ($textElement.height() / 1.2) + 'px';
+						$textElement.css('font-size', fontSize);
+						console.log("FS " + fontSize);
+					}
 				}, 50);
 				updateMarqueeElement($textElement, textResult);
 				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');	
@@ -9265,14 +9267,21 @@ function UIElements(initialUiElements) {
 		var activeStateIds = [];
 		var activeArray = getUiOptionValue(uiElementOption);
 		if(!Array.isArray(activeArray)) activeArray = tryParseJSON(activeArray) || [];
-		activeArray.forEach(function(active){
-			if(active.activeStateRole && active.activeStateRole == 'deviceState' && active.activeStateValue) activeStateIds.push(getStateIdFromDeviceState(device, active.activeStateValue + (active.activeStateValue.split('.').length < 3 && typeof arrayIndex != udef ? '.' + arrayIndex : '')));
-			if(active.activeConditionValueRole && active.activeConditionValueRole == 'deviceState' && active.activeConditionValueValue) activeStateIds.push(getStateIdFromDeviceState(device, active.activeConditionValueValue + (active.activeConditionValueValue.split('.').length < 3 && typeof arrayIndex != udef ? '.' + arrayIndex : '')));
-			if((active.activeStateRole && active.activeStateRole == 'deviceCondition' && active.activeStateValue && (active.activeStateValue == 'active' || active.activeStateValue == 'inactive'))
-			|| (active.activeConditionValueRole && active.activeConditionValueRole == 'deviceCondition' && active.activeConditionValueValue && (active.activeConditionValueValue == 'active' || active.activeConditionValueValue == 'inactive'))){
-				activeStateIds.push(device.activeStateIds);
-			}
+		var containsDeviceActiveStateIds = false;
+		var containsDeviceEnlargeStateIds = false;
+		activeArray.forEach(function(activePart){
+			["activeState", "activeCondition", "activeConditionTreshold"].forEach(function(activeType){
+				let role = activePart[activeType + "Role"] || null;
+				let value = activePart[activeType + "Value"] || null;
+				if(role && value){
+					if(role == 'deviceState') activeStateIds.push(getStateIdFromDeviceState(device, value + (value.split('.').length < 3 && typeof arrayIndex != udef ? '.' + arrayIndex : '')));					
+					if(role == 'deviceCondition' && (value == 'active' || value == 'inactive')) containsDeviceActiveStateIds = true;
+					if(role == 'deviceCondition' && (value == 'enlarged' || value == 'notEnlarged')) containsDeviceEnlargeStateIds = true;
+				}
+			});
 		});
+		if(containsDeviceActiveStateIds) activeStateIds.push(device.activeStateIds);
+		if(containsDeviceEnlargeStateIds) activeStateIds.push(device.enlargeStateIds);
 		if(activeStateIds.length < 1) activeStateIds = null;
 		return activeStateIds;
 	}

@@ -2,22 +2,16 @@
 //Notes and snippets
 //#####################################################################################
 
-hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "checkbox", default: "false"},
-hideBackgroundURLEnlarged
-hideBackgroundURLActiveEnlarged
-
 //++++++++++ Next Steps ++++++++++
 
 
-
-- iconIgnoreIconHeight
-- iconIgnoreMaxIconHeight
-- textIgnoreMaxFontSize
-
-- stateFillsDevice 5557 if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
 - StateAdaptsHeight_ifIAE
 - bigFontSTATE_ifIEA
 - bigIcon_ieIAE
+
+- stateFillsDevice 5557 if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
+
+
 - ShowStateAndLevelSeperatelyInTile -> textProcessingOptions als array implementieren
 - INFO_A/B runden, zeige Namen -> auch als textProcessingOptions?
 
