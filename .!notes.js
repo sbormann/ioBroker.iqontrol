@@ -4,7 +4,7 @@
 
 //++++++++++ Next Steps ++++++++++
 
-
+- stateAdaptsHeight -> data('adapts-height-value'), dann immer die höchste berücksichtigen, dann noch ifIEA implementieren
 - StateAdaptsHeight_ifIAE
 - bigFontSTATE_ifIEA
 - bigIcon_ieIAE

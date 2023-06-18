@@ -1153,7 +1153,9 @@ var uiElementOptions = {
 		{option: "textNoAutoScale", type: "checkbox", description: "If true, the text respects the font-size setting of the stack. Otherwise the text height is scaled to fit into exactly one line. Default: false."},
 		{option: "textNoPointerEvents", type: "checkbox", description: "If true, the text does not capture mouse or touch events. Default: false."},
 		{option: "textFloatSelector", type: "string", description: "Optional. The text will float around this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."},
-		{option: "textFreeSpaceSelector", type: "string", description: "Optional. The textfield will be shrinked to not intersect with this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."}
+		{option: "textFreeSpaceSelector", type: "string", description: "Optional. The textfield will be shrinked to not intersect with this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."},
+		{option: "textAdjustHeight", type: "condition", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. If true, the device tiles heigth will be adjustet by the elements height. Ensure, that only one active element adjusts height."},
+		{option: "textAdjustHeightInvert", type: "checkbox", description: "If true, the adjust height conditions are inverted. Default: false."}
 	],
 	iconTextCombination: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},
@@ -1183,7 +1185,9 @@ var uiElementOptions = {
 		{option: "textNoPointerEvents", type: "checkbox", description: "If true, the text does not capture mouse or touch events. Default: false."},
 		{option: "textAlwaysReservePlaceForIcon", type: "checkbox", description: "If true, the text will leave place for the icon, even if it is invisible. Default: false."},
 		{option: "textFloatSelector", type: "string", description: "Optional. The text will float around this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."},
-		{option: "textFreeSpaceSelector", type: "string", description: "Optional. The textfield will be shrinked to not intersect with this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."}
+		{option: "textFreeSpaceSelector", type: "string", description: "Optional. The textfield will be shrinked to not intersect with this elements. Example: .uiElementStack.container.stackClass_3. Default: nothing."},
+		{option: "textAdjustHeight", type: "condition", role: "array", roleOptions: "+array;-const;-deviceOption;-deviceSetting;-deviceCondition", description: "Optional. If true, the device tiles heigth will be adjustet by the elements height. Ensure, that only one active element adjusts height."},
+		{option: "textAdjustHeightInvert", type: "checkbox", description: "If true, the adjust height conditions are inverted. Default: false."}
 	],
 	loadingIcon: [
 		{option: "stackCycles", type: "checkbox", description: "If true, multiple elements on the stack are displayed one after the other, otherwise simultaneously. Default: false."},

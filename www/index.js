@@ -5558,11 +5558,8 @@ function adaptHeightOrStartMarqueeOnOverflow($elements, noDelay){
 	$elements.each(function(){
 		$element = $(this);
 		var element = $element.get(0) || $element;
-		if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
-		if($element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfInactive') || $element.hasClass('adaptsHeightIfActive')){ //adapt height ##### ??
-			console.log("adaptHeight: " + element.className + JSON.stringify(element.dataset));
+		if($element.hasClass('adjustHeight')){
 			viewIsotopeLayout();
-			//###### viewShuffleReshuffle([100, 1250]);
 		} else if(!$element.data('marquee-disabled') && !options.LayoutViewMarqueeDisabled && (options.LayoutViewMarqueeNamesEnabled || $element.parent('.uiElementStack').data('ui-element-stack-name') != "Name") && (element.scrollHeight > $element.innerHeight() || element.scrollWidth > $element.innerWidth())) { //element has overflowing content
 			var direction = 'left';
 			var speed = (Number(options.LayoutViewMarqueeSpeed) || 40);
@@ -9003,14 +9000,29 @@ function UIElements(initialUiElements) {
 						console.log("FS " + fontSize);
 					}
 					//adjustHeight
+					setTimeout(function(){
+						
+					}, 1000);
+					let uiElementIndex = $textElement.data('ui-element-index');
 					if(textActive && getUiOptionConditionArray(device, uiElementOptions.textAdjustsHeight, uiElementOptions.textAdjustHeightInvert, arrayIndex)){
-						$iframe.addClass('adjustHeight').parent('.tileBackgroundIframeWrapper').addClass('adjustHeight').parents('.tile').addClass(deviceClasses).find('.setTileSize').addClass('adjustHeight').css('height', value);
+						$textElement.marquee('destroy');
+						var originalHeight = $textElement.css('height');
+						$textElement.css('height', 'auto');
+						var textHeight = $textElement.innerHeight();
+						$textElement.css('height', originalHeight);
+						let value = textHeight > 0 ? ($textElement.position().top + textHeight) : 0;
+						console.log("#####------------------adjustHeight-------------: " + uiElementIndex + " : " + $textElement.position().top + " + " + textHeight + " = " + value);
+						$textElement.addClass('adjustHeight').parents('.tile').addClass('adjustHeight').data('adjust-height-by-ui-element-index', uiElementIndex).find('.setTileSize').addClass('adjustHeight').css('height', value);
+					} else {
+						if($textElement.parents('.tile').data('adjust-height-by-ui-element-index') == uiElementIndex){
+							$textElement.removeClass('adjustHeight').parents('.tile').removeClass('adjustHeight').data('adjust-height-by-ui-element-index', '').find('.setTileSize').removeClass('adjustHeight').css('height', '');
+						}
 					}
 				}, 50);
 				updateMarqueeElement($textElement, textResult);
 				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');	
 			}
-			this.addUpdateFunction([textStateId, textLevelStateId, textActiveStateIds, iconStateId, iconActiveStateIds, getUiOption(device, uiElementOptions.textAddTimestampMode) ? 'UPDATE_TIMESTAMP' : null], updateFunction);
+			this.addUpdateFunction([textStateId, textLevelStateId, textActiveStateIds, iconStateId, iconActiveStateIds, getUiOption(device, uiElementOptions.textAddTimestampMode) ? 'UPDATE_TIMESTAMP' : null, device.activeStateIds || null, device.enlargeStateIds || null], updateFunction);
 		}
 		this.closeElementStackContainer();
 		this.uiElementIndex++;
