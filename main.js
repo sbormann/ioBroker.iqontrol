@@ -1670,7 +1670,11 @@ class Iqontrol extends utils.Adapter {
 			obj = allObjects[objId];
 		} else {			
 			this.log.silly("createOrUpdateObject: Object " + objId + " NOT found in allObjects, fetching it now from ioBroker...");
-			obj = await this.getObjectAsync(objId);
+			try {
+				obj = await this.getObjectAsync(objId);
+			} catch {
+				obj = {}; 
+			}
 		}
 		if (!obj){
 			this.log.silly("createOrUpdateObject: Object " + objId + " NOT found - creating a new object...");
