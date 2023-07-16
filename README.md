@@ -1806,7 +1806,7 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.3.0 (2023-07-16)
 * (sbormann) Fixes for new js-controller
 
 ### 2.2.0 (2023-03-23)
