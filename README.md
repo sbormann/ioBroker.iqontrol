@@ -1807,7 +1807,7 @@ This device has some special predefined size- and display-settings to show a tex
   ### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-
+* (sbormann) Fixes for new js-controller
 
 ### 2.2.0 (2023-03-23)
 * (sbormann) You can now chose destination when copying devices.
