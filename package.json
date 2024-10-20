@@ -23,7 +23,7 @@
     "url": "https://github.com/iobroker-community-adapters/ioBroker.iqontrol"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.6.0"
+    "@iobroker/adapter-core": "^3.2.2"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.8.0",
