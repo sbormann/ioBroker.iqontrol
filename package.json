@@ -6,14 +6,21 @@
     "name": "Sebastian Bormann",
     "email": "sebastian@bormann.net"
   },
-  "homepage": "https://github.com/sbormann/ioBroker.iqontrol",
+  "contributors": [
+    {
+      "name": "iobroker-community-adapters",
+      "email": "iobroker-community-adapters@gmx.de"
+    }
+  ],
+  "homepage": "https://github.com/iobroker-community-adapters/ioBroker.iqontrol",
   "license": "MIT",
   "keywords": [
+    "ioBroker",
     "Visualization"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sbormann/ioBroker.iqontrol"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.iqontrol"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.6.0"
@@ -66,7 +73,7 @@
     "release": "release-script"
   },
   "bugs": {
-    "url": "https://github.com/sbormann/ioBroker.iqontrol/issues"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.iqontrol/issues"
   },
   "readmeFilename": "README.md"
 }
