@@ -185,15 +185,17 @@
     "dataSource": "push",
     "dependencies": [
       {
-        "admin": ">=3.0.0"
-      },
-      {
-        "js-controller": ">=1.4.2"
+        "js-controller": ">=5.0.19"
       },
       {
         "web": ">=3.0.12"
       }
-    ]
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=6.17.14"
+      }
+    ],
   },
   "native": {
     "demotoolbar": [
