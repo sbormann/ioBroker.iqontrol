@@ -17,10 +17,6 @@
 |---------------------------------------------------------------------------------------------------------------------------------------| --- |
 | [![Travis-CI](https://img.shields.io/travis/sbormann/ioBroker.iqontrol/master.svg)](https://travis-ci.org/sbormann/ioBroker.iqontrol) | [![Browserstack](img/browserstack.png)](https://www.browserstack.com) |
 
-**If you like it, please consider a donation:**
-  
-[![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LDHZMNPXKRX2N&source=url)
-
 
 ****
 
@@ -51,6 +47,14 @@ Runs in any Browser.
 Easy to set up, although it's fully customizable and responsive.
 
 > **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
+
+## Credits
+
+This adapter would not have been possible without the great work of @o0Shojo0o (https://github.com/o0Shojo0o), who developed former releases of this adapter.
+
+## How to report issues and feature requests
+
+Ideally, please use GitHub issues for this, with the best method achieved by setting the adapter to Debug log mode (Instances -> Expert mode -> Column Log level). Then retrieve the logfile from disk via the  'log' ioBroker subdirectory, **not** from Admin, which will cut lines. 
 
 ## Video-Tutorial (German Language):
 [![Demo-Video](img/play_demo.png "Open Tutorial on Youtube")](https://youtube.com/playlist?list=PL8epyNz8pGEv6-R8dnfXm-m5aBlZFKOBG)
@@ -1806,6 +1810,11 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (mcm1957) Adapter has been moved to iobroker-community-adapter organisation.
+- (mcm1957) Adapter requires js-controller 5, admin 6 and node.js 20 now.
+- (mcm1957) Dependencies have been updated.
+
 ### 2.3.0 (2023-07-16)
 * (sbormann) Fixes for new js-controller
 
@@ -2882,6 +2891,7 @@ This device has some special predefined size- and display-settings to show a tex
 ## License
 MIT License
 
+Copyright (c) 2024 iobroker-community-adapters <iobroker-community-adapters@gmx.de>  
 Copyright (c) 2019-2023 Sebastian Bormann
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
