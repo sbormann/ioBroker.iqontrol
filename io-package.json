@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "iqontrol",
-    "version": "2.3.0",
+    "version": "3.0.0-alpha.0",
     "news": {
+      "3.0.0-alpha.0": {
+        "en": "Adapter has been moved to iobroker-community-adapter organisation.\nAdapter requires js-controller 5, admin 6 and node.js 20 now.\nDependencies have been updated.",
+        "de": "Adapter wurde in die iobroker-community-Adapter-Organisation verschoben.\nAdapter benötigt jetzt js-controller 5, admin 6 und node.js 20.\nAbhängigkeiten wurden aktualisiert.",
+        "ru": "Адаптер был перемещен в организацию iobroker-community-adapter.\nAdapter requires js-controller 5, admin 6 and node.js 20 now.\nЗависимость была обновлена.",
+        "pt": "Adapter foi transferido para a organização iobroker-community-adapter.\nAdaptador requer js-controller 5, admin 6 e node.js 20 agora.\nAs dependências foram atualizadas.",
+        "nl": "Adapter is verplaatst naar iobroker-community-adapter organisatie.\nAdapter vereist js-controller 5, admin 6 en node.js 20 nu.\nAfhankelijkheden zijn bijgewerkt.",
+        "fr": "L'adaptateur a été transféré à l'organisation iobroker-community-adaptateur.\nAdaptateur nécessite js-controller 5, admin 6 et node.js 20 maintenant.\nLes dépendances ont été actualisées.",
+        "it": "L'adattatore è stato spostato nell'organizzazione di iobroker-community-adapter.\nAdattatore richiede js-controller 5, admin 6 e node.js 20 ora.\nLe dipendenze sono state aggiornate.",
+        "es": "El adaptador ha sido trasladado a la organización yobroker-community-adapter.\nAdaptador requiere js-controller 5, admin 6 y node.js 20 ahora.\nSe han actualizado las dependencias.",
+        "pl": "Adapter został przeniesiony do organizacji iobroker- community- adapter.\nAdapter wymaga sterownika js- controller 5, admin 6 i node.js 20.\nZaktualizowano zależność.",
+        "uk": "Переміщено перехід на iobroker-community-adapter.\nАдаптер вимагає js-controller 5, admin 6 і node.js 20 тепер.\nОновлено залежність.",
+        "zh-cn": "适应者已经转移到了职业经纪人-社区适应者组织.\n适配器现在需要js控制器5,admin 6和节点20.js.\n附属关系已经更新."
+      },
       "2.3.0": {
         "en": "Fixes for new js-controller",
         "de": "Fixes für neuen js-controller",
@@ -77,18 +90,6 @@
         "es": "Opción agregada para permitir que los widgets ajusten la altura del mosaico del dispositivo y JSON-Table-Widget y Device-Counter-Widget mejorados para hacerlo.",
         "pl": "Dodano opcję umożliwiającą widżetom dostosowanie wysokości kafelka urządzenia oraz ulepszone JSON-Table-Widget i Device-Counter-Widget, aby to zrobić.",
         "zh-cn": "添加了允许小部件调整设备磁贴高度的选项，并增强了 JSON-Table-Widget 和 Device-Counter-Widget 这样做。"
-      },
-      "2.0.0-rc3.0": {
-        "en": "Added seconds from alive and seconds from connection to counter conditions of lists\nRemoved start_url from manifest.json to allow multiple instances as homescreen app",
-        "de": "Sekunden von lebendig und Sekunden von Verbindung zu Zählerbedingungen von Listen hinzugefügt\nstart_url aus manifest.json entfernt, um mehrere Instanzen als Homescreen-App zuzulassen",
-        "ru": "Добавлены секунды от живого и секунды от подключения к условиям счетчика списков\nУдален start_url из manifest.json, чтобы разрешить несколько экземпляров в качестве приложения на домашнем экране.",
-        "pt": "Adicionados segundos de vida e segundos de conexão para condições de contador de listas\nRemovido start_url do manifest.json para permitir várias instâncias como aplicativo de tela inicial",
-        "nl": "Seconden van levend en seconden van verbinding toegevoegd aan tegenvoorwaarden van lijsten\nStart_url verwijderd uit manifest.json om meerdere instanties als homescreen-app toe te staan",
-        "fr": "Ajout de secondes à partir de la vie et de secondes à partir de la connexion pour contrer les conditions des listes\nSuppression de start_url de manifest.json pour autoriser plusieurs instances en tant qu'application d'écran d'accueil",
-        "it": "Aggiunti secondi dal vivo e secondi dalla connessione alle condizioni di contatore delle liste\nRimosso start_url da manifest.json per consentire più istanze come app per la schermata iniziale",
-        "es": "Se agregaron segundos de vivo y segundos de conexión a condiciones de contador de listas\nSe eliminó start_url de manifest.json para permitir múltiples instancias como aplicación de pantalla de inicio",
-        "pl": "Dodano sekundy od życia i sekundy od połączenia do stanu licznika list\nUsunięto start_url z manifest.json, aby umożliwić wiele wystąpień jako aplikacji na ekranie głównym",
-        "zh-cn": "增加了存活秒数和连接秒数到列表的计数器条件\n从 manifest.json 中删除 start_url 以允许多个实例作为主屏幕应用程序"
       }
     },
     "titleLang": {
