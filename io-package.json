@@ -91,7 +91,6 @@
         "zh-cn": "增加了存活秒数和连接秒数到列表的计数器条件\n从 manifest.json 中删除 start_url 以允许多个实例作为主屏幕应用程序"
       }
     },
-    "title": "iQontrol Vis",
     "titleLang": {
       "en": "iQontrol Vis",
       "de": "iQontrol Vis",
@@ -117,7 +116,8 @@
       "zh-cn": "用于可视化的快速Web应用程序"
     },
     "authors": [
-      "Sebastian Bormann <sebastian@bormann.net>"
+      "Sebastian Bormann <sebastian@bormann.net>",
+      "Iobroker Community<iobroker-community-adapters@gmx.de>"
     ],
     "keywords": [
       "visualization",
