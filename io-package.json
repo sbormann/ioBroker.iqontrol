@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "iqontrol",
-    "version": "3.0.0-alpha.0",
+    "version": "3.0.0",
     "news": {
-      "3.0.0-alpha.0": {
+      "3.0.0": {
         "en": "Adapter has been moved to iobroker-community-adapter organisation.\nAdapter requires js-controller 5, admin 6 and node.js 20 now.\nDependencies have been updated.",
         "de": "Adapter wurde in die iobroker-community-Adapter-Organisation verschoben.\nAdapter benötigt jetzt js-controller 5, admin 6 und node.js 20.\nAbhängigkeiten wurden aktualisiert.",
         "ru": "Адаптер был перемещен в организацию iobroker-community-adapter.\nAdapter requires js-controller 5, admin 6 and node.js 20 now.\nЗависимость была обновлена.",
@@ -78,18 +78,6 @@
         "es": "Hay muchos cambios desde la última versión estable. Estos son los cambios más importantes:\nAñadido modo oscuro,\nSe agregaron listas y contadores con poderosos widgets para mostrar, por ejemplo, baterías vacías, ventanas abiertas, luces encendidas y mucho más.\nSe agregaron íconos nuevos, modernos y fluidos y la capacidad de cambiar rápidamente los íconos predeterminados,\nCarga agregada para sus propios archivos de fuentes,\nLos subtítulos ahora se pueden configurar para que sean plegables,\nEl widget de mapa ahora puede tener múltiples instancias,\nSe agregó un modo de vista previa para probar rápidamente los cambios de su configuración,\nMejor rendimiento y tiempo de conexión,\nCorrección de errores y muchos más. Para ver el registro de cambios completo, eche un vistazo al archivo Léame.\n",
         "pl": "Jest wiele zmian od ostatniej stabilnej wersji. Oto najbardziej przełomowe zmiany:\nDodano tryb ciemny,\nDodano listy i liczniki z potężnymi widżetami do wyświetlania np. wyczerpanych baterii, otwartych okien, palących się świateł i wielu innych,\nDodano nowe, nowoczesne i płynne ikony oraz możliwość szybkiej zmiany ikon domyślnych,\nDodano możliwość przesyłania własnych plików czcionek,\nPodnagłówki można teraz skonfigurować tak, aby były zwijane,\nWidżet mapy może teraz mieć wiele instancji,\nDodano tryb podglądu, aby szybko przetestować zmiany w Twojej konfiguracji,\nLepsza wydajność i czas połączenia,\nPoprawki błędów i wiele innych. Aby zobaczyć pełny dziennik zmian, zajrzyj do readme.\n",
         "zh-cn": "自上一个稳定版本以来有很多变化。以下是最重大的变化：\n添加了暗模式，\n添加了带有强大小部件的列表和计数器，以显示例如空电池、打开的窗户、燃烧的灯等等，\n添加了新的现代流畅的图标以及快速更改默认图标的能力，\n为您自己的字体文件添加了上传，\n子标题现在可以配置为可折叠，\nmap-widget 现在可以有多个实例，\n添加了预览模式以快速测试您的配置更改，\n更好的性能和连接时间，\n错误修正等等。有关完整的变更日志，请查看自述文件。\n"
-      },
-      "2.0.0-rc4.0": {
-        "en": "Added option to allow widgets to adjust height of device tile and enhanced JSON-Table-Widget and Device-Counter-Widget to do so.",
-        "de": "Option hinzugefügt, um Widgets zu erlauben, die Höhe der Gerätekachel anzupassen, und verbessertes JSON-Table-Widget und Device-Counter-Widget, um dies zu tun.",
-        "ru": "Добавлена опция, позволяющая виджетам регулировать высоту плитки устройства, и для этого улучшены JSON-Table-Widget и Device-Counter-Widget.",
-        "pt": "Opção adicionada para permitir que os widgets ajustem a altura do bloco do dispositivo e JSON-Table-Widget e Device-Counter-Widget aprimorados para fazer isso.",
-        "nl": "Optie toegevoegd om widgets in staat te stellen de hoogte van apparaattegel aan te passen en verbeterde JSON-Table-Widget en Device-Counter-Widget om dit te doen.",
-        "fr": "Ajout d'une option pour permettre aux widgets d'ajuster la hauteur de la vignette de l'appareil et amélioration de JSON-Table-Widget et Device-Counter-Widget pour le faire.",
-        "it": "Aggiunta opzione per consentire ai widget di regolare l'altezza del riquadro del dispositivo e JSON-Table-Widget e Device-Counter-Widget migliorati per farlo.",
-        "es": "Opción agregada para permitir que los widgets ajusten la altura del mosaico del dispositivo y JSON-Table-Widget y Device-Counter-Widget mejorados para hacerlo.",
-        "pl": "Dodano opcję umożliwiającą widżetom dostosowanie wysokości kafelka urządzenia oraz ulepszone JSON-Table-Widget i Device-Counter-Widget, aby to zrobić.",
-        "zh-cn": "添加了允许小部件调整设备磁贴高度的选项，并增强了 JSON-Table-Widget 和 Device-Counter-Widget 这样做。"
       }
     },
     "titleLang": {
