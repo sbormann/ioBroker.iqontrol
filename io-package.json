@@ -195,7 +195,7 @@
       {
         "admin": ">=6.17.14"
       }
-    ],
+    ]
   },
   "native": {
     "demotoolbar": [
